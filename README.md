@@ -1,4 +1,4 @@
-# My Village Auntie — CIA Hyde Park Family Guide
+# CIA Hyde Park Family Guide
 
 A parent-and-student guide built from official Culinary Institute of America resources and anonymized family questions.
 
