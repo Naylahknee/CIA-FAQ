@@ -1,0 +1,409 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>My Village Auntie | CIA Hyde Park Guide</title>
+  <meta name="description" content="A practical student and parent guide for Culinary Institute of America Hyde Park families.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,700;9..144,800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="#top" aria-label="My Village Auntie home">
+      <span class="brand-mark" aria-hidden="true">MVA</span>
+      <span>My Village Auntie</span>
+    </a>
+    <span class="campus">CIA Hyde Park · Fall 2026</span>
+  </header>
+
+  <main id="top">
+    <section class="intro">
+      <div>
+        <p class="eyebrow">The information is somewhere. Auntie found it.</p>
+        <h1>Your CIA Hyde Park<br><em>survival guide.</em></h1>
+        <p class="intro-copy">Official information, real family questions, and what to do after move-in—without digging through six thousand chat messages.</p>
+      </div>
+      <aside class="today-card" aria-label="Important information">
+        <p class="card-kicker">Start here</p>
+        <h2>Who are you?</h2>
+        <p>Your view changes the advice—not the facts.</p>
+        <div class="audience-switch" role="tablist" aria-label="Choose your view">
+          <button class="audience-btn active" role="tab" aria-selected="true" data-audience="student">I’m a student</button>
+          <button class="audience-btn" role="tab" aria-selected="false" data-audience="parent">I’m a parent</button>
+        </div>
+        <p class="switch-label">Where are you now?</p>
+        <div class="phase-switch" role="tablist" aria-label="Choose your move-in stage">
+          <button class="phase-btn" role="tab" aria-selected="false" data-phase="before">Not moved in yet</button>
+          <button class="phase-btn active" role="tab" aria-selected="true" data-phase="after">Already on campus</button>
+        </div>
+        <figure class="campus-photo">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/1/18/CIA_Hyde_Park_Student_Commons_01.jpg" alt="Student Commons building on the Culinary Institute of America’s Hyde Park, New York campus.">
+          <figcaption><a href="https://commons.wikimedia.org/wiki/File:CIA_Hyde_Park_Student_Commons_01.jpg">Photo by Ɱ</a> · <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a></figcaption>
+        </figure>
+      </aside>
+    </section>
+
+    <section class="toolbox" aria-label="Guide tools">
+      <label class="search-wrap">
+        <span class="sr-only">Search the guide</span>
+        <svg aria-hidden="true" viewBox="0 0 24 24"><path d="m21 21-4.35-4.35m2.1-5.4a7.5 7.5 0 1 1-15 0 7.5 7.5 0 0 1 15 0Z"/></svg>
+        <input id="search" type="search" placeholder="Search housing, meal points, uniforms…">
+      </label>
+      <div class="filters" role="group" aria-label="Filter topics">
+        <button class="filter active" data-category="all">All</button>
+        <button class="filter" data-category="money">Money</button>
+        <button class="filter" data-category="arrival">Arrival</button>
+        <button class="filter" data-category="classes">Classes</button>
+        <button class="filter" data-category="living">Campus life</button>
+        <button class="filter" data-category="health">Health</button>
+      </div>
+    </section>
+
+    <nav class="section-nav" aria-label="Jump to a section">
+      <span>Jump to</span>
+      <a href="#faq-guide">FAQs</a>
+      <a class="stage-after" href="#first-month-title">On campus</a>
+      <a href="#walls-title">Community walls</a>
+      <a href="#contacts-title">Contacts</a>
+      <a href="#dates-title">Dates</a>
+      <a href="#cost-title">Costs</a>
+      <a href="/community">Community feed</a>
+      <a class="stage-before" href="#arrival-title">Before move-in</a>
+      <a href="#health-title">Health</a>
+    </nav>
+
+    <section class="dashboard" id="faq-guide">
+      <div class="main-column">
+        <section class="quick-section">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">Most asked</p>
+              <h2 id="view-title">Student essentials</h2>
+            </div>
+            <p id="result-count" class="result-count"></p>
+          </div>
+          <div id="cards" class="cards"></div>
+          <div id="empty" class="empty" hidden>
+            <span aria-hidden="true">🍴</span>
+            <h3>No answers on that yet.</h3>
+            <p>Try a shorter search or choose another topic.</p>
+          </div>
+        </section>
+      </div>
+
+      <aside class="side-column">
+        <section class="checklist-panel">
+          <div class="panel-heading">
+            <div>
+              <p class="eyebrow">First weeks</p>
+              <h2>Do this now</h2>
+            </div>
+            <span id="progress-label">0/6</span>
+          </div>
+          <div class="progress-track" aria-hidden="true"><span id="progress-bar"></span></div>
+          <div id="checklist" class="checklist"></div>
+          <button id="reset-checklist" class="text-button">Reset checklist</button>
+        </section>
+
+        <section class="meal-card">
+          <p class="eyebrow">Freshman meal plan</p>
+          <h2>Blue today.<br>Gold for later.</h2>
+          <div class="point-grid">
+            <div><strong>20</strong><span>Blue Points each class day</span></div>
+            <div><strong>325</strong><span>Gold Points each semester</span></div>
+          </div>
+          <p>Blue Points load at 2 a.m. and expire at 11:59 p.m. Use them during the week; preserve Gold Points for weekends and Down Days.</p>
+          <span class="source official">Official · Freshman meal-plan guide</span>
+        </section>
+
+        <section class="notice-card">
+          <strong>Not affiliated with CIA</strong>
+          <p>This guide translates official materials and community experience. Dates, contacts, costs, and policies can change—confirm time-sensitive information directly with the school.</p>
+        </section>
+      </aside>
+    </section>
+
+    <section class="first-month-section stage-after" aria-labelledby="first-month-title">
+      <div class="section-heading first-month-heading">
+        <div>
+          <p class="eyebrow">Already moved in?</p>
+          <h2 id="first-month-title">The first-month reset</h2>
+        </div>
+        <p>Move-in is over. Now the goal is building a routine before small problems turn into expensive ones.</p>
+      </div>
+      <div class="first-month-grid">
+        <article class="month-card student-month">
+          <div class="month-label"><span aria-hidden="true">🧑🏽‍🍳</span><strong>For students</strong></div>
+          <h3>Build your operating system.</h3>
+          <ul>
+            <li><strong>Check CIA email every day.</strong><span>Schedules, assignments, account notices, and required tasks will not chase you through the family chat.</span></li>
+            <li><strong>Protect one clean uniform.</strong><span>Keep a complete backup ready for a career event, inspection, spill, or laundry emergency.</span></li>
+            <li><strong>Learn the point system.</strong><span>Use daily Blue Points before they expire and track Gold Points so weekends do not become a financial jump scare.</span></li>
+            <li><strong>Save the right contacts.</strong><span>Put Residence Life, technical support, health information, and emergency contacts in your phone now.</span></li>
+            <li><strong>Ask early.</strong><span>A confusing bill, missing course material, uniform problem, or academic concern is easier to fix before a deadline.</span></li>
+          </ul>
+        </article>
+        <article class="month-card parent-month">
+          <div class="month-label"><span aria-hidden="true">📱</span><strong>For parents</strong></div>
+          <h3>Support without becoming the portal.</h3>
+          <ul>
+            <li><strong>Agree on a check-in rhythm.</strong><span>Choose a reasonable time instead of treating a quiet afternoon like a missing-person documentary.</span></li>
+            <li><strong>Use your own access.</strong><span>Proxy access and payment access serve different purposes. Do not use the student’s credentials.</span></li>
+            <li><strong>Ask what they tried first.</strong><span>Help students identify the correct office, then let them send the email or make the call.</span></li>
+            <li><strong>Watch the budget, not every meal.</strong><span>Review major account activity and Gold Point use without turning dining choices into daily surveillance.</span></li>
+            <li><strong>Know the escalation line.</strong><span>Ordinary discomfort builds independence; health, safety, discrimination, or unresolved academic risk needs prompt adult attention.</span></li>
+          </ul>
+        </article>
+      </div>
+      <div class="month-check"><strong>One useful weekly question:</strong><span>“What is one thing working, one thing confusing, and one thing you need to handle this week?”</span></div>
+    </section>
+
+    <section class="celebration-section" aria-labelledby="celebration-title">
+      <div class="celebration-icon" aria-hidden="true">🎉</div>
+      <div class="celebration-copy">
+        <p class="eyebrow">A little love from home</p>
+        <h2 id="celebration-title">Send a Celebration Gram</h2>
+        <p>Families can use CIA’s Celebration Gram form to recognize a student’s birthday, accomplishment, milestone, or ordinary “we’re proud of you” moment. Follow the current form for available options, payment, timing, and delivery.</p>
+        <p class="celebration-tip"><strong>Before submitting:</strong> confirm the student’s legal name, campus, and any other identifying information requested. Save the confirmation for your records.</p>
+      </div>
+      <a class="celebration-button" href="https://ciachef.formstack.com/forms/celebration_gram" target="_blank" rel="noopener">Open Celebration Gram form ↗</a>
+    </section>
+
+    <section class="community-walls" aria-labelledby="walls-title">
+      <div class="section-heading walls-heading">
+        <div>
+          <p class="eyebrow">Shared by the village</p>
+          <h2 id="walls-title">Resources and memories</h2>
+        </div>
+        <div class="wall-tabs" role="tablist" aria-label="Choose a community wall">
+          <button class="wall-tab active" id="resources-tab" role="tab" aria-selected="true" aria-controls="resources-wall" data-wall="resources">Resource Wall</button>
+          <button class="wall-tab" id="memories-tab" role="tab" aria-selected="false" aria-controls="memories-wall" data-wall="memories">Wall of Wonder</button>
+        </div>
+      </div>
+
+      <div id="resources-wall" class="wall-panel" role="tabpanel" aria-labelledby="resources-tab">
+        <div id="approved-resources" class="approved-wall-grid" aria-live="polite"></div>
+        <div class="resource-wall-grid">
+          <article class="resource-tile gold-tile"><span aria-hidden="true">🍽️</span><small>Dining</small><h3>Freshman Meal Plan</h3><p>Blue and Gold Point basics, daily expiration, and weekend planning.</p><div class="resource-links"><a href="#top" data-search="Blue Points">Find the answer</a><a href="/resources/freshman-meal-plan.pdf" target="_blank">Open document ↗</a></div></article>
+          <article class="resource-tile"><span aria-hidden="true">📅</span><small>Planning</small><h3>2026–27 Academic Calendar</h3><p>Semester starts, grade dates, career fairs, and the warning to check color-coded class days.</p><div class="resource-links"><a href="#dates-title">See dates</a><a href="/resources/hyde-park-calendar-2026-27.pdf" target="_blank">Open document ↗</a></div></article>
+          <article class="resource-tile red-tile"><span aria-hidden="true">🔪</span><small>Classes</small><h3>Culinary Kit List</h3><p>Review what the program kit already includes before buying duplicate knives and tools.</p><div class="resource-links"><a href="#top" data-search="culinary kit">Find the answer</a><a href="/resources/culinary-kit.pdf" target="_blank">Open document ↗</a></div></article>
+          <article class="resource-tile"><span aria-hidden="true">🧁</span><small>Classes</small><h3>Baking &amp; Pastry Kit</h3><p>Program-specific cutters, pastry tools, rulers, spatulas, and other issued items.</p><div class="resource-links"><a href="#top" data-search="baking kit">Find the answer</a><a href="/resources/baking-pastry-kit.pdf" target="_blank">Open document ↗</a></div></article>
+          <article class="resource-tile navy-tile"><span aria-hidden="true">⚕️</span><small>Health</small><h3>Food Allergy Guide</h3><p>Use the Inform, Question, Protect approach and coordinate accommodations early.</p><div class="resource-links"><a href="#top" data-search="food allergy">Find the answer</a><a href="/resources/allergies-brochure.pdf" target="_blank">Open document ↗</a></div></article>
+          <article class="resource-tile"><span aria-hidden="true">📚</span><small>Classes</small><h3>Textbook Ordering</h3><p>Find the required edition through the portal, then compare purchase, rental, and digital options.</p><div class="resource-links"><a href="#top" data-search="textbooks">Find the answer</a><a href="/resources/ordering-textbooks.pdf" target="_blank">Open document ↗</a></div></article>
+          <article class="resource-tile gold-tile"><span aria-hidden="true">💊</span><small>Health</small><h3>Local Care Directory</h3><p>Nearby pharmacies, urgent-care offices, hospitals, and click-to-call numbers.</p><div class="resource-links"><a href="#health-title">See directory</a><a href="/resources/health-care-directory.pdf" target="_blank">Open document ↗</a></div></article>
+          <article class="resource-tile"><span aria-hidden="true">🔐</span><small>Family access</small><h3>Proxy Setup Guide</h3><p>Understand the difference between information access and payment access.</p><div class="resource-links"><a href="#top" data-search="proxy">Find the answer</a><a href="/resources/proxy-setup.pdf" target="_blank">Open document ↗</a></div></article>
+        </div>
+        <p class="wall-source-note">These resources come from the uploaded CIA materials. The summaries help families find the right topic; current portal instructions and official documents remain the authority.</p>
+      </div>
+
+      <div id="memories-wall" class="wall-panel" role="tabpanel" aria-labelledby="memories-tab" hidden>
+        <div id="approved-memories" class="approved-wall-grid" aria-live="polite"></div>
+        <div class="memory-empty">
+          <div class="memory-mark" aria-hidden="true">📸</div>
+          <div>
+            <p class="eyebrow">The first frame is reserved</p>
+            <h3>Approved community memories will live here.</h3>
+            <p>First uniforms, first dishes, first-day photos, birthdays, awards, and proud-family moments can be added after the student or family intentionally approves publication.</p>
+          </div>
+        </div>
+        <a class="wall-submit-button" href="/share">Submit a resource or memory</a>
+        <div class="memory-rules">
+          <div><strong>Permission required</strong><span>The person submitting confirms they have the right to share the image.</span></div>
+          <div><strong>Privacy checked</strong><span>No student IDs, room numbers, schedules, private messages, or sensitive documents.</span></div>
+          <div><strong>Names are optional</strong><span>A caption can use a first name, initials, or no name at all.</span></div>
+          <div><strong>Removal stays available</strong><span>A family can ask for its photo or caption to be removed later.</span></div>
+        </div>
+        <p class="memory-boundary"><strong>Important:</strong> GroupMe photos are not automatically imported into this wall. A photo appearing in the chat is not the same as permission to republish it.</p>
+      </div>
+    </section>
+
+    <section class="contacts-section" aria-labelledby="contacts-title">
+      <div class="section-heading contacts-heading">
+        <div>
+          <p class="eyebrow">Skip the runaround</p>
+          <h2 id="contacts-title">Who do I contact?</h2>
+        </div>
+        <p>Start with the office that owns the problem.</p>
+      </div>
+      <div class="contact-grid">
+        <article class="contact-card featured-contact">
+          <span class="contact-icon" aria-hidden="true">💰</span>
+          <p class="contact-type">Bills · aid · registration</p>
+          <h3>Student Financial &amp;<br>Registration Services</h3>
+          <a href="mailto:sfrs@culinary.edu">sfrs@culinary.edu</a>
+          <a href="tel:+18454511500">845-451-1500</a>
+          <p>Use for financial records, account questions, registration systems, and parent proxy concerns.</p>
+        </article>
+        <article class="contact-card">
+          <span class="contact-icon" aria-hidden="true">💻</span>
+          <p class="contact-type">Portal · password · access</p>
+          <h3>ITS Student Help Desk</h3>
+          <a href="mailto:ITHelp@CIA.Culinary.Edu">ITHelp@CIA.Culinary.Edu</a>
+          <a href="tel:+18454511698">845-451-1698</a>
+          <p>Use for technical trouble with the portal, proxy accounts, passwords, and school systems.</p>
+        </article>
+        <article class="contact-card">
+          <span class="contact-icon" aria-hidden="true">🎓</span>
+          <p class="contact-type">Your student record</p>
+          <h3>CIA Student Portal</h3>
+          <a href="https://ciamainmenu.culinary.edu" target="_blank" rel="noopener">Open CIA Main Menu ↗</a>
+          <p>Check schedules, financial aid, textbooks, notices, and assigned student tasks here first.</p>
+        </article>
+        <article class="contact-card urgent-contact">
+          <span class="contact-icon" aria-hidden="true">🚨</span>
+          <p class="contact-type">Immediate danger</p>
+          <h3>Emergency Services</h3>
+          <a href="tel:911">Call 911</a>
+          <p>For an immediate medical or safety emergency. Do not wait for an email response or search the group chat.</p>
+        </article>
+      </div>
+      <p class="contact-note"><strong>Still unsure?</strong> Students should check their current CIA portal or official directory before relying on an older phone number, staff name, or screenshot. Contacts and office responsibilities can change. Last source review: September 6, 2026.</p>
+    </section>
+
+    <section class="dates-section" aria-labelledby="dates-title">
+      <div class="section-heading dates-heading">
+        <div>
+          <p class="eyebrow">Put these on the family calendar</p>
+          <h2 id="dates-title">Dates worth planning around</h2>
+        </div>
+        <span class="source official">Official · 2026–27 Hyde Park calendar · reviewed Sep. 6, 2026</span>
+      </div>
+      <div class="date-grid">
+        <article class="date-card primary-date"><time datetime="2026-09-08"><strong>SEP</strong><span>08</span></time><div><p>Fall semester start</p><small>Confirm the student’s personal arrival, orientation, and class schedule separately.</small></div></article>
+        <article class="date-card"><time datetime="2026-10-05"><strong>OCT</strong><span>05</span></time><div><p>Career Fair</p><small>New students should review participation details and prepare early.</small></div></article>
+        <article class="date-card"><time datetime="2026-12-21"><strong>DEC</strong><span>21</span></time><div><p>Semester grades due</p><small>The calendar also begins an extended no-classes period around this date.</small></div></article>
+        <article class="date-card"><time datetime="2027-02-08"><strong>FEB</strong><span>08</span></time><div><p>Career Fair</p><small>Travel and work plans should not conflict with career obligations.</small></div></article>
+        <article class="date-card"><time datetime="2027-04-19"><strong>APR</strong><span>19</span></time><div><p>Semester grades due</p><small>Students should check their record and follow up on unresolved issues.</small></div></article>
+        <article class="date-card"><time datetime="2027-06-14"><strong>JUN</strong><span>14</span></time><div><p>Career Fair</p><small>Confirm current event times and requirements in the student portal.</small></div></article>
+      </div>
+      <div class="calendar-warning"><strong>A blue day is not the whole story.</strong><span>The CIA calendar separately marks no-class days, kitchen/bakeshop start and end dates, Saturday classes, restaurant closures, special projects, and commencement. Before booking travel, check the color-coded calendar and the student’s actual schedule.</span></div>
+    </section>
+
+    <section class="cost-section" aria-labelledby="cost-title">
+      <div class="section-heading cost-heading">
+        <div><p class="eyebrow">Fall 2026 planning rates</p><h2 id="cost-title">What will we be charged?</h2></div>
+        <p>Use the student’s actual bill as the final authority.</p>
+      </div>
+      <div class="cost-layout">
+        <div class="cost-table-wrap"><table class="cost-table"><thead><tr><th>Charge</th><th>Timing</th><th>Published amount</th></tr></thead><tbody>
+          <tr><td><strong>Full-time tuition</strong><small>12–18 credits</small></td><td>Per semester</td><td>$19,755</td></tr>
+          <tr><td><strong>Undergraduate meal plan</strong><small>Required; commuters may request a reduced plan</small></td><td>Per semester</td><td>$2,595</td></tr>
+          <tr><td><strong>General fee</strong></td><td>Per semester</td><td>$885</td></tr>
+          <tr><td><strong>Residence-hall housing</strong><small>Varies by room type</small></td><td>Per semester</td><td>$4,135–$5,560</td></tr>
+          <tr><td><strong>Supplies</strong><small>Corrected from $1,195 on April 8, 2026</small></td><td>One time</td><td>$1,194</td></tr>
+          <tr><td><strong>Student orientation</strong></td><td>One time</td><td>$275</td></tr>
+          <tr><td><strong>Health insurance</strong><small>May be waived when requirements are met</small></td><td>Annual</td><td>$2,100</td></tr>
+          <tr><td><strong>Tuition refund plan</strong></td><td>Per semester</td><td>$145</td></tr>
+          <tr><td><strong>Commuter parking</strong></td><td>Per semester</td><td>$115</td></tr>
+        </tbody></table></div>
+        <aside class="cost-callout"><p class="eyebrow">Not in the neat little total</p><h3>Plan for the real-life extras.</h3><ul><li>Travel and local transportation</li><li>Books or digital course materials</li><li>Laundry and uniform care</li><li>Personal and dorm supplies</li><li>Optional added Gold Points</li><li>Possible late, drop, retake, or no-show fees</li></ul><p>Financial aid, scholarships, housing type, insurance waivers, and individual choices will change what a family actually pays.</p></aside>
+      </div>
+      <p class="cost-source">Source: <a href="https://www.ciachef.edu/cia-tuition/" target="_blank" rel="noopener">CIA Tuition and Fees ↗</a>, effective July 1, 2026. Last verified September 6, 2026. Rates and policies can change.</p>
+    </section>
+
+    <section class="arrival-section stage-before" aria-labelledby="arrival-title">
+      <div class="section-heading arrival-heading">
+        <div>
+          <p class="eyebrow">Move-in without the meltdown</p>
+          <h2 id="arrival-title">Your arrival-day game plan</h2>
+        </div>
+        <p>The student’s current Arrival Guide and assigned time always come first.</p>
+      </div>
+
+      <div class="arrival-lanes">
+        <article class="arrival-lane student-lane">
+          <div class="lane-title"><span aria-hidden="true">🧑🏽‍🍳</span><div><small>Student lane</small><h3>You own the school tasks.</h3></div></div>
+          <ol class="arrival-steps">
+            <li><span>1</span><div><strong>Before traveling</strong><p>Check your CIA email, assigned move-in time, residence hall, room assignment, online orientation, ID-photo task, and required health items.</p></div></li>
+            <li><span>2</span><div><strong>Pack the essentials where you can reach them</strong><p>Keep your ID, phone charger, medications, arrival instructions, and one complete school-appropriate outfit out of the bottom of the car.</p></div></li>
+            <li><span>3</span><div><strong>Inspect before buying duplicates</strong><p>Try on uniforms and kitchen shoes, then inventory your program kit. Use the campus exchange process for sizing problems before purchasing replacements.</p></div></li>
+            <li><span>4</span><div><strong>Follow your orientation schedule</strong><p>Add every required block to your calendar. Do not assume you will be free for shopping, sightseeing, or a long family dinner.</p></div></li>
+            <li><span>5</span><div><strong>Know your first-night basics</strong><p>Locate dining, your residence-hall support contact, medication, laundry, and the route to your first required activity.</p></div></li>
+          </ol>
+        </article>
+
+        <article class="arrival-lane parent-lane">
+          <div class="lane-title"><span aria-hidden="true">🧳</span><div><small>Parent lane</small><h3>You support the launch.</h3></div></div>
+          <ol class="arrival-steps">
+            <li><span>1</span><div><strong>Book around the assigned schedule</strong><p>Do not plan travel from an old chat screenshot. Confirm the current arrival instructions before locking in flights, hotels, or the drive home.</p></div></li>
+            <li><span>2</span><div><strong>Bring less than you think</strong><p>Start with true necessities. Room layouts, roommate plans, and residence-hall rules may make half the “must-have” list unnecessary.</p></div></li>
+            <li><span>3</span><div><strong>Handle setup—not school business</strong><p>Help unload and organize, but let the student ask staff questions, find offices, read email, and solve one manageable problem independently.</p></div></li>
+            <li><span>4</span><div><strong>Expect a real goodbye</strong><p>Family and student programming separate. Once the family session ends, students may move directly into orientation activities.</p></div></li>
+            <li><span>5</span><div><strong>Leave a calm backup plan</strong><p>Agree on when you will check in, where emergency contacts are stored, and how the student will ask for help—then let orientation do its job.</p></div></li>
+          </ol>
+        </article>
+      </div>
+
+      <div class="arrival-note"><strong>Do not build the weekend around “probably.”</strong><span>Arrival times, family sessions, dining availability, uniform distribution, and orientation schedules can vary by cohort. Students should use the newest instructions sent to their CIA account.</span></div>
+    </section>
+
+    <section class="health-section" aria-labelledby="health-title">
+      <div class="section-heading health-heading">
+        <div>
+          <p class="eyebrow">Save this before it is needed</p>
+          <h2 id="health-title">Sick, injured, or out of medication?</h2>
+        </div>
+        <p>For immediate danger or a life-threatening emergency, call <a href="tel:911">911</a>.</p>
+      </div>
+
+      <div class="health-plan">
+        <article class="health-action">
+          <span class="health-number">1</span>
+          <div><h3>Prepare now</h3><p>Students should save insurance details, allergies, medications, an emergency contact, and the closest pharmacy in their phone. Transfer recurring prescriptions before running low.</p></div>
+        </article>
+        <article class="health-action">
+          <span class="health-number">2</span>
+          <div><h3>Choose the right level of care</h3><p>Use a pharmacy for prescriptions, urgent care for a non-life-threatening problem that cannot wait, and 911 or a hospital for a serious emergency.</p></div>
+        </article>
+        <article class="health-action">
+          <span class="health-number">3</span>
+          <div><h3>Call before leaving</h3><p>Confirm current hours, services, insurance acceptance, and transportation. The uploaded CIA list may not reflect later business changes.</p></div>
+        </article>
+      </div>
+
+      <div class="care-grid">
+        <article class="care-card pharmacy-card">
+          <div class="care-title"><span aria-hidden="true">💊</span><div><small>Pharmacies</small><h3>Closest options listed by CIA</h3></div></div>
+          <ul class="care-list">
+            <li><div><strong>CVS Pharmacy</strong><span>4246 Albany Post Road, Suite 2 · Hyde Park</span></div><a href="tel:+18452292224">845-229-2224</a></li>
+            <li><div><strong>CVS Pharmacy</strong><span>4170 Albany Post Road · Hyde Park</span></div><a href="tel:+18452298881">845-229-8881</a></li>
+            <li><div><strong>Molloy Medical Arts Pharmacy</strong><span>19 Baker Avenue #207 · Poughkeepsie</span></div><a href="tel:+18454717455">845-471-7455</a></li>
+            <li><div><strong>Walgreens</strong><span>2024 South Road · Poughkeepsie</span></div><a href="tel:+18452961804">845-296-1804</a></li>
+          </ul>
+        </article>
+
+        <article class="care-card urgent-card">
+          <div class="care-title"><span aria-hidden="true">🩺</span><div><small>Urgent care</small><h3>Call first for hours</h3></div></div>
+          <ul class="care-list">
+            <li><div><strong>Emergency One</strong><span>4250 Albany Post Road · Hyde Park</span></div><a href="tel:+18452292602">845-229-2602</a></li>
+            <li><div><strong>Caremount Medical Group Urgent Care</strong><span>43 Pine Street · Poughkeepsie</span></div><a href="tel:+18454846564">845-484-6564</a></li>
+            <li><div><strong>Ortho Express</strong><span>1910 South Road · Poughkeepsie</span></div><a href="tel:+18457904357">845-790-4357</a></li>
+          </ul>
+        </article>
+
+        <article class="care-card hospital-card">
+          <div class="care-title"><span aria-hidden="true">🏥</span><div><small>Hospitals</small><h3>Poughkeepsie locations</h3></div></div>
+          <ul class="care-list">
+            <li><div><strong>Vassar Brothers Medical Center</strong><span>45 Reade Place · Poughkeepsie</span></div><a href="tel:+18454548500">845-454-8500</a></li>
+            <li><div><strong>Mid-Hudson Regional Hospital</strong><span>241 North Road · Poughkeepsie</span></div><a href="tel:+18454835000">845-483-5000</a></li>
+          </ul>
+          <p class="hospital-warning"><strong>Parents:</strong> keep the student’s current insurance information—not a photo from three cards ago—easy to find.</p>
+        </article>
+      </div>
+      <p class="health-source">Source reviewed September 6, 2026: CIA Pharmacy, Urgent Care &amp; Hospital Information. Call each provider to verify current details before relying on this list.</p>
+    </section>
+  </main>
+
+  <footer>
+    <strong>My Village Auntie</strong>
+    <span>Built from official documents and anonymized family questions. <a href="/privacy">Privacy</a> · <a href="/corrections">Corrections</a> · <a href="/admin">Owner review</a></span>
+  </footer>
+
+  <a class="back-to-top" href="#top" aria-label="Back to top">↑</a>
+
+  <script src="app.js"></script>
+</body>
+</html>
