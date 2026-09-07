@@ -3,7 +3,7 @@ import "./globals.css";
 import "./guide.css";
 
 export const metadata: Metadata = {
-  title: "My Village Auntie | CIA Hyde Park Guide",
+  title: "CIA Hyde Park Family Guide | CIA Hyde Park Guide",
   description: "A practical student and parent guide for Culinary Institute of America Hyde Park families.",
   icons: {
     icon: "/favicon.svg",
