@@ -29,7 +29,7 @@ In GitHub, open the repository, open `public`, choose **Add file → Upload file
 2. Select the Cloudflare account you want to use.
 3. In the left sidebar, open **Storage & databases → D1 SQL Database**.
 4. Select **Create database**.
-5. Enter this exact database name: `my-village-auntie-cia`
+5. Enter this exact database name: `cia-faq`
 6. Select **Create**.
 7. Open the database's **Settings** page.
 8. Copy the **Database ID**. It is a UUID similar to `00000000-0000-0000-0000-000000000000`. Save it temporarily; GitHub needs it in step 5.
@@ -41,7 +41,7 @@ Do not create tables manually. The GitHub deployment workflow applies the migrat
 1. In the Cloudflare sidebar, open **Storage & databases → R2 object storage → Overview**.
 2. If Cloudflare displays an R2 checkout/activation screen, complete it. Cloudflare may require billing details even when your usage remains inside the included free allowance.
 3. Select **Create bucket**.
-4. Enter this exact bucket name: `my-village-auntie-cia-media`
+4. Enter this exact bucket name: `cia-faq-media`
 5. Leave the location on **Automatic** unless you have a specific data-location requirement.
 6. Select **Create bucket**.
 
@@ -98,8 +98,8 @@ Under **Repository variables**, select **New repository variable** twice and add
 
 | Variable name | Exact value |
 |---|---|
-| `CLOUDFLARE_D1_DATABASE_NAME` | `my-village-auntie-cia` |
-| `CLOUDFLARE_R2_BUCKET_NAME` | `my-village-auntie-cia-media` |
+| `CLOUDFLARE_D1_DATABASE_NAME` | `cia-faq` |
+| `CLOUDFLARE_R2_BUCKET_NAME` | `cia-faq-media` |
 
 These are variables, not secrets.
 
@@ -140,8 +140,8 @@ Test all of the following on the Cloudflare URL:
 Open the failed run, expand the red step, and use the message below:
 
 - **Authentication error / code 10000:** recreate `CLOUDFLARE_API_TOKEN` and verify the token is scoped to the correct account.
-- **Database not found:** verify `CLOUDFLARE_D1_DATABASE_ID` is the database UUID, and verify the database name variable exactly matches `my-village-auntie-cia`.
-- **R2 bucket not found:** verify R2 is activated and the bucket variable exactly matches `my-village-auntie-cia-media`.
+- **Database not found:** verify `CLOUDFLARE_D1_DATABASE_ID` is the database UUID, and verify the database name variable exactly matches `cia-faq`.
+- **R2 bucket not found:** verify R2 is activated and the bucket variable exactly matches `cia-faq-media`.
 - **Missing permissions:** add Workers Scripts Edit, D1 Edit, and Workers R2 Storage Edit to the token.
 - **A secret is empty:** return to GitHub repository secrets and recreate that secret; GitHub will not reveal its saved value.
 - **PDF returns 404:** upload the eight PDFs to `public/resources/` and rerun the workflow.
