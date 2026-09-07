@@ -28,6 +28,28 @@ jobs:
       - name: Restore script permissions
         run: chmod +x scripts/*.sh
       - run: npm run build
+      - name: Finalize Cloudflare configuration
+        run: |
+          node --input-type=module <<'NODE'
+          import fs from "node:fs";
+          const path = "dist/server/wrangler.json";
+          const config = JSON.parse(fs.readFileSync(path, "utf8"));
+          const databaseId = process.env.CLOUDFLARE_D1_DATABASE_ID?.trim();
+          if (!databaseId || !/^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(databaseId)) {
+            throw new Error("CLOUDFLARE_D1_DATABASE_ID is not a valid D1 UUID.");
+          }
+          config.name = "cia-guide";
+          config.d1_databases = (config.d1_databases ?? []).map((binding) => ({
+            ...binding,
+            database_name: process.env.CLOUDFLARE_D1_DATABASE_NAME,
+            database_id: databaseId,
+          }));
+          config.r2_buckets = (config.r2_buckets ?? []).map((binding) => ({
+            ...binding,
+            bucket_name: process.env.CLOUDFLARE_R2_BUCKET_NAME,
+          }));
+          fs.writeFileSync(path, JSON.stringify(config, null, 2) + "\n");
+          NODE
       - name: Package D1 migrations
         run: cp -R drizzle dist/server/migrations
       - name: Apply D1 database migrations
