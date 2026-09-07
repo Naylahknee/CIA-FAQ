@@ -28,6 +28,8 @@ jobs:
       - name: Restore script permissions
         run: chmod +x scripts/*.sh
       - run: npm run build
+      - name: Package D1 migrations
+        run: cp -R drizzle dist/server/migrations
       - name: Apply D1 database migrations
         run: npx wrangler d1 migrations apply DB --remote --config dist/server/wrangler.json
       - name: Deploy Worker
