@@ -19,7 +19,7 @@ export default function SharePage() {
     <label>Your email<input name="submitterEmail" required type="email" /></label>
     <label>Your full name for the consent record<input name="consentName" required maxLength={120} /></label>
     <label>Image<input name="image" required type="file" accept="image/jpeg,image/png,image/webp" /><span>JPG, PNG, or WebP; maximum 8 MB.</span></label>
-    <label className="consent-row"><input name="consent" type="checkbox" required /> <span>I have permission to share this image and understand it may appear on the My Village Auntie guide.</span></label>
+    <label className="consent-row"><input name="consent" type="checkbox" required /> <span>I have permission to share this image and understand it may appear on the CIA Hyde Park Family Guide guide.</span></label>
     <button disabled={busy} type="submit">{busy ? "Submitting…" : "Submit for review"}</button>
   </form>{message && <p className="form-message" role="status">{message}</p>}</section></main>;
 }
