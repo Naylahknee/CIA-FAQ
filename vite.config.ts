@@ -10,9 +10,9 @@ const cloudflareDatabaseId =
   process.env.CLOUDFLARE_D1_DATABASE_ID ??
   SITE_CREATOR_PLACEHOLDER_DATABASE_ID;
 const cloudflareDatabaseName =
-  process.env.CLOUDFLARE_D1_DATABASE_NAME ?? "cia-faq";
+  process.env.CLOUDFLARE_D1_DATABASE_NAME ?? "cia-guide";
 const cloudflareBucketName =
-  process.env.CLOUDFLARE_R2_BUCKET_NAME ?? "cia-faq-media";
+  process.env.CLOUDFLARE_R2_BUCKET_NAME ?? "cia-media";
 
 const { d1, r2 } = hostingConfig;
 
