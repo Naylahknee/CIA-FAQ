@@ -31,6 +31,7 @@ export const communityUsers = sqliteTable("community_users", {
   displayName: text("display_name").notNull(),
   passwordHash: text("password_hash").notNull(),
   passwordSalt: text("password_salt").notNull(),
+  passwordIterations: integer("password_iterations").notNull().default(210000),
   role: text("role", { enum: ["member", "moderator"] }).notNull().default("member"),
   createdAt: integer("created_at", { mode: "timestamp_ms" }).notNull(),
 }, (table) => [uniqueIndex("idx_community_users_email").on(table.email)]);
@@ -82,3 +83,10 @@ export const communityReports = sqliteTable("community_reports", {
   status: text("status", { enum: ["open", "resolved"] }).notNull().default("open"),
   createdAt: integer("created_at", { mode: "timestamp_ms" }).notNull(),
 }, (table) => [uniqueIndex("idx_community_reports_post_user").on(table.postId, table.userId)]);
+
+
+export const authRateLimits = sqliteTable("auth_rate_limits", {
+  key: text("key").primaryKey(),
+  attempts: integer("attempts").notNull().default(0),
+  windowStart: integer("window_start").notNull(),
+});
