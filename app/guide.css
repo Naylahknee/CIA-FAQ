@@ -241,6 +241,43 @@ footer a { color:var(--gold); }
 .featured-contact > p:last-child { color: #cad8e4; }
 .contact-note { margin: 17px 0 0; padding: 16px 18px; border-radius: 12px; background: #eef3f7; color: var(--muted); font-size: .88rem; }
 .contact-note strong { color: var(--navy); }
+
+.travel-section { margin-top: 70px; padding-top: 48px; border-top: 1px solid var(--line); }
+.travel-heading { align-items: end; margin-bottom: 24px; }
+.travel-heading h2 { margin-bottom: 0; font: 800 clamp(2rem,3vw,3rem)/1.1 "Fraunces",serif; }
+.travel-heading > p { max-width: 460px; margin: 0 0 5px; color: var(--muted); text-align: right; }
+.travel-regions { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 14px; }
+.travel-card { padding: 24px; border: 1px solid var(--line); border-radius: 20px; background: white; box-shadow: 0 7px 22px rgba(10,37,64,.05); }
+.travel-region,.shop-type { margin: 0 0 7px; color: var(--red); font-size: .72rem; font-weight: 800; letter-spacing: .09em; text-transform: uppercase; }
+.travel-card h3 { margin: 0 0 17px; color: var(--navy); font: 800 1.35rem/1.15 "Fraunces",serif; }
+.travel-card dl { display: grid; gap: 0; margin: 0; }
+.travel-card dl div { padding: 13px 0; border-top: 1px solid var(--line); }
+.travel-card dt { color: var(--navy); font-size: .82rem; font-weight: 800; text-transform: uppercase; }
+.travel-card dd { margin: 4px 0 0; color: var(--muted); font-size: .86rem; line-height: 1.48; }
+.travel-examples { margin: 16px 0 0; padding-top: 15px; border-top: 1px solid var(--line); color: var(--muted); font-size: .82rem; }
+.travel-examples strong { color: var(--navy); }
+.travel-hub { display: grid; grid-template-columns: minmax(0,1.25fr) minmax(260px,.75fr); gap: 24px; margin-top: 18px; padding: 26px; border-radius: 20px; background: var(--navy); color: white; }
+.travel-hub .eyebrow { color: var(--gold); }
+.travel-hub h3 { margin: 0 0 8px; color: white; font: 800 1.6rem/1.1 "Fraunces",serif; }
+.travel-hub p:last-child { margin-bottom: 0; color: #c7d7e4; }
+.travel-links { display: grid; gap: 8px; align-content: center; }
+.travel-links a { padding: 10px 12px; border: 1px solid rgba(255,255,255,.2); border-radius: 10px; color: var(--gold); font-size: .84rem; font-weight: 800; text-decoration: none; }
+.travel-links a:hover { background: rgba(255,255,255,.08); }
+.shopping-heading { display: flex; justify-content: space-between; gap: 30px; align-items: end; margin: 38px 0 18px; }
+.shopping-heading h3 { margin: 0; color: var(--navy); font: 800 2rem/1.1 "Fraunces",serif; }
+.shopping-heading > p { max-width: 470px; margin: 0; color: var(--muted); text-align: right; }
+.shopping-grid { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 14px; }
+.shop-card { padding: 23px; border: 1px solid var(--line); border-radius: 18px; background: #fff8e6; }
+.shop-card:nth-child(2) { background: white; }
+.shop-card:nth-child(3) { background: #eaf1f6; }
+.shop-card h4 { margin: 0 0 9px; color: var(--navy); font: 800 1.25rem/1.15 "Fraunces",serif; }
+.shop-card address { color: var(--muted); font-size: .82rem; font-style: normal; }
+.shop-card ul { padding-left: 19px; color: var(--muted); font-size: .84rem; line-height: 1.48; }
+.shop-card li { margin-bottom: 6px; }
+.shop-card a { color: #a72d1e; font-size: .82rem; font-weight: 800; }
+.packing-rule { display: grid; grid-template-columns: auto 1fr auto 1fr; gap: 8px 14px; margin-top: 16px; padding: 18px; border-left: 5px solid var(--gold); border-radius: 0 12px 12px 0; background: #f7f2e8; color: var(--muted); font-size: .86rem; }
+.packing-rule strong { color: var(--navy); }
+
 .dates-section { margin-top: 70px; padding: 38px; border-radius: 28px; background: #eaf1f6; }
 .dates-heading { align-items: end; margin-bottom: 24px; }
 .dates-heading h2 { margin-bottom: 0; font: 800 clamp(2rem,3vw,3rem)/1.1 "Fraunces",serif; }
@@ -357,6 +394,8 @@ footer strong { color: white; }
   .celebration-button { grid-column: 1/-1; }
   .resource-wall-grid, .memory-rules { grid-template-columns: repeat(2,minmax(0,1fr)); }
   .approved-wall-grid,.privacy-grid { grid-template-columns: repeat(2,minmax(0,1fr)); }
+  .travel-regions, .shopping-grid { grid-template-columns: 1fr; }
+  .travel-hub { grid-template-columns: 1fr; }
   .date-grid { grid-template-columns: repeat(2,minmax(0,1fr)); }
   .cost-layout { grid-template-columns: 1fr; }
   .arrival-lanes { grid-template-columns: 1fr; }
@@ -393,6 +432,9 @@ footer strong { color: white; }
   .contacts-heading > p { text-align: left; }
   .contact-grid { grid-template-columns: 1fr; }
   .contact-card { min-height: 0; }
+  .travel-heading, .shopping-heading { align-items: flex-start; flex-direction: column; }
+  .travel-heading > p, .shopping-heading > p { text-align: left; }
+  .packing-rule { grid-template-columns: 1fr; gap: 4px; }
   .dates-section { padding: 24px 18px; }
   .dates-heading { align-items: flex-start; flex-direction: column; }
   .date-grid { grid-template-columns: 1fr; }
