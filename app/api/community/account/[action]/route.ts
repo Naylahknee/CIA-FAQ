@@ -1,7 +1,7 @@
 import { env } from 'cloudflare:workers';
 import { randomBytes } from 'node:crypto';
 import { accountRow, checkFactor, sendAccountEmail, type SecurityRow } from '../../../../account-security';
-import { clearSession, getCommunityUser, noStoreJson, normalizeEmail, takeAuthAttempt, validSameOrigin } from '../../../../community-auth';
+import { clearSession, emailVerificationConfigured, getCommunityUser, noStoreJson, normalizeEmail, takeAuthAttempt, validSameOrigin } from '../../../../community-auth';
 import { hashPassword, verifyPassword } from '../../../../password-security';
 import { base32, digest, matchingStep, seal, unseal } from '../../../../security-crypto';
 const fail = (error:string,status=400) => noStoreJson({error},{status});
@@ -17,7 +17,7 @@ export async function POST(request:Request, context:{params:Promise<{action:stri
    if (!limit.allowed) return fail('Too many attempts. Please try again in an hour.',429);
   }
   if (action==='reset-request') {
-   if (!env.RESEND_API_KEY || !env.AUTH_EMAIL_FROM || !env.APP_ORIGIN) return fail('Email delivery is not configured yet.',503);
+   if (!emailVerificationConfigured()) return fail('Email delivery is not configured yet.',503);
    const user=await env.DB.prepare('SELECT * FROM community_users WHERE email=?').bind(email).first<SecurityRow>();
    if (user) { try { await sendAccountEmail(user,'reset'); } catch { /* Keep the response indistinguishable from an unknown email. */ } }
    return noStoreJson({message:'If an account matches that email, a reset link has been sent.'});

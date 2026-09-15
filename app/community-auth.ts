@@ -15,6 +15,11 @@ function hex(bytes: Uint8Array) { return Array.from(bytes, byte => byte.toString
 function tokenHash(token: string) { return createHash("sha256").update(token).digest("hex"); }
 
 export function normalizeEmail(email: string) { return email.trim().toLowerCase(); }
+export function emailVerificationConfigured() {
+  if (!env.RESEND_API_KEY || !env.AUTH_EMAIL_FROM || !env.APP_ORIGIN) return false;
+  try { return new URL(String(env.APP_ORIGIN)).protocol === "https:"; }
+  catch { return false; }
+}
 
 export async function takeAuthAttempt(request: Request, action: AuthAction, email: string): Promise<AuthLimit> {
   const now = Date.now();
@@ -74,13 +79,13 @@ export async function getCommunityUser() {
   const rows = await getDb().select({ id: communityUsers.id, email: communityUsers.email, displayName: communityUsers.displayName, role: communityUsers.role, emailVerified: communityUsers.emailVerified })
     .from(communitySessions).innerJoin(communityUsers, eq(communitySessions.userId, communityUsers.id))
     .where(and(eq(communitySessions.tokenHash, tokenHash(token)), gt(communitySessions.expiresAt, new Date()))).limit(1);
-  return rows[0] ?? null;
+  return rows[0] ? { ...rows[0], verificationRequired: emailVerificationConfigured() } : null;
 }
 
 export async function requireCommunityUser() {
   const user = await getCommunityUser();
   if (!user) throw new Response("Sign in required", { status: 401, headers: { "cache-control": "no-store" } });
-  if (!user.emailVerified) throw new Response("Verify your email in Account settings before using the community.", { status: 403, headers: { "cache-control": "no-store" } });
+  if (user.verificationRequired && !user.emailVerified) throw new Response("Verify your email in Account settings before using the community.", { status: 403, headers: { "cache-control": "no-store" } });
   return user;
 }
 
