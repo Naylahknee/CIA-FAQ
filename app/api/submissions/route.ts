@@ -2,6 +2,8 @@ import { desc, eq } from "drizzle-orm";
 import { env } from "cloudflare:workers";
 import { getDb } from "../../../db";
 import { wallSubmissions } from "../../../db/schema";
+import { validSameOrigin } from "../../community-auth";
+import { isSafeImage } from "../../image-security";
 
 const MAX_IMAGE_BYTES = 8 * 1024 * 1024;
 const IMAGE_TYPES = new Set(["image/jpeg", "image/png", "image/webp"]);
@@ -18,6 +20,7 @@ export async function GET() {
 
 export async function POST(request: Request) {
   try {
+    if (!await validSameOrigin(request)) return Response.json({ error: "Request could not be verified." }, { status: 403 });
     const data = await request.formData();
     const kind = String(data.get("kind") ?? "");
     const title = String(data.get("title") ?? "").trim();
@@ -27,7 +30,7 @@ export async function POST(request: Request) {
     const consentName = String(data.get("consentName") ?? "").trim();
     const image = data.get("image");
     if (!(["memory", "resource"].includes(kind)) || !title || !caption || !submitterEmail || !consentName || data.get("consent") !== "on") return Response.json({ error: "Complete every required field and confirm permission." }, { status: 400 });
-    if (!(image instanceof File) || image.size === 0 || image.size > MAX_IMAGE_BYTES || !IMAGE_TYPES.has(image.type)) return Response.json({ error: "Upload a JPG, PNG, or WebP image no larger than 8 MB." }, { status: 400 });
+    if (!(image instanceof File) || !await isSafeImage(image, IMAGE_TYPES, MAX_IMAGE_BYTES)) return Response.json({ error: "Upload a JPG, PNG, or WebP image no larger than 8 MB." }, { status: 400 });
     const id = crypto.randomUUID();
     const extension = image.type === "image/png" ? "png" : image.type === "image/webp" ? "webp" : "jpg";
     const imageKey = `wall-submissions/${id}.${extension}`;
