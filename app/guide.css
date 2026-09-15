@@ -41,6 +41,10 @@ h1 em { color: var(--red); font-style: normal; }
 .phase-switch { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
 .phase-btn { min-height: 45px; padding: 8px 10px; border: 1px solid var(--line); border-radius: 11px; background: white; color: var(--muted); font-size: .82rem; font-weight: 700; }
 .phase-btn.active { border-color: var(--red); background: #fff1ed; color: var(--red); box-shadow: inset 0 0 0 1px var(--red); }
+.term-switch { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.term-btn { min-height: 45px; padding: 8px 10px; border: 1px solid var(--line); border-radius: 11px; background: white; color: var(--muted); font-size: .82rem; font-weight: 700; }
+.term-btn.active { border-color: var(--gold); background: #fff8e6; color: var(--navy); box-shadow: inset 0 0 0 1px var(--gold); }
+.term-btn:focus-visible { outline: 3px solid var(--blue); outline-offset: 2px; }
 .campus-photo { position: relative; margin: 18px -30px -30px; }
 .campus-photo img { display: block; width: 100%; height: 150px; object-fit: cover; object-position: 50% 54%; }
 .campus-photo figcaption { position: absolute; right: 12px; bottom: 8px; padding: 3px 7px; border-radius: 6px; background: rgba(10,37,64,.82); color: white; font-size: .65rem; }
@@ -249,6 +253,9 @@ footer a { color:var(--gold); }
 .date-card small { display: block; color: var(--muted); font-size: .78rem; line-height: 1.4; }
 .date-card.primary-date { border-color: #e1a72f; background: #fff8e6; }
 .date-card.primary-date time strong { background: var(--red); }
+.date-card.deadline-date { border-color: #e7a799; background: #fff1ed; }
+.date-card.deadline-date time strong { background: var(--red); }
+[data-term-content][hidden] { display: none !important; }
 .calendar-warning { margin-top: 18px; display: grid; grid-template-columns: minmax(170px,.35fr) 1fr; gap: 18px; padding: 18px; border-radius: 14px; background: var(--navy); color: #dce7ef; font-size: .9rem; }
 .calendar-warning strong { color: var(--gold); }
 .cost-section { margin-top: 70px; }
@@ -366,6 +373,7 @@ footer strong { color: white; }
   .campus-photo { margin: 18px -24px -24px; }
   .audience-switch { grid-template-columns: 1fr; }
   .phase-switch { grid-template-columns: 1fr; }
+  .term-switch { grid-template-columns: 1fr; }
   .side-column { grid-template-columns: 1fr; }
   .notice-card { grid-column: auto; }
   .contacts-heading { align-items: flex-start; flex-direction: column; }
