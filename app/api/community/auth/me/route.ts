@@ -1,6 +1,6 @@
-import { getCommunityUser } from "../../../../community-auth";
+import { getCommunityUser, noStoreJson } from "../../../../community-auth";
 
 export async function GET() {
-  try { return Response.json({ user: await getCommunityUser() }); }
-  catch { return Response.json({ user: null }); }
+  try { return noStoreJson({ user: await getCommunityUser() }); }
+  catch { return noStoreJson({ user: null }); }
 }
