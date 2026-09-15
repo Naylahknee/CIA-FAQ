@@ -216,6 +216,30 @@ const facts = [
     linkLabel: "View the New York campus address"
   },
   {
+    id: "fall-dates", terms: ["fall"], audience: ["student","parent"], category: "arrival", icon: "🗓️",
+    studentQ: "What are the key Fall 2026 dates and deadlines?",
+    parentQ: "What Fall 2026 dates and deadlines should our family plan around?",
+    studentA: "New Student Move-In is September 3–4. Week of Welcome Fireworks Night is September 7, and classes begin September 8. Thanksgiving Recess runs November 25–30; classes resume December 1. Classes end December 18, and all students must be off campus by noon December 19.",
+    parentA: "New Student Move-In is September 3–4. Week of Welcome Fireworks Night is September 7, and classes begin September 8. Thanksgiving Recess runs November 25–30; classes resume December 1. Classes end December 18, and all students must be off campus by noon December 19.",
+    stepStudent: "Compare these dates with your assigned schedule before making travel plans.",
+    stepParent: "Wait for your student to confirm class, kitchen, bakeshop, and residence-hall obligations before booking travel.",
+    source: "Fall 2026 orientation dates · Confirm in CIA Main Menu", sourceType: "verify",
+    link: "https://ciamainmenu.culinary.edu/",
+    linkLabel: "Confirm current dates in CIA Main Menu"
+  },
+  {
+    id: "spring-dates", terms: ["spring"], audience: ["student","parent"], category: "arrival", icon: "🗓️",
+    studentQ: "When can I return for Spring 2027, and when do classes begin?",
+    parentQ: "When can my student return for Spring 2027, and when do classes begin?",
+    studentA: "Orientation Leaders and Welcome Team members return January 1. Returning students may come back to campus January 3, and classes begin January 5. Classes end April 16, and all students must be off campus by noon April 17.",
+    parentA: "Orientation Leaders and Welcome Team members return January 1. Returning students may come back to campus January 3, and classes begin January 5. Classes end April 16, and all students must be off campus by noon April 17.",
+    stepStudent: "Confirm your approved residence-hall return time and first class before traveling.",
+    stepParent: "Confirm the student’s return instructions and final class obligations before booking transportation.",
+    source: "Spring 2027 orientation dates · Confirm in CIA Main Menu", sourceType: "verify",
+    link: "https://ciamainmenu.culinary.edu/",
+    linkLabel: "Confirm current dates in CIA Main Menu"
+  },
+  {
     id: "celebration", audience: ["student","parent"], category: "living", icon: "🎉",
     studentQ: "Can my family send me a Celebration Gram?",
     parentQ: "How can I send my student a Celebration Gram?",
@@ -242,8 +266,17 @@ const lists = {
 
 let audience = "student";
 let phase = "after";
+let academicTerm = "fall";
 document.body.dataset.phase = phase;
-document.querySelector("#view-title").textContent = "Student essentials on campus";
+document.body.dataset.academicTerm = academicTerm;
+
+function updateViewTitle() {
+  const audienceLabel = audience === "student" ? "Student" : "Parent";
+  const phaseLabel = phase === "before" ? "before move-in" : "on campus";
+  const termLabel = academicTerm === "spring" ? "Spring 2027" : "Fall 2026";
+  document.querySelector("#view-title").textContent = `${termLabel} ${audienceLabel.toLowerCase()} essentials ${phaseLabel}`;
+}
+updateViewTitle();
 let category = "all";
 const search = document.querySelector("#search");
 const cards = document.querySelector("#cards");
@@ -253,8 +286,9 @@ function renderCards() {
   const term = search.value.trim().toLowerCase();
   const matches = facts.filter(item => {
     const matchesCategory = category === "all" || item.category === category;
+    const matchesAcademicTerm = !item.terms || item.terms.includes(academicTerm);
     const blob = [item.studentQ,item.parentQ,item.studentA,item.parentA,item.stepStudent,item.stepParent,item.source].join(" ").toLowerCase();
-    return item.audience.includes(audience) && matchesCategory && (!term || blob.includes(term));
+    return item.audience.includes(audience) && matchesCategory && matchesAcademicTerm && (!term || blob.includes(term));
   });
   cards.innerHTML = matches.map(item => {
     const q = audience === "student" ? item.studentQ : item.parentQ;
@@ -297,10 +331,28 @@ function updateProgress() {
   document.querySelector("#progress-bar").style.width = `${(done/total)*100}%`;
 }
 
+document.querySelectorAll(".term-btn").forEach(button => button.addEventListener("click", () => {
+  academicTerm = button.dataset.termChoice;
+  document.body.dataset.academicTerm = academicTerm;
+  document.querySelectorAll(".term-btn").forEach(btn => {
+    const active = btn === button;
+    btn.classList.toggle("active", active);
+    btn.setAttribute("aria-pressed", String(active));
+  });
+  const label = academicTerm === "spring" ? "Spring 2027" : "Fall 2026";
+  document.querySelector("#term-label").textContent = label;
+  document.querySelector("#dates-term-label").textContent = label;
+  document.querySelectorAll("[data-term-content]").forEach(panel => {
+    panel.hidden = panel.dataset.termContent !== academicTerm;
+  });
+  updateViewTitle();
+  renderCards();
+}));
+
 document.querySelectorAll(".audience-btn").forEach(button => button.addEventListener("click", () => {
   audience = button.dataset.audience;
   document.querySelectorAll(".audience-btn").forEach(btn => { btn.classList.toggle("active", btn === button); btn.setAttribute("aria-selected", String(btn === button)); });
-  document.querySelector("#view-title").textContent = `${audience === "student" ? "Student" : "Parent"} essentials ${phase === "before" ? "before move-in" : "on campus"}`;
+  updateViewTitle();
   search.placeholder = audience === "student" ? "Search housing, meal points, uniforms…" : "Search costs, proxy access, move-in…";
   renderCards(); renderChecklist();
 }));
@@ -310,7 +362,7 @@ document.querySelectorAll(".phase-btn").forEach(button => button.addEventListene
   document.querySelectorAll(".phase-btn").forEach(btn => { btn.classList.toggle("active", btn === button); btn.setAttribute("aria-selected", String(btn === button)); });
   document.querySelector(".checklist-panel .eyebrow").textContent = phase === "before" ? "Before arrival" : "First weeks";
   document.querySelector(".checklist-panel h2").textContent = phase === "before" ? "Get ready" : "Do this now";
-  document.querySelector("#view-title").textContent = `${audience === "student" ? "Student" : "Parent"} essentials ${phase === "before" ? "before move-in" : "on campus"}`;
+  updateViewTitle();
   renderCards(); renderChecklist();
 }));
 document.querySelectorAll(".filter").forEach(button => button.addEventListener("click", () => {
