@@ -311,7 +311,7 @@ function renderCards() {
   }));
 }
 
-function checklistKey() { return `mva-cia-${phase}-${audience}-checklist`; }
+function checklistKey() { return `cia-guide-${phase}-${audience}-checklist`; }
 function getChecks() { try { return JSON.parse(localStorage.getItem(checklistKey())) || []; } catch { return []; } }
 function renderChecklist() {
   const checked = getChecks();
