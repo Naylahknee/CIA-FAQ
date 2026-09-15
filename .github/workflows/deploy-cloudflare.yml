@@ -19,7 +19,9 @@ jobs:
       CLOUDFLARE_R2_BUCKET_NAME: ${{ vars.CLOUDFLARE_R2_BUCKET_NAME }}
       APP_ORIGIN: ${{ vars.APP_ORIGIN }}
       AUTH_EMAIL_FROM: ${{ vars.AUTH_EMAIL_FROM }}
-      SCHOLARSHIP_MONTHLY_GOAL_CENTS: ${{ vars.SCHOLARSHIP_MONTHLY_GOAL_CENTS }}
+      SUPPORT_PAYMENT_URL: ${{ vars.SUPPORT_PAYMENT_URL }}
+      SUPPORT_CONFIRMED_TOTAL_CENTS: ${{ vars.SUPPORT_CONFIRMED_TOTAL_CENTS }}
+      SUPPORT_GOAL_CENTS: ${{ vars.SUPPORT_GOAL_CENTS }}
       AUTH_ENCRYPTION_KEY: ${{ secrets.AUTH_ENCRYPTION_KEY }}
       RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
     steps:
@@ -56,7 +58,9 @@ jobs:
           config.vars = { ...(config.vars ?? {}) };
           if (process.env.APP_ORIGIN?.trim()) config.vars.APP_ORIGIN = process.env.APP_ORIGIN.trim();
           if (process.env.AUTH_EMAIL_FROM?.trim()) config.vars.AUTH_EMAIL_FROM = process.env.AUTH_EMAIL_FROM.trim();
-          if (/^[1-9][0-9]*$/.test(process.env.SCHOLARSHIP_MONTHLY_GOAL_CENTS?.trim() ?? "")) config.vars.SCHOLARSHIP_MONTHLY_GOAL_CENTS = process.env.SCHOLARSHIP_MONTHLY_GOAL_CENTS.trim();
+          if (/^[1-9][0-9]*$/.test(process.env.SUPPORT_GOAL_CENTS?.trim() ?? "")) config.vars.SUPPORT_GOAL_CENTS = process.env.SUPPORT_GOAL_CENTS.trim();
+          if (process.env.SUPPORT_PAYMENT_URL?.trim()) config.vars.SUPPORT_PAYMENT_URL = process.env.SUPPORT_PAYMENT_URL.trim();
+          if (/^[0-9]+$/.test(process.env.SUPPORT_CONFIRMED_TOTAL_CENTS?.trim() ?? "")) config.vars.SUPPORT_CONFIRMED_TOTAL_CENTS = process.env.SUPPORT_CONFIRMED_TOTAL_CENTS.trim();
           fs.writeFileSync(path, JSON.stringify(config, null, 2) + "\n");
           NODE
       - name: Package D1 migrations

@@ -11,3 +11,8 @@
 .scholarship button:disabled { opacity: .68; cursor: not-allowed; }
 #donations-status { color: var(--muted); font-size: .9rem; }
 @media (max-width: 650px) { .scholarship-progress { grid-template-columns: 1fr; } .scholarship-progress svg { max-width: 260px; margin-inline: auto; } }
+
+.support-button { display:inline-block; padding:12px 16px; border-radius:10px; background:var(--navy); color:white; font-weight:800; text-decoration:none; }
+.support-button:focus-visible { outline:3px solid var(--gold); outline-offset:3px; }
+.support-total-note, #support-status { font-size:.9rem; color:var(--muted); }
+@media (prefers-reduced-motion: reduce) { .hat-fill { transition:none; } }

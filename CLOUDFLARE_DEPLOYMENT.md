@@ -106,7 +106,9 @@ Under **Repository variables**, add:
 | `CLOUDFLARE_R2_BUCKET_NAME` | `cia-media` |
 | `APP_ORIGIN` | The exact public site origin, such as `https://cia-guide.madincrease.workers.dev` |
 | `AUTH_EMAIL_FROM` | The verified sender, such as `CIA Family Guide <accounts@yourdomain.com>` |
-| `SCHOLARSHIP_MONTHLY_GOAL_CENTS` | The monthly goal in cents, such as `100000` for $1,000 |
+| `SUPPORT_PAYMENT_URL` | Your HTTPS coffee/tip payment page; leave unset until ready |
+| `SUPPORT_GOAL_CENTS` | Optional support goal in cents |
+| `SUPPORT_CONFIRMED_TOTAL_CENTS` | Owner-verified total in cents; leave unset until verified |
 
 These are variables, not secrets.
 
@@ -159,3 +161,7 @@ Open the failed run, expand the red step, and use the message below:
 ## After deployment
 
 Every future push to `main` automatically rebuilds and redeploys the Cloudflare site. The independent Cloudflare site does not depend on ChatGPT being online. The existing ChatGPT-hosted copy can remain as a temporary backup until the Cloudflare URL passes all verification checks.
+
+## Support the Guide
+
+`/support` accepts optional support for the creator’s time and guide costs. `/scholarship` redirects there. The chef’s hat uses the owner-verified total; no payment webhook is connected. Reconcile confirmed payments and refunds before updating the total, then redeploy. Historical scholarship records are preserved and are not reused as creator tips. No drawing or scholarship award is attached to support.
