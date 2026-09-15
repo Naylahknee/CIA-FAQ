@@ -2,13 +2,15 @@ import { desc } from "drizzle-orm";
 import { env } from "cloudflare:workers";
 import { getDb } from "../../db";
 import { corrections, wallSubmissions } from "../../db/schema";
-import { requireChatGPTUser } from "../chatgpt-auth";
+import { getCommunityUser } from "../community-auth";
+import { redirect } from "next/navigation";
 
 export const dynamic = "force-dynamic";
 
 export default async function AdminPage() {
-  const user = await requireChatGPTUser("/admin");
-  const isOwner = user.email.toLowerCase() === String(env.ADMIN_EMAIL ?? "").toLowerCase();
+  const user = await getCommunityUser();
+  if (!user) redirect("/community");
+  const isOwner = user.role === "moderator" || user.email.toLowerCase() === String(env.ADMIN_EMAIL ?? "").toLowerCase();
   if (!isOwner) return <main className="admin-page"><a href="/">← Back to guide</a><section className="admin-header"><h1>Owner access only</h1><p>This moderation dashboard is restricted to the site owner.</p></section></main>;
   const [submissions, reports] = await Promise.all([
     getDb().select().from(wallSubmissions).orderBy(desc(wallSubmissions.createdAt)).limit(100),
