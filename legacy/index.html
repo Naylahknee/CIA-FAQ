@@ -16,7 +16,7 @@
       <span class="brand-mark" aria-hidden="true">CIA</span>
       <span>CIA Hyde Park Family Guide</span>
     </a>
-    <span class="campus">CIA Hyde Park · Fall 2026</span>
+    <span class="campus">CIA Hyde Park · <span id="term-label">Fall 2026</span></span>
   </header>
 
   <main id="top">
@@ -33,6 +33,11 @@
         <div class="audience-switch" role="tablist" aria-label="Choose your view">
           <button class="audience-btn active" role="tab" aria-selected="true" data-audience="student">I’m a student</button>
           <button class="audience-btn" role="tab" aria-selected="false" data-audience="parent">I’m a parent</button>
+        </div>
+        <p class="switch-label">Which term?</p>
+        <div class="term-switch" role="group" aria-label="Choose an academic term">
+          <button class="term-btn active" type="button" aria-pressed="true" data-term-choice="fall">Fall 2026</button>
+          <button class="term-btn" type="button" aria-pressed="false" data-term-choice="spring">Spring 2027</button>
         </div>
         <p class="switch-label">Where are you now?</p>
         <div class="phase-switch" role="tablist" aria-label="Choose your move-in stage">
@@ -266,19 +271,31 @@
       <div class="section-heading dates-heading">
         <div>
           <p class="eyebrow">Put these on the family calendar</p>
-          <h2 id="dates-title">Dates worth planning around</h2>
+          <h2 id="dates-title">Dates and deadlines for <span id="dates-term-label">Fall 2026</span></h2>
         </div>
-        <span class="source official">Official · 2026–27 Hyde Park calendar · reviewed Sep. 6, 2026</span>
+        <a class="source official" href="/resources/hyde-park-calendar-2026-27.pdf" target="_blank" rel="noopener">2026–27 Hyde Park calendar + orientation dates ↗</a>
       </div>
-      <div class="date-grid">
-        <article class="date-card primary-date"><time datetime="2026-09-08"><strong>SEP</strong><span>08</span></time><div><p>Fall semester start</p><small>Confirm the student’s personal arrival, orientation, and class schedule separately.</small></div></article>
-        <article class="date-card"><time datetime="2026-10-05"><strong>OCT</strong><span>05</span></time><div><p>Career Fair</p><small>New students should review participation details and prepare early.</small></div></article>
-        <article class="date-card"><time datetime="2026-12-21"><strong>DEC</strong><span>21</span></time><div><p>Semester grades due</p><small>The calendar also begins an extended no-classes period around this date.</small></div></article>
-        <article class="date-card"><time datetime="2027-02-08"><strong>FEB</strong><span>08</span></time><div><p>Career Fair</p><small>Travel and work plans should not conflict with career obligations.</small></div></article>
-        <article class="date-card"><time datetime="2027-04-19"><strong>APR</strong><span>19</span></time><div><p>Semester grades due</p><small>Students should check their record and follow up on unresolved issues.</small></div></article>
-        <article class="date-card"><time datetime="2027-06-14"><strong>JUN</strong><span>14</span></time><div><p>Career Fair</p><small>Confirm current event times and requirements in the student portal.</small></div></article>
+      <div class="date-grid" data-term-content="fall">
+        <article class="date-card primary-date"><time datetime="2026-09-03"><strong>SEP</strong><span>03–04</span></time><div><p>New Student Move-In</p><small>Use the student’s assigned arrival instructions and time.</small></div></article>
+        <article class="date-card"><time datetime="2026-09-07"><strong>SEP</strong><span>07</span></time><div><p>Week of Welcome Fireworks Night</p><small>Confirm the event time and location in the student schedule.</small></div></article>
+        <article class="date-card primary-date"><time datetime="2026-09-08"><strong>SEP</strong><span>08</span></time><div><p>First Day of Classes</p><small>Check the student’s actual schedule for the first required class.</small></div></article>
+        <article class="date-card"><time datetime="2026-10-05"><strong>OCT</strong><span>05</span></time><div><p>Career Fair</p><small>Review participation details and prepare early.</small></div></article>
+        <article class="date-card"><time datetime="2026-11-25"><strong>NOV</strong><span>25–30</span></time><div><p>Thanksgiving Recess</p><small>Verify travel against kitchen, bakeshop, and restaurant obligations.</small></div></article>
+        <article class="date-card"><time datetime="2026-12-01"><strong>DEC</strong><span>01</span></time><div><p>Classes Resume</p><small>Students should return in time for their first scheduled obligation.</small></div></article>
+        <article class="date-card"><time datetime="2026-12-18"><strong>DEC</strong><span>18</span></time><div><p>Last Day of Classes</p><small>Do not book departure before the student confirms the final schedule.</small></div></article>
+        <article class="date-card deadline-date"><time datetime="2026-12-19"><strong>DEC</strong><span>19</span></time><div><p>Campus Departure Deadline</p><small>All students must be off campus by 12 p.m.</small></div></article>
+        <article class="date-card"><time datetime="2026-12-21"><strong>DEC</strong><span>21</span></time><div><p>Semester Grades Due</p><small>Students should check their record and follow up on unresolved issues.</small></div></article>
       </div>
-      <div class="calendar-warning"><strong>A blue day is not the whole story.</strong><span>The CIA calendar separately marks no-class days, kitchen/bakeshop start and end dates, Saturday classes, restaurant closures, special projects, and commencement. Before booking travel, check the color-coded calendar and the student’s actual schedule.</span></div>
+      <div class="date-grid" data-term-content="spring" hidden>
+        <article class="date-card"><time datetime="2027-01-01"><strong>JAN</strong><span>01</span></time><div><p>Orientation Leaders and Welcome Team Return</p><small>This date is for assigned student leaders and Welcome Team members.</small></div></article>
+        <article class="date-card primary-date"><time datetime="2027-01-03"><strong>JAN</strong><span>03</span></time><div><p>Returning Students May Return</p><small>Confirm residence-hall instructions and the student’s approved return time.</small></div></article>
+        <article class="date-card primary-date"><time datetime="2027-01-05"><strong>JAN</strong><span>05</span></time><div><p>First Day of Classes</p><small>Check the student’s actual schedule for the first required class.</small></div></article>
+        <article class="date-card"><time datetime="2027-02-08"><strong>FEB</strong><span>08</span></time><div><p>Career Fair</p><small>Review participation details and avoid conflicting travel plans.</small></div></article>
+        <article class="date-card"><time datetime="2027-04-16"><strong>APR</strong><span>16</span></time><div><p>Last Day of Classes</p><small>Do not book departure before the student confirms the final schedule.</small></div></article>
+        <article class="date-card deadline-date"><time datetime="2027-04-17"><strong>APR</strong><span>17</span></time><div><p>Campus Departure Deadline</p><small>All students must be off campus by 12 p.m.</small></div></article>
+        <article class="date-card"><time datetime="2027-04-19"><strong>APR</strong><span>19</span></time><div><p>Semester Grades Due</p><small>Students should check their record and follow up on unresolved issues.</small></div></article>
+      </div>
+      <div class="calendar-warning"><strong>Confirm before booking travel.</strong><span>These planning dates combine the 2026–27 Hyde Park calendar with dates shared during orientation. The CIA calendar separately marks no-class days, kitchen and bakeshop dates, Saturday classes, restaurant closures, special projects, and commencement. The student’s current portal and assigned schedule control.</span></div>
     </section>
 
     <section class="cost-section" aria-labelledby="cost-title">
