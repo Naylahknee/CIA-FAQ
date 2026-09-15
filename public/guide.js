@@ -7,7 +7,9 @@ const facts = [
     parentA: "The deposit is initiated through the student’s CIA Accepted Student Portal. The student selects the enrollment term and deposit inside the Payment Center before entering the payment method.",
     stepStudent: "Have your enrollment date and payment method ready before you begin.",
     stepParent: "Coordinate payment with your student; do not rely on the student portal as your future parent login.",
-    source: "Official · Tuition Deposit Instructions", sourceType: "official"
+    source: "Official · Tuition Deposit Instructions", sourceType: "official",
+    link: "https://www.ciachef.edu/cia-login/",
+    linkLabel: "Open the CIA login page"
   },
   {
     id: "costs", audience: ["student","parent"], category: "money", icon: "🧾",
@@ -17,7 +19,9 @@ const facts = [
     parentA: "Beyond $19,755 per-semester full-time tuition, the Fall 2026 rate sheet lists a $2,595 meal plan, $885 general fee, housing from $4,135 to $5,560 per semester, a $1,194 one-time supplies fee, $275 orientation fee, and $2,100 annual health insurance that may be waived.",
     stepStudent: "Review your individual bill; the rate sheet is a planning tool, not your account balance.",
     stepParent: "Budget separately for travel, personal expenses, books, laundry, and costs not shown on the school rate sheet.",
-    source: "Official · NY Rates 2026–27 (corrected April 8, 2026)", sourceType: "official"
+    source: "Official · NY Rates 2026–27 (corrected April 8, 2026)", sourceType: "official",
+    link: "https://www.ciachef.edu/cia-tuition/",
+    linkLabel: "View CIA tuition and fees"
   },
   {
     id: "proxy", audience: ["student","parent"], category: "money", icon: "🔐",
@@ -27,7 +31,9 @@ const facts = [
     parentA: "Your student must create your Proxy User access and select what you may view. Proxy access can cover grades, finances, or course status. It is separate from TouchNet Authorized User access, which is used to make payments.",
     stepStudent: "Decide what access is actually useful before checking the authorization boxes.",
     stepParent: "Use the proxy or payment link sent for your account—not your student’s sign-in page.",
-    source: "Official · Student Self-Service Proxy Guide, reviewed April 2025", sourceType: "official"
+    source: "Official · Student Self-Service Proxy Guide, reviewed April 2025", sourceType: "official",
+    link: "https://ciamainmenu.culinary.edu/",
+    linkLabel: "Open CIA Main Menu"
   },
   {
     id: "textbooks", audience: ["student","parent"], category: "classes", icon: "📚",
@@ -37,7 +43,9 @@ const facts = [
     parentA: "No. The school-associated bookstore is useful for identifying the correct title and edition, but the ordering guide says students may use another vendor. Confirm the exact edition before buying elsewhere.",
     stepStudent: "Check every course before ordering, and confirm whether a book is required or optional.",
     stepParent: "Avoid buying a mystery mountain of books before the student has checked the actual schedule.",
-    source: "Official · Ordering Your CIA Textbooks", sourceType: "official"
+    source: "Official · Ordering Your CIA Textbooks", sourceType: "official",
+    link: "https://ciamainmenu.culinary.edu/",
+    linkLabel: "Open textbook access in CIA Main Menu"
   },
   {
     id: "kits", audience: ["student","parent"], category: "classes", icon: "🔪",
@@ -47,7 +55,9 @@ const facts = [
     parentA: "CIA’s one-time supplies fee is tied to an included program kit. Culinary and Baking & Pastry students receive different tools. Review the appropriate list before purchasing duplicates.",
     stepStudent: "Inventory and label every item when you receive the kit. Keep knives in their guards and pack.",
     stepParent: "Wait for the program-specific kit inventory before buying extra tools.",
-    source: "Official · 2026 Culinary and Baking & Pastry Kit lists", sourceType: "official"
+    source: "Official · 2026 Culinary and Baking & Pastry Kit lists", sourceType: "official",
+    link: "https://ciamainmenu.culinary.edu/",
+    linkLabel: "Open CIA Main Menu"
   },
   {
     id: "meal", audience: ["student","parent"], category: "living", icon: "🍽️",
@@ -57,7 +67,9 @@ const facts = [
     parentA: "The plan is part of CIA’s educational dining model. Blue Points encourage students to eat food produced in instructional kitchens during class days. Gold Points provide more flexible spending, especially for weekends and Down Days.",
     stepStudent: "Use Blue Points before they expire; try to save Gold Points for days when Blue Points are unavailable.",
     stepParent: "Ask whether the problem is a lack of food or simply unused daily Blue Points before adding more Gold Points.",
-    source: "Official · Freshman Meal-Plan Guide", sourceType: "official"
+    source: "Official · Freshman Meal-Plan Guide", sourceType: "official",
+    link: "https://www.ciachef.edu/cia-tuition/",
+    linkLabel: "View the current CIA meal-plan charge"
   },
   {
     id: "allergy", audience: ["student","parent"], category: "health", icon: "⚕️",
@@ -67,7 +79,9 @@ const facts = [
     parentA: "Culinary students may encounter allergens in dining spaces, kitchens, and academic classes. The student must coordinate with Health Services and Disability Services and communicate directly with chefs and instructors.",
     stepStudent: "Never rely on another student to confirm ingredients. Ask the chef or instructor in charge and keep prescribed emergency medication accessible.",
     stepParent: "Help assemble current medical documentation, but make sure your student can explain the allergy and safety plan independently.",
-    source: "Needs verification · Allergy brochure dated 2023", sourceType: "verify"
+    source: "Needs verification · Allergy brochure dated 2023", sourceType: "verify",
+    link: "https://catalog.ciachef.edu/",
+    linkLabel: "Open the current CIA handbook"
   },
   {
     id: "medical", audience: ["student","parent"], category: "health", icon: "🏥",
@@ -77,7 +91,9 @@ const facts = [
     parentA: "A campus resource lists nearby pharmacies, urgent-care offices, Vassar Brothers Medical Center, and Mid-Hudson Regional Hospital. Hours and availability should be confirmed before travel.",
     stepStudent: "Save campus safety and health contacts in your phone. For an emergency, call 911 rather than searching this guide.",
     stepParent: "Confirm the student’s insurance network and preferred pharmacy before move-in.",
-    source: "May change · Local medical-resource sheet, August 2026", sourceType: "verify"
+    source: "May change · Local medical-resource sheet, August 2026", sourceType: "verify",
+    link: "https://catalog.ciachef.edu/",
+    linkLabel: "Open the current CIA handbook"
   },
   {
     id: "movein", audience: ["student","parent"], category: "arrival", icon: "📦",
@@ -87,7 +103,9 @@ const facts = [
     parentA: "Families repeatedly discuss move-in and storage because students eventually have to carry their belongings back out. Prioritize essentials and confirm what the room includes before purchasing furniture-sized optimism.",
     stepStudent: "Make three piles: must arrive with me, can ship later, and can stay home.",
     stepParent: "Label belongings and keep receipts. Let the student own the final packing list.",
-    source: "Village insight · Recurring GroupMe discussion", sourceType: "village"
+    source: "Village insight · Recurring GroupMe discussion", sourceType: "village",
+    link: "https://www.ciachef.edu/parents/",
+    linkLabel: "Open CIA information for parents"
   },
   {
     id: "roommate", audience: ["student","parent"], category: "living", icon: "🛏️",
@@ -97,7 +115,9 @@ const facts = [
     parentA: "Coach your student to describe the issue, communicate directly, and use the RA or housing process. Step in immediately only when safety, discrimination, harassment, or an unresolved serious health concern is involved.",
     stepStudent: "Describe dates and specific behavior—not just ‘we don’t get along.’",
     stepParent: "Help your student prepare the message; do not automatically send it for them.",
-    source: "Village guidance · Verify current housing procedures", sourceType: "village"
+    source: "Village guidance · Verify current housing procedures", sourceType: "village",
+    link: "https://catalog.ciachef.edu/",
+    linkLabel: "Check the current CIA handbook"
   },
   {
     id: "calendar", audience: ["student","parent"], category: "classes", icon: "🗓️",
@@ -107,7 +127,9 @@ const facts = [
     parentA: "Use the CIA academic calendar and the student’s actual course schedule before purchasing travel. Restaurant closures and no-class days are not interchangeable.",
     stepStudent: "Confirm class obligations with the instructor before making nonrefundable plans.",
     stepParent: "Wait for the student to verify the schedule before booking travel.",
-    source: "Official · 2026–27 Hyde Park Academic Calendar; subject to change", sourceType: "official"
+    source: "Official · 2026–27 Hyde Park Academic Calendar; subject to change", sourceType: "official",
+    link: "https://ciamainmenu.culinary.edu/",
+    linkLabel: "Open the current calendar in CIA Main Menu"
   },
   {
     id: "uniform", audience: ["student","parent"], category: "classes", icon: "🥼",
@@ -117,7 +139,9 @@ const facts = [
     parentA: "Have the student try on the complete uniform and kitchen shoes before classes begin. If something is missing or clearly does not fit, the student should contact the campus uniform provider or appropriate school office immediately instead of waiting for the first lab.",
     stepStudent: "Confirm the current uniform policy and your first required uniform day in the student portal or with your instructor.",
     stepParent: "Keep packaging and receipts until fit is confirmed. Let the student handle the exchange conversation when possible.",
-    source: "Village insight · Confirm against the current CIA uniform policy", sourceType: "village"
+    source: "Village insight · Confirm against the current CIA uniform policy", sourceType: "village",
+    link: "https://ciamainmenu.culinary.edu/",
+    linkLabel: "Check the current policy in CIA Main Menu"
   },
   {
     id: "laundry", audience: ["student","parent"], category: "living", icon: "🧺",
@@ -127,7 +151,9 @@ const facts = [
     parentA: "A portable hamper, ordinary detergent, and a reliable stain treatment are more useful than an elaborate laundry laboratory. The GroupMe reports that residence-hall machines were included for this cohort, but students should confirm the current arrangement after arrival.",
     stepStudent: "Read each garment label, test stain products carefully, and schedule laundry before you run out of clean required clothing.",
     stepParent: "Send enough supplies for the first weeks—not a wholesale-club quantity the student must later carry home.",
-    source: "Village insight · Based on recurring GroupMe laundry discussions", sourceType: "village"
+    source: "Village insight · Based on recurring GroupMe laundry discussions", sourceType: "village",
+    link: "https://catalog.ciachef.edu/",
+    linkLabel: "Check current residence-life information"
   },
   {
     id: "printer", audience: ["student","parent"], category: "classes", icon: "🖨️",
@@ -137,7 +163,9 @@ const facts = [
     parentA: "Do not buy a printer automatically. Consider the student’s program, printing habits, roommate plans, ink costs, Wi-Fi compatibility, and the fact that every extra device eventually has to leave the dorm again.",
     stepStudent: "Locate campus printing during your first week, then decide whether a personal printer would genuinely save time.",
     stepParent: "Wait until the student has used the campus option before purchasing another machine and its tiny, expensive juice boxes.",
-    source: "Village insight · Campus printing availability should be reconfirmed", sourceType: "village"
+    source: "Village insight · Campus printing availability should be reconfirmed", sourceType: "village",
+    link: "https://www.ciachef.edu/hilton/",
+    linkLabel: "Open the Conrad N. Hilton Library page"
   },
   {
     id: "orientation", audience: ["student","parent"], category: "arrival", icon: "🧭",
@@ -147,7 +175,9 @@ const facts = [
     parentA: "The GroupMe experience suggests the student schedule is tight and may continue while parents are handling final errands. Avoid planning optional family activities during the student’s assigned orientation blocks.",
     stepStudent: "Open the current orientation schedule, add every required item to your calendar, and note where you must report.",
     stepParent: "Plan your goodbye and shopping around the official student schedule—not around what another family received.",
-    source: "Village insight · Orientation schedules vary by cohort", sourceType: "village"
+    source: "Village insight · Orientation schedules vary by cohort", sourceType: "village",
+    link: "https://www.ciachef.edu/parents/",
+    linkLabel: "Open CIA information for parents"
   },
   {
     id: "travel", audience: ["student","parent"], category: "arrival", icon: "🚆",
@@ -157,7 +187,9 @@ const facts = [
     parentA: "Build the travel plan around the student’s confirmed last obligation and a verified transportation option. Community members commonly discussed rideshare to the Poughkeepsie station and limited end-of-semester airport shuttles, but schedules and fees can change.",
     stepStudent: "Check current CIA transportation notices before buying tickets, then identify a backup ride and allow weather time.",
     stepParent: "Do not purchase a tight, nonrefundable itinerary until the class schedule and transportation are confirmed.",
-    source: "Needs verification · Transportation schedules and fees may change", sourceType: "verify"
+    source: "Needs verification · Transportation schedules and fees may change", sourceType: "verify",
+    link: "https://www.ciachef.edu/new-york-campus-directions/",
+    linkLabel: "View New York campus travel directions"
   },
   {
     id: "work", audience: ["student","parent"], category: "money", icon: "💼",
@@ -167,7 +199,9 @@ const facts = [
     parentA: "Do not assume every campus role is Federal Work-Study or requires the same employment documents. The student should confirm the position type and required original identification before bringing sensitive documents to campus.",
     stepStudent: "Ask the hiring office which program the job belongs to, whether you are eligible, and exactly which documents are required.",
     stepParent: "If originals are required, help the student plan secure storage; otherwise use copies where the hiring office permits them.",
-    source: "Village insight · Employment eligibility and documentation need official confirmation", sourceType: "verify"
+    source: "Village insight · Employment eligibility and documentation need official confirmation", sourceType: "verify",
+    link: "https://ciamainmenu.culinary.edu/",
+    linkLabel: "Open CIA Main Menu"
   },
   {
     id: "mail", audience: ["student","parent"], category: "living", icon: "✉️",
@@ -177,7 +211,9 @@ const facts = [
     parentA: "Send packages to the specific campus where your student is enrolled and use the student’s legal name registered with the school. For Hyde Park, address packages as:<br><br><strong>The Culinary Institute of America</strong><br>C/O [Student’s Legal Name]<br>1946 Campus Drive<br>Hyde Park, NY 12538",
     stepStudent: "Give family members and online retailers this exact format. Your package name must match your school record and student ID.",
     stepParent: "Double-check the student’s legal name and campus before shipping. Do not use a nickname, preferred name, or another CIA campus address.",
-    source: "Official · CIA New York campus information and 2022–23 Student Handbook", sourceType: "official"
+    source: "Official · CIA New York campus information and 2022–23 Student Handbook", sourceType: "official",
+    link: "https://www.ciachef.edu/new-york-campus-directions/",
+    linkLabel: "View the New York campus address"
   },
   {
     id: "celebration", audience: ["student","parent"], category: "living", icon: "🎉",
