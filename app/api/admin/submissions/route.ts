@@ -8,7 +8,7 @@ import { getCommunityUser, validSameOrigin } from "../../../community-auth";
 export async function POST(request: Request) {
   if (!await validSameOrigin(request)) return new Response("Forbidden", { status: 403 });
   const user = await getCommunityUser();
-  if (!user) return new Response("Sign in required", { status: 401 });
+  if (!user || !user.emailVerified) return new Response("Sign in required", { status: 401 });
   const adminEmail = String(env.ADMIN_EMAIL ?? "").toLowerCase();
   if (user.role !== "moderator" && user.email.toLowerCase() !== adminEmail) return new Response("Forbidden", { status: 403 });
   const data = await request.formData();

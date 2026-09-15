@@ -1,3 +1,4 @@
+import { stripImageMetadata } from "../../image-metadata";
 import { desc, eq } from "drizzle-orm";
 import { env } from "cloudflare:workers";
 import { getDb } from "../../../db";
@@ -34,7 +35,7 @@ export async function POST(request: Request) {
     const id = crypto.randomUUID();
     const extension = image.type === "image/png" ? "png" : image.type === "image/webp" ? "webp" : "jpg";
     const imageKey = `wall-submissions/${id}.${extension}`;
-    await env.BUCKET.put(imageKey, image.stream(), { httpMetadata: { contentType: image.type } });
+    await env.BUCKET.put(imageKey, stripImageMetadata(new Uint8Array(await image.arrayBuffer()), image.type), { httpMetadata: { contentType: image.type } });
     await getDb().insert(wallSubmissions).values({ id, kind: kind as "memory" | "resource", title: title.slice(0, 120), caption: caption.slice(0, 600), studentName: studentName.slice(0, 80) || null, submitterEmail: submitterEmail.slice(0, 200), consentName: consentName.slice(0, 120), imageKey, imageType: image.type, createdAt: new Date() });
     return Response.json({ ok: true, message: "Submitted for review. Nothing is published automatically." }, { status: 201 });
   } catch {

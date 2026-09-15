@@ -9,7 +9,7 @@ export const dynamic = "force-dynamic";
 
 export default async function AdminPage() {
   const user = await getCommunityUser();
-  if (!user) redirect("/community");
+  if (!user || !user.emailVerified) redirect("/community");
   const isOwner = user.role === "moderator" || user.email.toLowerCase() === String(env.ADMIN_EMAIL ?? "").toLowerCase();
   if (!isOwner) return <main className="admin-page"><a href="/">← Back to guide</a><section className="admin-header"><h1>Owner access only</h1><p>This moderation dashboard is restricted to the site owner.</p></section></main>;
   const [submissions, reports] = await Promise.all([

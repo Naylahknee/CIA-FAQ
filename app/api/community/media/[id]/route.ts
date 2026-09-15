@@ -12,6 +12,6 @@ export async function GET(_request: Request, context: { params: Promise<{ id: st
     if (!post?.mediaKey || post.status !== "published") return new Response("Not found", { status: 404 });
     const object = await env.BUCKET.get(post.mediaKey);
     if (!object) return new Response("Not found", { status: 404 });
-    return new Response(object.body, { headers: { "content-type": post.mediaType ?? "application/octet-stream", "cache-control": "private, max-age=3600", "x-content-type-options": "nosniff", "content-disposition": "inline" } });
+    return new Response(object.body, { headers: { "content-type": post.mediaType ?? "application/octet-stream", "cache-control": "no-store", "x-content-type-options": "nosniff", "content-disposition": "inline" } });
   } catch (error) { if (error instanceof Response) return error; return new Response("Unavailable", { status: 503 }); }
 }

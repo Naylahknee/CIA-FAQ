@@ -31,7 +31,11 @@ export const communityUsers = sqliteTable("community_users", {
   displayName: text("display_name").notNull(),
   passwordHash: text("password_hash").notNull(),
   passwordSalt: text("password_salt").notNull(),
+  emailVerified: integer("email_verified", { mode: "boolean" }).notNull().default(false),
   passwordIterations: integer("password_iterations").notNull().default(210000),
+  mfaSecret: text("mfa_secret"),
+  mfaPending: text("mfa_pending"),
+  mfaLastStep: integer("mfa_last_step").notNull().default(-1),
   role: text("role", { enum: ["member", "moderator"] }).notNull().default("member"),
   createdAt: integer("created_at", { mode: "timestamp_ms" }).notNull(),
 }, (table) => [uniqueIndex("idx_community_users_email").on(table.email)]);
@@ -90,3 +94,26 @@ export const authRateLimits = sqliteTable("auth_rate_limits", {
   attempts: integer("attempts").notNull().default(0),
   windowStart: integer("window_start").notNull(),
 });
+
+export const accountTokens = sqliteTable("account_tokens", {
+  tokenHash: text("token_hash").primaryKey(),
+  userId: text("user_id").notNull().references(() => communityUsers.id, { onDelete: "cascade" }),
+  purpose: text("purpose", { enum: ["verify", "reset"] }).notNull(),
+  expiresAt: integer("expires_at").notNull(),
+}, (table) => [index("idx_account_tokens_user").on(table.userId)]);
+
+export const recoveryCodes = sqliteTable("recovery_codes", {
+  codeHash: text("code_hash").primaryKey(),
+  userId: text("user_id").notNull().references(() => communityUsers.id, { onDelete: "cascade" }),
+}, (table) => [index("idx_recovery_codes_user").on(table.userId)]);
+
+export const scholarshipContributions = sqliteTable("scholarship_contributions", {
+  id: text("id").primaryKey(),
+  providerReference: text("provider_reference").notNull(),
+  amountCents: integer("amount_cents").notNull(),
+  status: text("status", { enum: ["pending", "confirmed", "refunded"] }).notNull().default("pending"),
+  createdAt: integer("created_at", { mode: "timestamp_ms" }).notNull(),
+}, (table) => [
+  uniqueIndex("idx_scholarship_contributions_provider_reference").on(table.providerReference),
+  index("idx_scholarship_contributions_status_created").on(table.status, table.createdAt),
+]);

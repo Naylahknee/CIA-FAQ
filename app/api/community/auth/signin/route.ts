@@ -1,5 +1,7 @@
+import { accountRow, checkFactor } from "../../../../account-security";
 import { eq } from "drizzle-orm";
-import { createSession, hashPassword, noStoreJson, normalizeEmail, passwordIterations, resetAuthLimit, takeAuthAttempt, validSameOrigin, verifyPassword } from "../../../../community-auth";
+import { createSession, noStoreJson, normalizeEmail, resetAuthLimit, takeAuthAttempt, validSameOrigin } from "../../../../community-auth";
+import { hashPassword, passwordIterations, verifyPassword } from "../../../../password-security";
 import { getDb } from "../../../../../db";
 import { communityUsers } from "../../../../../db/schema";
 
@@ -8,7 +10,7 @@ const DUMMY_SALT = "00000000000000000000000000000000";
 export async function POST(request: Request) {
   try {
     if (!await validSameOrigin(request)) return noStoreJson({ error: "Request could not be verified." }, { status: 403 });
-    const data = await request.json() as { email?: string; password?: string };
+    const data = await request.json() as { email?: string; password?: string; code?: string };
     const email = normalizeEmail(String(data.email ?? ""));
     const password = String(data.password ?? "");
     if (!email || password.length < 1 || password.length > 128) return noStoreJson({ error: "Email or password is incorrect." }, { status: 401 });
@@ -21,6 +23,9 @@ export async function POST(request: Request) {
       ? await verifyPassword(password, user.passwordSalt, user.passwordHash, user.passwordIterations)
       : Boolean((await hashPassword(password, DUMMY_SALT)).hash) && false;
     if (!user || !verified) return noStoreJson({ error: "Email or password is incorrect." }, { status: 401 });
+
+    const security = await accountRow(user.id);
+    if (!security || !await checkFactor(security, String(data.code ?? ""))) return noStoreJson({ error: "Enter a valid authenticator or recovery code.", requiresTwoFactor: true }, { status: 401 });
 
     if (user.passwordIterations < passwordIterations.current) {
       const upgraded = await hashPassword(password);

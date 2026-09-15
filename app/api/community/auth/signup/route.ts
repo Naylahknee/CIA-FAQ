@@ -1,5 +1,7 @@
 import { eq } from "drizzle-orm";
-import { createSession, hashPassword, noStoreJson, normalizeEmail, takeAuthAttempt, validSameOrigin } from "../../../../community-auth";
+import { createSession, noStoreJson, normalizeEmail, takeAuthAttempt, validSameOrigin } from "../../../../community-auth";
+import { hashPassword } from "../../../../password-security";
+import { accountRow, sendAccountEmail } from "../../../../account-security";
 import { getDb } from "../../../../../db";
 import { communityUsers } from "../../../../../db/schema";
 
@@ -24,7 +26,14 @@ export async function POST(request: Request) {
     const passwordData = await hashPassword(password);
     await getDb().insert(communityUsers).values({ id, email, displayName, passwordHash: passwordData.hash, passwordSalt: passwordData.salt, passwordIterations: passwordData.iterations, createdAt: new Date() });
     await createSession(id);
-    return noStoreJson({ ok: true }, { status: 201 });
+    let verificationEmailSent = false;
+    try {
+      const user = await accountRow(id);
+      if (user) { await sendAccountEmail(user, "verify"); verificationEmailSent = true; }
+    } catch {
+      // The account remains usable for requesting another verification message.
+    }
+    return noStoreJson({ ok: true, verificationEmailSent }, { status: 201 });
   } catch {
     return noStoreJson({ error: "Account creation is temporarily unavailable." }, { status: 503 });
   }

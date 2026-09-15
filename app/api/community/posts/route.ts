@@ -1,3 +1,4 @@
+import { stripImageMetadata } from "../../../image-metadata";
 import { desc, eq, sql } from "drizzle-orm";
 import { env } from "cloudflare:workers";
 import { requireCommunityUser, validSameOrigin } from "../../../community-auth";
@@ -42,7 +43,7 @@ export async function POST(request: Request) {
     if (media instanceof File && media.size > 0) {
       const ext = media.type === "image/png" ? "png" : media.type === "image/webp" ? "webp" : media.type === "image/gif" ? "gif" : "jpg";
       mediaKey = `community/${user.id}/${id}.${ext}`; mediaType = media.type;
-      await env.BUCKET.put(mediaKey, media.stream(), { httpMetadata: { contentType: media.type } });
+      await env.BUCKET.put(mediaKey, stripImageMetadata(new Uint8Array(await media.arrayBuffer()), media.type), { httpMetadata: { contentType: media.type } });
     }
     await getDb().insert(communityPosts).values({ id, userId: user.id, body: body.slice(0, 3000), mediaKey, mediaType, gifUrl: gifUrl || null, createdAt: new Date() });
     return Response.json({ ok: true }, { status: 201 });

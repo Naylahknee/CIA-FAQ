@@ -9,7 +9,7 @@ export async function GET(_request: Request, context: { params: Promise<{ id: st
   const [row] = await getDb().select().from(wallSubmissions).where(eq(wallSubmissions.id, id)).limit(1);
   const viewer = await getCommunityUser();
   const adminEmail = String(env.ADMIN_EMAIL ?? "").toLowerCase();
-  const isOwner = Boolean(viewer && (viewer.role === "moderator" || viewer.email.toLowerCase() === adminEmail));
+  const isOwner = Boolean(viewer && viewer.emailVerified && (viewer.role === "moderator" || viewer.email.toLowerCase() === adminEmail));
   if (!row || (row.status !== "approved" && !isOwner)) return new Response("Not found", { status: 404 });
   const object = await env.BUCKET.get(row.imageKey);
   if (!object) return new Response("Not found", { status: 404 });

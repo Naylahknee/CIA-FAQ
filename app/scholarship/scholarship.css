@@ -1,0 +1,13 @@
+.scholarship { max-width: 900px; }
+.scholarship-progress { display: grid; grid-template-columns: minmax(220px, 300px) 1fr; align-items: center; gap: clamp(1.5rem, 5vw, 3.5rem); margin: 2rem 0; padding: clamp(1.25rem, 4vw, 2.25rem); border-radius: 22px; background: #fff8e6; }
+.scholarship-progress svg { width: 100%; color: var(--navy); filter: drop-shadow(0 12px 18px rgba(10,37,64,.12)); }
+.scholarship-progress > div { min-width: 0; }
+.hat-fill { transition: y .5s ease, height .5s ease; }
+.fund-total { margin: .35rem 0; color: var(--navy); font: 800 clamp(2.3rem, 6vw, 4.2rem)/1 "Fraunces", serif; }
+.fund-total span { display: block; margin-top: .5rem; color: var(--muted); font: 700 1rem/1.4 "DM Sans", sans-serif; }
+.scholarship progress { width: 100%; height: .75rem; overflow: hidden; border: 0; border-radius: 999px; background: #dbe2ea; accent-color: var(--gold); }
+.scholarship progress::-webkit-progress-bar { background: #dbe2ea; }
+.scholarship progress::-webkit-progress-value { background: var(--gold); }
+.scholarship button:disabled { opacity: .68; cursor: not-allowed; }
+#donations-status { color: var(--muted); font-size: .9rem; }
+@media (max-width: 650px) { .scholarship-progress { grid-template-columns: 1fr; } .scholarship-progress svg { max-width: 260px; margin-inline: auto; } }

@@ -17,6 +17,11 @@ jobs:
       CLOUDFLARE_D1_DATABASE_ID: ${{ secrets.CLOUDFLARE_D1_DATABASE_ID }}
       CLOUDFLARE_D1_DATABASE_NAME: ${{ vars.CLOUDFLARE_D1_DATABASE_NAME }}
       CLOUDFLARE_R2_BUCKET_NAME: ${{ vars.CLOUDFLARE_R2_BUCKET_NAME }}
+      APP_ORIGIN: ${{ vars.APP_ORIGIN }}
+      AUTH_EMAIL_FROM: ${{ vars.AUTH_EMAIL_FROM }}
+      SCHOLARSHIP_MONTHLY_GOAL_CENTS: ${{ vars.SCHOLARSHIP_MONTHLY_GOAL_CENTS }}
+      AUTH_ENCRYPTION_KEY: ${{ secrets.AUTH_ENCRYPTION_KEY }}
+      RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -48,6 +53,10 @@ jobs:
             ...binding,
             bucket_name: process.env.CLOUDFLARE_R2_BUCKET_NAME,
           }));
+          config.vars = { ...(config.vars ?? {}) };
+          if (process.env.APP_ORIGIN?.trim()) config.vars.APP_ORIGIN = process.env.APP_ORIGIN.trim();
+          if (process.env.AUTH_EMAIL_FROM?.trim()) config.vars.AUTH_EMAIL_FROM = process.env.AUTH_EMAIL_FROM.trim();
+          if (/^[1-9][0-9]*$/.test(process.env.SCHOLARSHIP_MONTHLY_GOAL_CENTS?.trim() ?? "")) config.vars.SCHOLARSHIP_MONTHLY_GOAL_CENTS = process.env.SCHOLARSHIP_MONTHLY_GOAL_CENTS.trim();
           fs.writeFileSync(path, JSON.stringify(config, null, 2) + "\n");
           NODE
       - name: Package D1 migrations
@@ -60,3 +69,9 @@ jobs:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           command: deploy --config dist/server/wrangler.json
+      - name: Configure two-factor encryption secret
+        if: ${{ env.AUTH_ENCRYPTION_KEY != '' }}
+        run: printf '%s' "$AUTH_ENCRYPTION_KEY" | npx wrangler secret put AUTH_ENCRYPTION_KEY --config dist/server/wrangler.json
+      - name: Configure transactional email secret
+        if: ${{ env.RESEND_API_KEY != '' }}
+        run: printf '%s' "$RESEND_API_KEY" | npx wrangler secret put RESEND_API_KEY --config dist/server/wrangler.json
