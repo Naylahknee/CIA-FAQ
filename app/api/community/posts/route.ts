@@ -3,6 +3,7 @@ import { env } from "cloudflare:workers";
 import { requireCommunityUser, validSameOrigin } from "../../../community-auth";
 import { getDb } from "../../../../db";
 import { communityComments, communityPosts, communityReactions, communityUsers } from "../../../../db/schema";
+import { isSafeImage } from "../../../image-security";
 
 const MAX_MEDIA_BYTES = 10 * 1024 * 1024;
 const MEDIA_TYPES = new Set(["image/jpeg", "image/png", "image/webp", "image/gif"]);
@@ -35,7 +36,7 @@ export async function POST(request: Request) {
     if (!body && !gifUrl && (!(media instanceof File) || media.size === 0)) return Response.json({ error: "Write something or add a photo or GIF." }, { status: 400 });
     if (body.length > 3000) return Response.json({ error: "Keep posts under 3,000 characters." }, { status: 400 });
     if (gifUrl && (!/^https:\/\/media\.giphy\.com\//.test(gifUrl) || gifUrl.length > 600)) return Response.json({ error: "Choose a GIF from the picker." }, { status: 400 });
-    if (media instanceof File && media.size > 0 && (media.size > MAX_MEDIA_BYTES || !MEDIA_TYPES.has(media.type))) return Response.json({ error: "Upload a JPG, PNG, WebP, or GIF no larger than 10 MB." }, { status: 400 });
+    if (media instanceof File && media.size > 0 && !await isSafeImage(media, MEDIA_TYPES, MAX_MEDIA_BYTES)) return Response.json({ error: "Upload a JPG, PNG, WebP, or GIF no larger than 10 MB." }, { status: 400 });
     const id = crypto.randomUUID();
     let mediaKey: string | null = null; let mediaType: string | null = null;
     if (media instanceof File && media.size > 0) {
