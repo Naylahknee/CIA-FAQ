@@ -13,7 +13,8 @@ export default function SupportPage() {
   const money = (cents: number) => new Intl.NumberFormat("en-US", {style:"currency", currency:"USD"}).format(cents / 100);
   let paymentUrl: string | null = null;
   try {
-    const url = new URL(String(env.SUPPORT_PAYMENT_URL ?? "https://buymeacoffee.com/tq4yijli7f"));
+    const configuredPaymentUrl = String(env.SUPPORT_PAYMENT_URL ?? "").trim() || "https://buymeacoffee.com/tq4yijli7f";
+    const url = new URL(configuredPaymentUrl);
     if (url.protocol === "https:" && !url.username && !url.password) paymentUrl = url.href;
   } catch { /* Show the pending state until a payment link is supplied. */ }
 
