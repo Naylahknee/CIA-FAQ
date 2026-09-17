@@ -209,7 +209,7 @@ footer a { color:var(--gold); }
 .form-card input,.form-card textarea,.form-card select { width:100%; padding:12px 13px; border:1px solid var(--line); border-radius:10px; background:#f8fafc; color:var(--ink); font:inherit; }
 .form-card .consent-row { grid-template-columns:22px 1fr; align-items:start; }
 .form-card .consent-row input { width:20px; height:20px; }
-.form-card button,.review-card button,.correction-list button { width:fit-content; padding:12px 16px; border:0; border-radius:10px; background:var(--navy); color:white; font-weight:800; }
+.form-card button,.review-card button,.correction-list button,.faq-review-card button { width:fit-content; padding:12px 16px; border:0; border-radius:10px; background:var(--navy); color:white; font-weight:800; }
 .form-message { padding:14px; border-radius:10px; background:#e2f3ec; color:#12533f; font-weight:800; }
 .admin-section h2 { font:800 2rem/1.1 "Fraunces",serif; }
 .review-grid,.correction-list { display:grid; gap:14px; }
@@ -219,6 +219,15 @@ footer a { color:var(--gold); }
 .review-card form { display:flex; gap:8px; }
 .review-card button.reject { background:#a72d1e; }
 .correction-list article { padding:18px; border:1px solid var(--line); border-radius:14px; }
+.faq-review-list { display:grid; gap:16px; }
+.faq-review-card { padding:20px; border:1px solid var(--line); border-radius:16px; }
+.faq-review-card small { color:var(--red); font-weight:800; text-transform:uppercase; }
+.faq-review-card form { display:grid; gap:14px; margin-top:14px; }
+.faq-review-card label { display:grid; gap:6px; color:var(--navy); font-weight:800; }
+.faq-review-card input,.faq-review-card textarea,.faq-review-card select { width:100%; padding:11px 12px; border:1px solid var(--line); border-radius:10px; background:#f8fafc; color:var(--ink); font:inherit; }
+.faq-review-actions { display:flex; flex-wrap:wrap; gap:8px; }
+.faq-review-card button.reject { background:#a72d1e; }
+.source-message { padding:12px; border-radius:10px; background:#eef3f7; color:var(--muted); }
 .contacts-section { margin-top: 70px; padding-top: 48px; border-top: 1px solid var(--line); }
 .contacts-heading { align-items: end; margin-bottom: 24px; }
 .contacts-heading h2 { margin-bottom: 0; font: 800 clamp(2rem,3vw,3rem)/1.1 "Fraunces",serif; }

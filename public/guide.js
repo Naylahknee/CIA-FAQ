@@ -291,15 +291,17 @@ function renderCards() {
     return item.audience.includes(audience) && matchesCategory && matchesAcademicTerm && (!term || blob.includes(term));
   });
   cards.innerHTML = matches.map(item => {
-    const q = audience === "student" ? item.studentQ : item.parentQ;
-    const answer = audience === "student" ? item.studentA : item.parentA;
-    const step = audience === "student" ? item.stepStudent : item.stepParent;
+    const clean = value => item.community ? escapeFaqText(value) : value;
+    const q = clean(audience === "student" ? item.studentQ : item.parentQ);
+    const answer = clean(audience === "student" ? item.studentA : item.parentA);
+    const step = clean(audience === "student" ? item.stepStudent : item.stepParent);
+    const source = clean(item.source);
     return `<article class="faq-card">
       <button class="faq-question" aria-expanded="false">
         <span class="category-icon" aria-hidden="true">${item.icon}</span>
         <span>${q}</span><span class="chevron" aria-hidden="true">+</span>
       </button>
-      <div class="faq-answer"><p>${answer}</p><div class="next-step"><strong>What to do:</strong> ${step}</div><span class="source ${item.sourceType}">${item.source}</span>${item.link ? `<a class="faq-link" href="${item.link}" target="_blank" rel="noopener">${item.linkLabel} ↗</a>` : ""}</div>
+      <div class="faq-answer"><p>${answer}</p><div class="next-step"><strong>What to do:</strong> ${step}</div><span class="source ${item.sourceType}">${source}</span>${item.link ? `<a class="faq-link" href="${item.link}" target="_blank" rel="noopener">${clean(item.linkLabel)} ↗</a>` : ""}</div>
     </article>`;
   }).join("");
   document.querySelector("#result-count").textContent = `${matches.length} ${matches.length === 1 ? "answer" : "answers"}`;
@@ -392,6 +394,51 @@ document.querySelectorAll("[data-search]").forEach(link => link.addEventListener
 
 renderCards();
 renderChecklist();
+
+async function loadCommunityFaqs() {
+  try {
+    const response = await fetch("/api/faqs/community");
+    if (!response.ok) return;
+    const { faqs } = await response.json();
+    if (!Array.isArray(faqs)) return;
+    for (const item of faqs) {
+      const link = safeFaqUrl(item.sourceUrl);
+      facts.push({
+        id: `community-${item.id}`,
+        audience: ["student", "parent"],
+        category: item.category,
+        icon: "i",
+        studentQ: item.question,
+        parentQ: item.question,
+        studentA: item.answer,
+        parentA: item.answer,
+        stepStudent: "Confirm time-sensitive details with the appropriate CIA office before acting.",
+        stepParent: "Confirm time-sensitive details with the appropriate CIA office before acting.",
+        source: link ? "Community-reviewed answer with linked source" : "Community-reviewed answer",
+        sourceType: link ? "official" : "village",
+        link,
+        linkLabel: link ? "Open the source" : "",
+        community: true
+      });
+    }
+    renderCards();
+  } catch { /* The built-in FAQ remains available if dynamic answers cannot load. */ }
+}
+
+function safeFaqUrl(value) {
+  try {
+    const url = new URL(String(value ?? ""));
+    return ["http:", "https:"].includes(url.protocol) ? url.toString() : "";
+  } catch { return ""; }
+}
+
+function escapeFaqText(value) {
+  const node = document.createElement("span");
+  node.textContent = String(value ?? "");
+  return node.innerHTML;
+}
+
+loadCommunityFaqs();
 
 async function loadCommunityWalls() {
   try {

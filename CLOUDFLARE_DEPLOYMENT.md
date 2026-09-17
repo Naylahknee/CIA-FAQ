@@ -87,12 +87,16 @@ Under **Repository secrets**, select **New repository secret** for each value an
 | `CLOUDFLARE_D1_DATABASE_ID` | The D1 Database ID copied in step 1 |
 | `AUTH_ENCRYPTION_KEY` | A private 64-character hexadecimal key used to encrypt two-factor secrets |
 | `RESEND_API_KEY` | A Resend API key for verification and password-reset messages |
+| `GROUPME_WEBHOOK_SECRET` | A private random value used only in the GroupMe callback URL |
+| `GROUPME_GROUP_ID` | The numeric ID of the one GroupMe group the bot may read |
 
 Generate `AUTH_ENCRYPTION_KEY` once with `openssl rand -hex 32`, or another cryptographically secure 32-byte generator. Never reuse a password or publish this value. Create `RESEND_API_KEY` only after verifying the sending domain in Resend.
 
 Paste only the value—no quotation marks and no extra spaces.
 
 GitHub hides secret values after saving. That is expected.
+
+For `GROUPME_WEBHOOK_SECRET`, generate a random value with `openssl rand -hex 32` or a trusted password generator. It is not a normal password and should not be reused anywhere else.
 
 ## 6. Add GitHub variables
 
@@ -129,6 +133,22 @@ The workflow performs these steps:
 4. Deploy the Worker and static assets
 
 A green check means deployment completed. Open Cloudflare **Workers & Pages**, select the newly created Worker, and use its `workers.dev` URL.
+
+## Connect the GroupMe FAQ bot
+
+Complete this only after the site deploys successfully and both GroupMe secrets have been added in GitHub.
+
+1. Sign in at https://dev.groupme.com/ with the GroupMe account that belongs to the group.
+2. Open **Bots**, choose **Create Bot**, and select the parent/student group.
+3. Enter a name such as `CIA FAQ Helper`.
+4. For the callback URL, enter `https://ciaquestions.com/api/groupme/callback?key=YOUR_SECRET` and replace `YOUR_SECRET` with the exact `GROUPME_WEBHOOK_SECRET` value saved in GitHub.
+5. Save the bot. Do not add an avatar unless you want one displayed in GroupMe.
+6. If you need the numeric group ID, use the GroupMe developer API's groups or bots list with your developer access token, then copy the selected group's `group_id`. Save that exact number as the GitHub secret `GROUPME_GROUP_ID` and run the deployment again.
+7. Post a test question in the group, such as `Where can students buy replacement kitchen shoes?`
+8. Sign in to the guide with the verified owner account and open `https://ciaquestions.com/admin#faq-suggestions`.
+9. Review the de-identified suggestion, write and verify the answer, add an official source URL when available, and select **Publish to FAQ**.
+
+The bot does not copy the whole conversation. It ignores bot and system messages, stores only likely FAQ candidates, removes common email addresses, phone numbers, links, mentions, long account numbers, and the sender's display name, and never stores GroupMe user IDs, avatars, photos, or attachments. Similar questions are marked as possible duplicates. No answer is published automatically.
 
 ## 8. Verify the live site
 

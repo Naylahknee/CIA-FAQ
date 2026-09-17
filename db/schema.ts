@@ -117,3 +117,21 @@ export const scholarshipContributions = sqliteTable("scholarship_contributions",
   uniqueIndex("idx_scholarship_contributions_provider_reference").on(table.providerReference),
   index("idx_scholarship_contributions_status_created").on(table.status, table.createdAt),
 ]);
+
+export const faqSuggestions = sqliteTable("faq_suggestions", {
+  id: text("id").primaryKey(),
+  groupmeMessageId: text("groupme_message_id").notNull(),
+  question: text("question").notNull(),
+  answer: text("answer").notNull().default(""),
+  category: text("category", { enum: ["money", "arrival", "classes", "living", "health"] }).notNull().default("living"),
+  status: text("status", { enum: ["pending", "approved", "published", "rejected", "duplicate"] }).notNull().default("pending"),
+  matchedFaqId: text("matched_faq_id"),
+  sourceText: text("source_text"),
+  sourceUrl: text("source_url"),
+  createdAt: integer("created_at", { mode: "timestamp_ms" }).notNull(),
+  reviewedAt: integer("reviewed_at", { mode: "timestamp_ms" }),
+  publishedAt: integer("published_at", { mode: "timestamp_ms" }),
+}, (table) => [
+  uniqueIndex("idx_faq_suggestions_groupme_message").on(table.groupmeMessageId),
+  index("idx_faq_suggestions_status_created").on(table.status, table.createdAt),
+]);

@@ -24,6 +24,8 @@ jobs:
       SUPPORT_GOAL_CENTS: ${{ vars.SUPPORT_GOAL_CENTS }}
       AUTH_ENCRYPTION_KEY: ${{ secrets.AUTH_ENCRYPTION_KEY }}
       RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
+      GROUPME_WEBHOOK_SECRET: ${{ secrets.GROUPME_WEBHOOK_SECRET }}
+      GROUPME_GROUP_ID: ${{ secrets.GROUPME_GROUP_ID }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -91,3 +93,9 @@ jobs:
       - name: Configure transactional email secret
         if: ${{ env.RESEND_API_KEY != '' }}
         run: printf '%s' "$RESEND_API_KEY" | npx wrangler secret put RESEND_API_KEY --config dist/server/wrangler.json
+      - name: Configure GroupMe callback secret
+        if: ${{ env.GROUPME_WEBHOOK_SECRET != '' }}
+        run: printf '%s' "$GROUPME_WEBHOOK_SECRET" | npx wrangler secret put GROUPME_WEBHOOK_SECRET --config dist/server/wrangler.json
+      - name: Configure allowed GroupMe group
+        if: ${{ env.GROUPME_GROUP_ID != '' }}
+        run: printf '%s' "$GROUPME_GROUP_ID" | npx wrangler secret put GROUPME_GROUP_ID --config dist/server/wrangler.json
