@@ -56,7 +56,19 @@ jobs:
             bucket_name: process.env.CLOUDFLARE_R2_BUCKET_NAME,
           }));
           config.vars = { ...(config.vars ?? {}) };
-          if (process.env.APP_ORIGIN?.trim()) config.vars.APP_ORIGIN = process.env.APP_ORIGIN.trim();
+          const appOrigin = process.env.APP_ORIGIN?.trim() || "https://ciaquestions.com";
+          const appUrl = new URL(appOrigin);
+          if (appUrl.protocol !== "https:" || appUrl.pathname !== "/" || appUrl.search || appUrl.hash) {
+            throw new Error("APP_ORIGIN must be an HTTPS origin without a path, query, or fragment.");
+          }
+          config.vars.APP_ORIGIN = appUrl.origin;
+          const apexHostname = appUrl.hostname.startsWith("www.") ? appUrl.hostname.slice(4) : appUrl.hostname;
+          const customDomains = [apexHostname, `www.${apexHostname}`];
+          const existingNonCustomRoutes = (config.routes ?? []).filter((route) => !route.custom_domain);
+          config.routes = [
+            ...existingNonCustomRoutes,
+            ...customDomains.map((pattern) => ({ pattern, custom_domain: true })),
+          ];
           if (process.env.AUTH_EMAIL_FROM?.trim()) config.vars.AUTH_EMAIL_FROM = process.env.AUTH_EMAIL_FROM.trim();
           if (/^[1-9][0-9]*$/.test(process.env.SUPPORT_GOAL_CENTS?.trim() ?? "")) config.vars.SUPPORT_GOAL_CENTS = process.env.SUPPORT_GOAL_CENTS.trim();
           if (process.env.SUPPORT_PAYMENT_URL?.trim()) config.vars.SUPPORT_PAYMENT_URL = process.env.SUPPORT_PAYMENT_URL.trim();
