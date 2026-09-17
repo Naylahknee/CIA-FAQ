@@ -39,7 +39,49 @@ export default function CommunityPage() {
   async function comment(event: FormEvent<HTMLFormElement>, postId: string) { event.preventDefault(); const form=event.currentTarget; const input=new FormData(form).get("comment"); if (!String(input).trim()) return; setBusy(true); await act(`/api/community/posts/${postId}/comments`, { body: input }); form.reset(); setBusy(false); }
 
   if (checking) return <main className="community-shell"><p className="community-loading">Opening the community…</p></main>;
-  if (!user) return <main className="community-shell auth-shell"><header className="community-brand"><a href="/"><span>CIA</span> CIA Hyde Park Family Guide</a></header><section className="auth-card"><p className="community-eyebrow">Private member community</p><h1>Parents and students, in one village.</h1><p>Use an email address and password. No Facebook account is needed.</p><p className="auth-privacy">We store your email, display name, posts, comments, reactions, and uploaded media. Your password is stored only as a salted security hash—not as readable text.</p><div className="auth-tabs" role="tablist"><button className={authMode==="signin"?"active":""} onClick={()=>setAuthMode("signin")}>Sign in</button><button className={authMode==="signup"?"active":""} onClick={()=>setAuthMode("signup")}>Create account</button></div><p>FAQs are free to read without an account. Join to interact with other parents.</p><p><a href="/account">Account settings or reset password</a></p><form onSubmit={auth}>{authMode==="signup"&&<label>Display name<input name="displayName" required minLength={2} maxLength={60} autoComplete="name" /></label>}<label>Email address<input name="email" required type="email" autoComplete="email" /></label><label>Password<input name="password" required type="password" minLength={12} maxLength={128} autoComplete={authMode==="signup"?"new-password":"current-password"} /></label>{authMode==="signup"&&<small>Use at least 12 characters. Your display name will appear beside posts and comments.</small>}{authMode==="signin"&&<label>Authenticator or recovery code (if enabled)<input name="code" autoComplete="one-time-code" maxLength={32}/></label>}<button className="primary-action" disabled={busy}>{busy?"Please wait…":authMode==="signin"?"Sign in":"Join the community"}</button></form>{notice&&<p className="community-notice" role="alert">{notice}</p>}<a className="back-link" href="/">Back to the family guide</a></section></main>;
+  if (!user) return (
+    <main className="community-shell auth-shell">
+      <section className="auth-visual" aria-label="Scenes from the CIA Hyde Park campus">
+        <a className="community-brand auth-brand" href="/">
+          <span>CIA</span>
+          <strong>CIA Hyde Park Family Guide</strong>
+        </a>
+        <div className="auth-collage" aria-hidden="true">
+          <img className="auth-photo auth-photo-building" src="/community-campus-building.webp" alt="" />
+          <img className="auth-photo auth-photo-group" src="/community-campus-group.webp" alt="" />
+          <span className="food-badge food-badge-one">🥐</span>
+          <span className="food-badge food-badge-two">🧁</span>
+          <span className="food-badge food-badge-three">🍽️</span>
+        </div>
+        <p className="auth-visual-copy">Connect with families who understand the CIA journey.</p>
+      </section>
+
+      <section className="auth-panel">
+        <div className="auth-card">
+          <p className="community-eyebrow">Private member community</p>
+          <h1>CIA Family Community</h1>
+          <form onSubmit={auth}>
+            {authMode==="signup"&&<label>Display name<input name="displayName" required minLength={2} maxLength={60} autoComplete="name" /></label>}
+            <label>Email address<input name="email" required type="email" autoComplete="email" /></label>
+            <label>Password<input name="password" required type="password" minLength={12} maxLength={128} autoComplete={authMode==="signup"?"new-password":"current-password"} /></label>
+            {authMode==="signup"&&<small>Use at least 12 characters. Your display name will appear beside posts and comments.</small>}
+            {authMode==="signin"&&<label>Authenticator or recovery code <small>(only if enabled)</small><input name="code" autoComplete="one-time-code" maxLength={32}/></label>}
+            <button className="primary-action" disabled={busy}>{busy?"Please wait…":authMode==="signin"?"Sign in":"Create account"}</button>
+          </form>
+          {notice&&<p className="community-notice" role="alert">{notice}</p>}
+          {authMode==="signin"&&<a className="auth-help-link" href="/account">Forgot password?</a>}
+          <div className="auth-divider" aria-hidden="true"><span /></div>
+          <button className="secondary-action" type="button" onClick={()=>setAuthMode(authMode==="signin"?"signup":"signin")}>
+            {authMode==="signin"?"Create new account":"Already have an account? Sign in"}
+          </button>
+          <p className="auth-privacy">We store only the account and community information needed to run this service. Passwords are secured as salted hashes, never readable text.</p>
+          <p className="auth-access-note">FAQs are free to read. Sign up only when you want to post or connect with other families.</p>
+          <p className="auth-no-facebook">No Facebook account required.</p>
+          <a className="back-link" href="/">Back to the family guide</a>
+        </div>
+      </section>
+    </main>
+  );
 
   if (user.verificationRequired && !user.emailVerified) return <main className="form-page"><section className="form-card"><h1>Verify your email to join the conversation</h1><p><a href="/account">Open account settings to send a verification email</a></p><a href="/">Read the FAQs without joining</a><a href="/account">Account settings</a><button onClick={signout}>Sign out</button></section></main>;
   return <main className="community-shell"><header className="feed-header"><a className="community-brand" href="/"><span>CIA</span><strong>CIA Hyde Park Family Guide</strong></a><nav><a href="/">Family guide</a><a className="active" href="/community">Community</a></nav><div className="member-menu"><span className="avatar small">{initials(user.displayName)}</span><span>{user.displayName}</span><a href="/account">Account settings</a><button onClick={signout} aria-label="Sign out"><LogOut size={18}/></button></div></header>
