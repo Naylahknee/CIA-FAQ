@@ -87,6 +87,7 @@ Under **Repository secrets**, select **New repository secret** for each value an
 | `CLOUDFLARE_D1_DATABASE_ID` | The D1 Database ID copied in step 1 |
 | `AUTH_ENCRYPTION_KEY` | A private 64-character hexadecimal key used to encrypt two-factor secrets |
 | `RESEND_API_KEY` | A Resend API key for verification and password-reset messages |
+| `ADMIN_EMAIL` | The email address of the verified guide account allowed to review and publish submissions |
 | `GROUPME_WEBHOOK_SECRET` | A private random value used only in the GroupMe callback URL |
 | `GROUPME_GROUP_ID` | The numeric ID of the one GroupMe group the bot may read |
 
