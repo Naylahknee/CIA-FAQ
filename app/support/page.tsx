@@ -13,13 +13,12 @@ export default function SupportPage() {
   const money = (cents: number) => new Intl.NumberFormat("en-US", {style:"currency", currency:"USD"}).format(cents / 100);
   let paymentUrl: string | null = null;
   try {
-    const configuredPaymentUrl = String(env.SUPPORT_PAYMENT_URL ?? "").trim() || "https://buymeacoffee.com/tq4yijli7f";
-    const url = new URL(configuredPaymentUrl);
+    const url = new URL(String(env.SUPPORT_PAYMENT_URL ?? ""));
     if (url.protocol === "https:" && !url.username && !url.password) paymentUrl = url.href;
   } catch { /* Show the pending state until a payment link is supplied. */ }
 
-  return <main className="form-page"><a className="form-back" href="/">Back to the family guide</a>
-    <section className="form-card scholarship"><p className="eyebrow">An independent family guide</p><h1>Support the Guide</h1>
+  return <main className="form-page"><a className="form-back" href="/">Back to the Guide &amp; FAQ</a>
+    <section className="form-card scholarship"><p className="eyebrow">An independent family guide &amp; FAQ</p><h1>Support the Guide</h1>
       <p>If this guide saved you some time—or a few frantic parent texts—you can buy me a coffee. Contributions support my time and the costs of keeping this independent guide updated. Giving is optional, and the FAQs stay free.</p>
       <div className="scholarship-progress">
         <svg viewBox="0 0 300 300" role="img" aria-labelledby="support-hat-title support-hat-desc">

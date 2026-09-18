@@ -63,8 +63,8 @@ const facts = [
     id: "meal", audience: ["student","parent"], category: "living", icon: "🍽️",
     studentQ: "What is the difference between Blue and Gold Points?",
     parentQ: "How does the freshman meal plan actually work?",
-    studentA: "Freshmen receive 20 Blue Points each class day. They load at 2 a.m. and expire at 11:59 p.m. Gold Points—325 per semester—work like cash at additional CIA dining locations and do not follow that daily expiration.",
-    parentA: "The plan is part of CIA’s educational dining model. Blue Points encourage students to eat food produced in instructional kitchens during class days. Gold Points provide more flexible spending, especially for weekends and Down Days.",
+    studentA: "Freshmen receive 20 Blue Points each class day. They load at 2 a.m. and expire at 11:59 p.m. Blue Points are not issued on weekends. Gold Points—325 per semester—work like cash at additional CIA dining locations and cover weekends and Down Days.",
+    parentA: "Blue Points are for class days and expire daily; Gold Points are the flexible balance used on weekends and Down Days. The September parent discussion also clarified that stepping up the meal plan adds Gold Points—it does not increase the daily Blue Point amount.",
     stepStudent: "Use Blue Points before they expire; try to save Gold Points for days when Blue Points are unavailable.",
     stepParent: "Ask whether the problem is a lack of food or simply unused daily Blue Points before adding more Gold Points.",
     source: "Official · Freshman Meal-Plan Guide", sourceType: "official",
@@ -87,8 +87,8 @@ const facts = [
     id: "medical", audience: ["student","parent"], category: "health", icon: "🏥",
     studentQ: "Where can I go for medication or urgent medical care?",
     parentQ: "What medical care is available near Hyde Park?",
-    studentA: "The uploaded campus resource lists pharmacies in Hyde Park and Poughkeepsie, urgent-care offices, and two local hospitals: Vassar Brothers Medical Center and Mid-Hudson Regional Hospital.",
-    parentA: "A campus resource lists nearby pharmacies, urgent-care offices, Vassar Brothers Medical Center, and Mid-Hudson Regional Hospital. Hours and availability should be confirmed before travel.",
+    studentA: "The uploaded campus resource lists pharmacies, urgent-care offices, Vassar Brothers Medical Center, and Mid-Hudson Regional Hospital. The September parent group also located campus Health Services below the dining hall, near the mailroom hallway; confirm the current entrance and hours before relying on that description.",
+    parentA: "A campus resource lists nearby pharmacies, urgent-care offices, Vassar Brothers Medical Center, and Mid-Hudson Regional Hospital. Campus Health Services was described as below the dining hall near the mailroom hallway. Hours and availability should be confirmed before travel.",
     stepStudent: "Save campus safety and health contacts in your phone. For an emergency, call 911 rather than searching this guide.",
     stepParent: "Confirm the student’s insurance network and preferred pharmacy before move-in.",
     source: "May change · Local medical-resource sheet, August 2026", sourceType: "verify",
@@ -159,9 +159,9 @@ const facts = [
     id: "printer", audience: ["student","parent"], category: "classes", icon: "🖨️",
     studentQ: "Do I need to bring a printer?",
     parentQ: "Should we buy a dorm-room printer?",
-    studentA: "A personal printer appears to be optional, not essential. The parent group reports that campus printing is available, while personal wireless-printer setup can create its own problems. Start with campus resources unless you already know frequent private printing is important to you.",
-    parentA: "Do not buy a printer automatically. Consider the student’s program, printing habits, roommate plans, ink costs, Wi-Fi compatibility, and the fact that every extra device eventually has to leave the dorm again.",
-    stepStudent: "Locate campus printing during your first week, then decide whether a personal printer would genuinely save time.",
+    studentA: "A personal printer appears to be optional, not essential. Campus printing is available, while personal wireless printers may not connect normally to the college network. Families reported success with a direct USB printer cable; unresolved Wi-Fi, printing, or portal problems should go to the Student ITS Help Desk.",
+    parentA: "Do not buy a printer automatically. Consider campus printing, ink costs, network compatibility, and whether a low-cost USB printer cable solves the problem before adding another device to the dorm.",
+    stepStudent: "Try campus printing first. For connection or account trouble, visit the Student ITS Help Desk in the library/computer-lab area or email ITHelp@cia.culinary.edu.",
     stepParent: "Wait until the student has used the campus option before purchasing another machine and its tiny, expensive juice boxes.",
     source: "Village insight · Campus printing availability should be reconfirmed", sourceType: "village",
     link: "https://www.ciachef.edu/hilton/",
@@ -184,7 +184,7 @@ const facts = [
     studentQ: "How do I get to the train station or airport for breaks?",
     parentQ: "Does CIA provide transportation for every school break?",
     studentA: "Do not assume a campus shuttle operates for your destination or travel date. GroupMe discussions indicate that prior shuttle service was limited and did not necessarily serve the Poughkeepsie train station or every holiday break.",
-    parentA: "Build the travel plan around the student’s confirmed last obligation and a verified transportation option. Community members commonly discussed rideshare to the Poughkeepsie station and limited end-of-semester airport shuttles, but schedules and fees can change.",
+    parentA: "Build the travel plan around the student’s confirmed last obligation and a verified transportation option. Families reported using rideshare or Dutchess County Public Transit to reach Poughkeepsie station, Metro-North to Grand Central, and MTA TrainTime for tickets. Campus and airport-shuttle schedules can change.",
     stepStudent: "Check current CIA transportation notices before buying tickets, then identify a backup ride and allow weather time.",
     stepParent: "Do not purchase a tight, nonrefundable itinerary until the class schedule and transportation are confirmed.",
     source: "Needs verification · Transportation schedules and fees may change", sourceType: "verify",
@@ -196,8 +196,8 @@ const facts = [
     studentQ: "Can I work while I am enrolled?",
     parentQ: "What should my student bring if they plan to work?",
     studentA: "Campus and nearby work options may have different eligibility and documentation requirements. GroupMe participants discussed Earn and Learn, Federal Work-Study, limited food-service positions, and off-campus employment as separate categories—not one interchangeable program.",
-    parentA: "Do not assume every campus role is Federal Work-Study or requires the same employment documents. The student should confirm the position type and required original identification before bringing sensitive documents to campus.",
-    stepStudent: "Ask the hiring office which program the job belongs to, whether you are eligible, and exactly which documents are required.",
+    parentA: "Do not assume every campus role is Federal Work-Study or requires the same documents. September applicants were asked for original I-9 identity and work-authorization documents, not photos or copies, and families reported that students may need to apply again each semester.",
+    stepStudent: "Ask the hiring office which program the job belongs to, whether you are eligible, which original I-9 documents are acceptable, and whether you must reapply next semester.",
     stepParent: "If originals are required, help the student plan secure storage; otherwise use copies where the hiring office permits them.",
     source: "Village insight · Employment eligibility and documentation need official confirmation", sourceType: "verify",
     link: "https://ciamainmenu.culinary.edu/",
@@ -207,10 +207,10 @@ const facts = [
     id: "mail", audience: ["student","parent"], category: "living", icon: "✉️",
     studentQ: "How will I receive mail and packages?",
     parentQ: "Where should we send packages?",
-    studentA: "Use your legal name exactly as it is recorded with the school on every package or letter. For the New York campus, use:<br><br><strong>The Culinary Institute of America</strong><br>C/O [Student’s Legal Name]<br>1946 Campus Drive<br>Hyde Park, NY 12538",
-    parentA: "Send packages to the specific campus where your student is enrolled and use the student’s legal name registered with the school. For Hyde Park, address packages as:<br><br><strong>The Culinary Institute of America</strong><br>C/O [Student’s Legal Name]<br>1946 Campus Drive<br>Hyde Park, NY 12538",
-    stepStudent: "Give family members and online retailers this exact format. Your package name must match your school record and student ID.",
-    stepParent: "Double-check the student’s legal name and campus before shipping. Do not use a nickname, preferred name, or another CIA campus address.",
+    studentA: "Use your legal name exactly as it is recorded with the school on every package or letter. For the New York campus, use:<br><br><strong>The Culinary Institute of America</strong><br>C/O [Student’s Legal Name]<br>1946 Campus Drive<br>Hyde Park, NY 12538<br><br>Carrier delivery does not mean the package is ready. The mailroom emails the student after it is processed, which can take one or two days during busy periods.",
+    parentA: "Send packages to the student’s campus using the legal name registered with the school:<br><br><strong>The Culinary Institute of America</strong><br>C/O [Student’s Legal Name]<br>1946 Campus Drive<br>Hyde Park, NY 12538<br><br>Tracking may show delivered before the mailroom has processed it. The student receives an email when pickup is ready; families also reported that notices sometimes land in spam.",
+    stepStudent: "Wait for the CIA pickup email and check spam before going to the mailroom. Community-reported hours on September 17 were Monday–Friday 8 a.m.–5 p.m. and Saturday 9 a.m.–1 p.m.; verify before an urgent pickup.",
+    stepParent: "For urgent original documents, do not assume next-day delivery equals next-day pickup. Ask the carrier about Hold for Pickup or a staffed pickup location and verify identification requirements.",
     source: "Official · CIA New York campus information and 2022–23 Student Handbook", sourceType: "official",
     link: "https://www.ciachef.edu/new-york-campus-directions/",
     linkLabel: "View the New York campus address"
@@ -243,13 +243,73 @@ const facts = [
     id: "celebration", audience: ["student","parent"], category: "living", icon: "🎉",
     studentQ: "Can my family send me a Celebration Gram?",
     parentQ: "How can I send my student a Celebration Gram?",
-    studentA: "Yes. CIA provides an online Celebration Gram form families can use to recognize a birthday, accomplishment, milestone, or supportive moment.",
-    parentA: "Use CIA’s online Celebration Gram form and follow the current instructions shown there. Available choices, prices, timing, and delivery details may change, so rely on the form rather than an older screenshot.",
+    studentA: "Yes. CIA provides an online Celebration Gram form families can use for a birthday, accomplishment, milestone, or supportive moment. Students are notified when the gram is ready for pickup.",
+    parentA: "Use CIA’s online Celebration Gram form. September families reported birthday grams with cake supplies, a tote, and balloons, while other grams included assorted snacks and an Apple Pie Bakery Café treat. Contents, prices, timing, and delivery can change, so the current form and confirmation remain the authority.",
     stepStudent: "Give your family the legal name and campus information CIA uses for your student record.",
     stepParent: "Confirm the student’s legal name and campus, complete every required field, and save the submission confirmation.",
     source: "CIA · Celebration Gram form", sourceType: "official",
     link: "https://ciachef.formstack.com/forms/celebration_gram",
     linkLabel: "Open the Celebration Gram form"
+  },
+  {
+    id: "groceries", audience: ["student","parent"], category: "living", icon: "🛒",
+    studentQ: "How can I get groceries without a car?",
+    parentQ: "How can my student get groceries without a car?",
+    studentA: "September families identified ShopRite as the closest budget-conscious option and reported successful Walmart and DoorDash deliveries for groceries and supplies. A student shopping shuttle was also discussed, but routes, pickup points, and times can change.",
+    parentA: "Families reported using ShopRite, Walmart delivery, DoorDash, rideshare, and a student shopping shuttle. For delivery, the student should confirm the residence hall’s meeting or drop-off procedure and include clear instructions rather than assuming a driver can enter the building.",
+    stepStudent: "Check the current shuttle schedule with the Student Recreation Center before leaving campus, and keep a backup ride option.",
+    stepParent: "Help compare delivery fees with the cost of a shared rideshare; do not treat a schedule screenshot from the chat as permanent.",
+    source: "Village insight · September 2026 grocery and shuttle discussion", sourceType: "verify",
+    link: "https://www.ciachef.edu/frequently-asked-questions/",
+    linkLabel: "Check CIA’s current FAQs"
+  },
+  {
+    id: "housing-help", audience: ["student","parent"], category: "living", icon: "🔧",
+    studentQ: "Who handles a residence-hall problem or repair?",
+    parentQ: "Who should my student contact about a dorm concern?",
+    studentA: "Start with the RA for an immediate residence-hall concern. For a repair, use the maintenance-ticket option in the housing portal. Residence Life handles housing questions that the RA cannot resolve; Campus Safety is the right contact for an urgent safety issue.",
+    parentA: "Ask your student to contact the RA, submit a housing-portal maintenance ticket when appropriate, and keep the ticket number. Safety, harassment, discrimination, or a serious unresolved health risk should be escalated promptly.",
+    stepStudent: "Describe the specific problem, location, date, and urgency. Save the ticket or email confirmation.",
+    stepParent: "Help the student organize the facts, but let the student make the first contact unless immediate safety is involved.",
+    source: "Village guidance · Confirm current Residence Life procedures", sourceType: "verify",
+    link: "https://catalog.ciachef.edu/",
+    linkLabel: "Check the current CIA handbook"
+  },
+  {
+    id: "it-help", audience: ["student","parent"], category: "classes", icon: "🖥️",
+    studentQ: "Where do I get help with Wi-Fi, the portal, or digital course materials?",
+    parentQ: "Who helps when my student cannot access a CIA system?",
+    studentA: "Use the Student ITS Help Desk for CIA login, portal, Wi-Fi, printing, and digital-course access problems. Families identified the help desk in the library/computer-lab area and shared ITHelp@cia.culinary.edu as the support email.",
+    parentA: "FERPA or proxy permission does not turn the student’s credentials into a parent login. The student should take access problems to the Student ITS Help Desk and use the separate proxy process for authorized family access.",
+    stepStudent: "Bring the device, the exact error message, and the name of the affected course or system. Do not send your password by email.",
+    stepParent: "Do not repeatedly attempt the student’s login. Use your own proxy access and have the student contact ITS for account trouble.",
+    source: "Village resource · Student ITS Help Desk details shared September 2026", sourceType: "verify",
+    link: "https://www.ciachef.edu/cia-login/",
+    linkLabel: "Open CIA login and portal links"
+  },
+  {
+    id: "activities", audience: ["student","parent"], category: "living", icon: "🎫",
+    studentQ: "Where can I find campus events and activities?",
+    parentQ: "Where are student activities announced?",
+    studentA: "Check official campus notices and the CIA Activities Instagram account. The parent group repeatedly learned about bingo, ceremonies, and other events after the fact, so do not depend on family chat for the student calendar.",
+    parentA: "Students should follow the official activity channels and campus notices directly. Parents can use the activity account for context, but students remain responsible for dates, locations, capacity, and registration.",
+    stepStudent: "Follow the activities account and add anything you plan to attend to your own calendar.",
+    stepParent: "Send the official link once; let the student decide which events fit the class schedule.",
+    source: "Village resource · CIA Activities account shared by families", sourceType: "village",
+    link: "https://www.instagram.com/ciaactivities/",
+    linkLabel: "Open CIA Activities on Instagram"
+  },
+  {
+    id: "family-weekend", audience: ["student","parent"], category: "living", icon: "🏨",
+    studentQ: "What should I know about Family Weekend?",
+    parentQ: "Where should we stay, and is there a guest dress code for Family Weekend?",
+    studentA: "Confirm your own class, competition, work, or team obligations before making plans with visiting family. Being on campus for Family Weekend does not automatically clear your schedule.",
+    parentA: "Hotels can sell out early because other Hudson Valley events may overlap. Use CIA’s lodging page and call hotels directly about current CIA rates. The September group was told that Family Weekend guests do not have to follow the student business-casual dress code and do not need jackets, but event-specific instructions still control.",
+    stepStudent: "Tell family about required obligations before they buy tickets or plan the weekend around you.",
+    stepParent: "Book refundable lodging when possible and check the current Family Weekend schedule before packing or purchasing activities.",
+    source: "CIA lodging page and September 2026 family discussion", sourceType: "verify",
+    link: "https://www.ciachef.edu/new-york-where-to-stay/",
+    linkLabel: "View CIA’s Hyde Park lodging list"
   }
 ];
 
@@ -355,7 +415,7 @@ document.querySelectorAll(".audience-btn").forEach(button => button.addEventList
   audience = button.dataset.audience;
   document.querySelectorAll(".audience-btn").forEach(btn => { btn.classList.toggle("active", btn === button); btn.setAttribute("aria-selected", String(btn === button)); });
   updateViewTitle();
-  search.placeholder = audience === "student" ? "Search housing, meal points, uniforms…" : "Search costs, proxy access, move-in…";
+  search.placeholder = audience === "student" ? "Search housing, meal points, uniforms…" : "Search packages, proxy access, campus life…";
   renderCards(); renderChecklist();
 }));
 document.querySelectorAll(".phase-btn").forEach(button => button.addEventListener("click", () => {
