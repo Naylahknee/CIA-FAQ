@@ -1,4 +1,5 @@
 import { eq } from "drizzle-orm";
+import { randomUUID } from "node:crypto";
 import { createSession, noStoreJson, normalizeEmail, takeAuthAttempt, validSameOrigin } from "../../../../community-auth";
 import { hashPassword, passwordError } from "../../../../password-security";
 import { accountRow, sendAccountEmail } from "../../../../account-security";
@@ -24,8 +25,9 @@ export async function POST(request: Request) {
     const limit = await takeAuthAttempt(request, "signup", email);
     if (!limit.allowed) return noStoreJson({ error: "Too many account-creation attempts. Wait before trying again." }, { status: 429, headers: { "retry-after": String(limit.retryAfter) } });
 
+    stage = "id";
+    const id = randomUUID();
     stage = "password";
-    const id = crypto.randomUUID();
     const passwordData = await hashPassword(password);
     if (neonAuthConfigured()) {
       stage = "lookup";

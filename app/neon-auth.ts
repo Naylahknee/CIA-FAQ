@@ -1,4 +1,4 @@
-import { createHash } from "node:crypto";
+import { createHash, randomUUID } from "node:crypto";
 import { env } from "cloudflare:workers";
 import { neon, type NeonQueryFunction } from "@neondatabase/serverless";
 
@@ -158,7 +158,7 @@ export async function findOrCreateGoogleUser(input: { subject: string; email: st
   const found = mapUser(account[0] as Record<string, unknown> | undefined);
   if (found) return found;
 
-  const id = crypto.randomUUID();
+  const id = randomUUID();
   const users = await sql.query(`INSERT INTO auth_users (id, email, email_normalized, display_name, email_verified_at)
     VALUES ($1, $2, $3, $4, now())
     ON CONFLICT (email_normalized) DO UPDATE SET
@@ -183,7 +183,7 @@ export async function createNeonSession(userId: string, tokenHash: string, expir
   const sql = getNeonAuthDb();
   await sql.query("DELETE FROM auth_sessions WHERE expires_at <= now()");
   await sql.query(`INSERT INTO auth_sessions (id, user_id, token_hash, expires_at) VALUES ($1, $2, $3, $4)`,
-    [crypto.randomUUID(), userId, tokenHash, expiresAt.toISOString()]);
+    [randomUUID(), userId, tokenHash, expiresAt.toISOString()]);
   await sql.query(`DELETE FROM auth_sessions WHERE user_id = $1 AND id NOT IN
     (SELECT id FROM auth_sessions WHERE user_id = $1 ORDER BY created_at DESC LIMIT 5)`, [userId]);
 }

@@ -1,4 +1,4 @@
-import { createHash, randomBytes } from "node:crypto";
+import { createHash, randomBytes, randomUUID } from "node:crypto";
 import { env } from "cloudflare:workers";
 import { and, eq, gt } from "drizzle-orm";
 import { cookies } from "next/headers";
@@ -72,7 +72,7 @@ export async function createSession(userId: string) {
   } else {
     await ensureD1AuthSchema();
     await env.DB.prepare("DELETE FROM community_sessions WHERE expires_at <= ?").bind(Date.now()).run();
-    await getDb().insert(communitySessions).values({ id: crypto.randomUUID(), userId, tokenHash: tokenHash(token), expiresAt, createdAt: new Date() });
+    await getDb().insert(communitySessions).values({ id: randomUUID(), userId, tokenHash: tokenHash(token), expiresAt, createdAt: new Date() });
     await env.DB.prepare(`DELETE FROM community_sessions
       WHERE user_id = ? AND id NOT IN (
         SELECT id FROM community_sessions WHERE user_id = ? ORDER BY created_at DESC LIMIT 5
