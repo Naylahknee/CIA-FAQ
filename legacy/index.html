@@ -32,30 +32,9 @@
     <section class="intro">
       <div>
         <p class="eyebrow">The information is somewhere. Auntie found it.</p>
-        <h1>Your CIA Hyde Park<br><em>survival guide.</em></h1>
+        <h1>What can we help you find?</h1>
         <p class="intro-copy">Official information, real family questions, and what to do after move-in—without digging through six thousand chat messages.</p>
       </div>
-      <aside class="today-card" aria-label="Important information">
-        <p class="card-kicker">Start here</p>
-        <h2>Who are you?</h2>
-        <p>Your view changes the advice—not the facts.</p>
-        <div class="audience-switch" role="tablist" aria-label="Choose your view">
-          <button class="audience-btn active" role="tab" aria-selected="true" data-audience="student">I’m a student</button>
-          <button class="audience-btn" role="tab" aria-selected="false" data-audience="parent">I’m a parent</button>
-        </div>
-        <p class="switch-label">Which term?</p>
-        <div class="term-switch" role="group" aria-label="Choose an academic term">
-          <button class="term-btn active" type="button" aria-pressed="true" data-term-choice="fall">Fall 2026</button>
-          <button class="term-btn" type="button" aria-pressed="false" data-term-choice="spring">Spring 2027</button>
-        </div>
-        <figure class="campus-photo">
-          <span class="campus-photo-grid">
-            <img src="/community-campus-building.webp" alt="A view across the plaza toward a building on the CIA Hyde Park campus.">
-            <img src="/community-campus-group.webp" alt="A family posing beside the large CIA letters on the Hyde Park campus.">
-          </span>
-          <figcaption>Photos shared by a CIA family · Hyde Park campus</figcaption>
-        </figure>
-      </aside>
     </section>
 
     <section class="toolbox" aria-label="Guide tools">
@@ -65,6 +44,7 @@
         <input id="search" type="search" placeholder="Search housing, meal points, uniforms…">
       </label>
       <div class="filters" role="group" aria-label="Filter topics">
+        <span>Popular:</span>
         <button class="filter active" data-category="all">All</button>
         <button class="filter" data-category="money">Money</button>
         <button class="filter" data-category="arrival">Arrival</button>
@@ -72,6 +52,18 @@
         <button class="filter" data-category="living">Campus life</button>
         <button class="filter" data-category="health">Health</button>
       </div>
+      <aside class="guide-preferences" aria-label="Guide preferences">
+        <span>Show advice for</span>
+        <div class="audience-switch" role="tablist" aria-label="Choose your view">
+          <button class="audience-btn active" role="tab" aria-selected="true" data-audience="student">I’m a student</button>
+          <button class="audience-btn" role="tab" aria-selected="false" data-audience="parent">I’m a parent</button>
+        </div>
+        <span>Term</span>
+        <div class="term-switch" role="group" aria-label="Choose an academic term">
+          <button class="term-btn active" type="button" aria-pressed="true" data-term-choice="fall">Fall 2026</button>
+          <button class="term-btn" type="button" aria-pressed="false" data-term-choice="spring">Spring 2027</button>
+        </div>
+      </aside>
     </section>
 
     <nav class="section-nav" aria-label="Jump to a section">
@@ -87,6 +79,30 @@
       <a class="stage-before" href="#arrival-title">Before move-in</a>
       <a href="#health-title">Health</a>
     </nav>
+
+    <section class="browse-section" aria-labelledby="browse-title">
+      <h2 id="browse-title">Browse by topic</h2>
+      <div class="browse-grid">
+        <a href="#cost-title" class="browse-card"><span aria-hidden="true">▣</span><h3>Money &amp; costs</h3><p>Fall 2026 charges, the meal plan, and the extras that are not in the total.</p></a>
+        <a href="#arrival-title" class="browse-card"><span aria-hidden="true">⌂</span><h3>Arrival &amp; move-in</h3><p>A student lane and a parent lane for arrival day, plus what to buy near campus.</p></a>
+        <a href="#travel-title" class="browse-card"><span aria-hidden="true">⌖</span><h3>Getting to campus</h3><p>Drive, train, or fly by region, with airports and rail to Poughkeepsie.</p></a>
+        <a href="#faq-guide" class="browse-card"><span aria-hidden="true">♜</span><h3>Classes &amp; kits</h3><p>Culinary and Baking &amp; Pastry kit lists, textbooks, and the 2026–27 calendar.</p></a>
+        <a href="#first-month-title" class="browse-card"><span aria-hidden="true">♧</span><h3>Campus life</h3><p>Blue and Gold Points, the first-month reset, and Celebration Grams.</p></a>
+        <a href="#health-title" class="browse-card"><span aria-hidden="true">⊕</span><h3>Health &amp; safety</h3><p>Pharmacies, urgent care, hospitals, and Everbridge 360 alerts.</p></a>
+      </div>
+    </section>
+
+    <section class="most-asked-preview" aria-labelledby="most-asked-title">
+      <h2 id="most-asked-title">Most asked right now</h2>
+      <div class="most-asked-grid">
+        <a href="#faq-guide" data-search="Blue Points">How do Blue and Gold Points work? <span aria-hidden="true">→</span></a>
+        <a href="#faq-guide" data-search="move-in">When is Fall 2026 move-in? <span aria-hidden="true">→</span></a>
+        <a href="#faq-guide" data-search="cost">What will we be charged for Fall 2026? <span aria-hidden="true">→</span></a>
+        <a href="#faq-guide" data-search="proxy">Who do I contact about a bill or proxy access? <span aria-hidden="true">→</span></a>
+        <a href="#faq-guide" data-search="culinary kit">What does the culinary kit already include? <span aria-hidden="true">→</span></a>
+        <a href="#faq-guide" data-search="December">When do students have to leave campus in December? <span aria-hidden="true">→</span></a>
+      </div>
+    </section>
 
     <section class="community-invite" aria-labelledby="community-invite-title">
       <div>
