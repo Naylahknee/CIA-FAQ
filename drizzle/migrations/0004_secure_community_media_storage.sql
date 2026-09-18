@@ -1,0 +1,4 @@
+CREATE POLICY "Approved members read community media" ON storage.objects FOR SELECT TO authenticated USING (bucket_id = 'community-media' AND public.is_approved_member(auth.uid()));
+CREATE POLICY "Approved members upload community media" ON storage.objects FOR INSERT TO authenticated WITH CHECK (bucket_id = 'community-media' AND public.is_approved_member(auth.uid()) AND (storage.foldername(name))[1] = auth.uid()::text);
+CREATE POLICY "Owners update community media" ON storage.objects FOR UPDATE TO authenticated USING (bucket_id = 'community-media' AND owner_id = auth.uid()::text) WITH CHECK (bucket_id = 'community-media' AND owner_id = auth.uid()::text);
+CREATE POLICY "Owners delete community media" ON storage.objects FOR DELETE TO authenticated USING (bucket_id = 'community-media' AND (owner_id = auth.uid()::text OR public.has_role(auth.uid(),'moderator')));

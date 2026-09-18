@@ -1,0 +1,10 @@
+ALTER POLICY "Members read published posts" ON public.community_posts USING (status = 'published' AND public.is_approved_member(auth.uid()));
+ALTER POLICY "Members create own posts" ON public.community_posts WITH CHECK (auth.uid() = user_id AND status = 'published' AND public.is_approved_member(auth.uid()));
+ALTER POLICY "Members read published comments" ON public.community_comments USING (status = 'published' AND public.is_approved_member(auth.uid()));
+ALTER POLICY "Members create own comments" ON public.community_comments WITH CHECK (auth.uid() = user_id AND status = 'published' AND public.is_approved_member(auth.uid()));
+ALTER POLICY "Members read reactions" ON public.community_reactions USING (public.is_approved_member(auth.uid()));
+ALTER POLICY "Members add own reactions" ON public.community_reactions WITH CHECK (auth.uid() = user_id AND public.is_approved_member(auth.uid()));
+ALTER POLICY "Users read own saved posts" ON public.community_saved_posts USING (auth.uid() = user_id AND public.is_approved_member(auth.uid()));
+ALTER POLICY "Users save posts" ON public.community_saved_posts WITH CHECK (auth.uid() = user_id AND public.is_approved_member(auth.uid()));
+ALTER POLICY "Users read own reports" ON public.community_reports USING ((auth.uid() = user_id AND public.is_approved_member(auth.uid())) OR public.has_role(auth.uid(), 'moderator'));
+ALTER POLICY "Users report posts" ON public.community_reports WITH CHECK (auth.uid() = user_id AND status = 'pending' AND public.is_approved_member(auth.uid()));
