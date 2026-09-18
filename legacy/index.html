@@ -282,46 +282,73 @@
     <section class="travel-section" aria-labelledby="travel-title">
       <div class="section-heading travel-heading">
         <div>
-          <p class="eyebrow">Getting to Hyde Park</p>
-          <h2 id="travel-title">Family trip and supply-run planner</h2>
+          <p class="eyebrow">Getting to campus</p>
+          <h2 id="travel-title">How far you start out changes which trip makes sense.</h2>
         </div>
         <p>Use these ranges to compare routes. Check live schedules, fares, weather, and the student’s assigned arrival time before purchasing anything.</p>
       </div>
 
-      <div class="travel-regions">
-        <article class="travel-card">
-          <p class="travel-region">West Coast</p>
-          <h3>Fly most of the trip; ship less.</h3>
-          <dl>
-            <div><dt>Drive</dt><dd>About 40–47 driving hours from major West Coast cities. Plan 5–7 days with overnight stops, weather margin, fuel, lodging, and tolls.</dd></div>
-            <div><dt>Train</dt><dd>Usually 3–4 days on long-distance Amtrak routes, plus connections to Poughkeepsie. Best for time-flexible families, not a tight move-in window.</dd></div>
-            <div><dt>Fly</dt><dd>Roughly 5–6 hours nonstop from major California hubs to the New York area; allow 2–3 more hours for bags, rental-car pickup, traffic, and the trip north.</dd></div>
-          </dl>
-          <p class="travel-examples"><strong>Example origins:</strong> Sacramento, San Francisco Bay Area, Los Angeles, San Diego, Seattle.</p>
-        </article>
+      <form class="travel-whatif" id="travel-whatif">
+        <div class="travel-control">
+          <label for="travel-origin">Where are you starting?</label>
+          <select id="travel-origin" name="origin">
+            <option value="west">West Coast</option>
+            <option value="midwest">Midwest</option>
+            <option value="east">East Coast or nearby</option>
+          </select>
+        </div>
+        <div class="travel-control">
+          <label for="travel-priority">What matters most?</label>
+          <select id="travel-priority" name="priority">
+            <option value="fast">Shortest travel time</option>
+            <option value="supplies">Bringing bulky supplies</option>
+            <option value="no-drive">Avoiding a long drive</option>
+            <option value="journey">Making the journey part of the trip</option>
+          </select>
+        </div>
+        <div class="travel-control">
+          <label for="travel-party">How many are traveling?</label>
+          <select id="travel-party" name="party">
+            <option value="one">One person</option>
+            <option value="group">Two or more people</option>
+          </select>
+        </div>
+        <output class="travel-answer" id="travel-answer" aria-live="polite">
+          <span>Best starting point</span>
+          <strong>Fly from the West Coast.</strong>
+          <small>About 5–6 hours in the air, plus 2–3 hours for bags and the final trip north.</small>
+        </output>
+      </form>
 
-        <article class="travel-card">
-          <p class="travel-region">Midwest</p>
-          <h3>Compare a one-day drive with a short flight.</h3>
-          <dl>
-            <div><dt>Drive</dt><dd>About 6–13 hours from cities such as Cleveland, Detroit, Pittsburgh, Columbus, and Chicago. Add breaks and avoid arriving immediately before check-in closes.</dd></div>
-            <div><dt>Train</dt><dd>About 10–22 hours depending on the starting city and connection. Search through-tickets to Poughkeepsie rather than stopping the plan at New York City.</dd></div>
-            <div><dt>Fly</dt><dd>About 1½–3 hours in the air to a New York-area or Albany airport, followed by roughly 1½–2½ hours on the ground.</dd></div>
-          </dl>
-          <p class="travel-examples"><strong>Best use case:</strong> Driving often wins when two or more people are carrying dorm supplies and can share the return trip.</p>
-        </article>
+      <div class="trip-matrix" id="trip-matrix" aria-label="Travel options by starting region">
+        <div class="matrix-head matrix-origin">Origin</div><div class="matrix-head">Drive</div><div class="matrix-head">Train</div><div class="matrix-head">Fly</div>
 
-        <article class="travel-card">
-          <p class="travel-region">East Coast and nearby</p>
-          <h3>Car and rail are usually the cleanest comparison.</h3>
-          <dl>
-            <div><dt>Drive</dt><dd>CIA estimates about 1½ hours from Albany and about 2 hours from New York City, Hartford, and Scranton. Boston and Philadelphia are commonly 3–4 hours; Washington, DC is roughly 5–6½.</dd></div>
-            <div><dt>Train</dt><dd>Metro-North runs from Grand Central to Poughkeepsie, and Amtrak serves Poughkeepsie from regional and longer-distance routes. Allow another 15–25 minutes for a taxi or rideshare to campus.</dd></div>
-            <div><dt>Fly</dt><dd>Usually makes sense only when the drive or rail trip is long. Compare total door-to-door time, parking, checked bags, and the final ground transfer—not airfare alone.</dd></div>
-          </dl>
-          <p class="travel-examples"><strong>Example origins:</strong> New York City, Albany, Hartford, Boston, Philadelphia, Scranton, Washington, DC.</p>
+        <article class="matrix-region is-selected" data-region="west">
+          <p class="travel-region">West Coast</p><h3>Fly most of the trip; ship less.</h3>
+          <p><strong>Example origins:</strong> Sacramento, San Francisco Bay Area, Los Angeles, San Diego, Seattle.</p>
         </article>
+        <article class="matrix-option" data-region="west" data-mode="drive"><h4><span>Drive</span>40–47 <small>hrs</small></h4><p>Plan 5–7 days with overnight stops, weather margin, fuel, lodging, and tolls.</p></article>
+        <article class="matrix-option" data-region="west" data-mode="train"><h4><span>Train</span>3–4 <small>days</small></h4><p>Long-distance Amtrak plus connections to Poughkeepsie. Best for time-flexible families.</p></article>
+        <article class="matrix-option is-recommended" data-region="west" data-mode="fly"><h4><span>Fly</span>5–6 <small>hrs</small></h4><b class="usual-pick">Usual pick</b><p>Nonstop from major California hubs; allow 2–3 more hours for bags, a rental car, traffic, and the trip north.</p></article>
+
+        <article class="matrix-region" data-region="midwest">
+          <p class="travel-region">Midwest</p><h3>Compare a one-day drive with a short flight.</h3>
+          <p><strong>Best use case:</strong> Driving often wins for two or more people carrying dorm supplies.</p>
+        </article>
+        <article class="matrix-option" data-region="midwest" data-mode="drive"><h4><span>Drive</span>6–13 <small>hrs</small></h4><b class="usual-pick">Usual pick</b><p>From cities such as Cleveland, Detroit, Pittsburgh, Columbus, and Chicago. Add breaks before check-in.</p></article>
+        <article class="matrix-option" data-region="midwest" data-mode="train"><h4><span>Train</span>10–22 <small>hrs</small></h4><p>Timing depends on the city and connection. Search through-tickets to Poughkeepsie.</p></article>
+        <article class="matrix-option" data-region="midwest" data-mode="fly"><h4><span>Fly</span>1½–3 <small>hrs</small></h4><p>Flight time to a New York-area or Albany airport, followed by roughly 1½–2½ hours on the ground.</p></article>
+
+        <article class="matrix-region" data-region="east">
+          <p class="travel-region">East Coast and nearby</p><h3>Car and rail are usually the cleanest comparison.</h3>
+          <p><strong>Example origins:</strong> New York City, Albany, Hartford, Boston, Philadelphia, Scranton, Washington, DC.</p>
+        </article>
+        <article class="matrix-option" data-region="east" data-mode="drive"><h4><span>Drive</span>1½–6½ <small>hrs</small></h4><b class="usual-pick">Usual pick</b><p>About 1½ hours from Albany; 2 from New York City, Hartford, and Scranton; 3–4 from Boston and Philadelphia.</p></article>
+        <article class="matrix-option" data-region="east" data-mode="train"><h4><span>Train</span>About 2 <small>hrs</small></h4><b class="usual-pick">Usual pick</b><p>Metro-North from Grand Central or Amtrak to Poughkeepsie, then allow 15–25 minutes to campus.</p></article>
+        <article class="matrix-option" data-region="east" data-mode="fly"><h4><span>Fly</span>Rarely worth it</h4><p>Compare total door-to-door time, parking, checked bags, and the final ground transfer—not airfare alone.</p></article>
       </div>
+      <p class="travel-disclaimer">These are planning ranges, not live travel estimates. Your exact city, route, stops, traffic, weather, and connection times can change the result.</p>
+
 
       <div class="travel-hub">
         <div>

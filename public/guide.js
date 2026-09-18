@@ -467,6 +467,53 @@ document.querySelectorAll("[data-search]").forEach(link => link.addEventListener
 renderCards();
 renderChecklist();
 
+const travelForm = document.querySelector("#travel-whatif");
+const travelAnswer = document.querySelector("#travel-answer");
+const travelPlans = {
+  west: {
+    fly: { title: "Fly from the West Coast.", detail: "About 5–6 hours in the air, plus 2–3 hours for bags and the final trip north." },
+    train: { title: "Take the train only if the journey is part of the plan.", detail: "Allow 3–4 days plus the connection to Poughkeepsie; this is not a tight-arrival option." }
+  },
+  midwest: {
+    fly: { title: "Fly when total travel time matters most.", detail: "About 1½–3 hours in the air, followed by roughly 1½–2½ hours on the ground." },
+    drive: { title: "Drive when the car and cargo earn their keep.", detail: "Allow about 6–13 driving hours. This often works best for two or more people carrying supplies." },
+    train: { title: "Use rail for a flexible, no-driving trip.", detail: "Allow about 10–22 hours and search for a through-ticket to Poughkeepsie." }
+  },
+  east: {
+    drive: { title: "Start by comparing the drive.", detail: "Driving ranges from about 1½–6½ hours depending on the city and keeps the final transfer simple." },
+    train: { title: "Use rail when your route connects cleanly to Poughkeepsie.", detail: "Metro-North is about 2 hours from Grand Central; add 15–25 minutes from the station to campus." }
+  }
+};
+
+function updateTravelMatrix() {
+  if (!travelForm || !travelAnswer) return;
+  const data = new FormData(travelForm);
+  const region = String(data.get("origin") || "west");
+  const priority = String(data.get("priority") || "fast");
+  const party = String(data.get("party") || "one");
+  let mode = "fly";
+  if (region === "west") mode = priority === "journey" ? "train" : "fly";
+  if (region === "midwest") {
+    if (priority === "journey") mode = "train";
+    else if (priority === "supplies" && party === "group") mode = "drive";
+    else mode = "fly";
+  }
+  if (region === "east") mode = (priority === "no-drive" || priority === "journey") ? "train" : "drive";
+
+  document.querySelectorAll(".matrix-region").forEach(card => card.classList.toggle("is-selected", card.dataset.region === region));
+  document.querySelectorAll(".matrix-option").forEach(card => {
+    const selectedRegion = card.dataset.region === region;
+    card.classList.toggle("is-muted", !selectedRegion);
+    card.classList.toggle("is-recommended", selectedRegion && card.dataset.mode === mode);
+  });
+  const plan = travelPlans[region][mode];
+  travelAnswer.innerHTML = `<span>Best starting point</span><strong>${plan.title}</strong><small>${plan.detail}</small>`;
+}
+
+travelForm?.addEventListener("change", updateTravelMatrix);
+updateTravelMatrix();
+
+
 async function loadCommunityFaqs() {
   try {
     const response = await fetch("/api/faqs/community");
