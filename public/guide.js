@@ -70,7 +70,8 @@ const facts = [
     stepParent: "Ask whether the problem is a lack of food or simply unused daily Blue Points before adding more Gold Points.",
     source: "Official · Freshman Meal-Plan Guide", sourceType: "official",
     link: "https://www.ciachef.edu/cia-tuition/",
-    linkLabel: "View the current CIA meal-plan charge"
+    linkLabel: "View the current CIA meal-plan charge",
+    springNotice: "Spring 2027 meal-plan point amounts and operating details are coming soon. Confirm the current plan in the student portal before relying on the Fall 2026 explanation."
   },
   {
     id: "allergy", audience: ["student","parent"], category: "health", icon: "⚕️",
@@ -82,7 +83,8 @@ const facts = [
     stepParent: "Help assemble current medical documentation, but make sure your student can explain the allergy and safety plan independently.",
     source: "Needs verification · Allergy brochure dated 2023", sourceType: "verify",
     link: "https://catalog.ciachef.edu/",
-    linkLabel: "Open the current CIA handbook"
+    linkLabel: "Open the current CIA handbook",
+    springNotice: "Spring 2027 allergy-accommodation contacts and procedures are coming soon. Use the current handbook and confirm the plan with Health Services and Disability Services."
   },
   {
     id: "medical", audience: ["student","parent"], category: "health", icon: "🏥",
@@ -94,7 +96,8 @@ const facts = [
     stepParent: "Confirm the student’s insurance network and preferred pharmacy before move-in.",
     source: "May change · Local medical-resource sheet, August 2026", sourceType: "verify",
     link: "https://catalog.ciachef.edu/",
-    linkLabel: "Open the current CIA handbook"
+    linkLabel: "Open the current CIA handbook",
+    springNotice: "Spring 2027 Health Services hours, entrances, and local-provider details are coming soon. Call ahead and use 911 for an emergency."
   },
   {
     id: "everbridge", audience: ["student","parent"], category: "health", icon: "📱",
@@ -119,7 +122,8 @@ const facts = [
     stepParent: "Label belongings and keep receipts. Let the student own the final packing list.",
     source: "Village insight · Recurring GroupMe discussion", sourceType: "village",
     link: "https://www.ciachef.edu/parents/",
-    linkLabel: "Open CIA information for parents"
+    linkLabel: "Open CIA information for parents",
+    springNotice: "Spring 2027 arrival and residence-hall instructions are coming soon. Returning and new students should use the instructions sent to their own CIA account."
   },
   {
     id: "roommate", audience: ["student","parent"], category: "living", icon: "🛏️",
@@ -168,7 +172,8 @@ const facts = [
     stepParent: "Send enough supplies for the first weeks—not a wholesale-club quantity the student must later carry home.",
     source: "Village insight · Based on recurring GroupMe laundry discussions", sourceType: "village",
     link: "https://catalog.ciachef.edu/",
-    linkLabel: "Check current residence-life information"
+    linkLabel: "Check current residence-life information",
+    springNotice: "Spring 2027 residence-hall laundry costs and machine arrangements are coming soon. Confirm them after arrival before buying supplies in bulk."
   },
   {
     id: "printer", audience: ["student","parent"], category: "classes", icon: "🖨️",
@@ -192,7 +197,8 @@ const facts = [
     stepParent: "Plan your goodbye and shopping around the official student schedule—not around what another family received.",
     source: "Village insight · Orientation schedules vary by cohort", sourceType: "village",
     link: "https://www.ciachef.edu/parents/",
-    linkLabel: "Open CIA information for parents"
+    linkLabel: "Open CIA information for parents",
+    springNotice: "Spring 2027 orientation dates and required sessions are coming soon. The schedule sent to the student’s CIA account will control."
   },
   {
     id: "travel", audience: ["student","parent"], category: "arrival", icon: "🚆",
@@ -204,7 +210,8 @@ const facts = [
     stepParent: "Do not purchase a tight, nonrefundable itinerary until the class schedule and transportation are confirmed.",
     source: "Needs verification · Transportation schedules and fees may change", sourceType: "verify",
     link: "https://www.ciachef.edu/new-york-campus-directions/",
-    linkLabel: "View New York campus travel directions"
+    linkLabel: "View New York campus travel directions",
+    springNotice: "Spring 2027 campus and break-shuttle schedules, destinations, and fees are coming soon. Confirm transportation before buying tickets."
   },
   {
     id: "work", audience: ["student","parent"], category: "money", icon: "💼",
@@ -266,7 +273,8 @@ const facts = [
     stepParent: "Confirm the student’s legal name and campus, complete every required field, and save the submission confirmation.",
     source: "CIA · Celebration Gram form", sourceType: "official",
     link: "https://ciachef.formstack.com/forms/celebration_gram",
-    linkLabel: "Open the Celebration Gram form"
+    linkLabel: "Open the Celebration Gram form",
+    springNotice: "Spring 2027 Celebration Gram products, prices, and pickup timing are coming soon. Use the live form for the current choices."
   },
   {
     id: "groceries", audience: ["student","parent"], category: "living", icon: "🛒",
@@ -303,7 +311,8 @@ const facts = [
     stepParent: "Do not repeatedly attempt the student’s login. Use your own proxy access and have the student contact ITS for account trouble.",
     source: "Village resource · Student ITS Help Desk details shared September 2026", sourceType: "verify",
     link: "https://www.ciachef.edu/cia-login/",
-    linkLabel: "Open CIA login and portal links"
+    linkLabel: "Open CIA login and portal links",
+    springNotice: "Spring 2027 Student ITS location and service hours are coming soon. Use the official CIA login page and current campus directory for help."
   },
   {
     id: "activities", audience: ["student","parent"], category: "living", icon: "🎫",
@@ -315,7 +324,8 @@ const facts = [
     stepParent: "Send the official link once; let the student decide which events fit the class schedule.",
     source: "Village resource · CIA Activities account shared by families", sourceType: "village",
     link: "https://www.instagram.com/ciaactivities/",
-    linkLabel: "Open CIA Activities on Instagram"
+    linkLabel: "Open CIA Activities on Instagram",
+    springNotice: "Spring 2027 event dates and registration details are coming soon. Students should follow current official campus notices."
   },
   {
     id: "family-weekend", audience: ["student","parent"], category: "living", icon: "🏨",
