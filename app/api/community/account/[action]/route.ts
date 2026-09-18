@@ -91,7 +91,10 @@ export async function POST(request:Request, context:{params:Promise<{action:stri
   }
   if (action==='export') {
    const result:Record<string,unknown>={account:{email:user.email,id:user.id,displayName:session.displayName,emailVerified:Boolean(user.email_verified)},exportedAt:new Date().toISOString()};
-   for (const table of ['community_posts','community_comments','community_reactions','community_reports']) result[table]=(await env.DB.prepare(`SELECT * FROM ${table} WHERE user_id=?`).bind(user.id).all()).results;
+   result.community_posts=(await env.DB.prepare('SELECT * FROM community_posts WHERE user_id=?').bind(user.id).all()).results;
+   result.community_comments=(await env.DB.prepare('SELECT * FROM community_comments WHERE user_id=?').bind(user.id).all()).results;
+   result.community_reactions=(await env.DB.prepare('SELECT * FROM community_reactions WHERE user_id=?').bind(user.id).all()).results;
+   result.community_reports=(await env.DB.prepare('SELECT * FROM community_reports WHERE user_id=?').bind(user.id).all()).results;
    result.wallSubmissions=(await env.DB.prepare('SELECT * FROM wall_submissions WHERE submitter_email=? COLLATE NOCASE').bind(user.email).all()).results;
    result.corrections=(await env.DB.prepare('SELECT * FROM corrections WHERE submitter_email=? COLLATE NOCASE').bind(user.email).all()).results;
    const media=await env.DB.prepare('SELECT media_key AS key FROM community_posts WHERE user_id=? AND media_key IS NOT NULL UNION SELECT image_key AS key FROM wall_submissions WHERE submitter_email=? COLLATE NOCASE').bind(user.id,user.email).all<{key:string}>();
