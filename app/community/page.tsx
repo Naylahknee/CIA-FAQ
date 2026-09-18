@@ -45,12 +45,8 @@ export default function CommunityPage() {
         <a className="community-brand auth-brand" href="/" aria-label="Open the Guide and FAQ">
           <span className="brand-icon"><img src="/favicon.svg" alt="" /></span>
         </a>
-        <div className="auth-collage" aria-hidden="true">
-          <img className="auth-photo auth-photo-building" src="/community-campus-building.webp" alt="" />
-          <img className="auth-photo auth-photo-group" src="/community-campus-group.webp" alt="" />
-          <span className="food-badge food-badge-one">🥐</span>
-          <span className="food-badge food-badge-two">🧁</span>
-          <span className="food-badge food-badge-three">🍽️</span>
+        <div className="auth-collage">
+          <img className="auth-collage-image" src="/community-login-collage.webp" alt="Accepted Student Day moments at the CIA Hyde Park campus." />
         </div>
         <p className="auth-visual-copy">Connect with families who understand the CIA journey.</p>
       </section>

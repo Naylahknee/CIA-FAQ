@@ -8,14 +8,8 @@
 .auth-shell{display:grid;grid-template-columns:minmax(0,1.12fr) minmax(450px,.88fr);place-items:stretch;min-height:100vh;padding:0;background:var(--cia-cream);overflow:hidden}
 .auth-visual{position:relative;min-height:100vh;padding:clamp(1.5rem,3vw,3.25rem);background:#f3eee5;border-right:1px solid var(--cia-line);overflow:hidden}
 .auth-brand{position:relative;z-index:3;width:max-content}
-.auth-collage{position:relative;width:min(670px,88%);height:min(67vh,650px);margin:clamp(2rem,5vh,4.5rem) auto 1.5rem}
-.auth-photo{position:absolute;display:block;object-fit:cover;border:9px solid var(--cia-cream);box-shadow:0 20px 55px rgba(8,41,69,.18)}
-.auth-photo-building{right:5%;top:0;width:55%;height:82%}
-.auth-photo-group{left:0;bottom:0;width:65%;height:49%}
-.food-badge{position:absolute;z-index:2;display:grid;place-items:center;width:clamp(58px,6vw,84px);height:clamp(58px,6vw,84px);border:7px solid var(--cia-cream);border-radius:50%;background:var(--cia-gold);font-size:clamp(1.75rem,3vw,2.75rem);box-shadow:0 10px 25px rgba(8,41,69,.18)}
-.food-badge-one{left:7%;top:4%}
-.food-badge-two{right:0;bottom:11%;background:var(--cia-coral)}
-.food-badge-three{left:47%;bottom:-2%;background:var(--cia-navy)}
+.auth-collage{width:min(720px,94%);margin:clamp(1.25rem,3vh,2.5rem) auto .75rem}
+.auth-collage-image{display:block;width:100%;height:auto;max-height:64vh;object-fit:contain;filter:drop-shadow(0 20px 28px rgba(8,41,69,.14))}
 .auth-visual-copy{max-width:620px;margin:0 auto;color:var(--cia-navy);font-family:"Fraunces",Georgia,serif;font-size:clamp(1.7rem,2.5vw,2.8rem);font-weight:700;line-height:1.08}
 .auth-panel{display:grid;align-items:center;min-height:100vh;padding:clamp(2rem,5vw,6rem)}
 .auth-panel .auth-card{width:min(560px,100%);margin:auto;padding:0;background:transparent;border:0;box-shadow:none}
