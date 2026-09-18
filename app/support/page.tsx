@@ -3,6 +3,8 @@ import "../scholarship/scholarship.css";
 
 export const dynamic = "force-dynamic";
 
+const BUY_ME_A_COFFEE_URL = "https://buymeacoffee.com/tq4yIJli7f";
+
 export default function SupportPage() {
   const rawTotal = env.SUPPORT_CONFIRMED_TOTAL_CENTS;
   const amount = Number(rawTotal);
@@ -11,11 +13,11 @@ export default function SupportPage() {
   const goal = Number.isSafeInteger(target) && target > 0 ? target : null;
   const percent = total !== null && goal !== null ? Math.min(100, total / goal * 100) : 0;
   const money = (cents: number) => new Intl.NumberFormat("en-US", {style:"currency", currency:"USD"}).format(cents / 100);
-  let paymentUrl: string | null = null;
+  let paymentUrl = BUY_ME_A_COFFEE_URL;
   try {
     const url = new URL(String(env.SUPPORT_PAYMENT_URL ?? ""));
     if (url.protocol === "https:" && !url.username && !url.password) paymentUrl = url.href;
-  } catch { /* Show the pending state until a payment link is supplied. */ }
+  } catch { /* Use the verified Buy Me a Coffee page when no override is configured. */ }
 
   return <main className="form-page"><a className="form-back" href="/">Back to the Guide &amp; FAQ</a>
     <section className="form-card scholarship"><p className="eyebrow">An independent family guide &amp; FAQ</p><h1>Support the Guide</h1>
@@ -31,8 +33,8 @@ export default function SupportPage() {
         <div><h2>Help keep the guide going</h2>
           {total === null ? <p>Support tracking is being set up.</p> : <p className="fund-total">{money(total)}<span>{goal === null ? "in confirmed support" : `of ${money(goal)} goal`}</span></p>}
           {total !== null && goal !== null && <progress aria-label="Guide support funding progress" value={percent} max="100">{Math.round(percent)}%</progress>}
-          {paymentUrl ? <a className="support-button" href={paymentUrl} rel="noreferrer">Buy me a coffee</a> : <button disabled aria-describedby="support-status">Buy me a coffee — coming soon</button>}
-          <p id="support-status">{paymentUrl ? "Your contribution is processed on the payment provider’s website." : "The coffee link is being set up. The guide stays free to use."}</p>
+          <a className="support-button" href={paymentUrl} target="_blank" rel="noopener noreferrer">Buy me a coffee</a>
+          <p id="support-status">Your contribution is processed securely on Buy Me a Coffee.</p>
           <p className="support-total-note">The hat shows confirmed support recorded by the guide owner. Totals are not automatically synced with a payment provider yet.</p>
         </div>
       </div>
