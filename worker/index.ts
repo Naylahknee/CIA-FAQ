@@ -25,12 +25,27 @@ interface ExecutionContext {
 // dangerouslyAllowSVG: true in next.config.js and uncomment below:
 // const imageConfig: ImageConfig = { dangerouslyAllowSVG: true };
 
+const contentSecurityPolicy = [
+  "default-src 'self'",
+  "base-uri 'self'",
+  "object-src 'none'",
+  "frame-ancestors 'none'",
+  "form-action 'self'",
+  "img-src 'self' data: blob: https://media.giphy.com",
+  "script-src 'self' 'unsafe-inline' https://accounts.google.com",
+  "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
+  "font-src 'self' data: https://fonts.gstatic.com",
+  "connect-src 'self' https://accounts.google.com",
+  "frame-src https://accounts.google.com",
+  "upgrade-insecure-requests",
+].join("; ");
+
 function secure(response: Response, request: Request) {
   const secured = new Response(response.body, response);
   secured.headers.set("x-content-type-options", "nosniff");
   secured.headers.set("referrer-policy", "strict-origin-when-cross-origin");
   secured.headers.set("x-frame-options", "DENY");
-  secured.headers.set("content-security-policy", "frame-ancestors 'none'; base-uri 'self'; object-src 'none'");
+  secured.headers.set("content-security-policy", contentSecurityPolicy);
   secured.headers.set("permissions-policy", "camera=(), microphone=(), geolocation=(), payment=(), usb=()");
   secured.headers.set("cross-origin-opener-policy", "same-origin");
   if (new URL(request.url).protocol === "https:") secured.headers.set("strict-transport-security", "max-age=31536000; includeSubDomains");
@@ -40,6 +55,11 @@ function secure(response: Response, request: Request) {
 const worker = {
   async fetch(request: Request, env: Env, ctx: ExecutionContext): Promise<Response> {
     const url = new URL(request.url);
+
+    if (url.protocol !== "https:") {
+      url.protocol = "https:";
+      return Response.redirect(url, 308);
+    }
 
     if (url.pathname === "/_vinext/image") {
       const allowedWidths = [...DEFAULT_DEVICE_SIZES, ...DEFAULT_IMAGE_SIZES];
@@ -53,7 +73,12 @@ const worker = {
       return secure(imageResponse, request);
     }
 
-    return secure(await handler.fetch(request, env, ctx), request);
+    try {
+      return secure(await handler.fetch(request, env, ctx), request);
+    } catch (error) {
+      console.error("Unhandled worker request", error);
+      return secure(new Response("Service temporarily unavailable.", { status: 503 }), request);
+    }
   },
 };
 

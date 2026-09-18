@@ -44,3 +44,17 @@ Code review date: 2026-09-18. This is a source-code and build review, not an ext
 ## Scope note
 
 This delivers Facebook-group-style building blocks: topic-based discussion, original posts, anonymous posts, photos, GIFs, reactions, comments, reports, account controls, and moderation-aware identity handling. It intentionally does not claim to replicate Facebook's private messaging, events, livestreaming, marketplace, friend graph, or notification infrastructure.
+
+## Deployment and dependency review (2026-09-18)
+
+| Check | Result | Action |
+| --- | --- | --- |
+| HTTPS and certificate | HTTPS is active through Cloudflare with a valid TLS response. | The Worker now redirects HTTP requests to HTTPS with a 308 redirect. |
+| Security headers | `HSTS`, `X-Frame-Options`, `X-Content-Type-Options`, `Referrer-Policy`, `Permissions-Policy`, and a CSP are returned. | CSP was expanded to include `default-src`, script, image, font, connection, form, and frame controls. |
+| Debug/source maps | Production build has no `.map` files; inspector port is disabled. | `build.sourcemap` is explicitly `false`. |
+| Error details | API routes return generic client errors; the Worker now returns a generic 503 for unhandled exceptions. | Keep detailed errors in private Cloudflare logs only. |
+| Deployment reproducibility | The workflow previously used `npm install --no-package-lock`. | Fixed to `npm ci --no-audit --no-fund`; `package-lock.json` is authoritative in CI. |
+| Secrets | Secrets use GitHub Actions secrets and Cloudflare Worker secrets; no literal credential was found. | Keep public configuration in GitHub variables and private values in secrets only. |
+| Dependency vulnerabilities | `npm audit --omit=dev` found 0 vulnerabilities. Full audit found 14 development/build-tool advisories, including `vite`, `vinext`, `wrangler`, `react-server-dom-webpack`, and transitive `undici`, `ws`, `sharp`, and `image-size`. | Update the Vinext/Cloudflare build toolchain together once compatible patched versions are available; do not force isolated transitive overrides without verifying deployment compatibility. |
+
+The dependency manifest contains a number of unused starter packages: `@base-ui/react`, `@hookform/resolvers`, `@shadcn/react`, `class-variance-authority`, `clsx`, `cmdk`, `date-fns`, `embla-carousel-react`, `input-otp`, `next-themes`, `radix-ui`, `react-day-picker`, `react-hook-form`, `react-resizable-panels`, `recharts`, `sonner`, `tailwind-merge`, `vaul`, and `zod`. They are legitimate npm packages, but removing unreferenced packages reduces supply-chain surface and install size.
