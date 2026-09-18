@@ -605,7 +605,7 @@ h1 em { color: var(--red); font-style: normal; }
 .browse-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:24px; }
 .browse-card { min-height:205px; padding:28px 36px; border:1px solid var(--line); border-radius:12px; background:var(--paper); color:var(--ink); text-decoration:none; }
 .browse-card:hover,.browse-card:focus-visible { border-color:var(--red); outline:2px solid var(--red); outline-offset:2px; }
-.browse-card > span { display:block; width:30px; height:30px; margin-bottom:15px; color:var(--red); font-size:1.5rem; line-height:1; }
+.browse-card > svg { display:block; width:30px; height:30px; margin-bottom:15px; fill:none; stroke:var(--red); stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round; }
 .browse-card h3 { margin:0 0 14px; font:800 1.45rem/1.15 "Fraunces",serif; }
 .browse-card p { margin:0; color:var(--muted); }
 .most-asked-preview { padding:68px 0 40px; }
