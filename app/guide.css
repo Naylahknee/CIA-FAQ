@@ -699,6 +699,30 @@ h1 em { color: var(--red); font-style: normal; }
 }
 .system-page{max-width:680px;margin:0 auto;padding:clamp(72px,14vw,160px) 24px;color:#082c4b}.system-page h1{font-family:Georgia,serif;font-size:clamp(2.35rem,7vw,4.5rem);line-height:1.02;margin:.25rem 0 1rem}.system-page p:not(.eyebrow){font-size:1.08rem;line-height:1.6;max-width:54ch}.system-page .primary-button{display:inline-flex;margin-top:1.2rem}
 
+/* FAQ interaction follows the supplied reference: one centered list, one expanded answer. */
+.dashboard { width:min(860px,calc(100% - 48px)); margin:0 auto 72px; }
+.dashboard .main-column { width:100%; max-width:none; }
+.quick-section .section-heading { display:block; }
+.quick-section .section-heading h2 { margin-bottom:8px; }
+.cards { display:block; margin-top:24px; overflow:visible; border:0; border-radius:0; background:transparent; }
+.faq-card { margin:0; border:0; border-bottom:1px solid var(--ink); border-radius:0; background:transparent; box-shadow:none; }
+.faq-card:first-child { border-top:1px solid var(--ink); }
+.faq-card:hover { box-shadow:none; transform:none; }
+.faq-question { min-height:74px; padding:18px 20px; grid-template-columns:1fr auto; color:var(--ink); font-weight:700; }
+.faq-card.open { border:1px solid var(--ink); }
+.faq-card.open + .faq-card { border-top:0; }
+.faq-card.open .faq-question { background:var(--gold); }
+.faq-card.open .chevron { color:var(--ink); }
+.faq-answer { padding:22px 20px 28px; color:var(--ink); background:var(--paper); }
+.faq-answer .next-step { margin-inline:0; }
+.side-column { width:100%; grid-column:auto; grid-template-columns:1fr; position:static; margin-top:36px; }
+.first-month-section,.celebration-section,.community-walls,.contacts-section,.travel-section,.dates-section,.cost-section,.arrival-section,.health-section { width:min(1120px,calc(100% - 48px)); margin-inline:auto; }
+@media (max-width:640px) {
+  .dashboard { width:min(100% - 32px,860px); }
+  .faq-question { padding-inline:16px; }
+  .faq-answer { padding-inline:16px; }
+}
+
 /* Final reference layout — placed last to prevent legacy dashboard rules from winning. */
 .intro { position:relative; isolation:isolate; width:100% !important; min-height:396px; padding:104px 24px 170px; overflow:hidden; color:var(--paper); }
 .intro::before { content:""; position:absolute; inset:0; z-index:-2; background:url("/community-campus-building.webp") center 55% / cover no-repeat; }
