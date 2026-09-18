@@ -1,4 +1,4 @@
-import { randomBytes, timingSafeEqual } from "node:crypto";
+import { pbkdf2Sync, randomBytes, timingSafeEqual } from "node:crypto";
 
 export const passwordIterations = { current: 600_000, legacy: 210_000 } as const;
 const encoder = new TextEncoder();
@@ -14,9 +14,7 @@ function fromHex(value: string) {
 
 async function derivePassword(password: string, salt: string, iterations: number) {
   const saltBytes = iterations === passwordIterations.legacy ? encoder.encode(salt) : fromHex(salt);
-  const baseKey = await crypto.subtle.importKey("raw", encoder.encode(password), "PBKDF2", false, ["deriveBits"]);
-  const bits = await crypto.subtle.deriveBits({ name: "PBKDF2", hash: "SHA-256", salt: saltBytes, iterations }, baseKey, 256);
-  return new Uint8Array(bits);
+  return new Uint8Array(pbkdf2Sync(encoder.encode(password), saltBytes, iterations, 32, "sha256"));
 }
 
 export async function hashPassword(password: string, salt = hex(randomBytes(16)), iterations = passwordIterations.current) {
