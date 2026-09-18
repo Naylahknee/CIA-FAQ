@@ -1,4 +1,4 @@
-import { createHash, randomBytes, randomUUID } from "node:crypto";
+import { createHash, randomUUID } from "node:crypto";
 import { env } from "cloudflare:workers";
 import { and, eq, gt } from "drizzle-orm";
 import { cookies } from "next/headers";
@@ -65,7 +65,7 @@ export function noStoreJson(body: object, init: ResponseInit = {}) {
 }
 
 export async function createSession(userId: string) {
-  const token = hex(randomBytes(32));
+  const token = hex(crypto.getRandomValues(new Uint8Array(32)));
   const expiresAt = new Date(Date.now() + SESSION_DAYS * 86_400_000);
   if (neonAuthConfigured()) {
     await createNeonSession(userId, sha256(token), expiresAt);

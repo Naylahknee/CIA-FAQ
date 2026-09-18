@@ -1,4 +1,6 @@
-import { pbkdf2Sync, randomBytes, timingSafeEqual } from "node:crypto";
+import { timingSafeEqual } from "node:crypto";
+import { pbkdf2 } from "@noble/hashes/pbkdf2.js";
+import { sha256 } from "@noble/hashes/sha2.js";
 
 export const passwordIterations = { current: 600_000, legacy: 210_000 } as const;
 const encoder = new TextEncoder();
@@ -14,10 +16,14 @@ function fromHex(value: string) {
 
 async function derivePassword(password: string, salt: string, iterations: number) {
   const saltBytes = iterations === passwordIterations.legacy ? encoder.encode(salt) : fromHex(salt);
-  return new Uint8Array(pbkdf2Sync(encoder.encode(password), saltBytes, iterations, 32, "sha256"));
+  return pbkdf2(sha256, encoder.encode(password), saltBytes, { c: iterations, dkLen: 32 });
 }
 
-export async function hashPassword(password: string, salt = hex(randomBytes(16)), iterations = passwordIterations.current) {
+function randomHex(length: number) {
+  return hex(crypto.getRandomValues(new Uint8Array(length)));
+}
+
+export async function hashPassword(password: string, salt = randomHex(16), iterations = passwordIterations.current) {
   return { salt, hash: hex(await derivePassword(password, salt, iterations)), iterations };
 }
 
