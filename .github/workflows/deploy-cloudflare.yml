@@ -27,6 +27,8 @@ jobs:
       ADMIN_EMAIL: ${{ secrets.ADMIN_EMAIL }}
       GROUPME_WEBHOOK_SECRET: ${{ secrets.GROUPME_WEBHOOK_SECRET }}
       GROUPME_GROUP_ID: ${{ secrets.GROUPME_GROUP_ID }}
+      DATABASE_URL: ${{ secrets.DATABASE_URL }}
+      GOOGLE_CLIENT_ID: ${{ vars.GOOGLE_CLIENT_ID }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -73,6 +75,7 @@ jobs:
             ...customDomains.map((pattern) => ({ pattern, custom_domain: true })),
           ];
           if (process.env.AUTH_EMAIL_FROM?.trim()) config.vars.AUTH_EMAIL_FROM = process.env.AUTH_EMAIL_FROM.trim();
+          if (process.env.GOOGLE_CLIENT_ID?.trim()) config.vars.GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID.trim();
           if (/^[1-9][0-9]*$/.test(process.env.SUPPORT_GOAL_CENTS?.trim() ?? "")) config.vars.SUPPORT_GOAL_CENTS = process.env.SUPPORT_GOAL_CENTS.trim();
           if (process.env.SUPPORT_PAYMENT_URL?.trim()) config.vars.SUPPORT_PAYMENT_URL = process.env.SUPPORT_PAYMENT_URL.trim();
           if (/^[0-9]+$/.test(process.env.SUPPORT_CONFIRMED_TOTAL_CENTS?.trim() ?? "")) config.vars.SUPPORT_CONFIRMED_TOTAL_CENTS = process.env.SUPPORT_CONFIRMED_TOTAL_CENTS.trim();
@@ -82,6 +85,9 @@ jobs:
         run: cp -R drizzle dist/server/migrations
       - name: Apply D1 database migrations
         run: npx wrangler d1 migrations apply DB --remote --config dist/server/wrangler.json
+      - name: Apply Neon authentication migration
+        if: ${{ env.DATABASE_URL != '' }}
+        run: psql "$DATABASE_URL" -v ON_ERROR_STOP=1 -f migrations/neon/0001_auth.sql
       - name: Deploy Worker
         uses: cloudflare/wrangler-action@v3
         with:
@@ -94,6 +100,9 @@ jobs:
       - name: Configure transactional email secret
         if: ${{ env.RESEND_API_KEY != '' }}
         run: printf '%s' "$RESEND_API_KEY" | npx wrangler secret put RESEND_API_KEY --config dist/server/wrangler.json
+      - name: Configure Neon database secret
+        if: ${{ env.DATABASE_URL != '' }}
+        run: printf '%s' "$DATABASE_URL" | npx wrangler secret put DATABASE_URL --config dist/server/wrangler.json
       - name: Configure GroupMe callback secret
         if: ${{ env.GROUPME_WEBHOOK_SECRET != '' }}
         run: printf '%s' "$GROUPME_WEBHOOK_SECRET" | npx wrangler secret put GROUPME_WEBHOOK_SECRET --config dist/server/wrangler.json

@@ -4,6 +4,8 @@ import { and, eq, gt } from "drizzle-orm";
 import { cookies } from "next/headers";
 import { getDb } from "../db";
 import { communitySessions, communityUsers } from "../db/schema";
+import { ensureD1AuthSchema } from "./community-auth-schema";
+import { createNeonSession, deleteNeonSession, neonAuthConfigured, neonSessionUser, resetNeonRateLimit, sha256, takeNeonRateLimit } from "./neon-auth";
 export { hashPassword, passwordIterations, verifyPassword } from "./password-security";
 
 const COOKIE_NAME = "__Host-cia_guide_session";
@@ -29,6 +31,13 @@ export async function takeAuthAttempt(request: Request, action: AuthAction, emai
   const key = tokenHash(`${action}\0${identity}`);
   const resetBefore = now - settings.windowMs;
 
+  if (neonAuthConfigured()) {
+    const result = await takeNeonRateLimit(key, settings.max, settings.windowMs);
+    return { ...result, key };
+  }
+
+  await ensureD1AuthSchema();
+
   await env.DB.prepare(`INSERT INTO auth_rate_limits (key, attempts, window_start)
     VALUES (?, 1, ?)
     ON CONFLICT(key) DO UPDATE SET
@@ -43,6 +52,8 @@ export async function takeAuthAttempt(request: Request, action: AuthAction, emai
 }
 
 export async function resetAuthLimit(key: string) {
+  if (neonAuthConfigured()) return resetNeonRateLimit(key);
+  await ensureD1AuthSchema();
   await env.DB.prepare("DELETE FROM auth_rate_limits WHERE key = ?").bind(key).run();
 }
 
@@ -56,12 +67,17 @@ export function noStoreJson(body: object, init: ResponseInit = {}) {
 export async function createSession(userId: string) {
   const token = hex(randomBytes(32));
   const expiresAt = new Date(Date.now() + SESSION_DAYS * 86_400_000);
-  await env.DB.prepare("DELETE FROM community_sessions WHERE expires_at <= ?").bind(Date.now()).run();
-  await getDb().insert(communitySessions).values({ id: crypto.randomUUID(), userId, tokenHash: tokenHash(token), expiresAt, createdAt: new Date() });
-  await env.DB.prepare(`DELETE FROM community_sessions
-    WHERE user_id = ? AND id NOT IN (
-      SELECT id FROM community_sessions WHERE user_id = ? ORDER BY created_at DESC LIMIT 5
-    )`).bind(userId, userId).run();
+  if (neonAuthConfigured()) {
+    await createNeonSession(userId, sha256(token), expiresAt);
+  } else {
+    await ensureD1AuthSchema();
+    await env.DB.prepare("DELETE FROM community_sessions WHERE expires_at <= ?").bind(Date.now()).run();
+    await getDb().insert(communitySessions).values({ id: crypto.randomUUID(), userId, tokenHash: tokenHash(token), expiresAt, createdAt: new Date() });
+    await env.DB.prepare(`DELETE FROM community_sessions
+      WHERE user_id = ? AND id NOT IN (
+        SELECT id FROM community_sessions WHERE user_id = ? ORDER BY created_at DESC LIMIT 5
+      )`).bind(userId, userId).run();
+  }
   const jar = await cookies();
   jar.set(COOKIE_NAME, token, { httpOnly: true, secure: true, sameSite: "strict", path: "/", expires: expiresAt });
 }
@@ -69,13 +85,21 @@ export async function createSession(userId: string) {
 export async function clearSession() {
   const jar = await cookies();
   const token = jar.get(COOKIE_NAME)?.value;
-  if (token) await getDb().delete(communitySessions).where(eq(communitySessions.tokenHash, tokenHash(token)));
+  if (token) {
+    if (neonAuthConfigured()) await deleteNeonSession(sha256(token));
+    else await getDb().delete(communitySessions).where(eq(communitySessions.tokenHash, tokenHash(token)));
+  }
   jar.set(COOKIE_NAME, "", { httpOnly: true, secure: true, sameSite: "strict", path: "/", expires: new Date(0) });
 }
 
 export async function getCommunityUser() {
   const token = (await cookies()).get(COOKIE_NAME)?.value;
   if (!token || !/^[0-9a-f]{64}$/.test(token)) return null;
+  if (neonAuthConfigured()) {
+    const user = await neonSessionUser(sha256(token));
+    return user ? { id: user.id, email: user.email, displayName: user.displayName, role: user.role, emailVerified: user.emailVerified, verificationRequired: emailVerificationConfigured() } : null;
+  }
+  await ensureD1AuthSchema();
   const rows = await getDb().select({ id: communityUsers.id, email: communityUsers.email, displayName: communityUsers.displayName, role: communityUsers.role, emailVerified: communityUsers.emailVerified })
     .from(communitySessions).innerJoin(communityUsers, eq(communitySessions.userId, communityUsers.id))
     .where(and(eq(communitySessions.tokenHash, tokenHash(token)), gt(communitySessions.expiresAt, new Date()))).limit(1);

@@ -7,6 +7,8 @@ import "./community.css";
 type User = { id: string; email: string; displayName: string; role: string; emailVerified: boolean; verificationRequired: boolean };
 type Comment = { id: string; body: string; createdAt: number; userId: string; displayName: string };
 type Post = { id: string; body: string; gifUrl?: string | null; imageUrl?: string | null; mediaType?: string | null; createdAt: number; userId: string; displayName: string; comments: Comment[]; reactions: { reaction: string; count: number }[]; myReaction?: string | null };
+type GoogleApi = { accounts: { id: { initialize(input: { client_id: string; callback: (response: { credential?: string }) => void; auto_select: boolean; cancel_on_tap_outside: boolean }): void; renderButton(node: HTMLElement, options: Record<string, string | number>): void } } };
+declare global { interface Window { google?: GoogleApi } }
 
 const EMOJIS = ["😀","😂","🥰","👏","🙌","🎉","❤️","💛","👩🏽‍🍳","👨🏽‍🍳","🍽️","🧁","📚","💪","🙏","✨"];
 const GIFS = [
@@ -28,9 +30,44 @@ export default function CommunityPage() {
   const [authMode, setAuthMode] = useState<"signin"|"signup">("signin"); const [notice, setNotice] = useState(""); const [busy, setBusy] = useState(false);
   const [composer, setComposer] = useState(""); const [emojiOpen, setEmojiOpen] = useState(false); const [gifOpen, setGifOpen] = useState(false); const [gifUrl, setGifUrl] = useState(""); const [mediaName, setMediaName] = useState("");
   const mediaRef = useRef<HTMLInputElement>(null);
+  const googleButtonRef = useRef<HTMLDivElement>(null);
+  const [googleClientId, setGoogleClientId] = useState("");
 
   async function loadFeed() { setFeedState("loading"); const response = await fetch("/api/community/posts"); if (!response.ok) { setFeedState("error"); return; } const data = await response.json(); setPosts(data.posts); setFeedState("ready"); }
   useEffect(() => { fetch("/api/community/auth/me").then(r => r.json()).then(data => { setUser(data.user); setChecking(false); if (data.user) loadFeed(); }).catch(() => setChecking(false)); }, []);
+  useEffect(() => {
+    if (checking || user) return;
+    let cancelled = false;
+    fetch("/api/community/auth/providers").then(r => r.json()).then(data => {
+      const clientId = String(data.google?.clientId ?? "");
+      if (!clientId || cancelled) return;
+      setGoogleClientId(clientId);
+      const render = () => {
+        if (cancelled || !window.google || !googleButtonRef.current) return;
+        window.google.accounts.id.initialize({ client_id: clientId, auto_select: false, cancel_on_tap_outside: true, callback: async response => {
+          if (!response.credential) return;
+          setBusy(true); setNotice("");
+          try {
+            const result = await fetch("/api/community/auth/google", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ credential: response.credential }) });
+            const body = await result.json();
+            if (!result.ok) throw new Error(body.error || "Google sign-in could not be completed.");
+            const me = await fetch("/api/community/auth/me").then(r => r.json());
+            setUser(me.user); if (me.user) await loadFeed();
+          } catch (error) { setNotice(error instanceof Error ? error.message : "Google sign-in could not be completed."); }
+          finally { setBusy(false); }
+        }});
+        googleButtonRef.current.replaceChildren();
+        window.google.accounts.id.renderButton(googleButtonRef.current, { type: "standard", theme: "outline", size: "large", shape: "rectangular", text: authMode === "signup" ? "signup_with" : "signin_with", width: 400 });
+      };
+      if (window.google) render();
+      else {
+        const existing = document.querySelector<HTMLScriptElement>('script[data-google-identity="true"]');
+        if (existing) existing.addEventListener("load", render, { once: true });
+        else { const script = document.createElement("script"); script.src = "https://accounts.google.com/gsi/client"; script.async = true; script.dataset.googleIdentity = "true"; script.addEventListener("load", render, { once: true }); document.head.append(script); }
+      }
+    }).catch(() => undefined);
+    return () => { cancelled = true; };
+  }, [authMode, checking, user]);
 
   async function auth(event: FormEvent<HTMLFormElement>) { event.preventDefault(); setBusy(true); setNotice(""); try { const form = new FormData(event.currentTarget); const response = await fetch(`/api/community/auth/${authMode}`, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify(Object.fromEntries(form)) }); const data = await response.json(); if (!response.ok) setNotice(data.error); else { const me = await fetch("/api/community/auth/me").then(r=>r.json()); setUser(me.user); if (me.user && (!me.user.verificationRequired || me.user.emailVerified)) await loadFeed(); } } catch { setNotice("The account service could not be reached. Please try again."); } finally { setBusy(false); } }
   async function signout() { await fetch("/api/community/auth/signout", { method: "POST" }); setUser(null); setPosts([]); }
@@ -55,17 +92,18 @@ export default function CommunityPage() {
         <div className="auth-card">
           <p className="community-eyebrow">Private member community</p>
           <h1>CIA Family Community</h1>
+          {googleClientId&&<><div className="google-auth" ref={googleButtonRef} aria-label="Google account sign in"/><div className="auth-divider"><span>or use email</span></div></>}
           <form onSubmit={auth}>
             {authMode==="signup"&&<label>Display name<input name="displayName" required minLength={2} maxLength={60} autoComplete="name" /></label>}
             <label>Email address<input name="email" required type="email" autoComplete="email" /></label>
-            <label>Password<input name="password" required type="password" minLength={12} maxLength={128} autoComplete={authMode==="signup"?"new-password":"current-password"} /></label>
-            {authMode==="signup"&&<small>Use at least 12 characters. Your display name will appear beside posts and comments.</small>}
+            <label>Password<input name="password" required type="password" minLength={12} maxLength={128} pattern={authMode==="signup"?"(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-Za-z0-9]).{12,128}":undefined} title={authMode==="signup"?"Use 12–128 characters with an uppercase letter, lowercase letter, number, and symbol.":undefined} autoComplete={authMode==="signup"?"new-password":"current-password"} /></label>
+            {authMode==="signup"&&<small>Use 12–128 characters with an uppercase letter, lowercase letter, number, and symbol. Your display name will appear beside posts and comments.</small>}
             {authMode==="signin"&&<label>Authenticator or recovery code <small>(only if enabled)</small><input name="code" autoComplete="one-time-code" maxLength={32}/></label>}
             <button className="primary-action" disabled={busy}>{busy?"Please wait…":authMode==="signin"?"Sign in":"Create account"}</button>
           </form>
           {notice&&<p className="community-notice" role="alert">{notice}</p>}
           {authMode==="signin"&&<a className="auth-help-link" href="/account">Forgot password?</a>}
-          <div className="auth-divider" aria-hidden="true"><span /></div>
+          <div className="auth-divider simple" aria-hidden="true"><span /></div>
           <button className="secondary-action" type="button" onClick={()=>setAuthMode(authMode==="signin"?"signup":"signin")}>
             {authMode==="signin"?"Create new account":"Already have an account? Sign in"}
           </button>

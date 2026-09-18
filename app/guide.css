@@ -93,6 +93,7 @@ h1 em { color: var(--red); font-style: normal; }
 .faq-answer { display: none; padding: 0 22px 23px 76px; color: #3d4b5c; }
 .faq-card.open .faq-answer { display: block; }
 .faq-answer p { margin: 0 0 13px; }
+.term-note { margin: 0 0 14px; padding: 12px 14px; border: 1px solid #e6b34a; background: #fff8e6; color: var(--navy); border-radius: 8px; }
 .next-step { margin: 16px 0; padding: 14px 16px; border-left: 4px solid var(--gold); background: #fff8e6; border-radius: 0 10px 10px 0; }
 .source { display: inline-block; padding: 5px 9px; border-radius: 999px; font-size: .74rem; font-weight: 800; letter-spacing: .02em; }
 .source.official { color: #12533f; background: #e2f3ec; }

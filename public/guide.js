@@ -21,7 +21,8 @@ const facts = [
     stepParent: "Budget separately for travel, personal expenses, books, laundry, and costs not shown on the school rate sheet.",
     source: "Official · NY Rates 2026–27 (corrected April 8, 2026)", sourceType: "official",
     link: "https://www.ciachef.edu/cia-tuition/",
-    linkLabel: "View CIA tuition and fees"
+    linkLabel: "View CIA tuition and fees",
+    springNotice: "Spring 2027 uses the 2026–27 academic-year rates shown here. The student’s Spring 2027 bill remains the final authority."
   },
   {
     id: "proxy", audience: ["student","parent"], category: "money", icon: "🔐",
@@ -105,7 +106,8 @@ const facts = [
     stepParent: "Help your student install the app, but let the student complete sign-in. If the code or credentials fail, contact CIA Campus Safety or Student ITS rather than sharing login information.",
     source: "Needs verification · CIA family chat and official Everbridge app listings, September 2026", sourceType: "verify",
     link: "https://download.everbridge.net/",
-    linkLabel: "Open the official Everbridge 360 download page"
+    linkLabel: "Open the official Everbridge 360 download page",
+    springNotice: "Spring 2027 organization-code and sign-in instructions are coming soon. Use the current code from an official CIA message or Campus Safety."
   },
   {
     id: "movein", audience: ["student","parent"], category: "arrival", icon: "📦",
@@ -141,7 +143,8 @@ const facts = [
     stepParent: "Wait for the student to verify the schedule before booking travel.",
     source: "Official · 2026–27 Hyde Park Academic Calendar; subject to change", sourceType: "official",
     link: "https://ciamainmenu.culinary.edu/",
-    linkLabel: "Open the current calendar in CIA Main Menu"
+    linkLabel: "Open the current calendar in CIA Main Menu",
+    springNotice: "This FAQ uses the official 2026–27 calendar, which includes Spring 2027. The student’s current schedule still controls."
   },
   {
     id: "uniform", audience: ["student","parent"], category: "classes", icon: "🥼",
@@ -213,7 +216,8 @@ const facts = [
     stepParent: "If originals are required, help the student plan secure storage; otherwise use copies where the hiring office permits them.",
     source: "Village insight · Employment eligibility and documentation need official confirmation", sourceType: "verify",
     link: "https://ciamainmenu.culinary.edu/",
-    linkLabel: "Open CIA Main Menu"
+    linkLabel: "Open CIA Main Menu",
+    springNotice: "Spring 2027 job openings and application deadlines are coming soon. Confirm each role and required document with the hiring office."
   },
   {
     id: "mail", audience: ["student","parent"], category: "living", icon: "✉️",
@@ -225,7 +229,8 @@ const facts = [
     stepParent: "For urgent original documents, do not assume next-day delivery equals next-day pickup. Ask the carrier about Hold for Pickup or a staffed pickup location and verify identification requirements.",
     source: "Official · CIA New York campus information and 2022–23 Student Handbook", sourceType: "official",
     link: "https://www.ciachef.edu/new-york-campus-directions/",
-    linkLabel: "View the New York campus address"
+    linkLabel: "View the New York campus address",
+    springNotice: "The Hyde Park mailing address remains the same. Spring 2027 mailroom hours are coming soon; wait for the student’s pickup email."
   },
   {
     id: "fall-dates", terms: ["fall"], audience: ["student","parent"], category: "arrival", icon: "🗓️",
@@ -273,7 +278,8 @@ const facts = [
     stepParent: "Help compare delivery fees with the cost of a shared rideshare; do not treat a schedule screenshot from the chat as permanent.",
     source: "Village insight · September 2026 grocery and shuttle discussion", sourceType: "verify",
     link: "https://www.ciachef.edu/frequently-asked-questions/",
-    linkLabel: "Check CIA’s current FAQs"
+    linkLabel: "Check CIA’s current FAQs",
+    springNotice: "Spring 2027 shopping-shuttle routes and times are coming soon. Store and delivery options should be reconfirmed before use."
   },
   {
     id: "housing-help", audience: ["student","parent"], category: "living", icon: "🔧",
@@ -321,7 +327,17 @@ const facts = [
     stepParent: "Book refundable lodging when possible and check the current Family Weekend schedule before packing or purchasing activities.",
     source: "CIA lodging page and September 2026 family discussion", sourceType: "verify",
     link: "https://www.ciachef.edu/new-york-where-to-stay/",
-    linkLabel: "View CIA’s Hyde Park lodging list"
+    linkLabel: "View CIA’s Hyde Park lodging list",
+    termOverrides: {
+      spring: {
+        studentA: "Spring 2027 Family Weekend dates, registration details, and event schedule have not been verified yet. Information will be added when CIA publishes it.",
+        parentA: "Spring 2027 Family Weekend dates, registration details, guest guidance, and event schedule are coming soon. If you reserve lodging early, choose a refundable option and verify the official weekend before booking transportation.",
+        stepStudent: "Watch official CIA notices and confirm your class, work, competition, or team obligations before making family plans.",
+        stepParent: "Use refundable reservations until CIA publishes the Spring 2027 schedule.",
+        source: "Spring 2027 details · Coming soon",
+        sourceType: "verify"
+      }
+    }
   }
 ];
 
@@ -363,17 +379,22 @@ function renderCards() {
     return item.audience.includes(audience) && matchesCategory && matchesAcademicTerm && (!term || blob.includes(term));
   });
   cards.innerHTML = matches.map(item => {
+    const variant = item.termOverrides?.[academicTerm] ?? item;
     const clean = value => item.community ? escapeFaqText(value) : value;
-    const q = clean(audience === "student" ? item.studentQ : item.parentQ);
-    const answer = clean(audience === "student" ? item.studentA : item.parentA);
-    const step = clean(audience === "student" ? item.stepStudent : item.stepParent);
-    const source = clean(item.source);
+    const q = clean(audience === "student" ? (variant.studentQ ?? item.studentQ) : (variant.parentQ ?? item.parentQ));
+    const answer = clean(audience === "student" ? (variant.studentA ?? item.studentA) : (variant.parentA ?? item.parentA));
+    const step = clean(audience === "student" ? (variant.stepStudent ?? item.stepStudent) : (variant.stepParent ?? item.stepParent));
+    const source = clean(variant.source ?? item.source);
+    const sourceType = variant.sourceType ?? item.sourceType;
+    const link = variant.link ?? item.link;
+    const linkLabel = variant.linkLabel ?? item.linkLabel;
+    const termNotice = academicTerm === "spring" && item.springNotice ? `<div class="term-note"><strong>Spring 2027:</strong> ${clean(item.springNotice)}</div>` : "";
     return `<article class="faq-card">
       <button class="faq-question" aria-expanded="false">
         <span class="category-icon" aria-hidden="true">${item.icon}</span>
         <span>${q}</span><span class="chevron" aria-hidden="true">+</span>
       </button>
-      <div class="faq-answer"><p>${answer}</p><div class="next-step"><strong>What to do:</strong> ${step}</div><span class="source ${item.sourceType}">${source}</span>${item.link ? `<a class="faq-link" href="${item.link}" target="_blank" rel="noopener">${clean(item.linkLabel)} ↗</a>` : ""}</div>
+      <div class="faq-answer">${termNotice}<p>${answer}</p><div class="next-step"><strong>What to do:</strong> ${step}</div><span class="source ${sourceType}">${source}</span>${link ? `<a class="faq-link" href="${link}" target="_blank" rel="noopener">${clean(linkLabel)} ↗</a>` : ""}</div>
     </article>`;
   }).join("");
   document.querySelector("#result-count").textContent = `${matches.length} ${matches.length === 1 ? "answer" : "answers"}`;

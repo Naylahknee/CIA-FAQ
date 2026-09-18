@@ -90,6 +90,7 @@ Under **Repository secrets**, select **New repository secret** for each value an
 | `ADMIN_EMAIL` | The email address of the verified guide account allowed to review and publish submissions |
 | `GROUPME_WEBHOOK_SECRET` | A private random value used only in the GroupMe callback URL |
 | `GROUPME_GROUP_ID` | The numeric ID of the one GroupMe group the bot may read |
+| `DATABASE_URL` | The pooled Neon PostgreSQL connection string used only by server-side authentication |
 
 Generate `AUTH_ENCRYPTION_KEY` once with `openssl rand -hex 32`, or another cryptographically secure 32-byte generator. Never reuse a password or publish this value. Create `RESEND_API_KEY` only after verifying the sending domain in Resend.
 
@@ -114,8 +115,11 @@ Under **Repository variables**, add:
 | `SUPPORT_PAYMENT_URL` | Your HTTPS coffee/tip payment page; leave unset until ready |
 | `SUPPORT_GOAL_CENTS` | Optional support goal in cents |
 | `SUPPORT_CONFIRMED_TOTAL_CENTS` | Owner-verified total in cents; leave unset until verified |
+| `GOOGLE_CLIENT_ID` | The OAuth 2.0 Web client ID from Google Cloud Console |
 
 These are variables, not secrets.
+
+Before the first Neon-backed deployment, create a Neon project and copy its pooled connection string into the `DATABASE_URL` GitHub secret. In Google Cloud Console, create an OAuth 2.0 **Web application** client, add `https://ciaquestions.com` and `https://www.ciaquestions.com` as authorized JavaScript origins, then add its client ID as the `GOOGLE_CLIENT_ID` GitHub variable. The deployment applies `migrations/neon/0001_auth.sql` automatically when `DATABASE_URL` exists.
 
 ## 7. Run the deployment
 
