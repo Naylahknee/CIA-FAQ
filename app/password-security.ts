@@ -1,6 +1,4 @@
 import { timingSafeEqual } from "node:crypto";
-import { pbkdf2 } from "@noble/hashes/pbkdf2.js";
-import { sha256 } from "@noble/hashes/sha2.js";
 
 export const passwordIterations = { current: 600_000, legacy: 210_000 } as const;
 const encoder = new TextEncoder();
@@ -16,7 +14,19 @@ function fromHex(value: string) {
 
 async function derivePassword(password: string, salt: string, iterations: number) {
   const saltBytes = iterations === passwordIterations.legacy ? encoder.encode(salt) : fromHex(salt);
-  return pbkdf2(sha256, encoder.encode(password), saltBytes, { c: iterations, dkLen: 32 });
+  const baseKey = await crypto.subtle.importKey(
+    "raw",
+    encoder.encode(password),
+    { name: "PBKDF2" },
+    false,
+    ["deriveBits"],
+  );
+  const bits = await crypto.subtle.deriveBits(
+    { name: "PBKDF2", hash: "SHA-256", salt: saltBytes, iterations },
+    baseKey,
+    256,
+  );
+  return new Uint8Array(bits);
 }
 
 function randomHex(length: number) {
