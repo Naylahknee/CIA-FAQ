@@ -12,6 +12,8 @@
   --line: #dbe2ea;
   --shadow: 0 18px 45px rgba(10,37,64,.10);
 }
+
+@media(max-width:760px){.travel-section{margin-top:46px;padding-top:34px}.travel-heading h2{font-size:clamp(2rem,9vw,2.65rem)}.travel-whatif{gap:12px;margin-bottom:18px}.travel-control select{font-size:16px}.trip-matrix{margin-inline:-4px}.matrix-region{padding:20px 14px 10px}.matrix-option{margin:0 10px;border-bottom:1px solid var(--line);border-radius:10px}.matrix-option h4{font-size:1.55rem}.matrix-option p{font-size:.9rem}.travel-hub{padding:20px 16px}.travel-links a{font-size:.9rem}}
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; }
 body { margin: 0; background: var(--cream); color: var(--ink); font-family: "DM Sans", sans-serif; font-size: 16px; line-height: 1.55; }

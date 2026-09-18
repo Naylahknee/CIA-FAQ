@@ -42,3 +42,5 @@
   .auth-panel .auth-card{margin:0 auto}
   .auth-panel .auth-card h1{font-size:clamp(2.4rem,10vw,3.5rem)}
 }
+
+.community-post-options{display:flex;flex-wrap:wrap;align-items:center;gap:.7rem;padding:.7rem 1rem;background:var(--cia-cream);border:1px solid var(--cia-line);font-size:.82rem}.community-post-options label{display:flex;align-items:center;gap:.4rem;font-weight:700}.community-post-options select{max-width:170px;padding:.4rem;border:1px solid var(--cia-line);background:#fff;color:var(--cia-ink)}.community-post-options small{width:100%;color:#5f7180}.topic-button{border:1px solid var(--cia-navy);background:#fff;color:var(--cia-navy);padding:.42rem .62rem;font-weight:700;cursor:pointer}.anonymous-toggle input{accent-color:var(--cia-coral)}

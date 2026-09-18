@@ -58,9 +58,19 @@ export const communityPosts = sqliteTable("community_posts", {
   mediaKey: text("media_key"),
   mediaType: text("media_type"),
   gifUrl: text("gif_url"),
+  topicId: text("topic_id"),
+  isAnonymous: integer("is_anonymous", { mode: "boolean" }).notNull().default(false),
   status: text("status", { enum: ["published", "removed"] }).notNull().default("published"),
   createdAt: integer("created_at", { mode: "timestamp_ms" }).notNull(),
 }, (table) => [index("idx_community_posts_status_created").on(table.status, table.createdAt)]);
+
+export const communityTopics = sqliteTable("community_topics", {
+  id: text("id").primaryKey(),
+  name: text("name").notNull(),
+  createdBy: text("created_by").notNull().references(() => communityUsers.id, { onDelete: "cascade" }),
+  status: text("status", { enum: ["active", "archived"] }).notNull().default("active"),
+  createdAt: integer("created_at", { mode: "timestamp_ms" }).notNull(),
+}, (table) => [uniqueIndex("idx_community_topics_name").on(table.name), index("idx_community_topics_status_created").on(table.status, table.createdAt)]);
 
 export const communityComments = sqliteTable("community_comments", {
   id: text("id").primaryKey(),

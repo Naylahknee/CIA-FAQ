@@ -1,7 +1,7 @@
 import { and, eq } from "drizzle-orm";
 import { requireCommunityUser, validSameOrigin } from "../../../../../community-auth";
 import { getDb } from "../../../../../../db";
-import { communityReactions } from "../../../../../../db/schema";
+import { communityPosts, communityReactions } from "../../../../../../db/schema";
 
 const allowed = new Set(["like", "love", "celebrate", "support"]);
 export async function POST(request: Request, context: { params: Promise<{ id: string }> }) {
@@ -10,6 +10,8 @@ export async function POST(request: Request, context: { params: Promise<{ id: st
     const user = await requireCommunityUser(); const { id: postId } = await context.params;
     const data = await request.json() as { reaction?: string }; const reaction = String(data.reaction ?? "");
     if (!allowed.has(reaction)) return Response.json({ error: "Choose a valid reaction." }, { status: 400 });
+    const [post] = await getDb().select({ id: communityPosts.id }).from(communityPosts).where(and(eq(communityPosts.id, postId), eq(communityPosts.status, "published"))).limit(1);
+    if (!post) return Response.json({ error: "Post not found." }, { status: 404 });
     const existing = await getDb().select().from(communityReactions).where(and(eq(communityReactions.postId, postId), eq(communityReactions.userId, user.id))).limit(1);
     if (existing[0]?.reaction === reaction) await getDb().delete(communityReactions).where(eq(communityReactions.id, existing[0].id));
     else if (existing[0]) await getDb().update(communityReactions).set({ reaction: reaction as "like" | "love" | "celebrate" | "support" }).where(eq(communityReactions.id, existing[0].id));

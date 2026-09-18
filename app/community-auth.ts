@@ -9,7 +9,8 @@ import { createNeonSession, deleteNeonSession, neonAuthConfigured, neonSessionUs
 export { hashPassword, passwordIterations, verifyPassword } from "./password-security";
 
 const COOKIE_NAME = "__Host-cia_guide_session";
-const SESSION_DAYS = 7;
+// Short-lived opaque session tokens are preferable to long-lived browser credentials.
+const SESSION_DAYS = 1;
 type AuthAction = string;
 type AuthLimit = { allowed: boolean; key: string; retryAfter: number };
 
@@ -25,9 +26,9 @@ export function emailVerificationConfigured() {
 
 export async function takeAuthAttempt(request: Request, action: AuthAction, email: string): Promise<AuthLimit> {
   const now = Date.now();
-  const settings = action === "signin" ? { max: 5, windowMs: 15 * 60_000 } : { max: 5, windowMs: 60 * 60_000 };
+  const settings = action === "signin" ? { max: 5, windowMs: 15 * 60_000 } : action === "post" || action === "comment" || action === "topic" ? { max: 12, windowMs: 60 * 60_000 } : { max: 5, windowMs: 60 * 60_000 };
   const ip = request.headers.get("cf-connecting-ip") ?? "unknown";
-  const identity = (action === "signup" || action === "account") ? ip : `${ip}\0${email}`;
+  const identity = (action === "signup" || action.startsWith("account")) ? ip : `${ip}\0${email}`;
   const key = tokenHash(`${action}\0${identity}`);
   const resetBefore = now - settings.windowMs;
 

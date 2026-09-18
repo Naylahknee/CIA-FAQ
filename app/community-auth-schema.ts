@@ -15,12 +15,16 @@ async function prepareSchema() {
   await addMissingColumn("community_users", "mfa_secret", "TEXT");
   await addMissingColumn("community_users", "mfa_pending", "TEXT");
   await addMissingColumn("community_users", "mfa_last_step", "INTEGER NOT NULL DEFAULT -1");
+  await addMissingColumn("community_posts", "topic_id", "TEXT");
+  await addMissingColumn("community_posts", "is_anonymous", "INTEGER NOT NULL DEFAULT 0");
   await env.DB.batch([
     env.DB.prepare("CREATE TABLE IF NOT EXISTS auth_rate_limits (key TEXT PRIMARY KEY NOT NULL, attempts INTEGER NOT NULL DEFAULT 0, window_start INTEGER NOT NULL)"),
     env.DB.prepare("CREATE TABLE IF NOT EXISTS account_tokens (token_hash TEXT PRIMARY KEY, user_id TEXT NOT NULL REFERENCES community_users(id) ON DELETE CASCADE, purpose TEXT NOT NULL, expires_at INTEGER NOT NULL)"),
     env.DB.prepare("CREATE INDEX IF NOT EXISTS account_tokens_user ON account_tokens(user_id)"),
     env.DB.prepare("CREATE TABLE IF NOT EXISTS recovery_codes (code_hash TEXT PRIMARY KEY, user_id TEXT NOT NULL REFERENCES community_users(id) ON DELETE CASCADE)"),
     env.DB.prepare("CREATE INDEX IF NOT EXISTS idx_recovery_codes_user ON recovery_codes(user_id)"),
+    env.DB.prepare("CREATE TABLE IF NOT EXISTS community_topics (id TEXT PRIMARY KEY, name TEXT NOT NULL UNIQUE, created_by TEXT NOT NULL REFERENCES community_users(id) ON DELETE CASCADE, status TEXT NOT NULL DEFAULT 'active', created_at INTEGER NOT NULL)"),
+    env.DB.prepare("CREATE INDEX IF NOT EXISTS idx_community_topics_status_created ON community_topics(status, created_at)"),
   ]);
 }
 
