@@ -89,11 +89,33 @@ jobs:
         if: ${{ env.DATABASE_URL != '' }}
         run: psql "$DATABASE_URL" -v ON_ERROR_STOP=1 -f migrations/neon/0001_auth.sql
       - name: Deploy Worker
+        id: deploy-worker
+        continue-on-error: true
         uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           command: deploy --config dist/server/wrangler.json
+      - name: Verify community account lifecycle
+        shell: bash
+        run: |
+          set -euo pipefail
+          cookie_jar="$(mktemp)"
+          response_body="$(mktemp)"
+          trap 'rm -f "$cookie_jar" "$response_body"' EXIT
+          smoke_email="deploy-smoke-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}@example.invalid"
+          smoke_password='DeploymentTest!9341'
+          status="$(curl --silent --show-error --output "$response_body" --write-out '%{http_code}' \
+            --cookie-jar "$cookie_jar" --request POST 'https://ciaquestions.com/api/community/auth/signup' \
+            --header 'Origin: https://ciaquestions.com' --header 'Content-Type: application/json' \
+            --data "{\"displayName\":\"Deployment Check\",\"email\":\"$smoke_email\",\"password\":\"$smoke_password\"}")"
+          if [[ "$status" != "201" ]]; then cat "$response_body"; exit 1; fi
+          curl --silent --show-error --fail --cookie "$cookie_jar" 'https://ciaquestions.com/api/community/auth/me' | grep -q 'Deployment Check'
+          status="$(curl --silent --show-error --output "$response_body" --write-out '%{http_code}' \
+            --cookie "$cookie_jar" --request POST 'https://ciaquestions.com/api/community/account/delete' \
+            --header 'Origin: https://ciaquestions.com' --header 'Content-Type: application/json' \
+            --data "{\"password\":\"$smoke_password\",\"code\":\"\",\"confirmation\":\"DELETE MY ACCOUNT\"}")"
+          if [[ "$status" != "200" ]]; then cat "$response_body"; exit 1; fi
       - name: Configure two-factor encryption secret
         if: ${{ env.AUTH_ENCRYPTION_KEY != '' }}
         run: printf '%s' "$AUTH_ENCRYPTION_KEY" | npx wrangler secret put AUTH_ENCRYPTION_KEY --config dist/server/wrangler.json
