@@ -576,6 +576,54 @@ h1 em { color: var(--red); font-style: normal; }
   .section-heading { align-items:flex-start; }
 }
 
+/* Miro reference: a help-center page, not a dashboard. */
+.intro { position:relative; isolation:isolate; width:100% !important; min-height:396px; padding:104px 24px 170px; overflow:hidden; color:var(--paper); }
+.intro::before { content:""; position:absolute; inset:0; z-index:-2; background:url("/community-campus-building.webp") center 55% / cover no-repeat; }
+.intro::after { content:""; position:absolute; inset:0; z-index:-1; background:rgba(10,37,64,.82); }
+.intro > div { max-width:760px; }
+.intro .eyebrow,.intro h1 { color:var(--paper); }
+.intro h1 { margin-bottom:0; font-family:"DM Sans",sans-serif; font-size:clamp(2rem,3.2vw,2.8rem); font-weight:800; }
+.intro-copy { display:none; }
+.toolbox { position:relative; z-index:2; width:min(1120px,calc(100% - 48px)); margin:-128px auto 0; padding:0; display:grid; grid-template-columns:1fr; gap:20px; border:0; background:transparent; box-shadow:none; }
+.toolbox .search-wrap { width:min(560px,100%); justify-self:center; min-height:62px; border-radius:999px; box-shadow:none; }
+.search-wrap input { min-height:62px; border:0; border-radius:999px; background:var(--paper); }
+.toolbox .filters { justify-content:center; padding:18px 0 0; }
+.filters > span { color:var(--ink); }
+.guide-preferences { padding:0 0 18px; }
+.browse-section { padding:72px 0 70px; }
+.browse-section h2 { display:none; }
+.browse-grid { gap:78px 48px; }
+.browse-card { min-height:0; padding:0 24px; border:0; border-radius:0; background:transparent; text-align:center; }
+.browse-card:hover,.browse-card:focus-visible { border:0; outline:2px solid var(--red); outline-offset:6px; }
+.browse-card > svg { width:54px; height:54px; margin:0 auto 18px; stroke-width:1.5; }
+.browse-card h3 { margin-bottom:8px; font-family:"DM Sans",sans-serif; font-size:1rem; }
+.browse-card p { max-width:300px; margin-inline:auto; font-size:.95rem; line-height:1.5; }
+.most-asked-preview { padding:0 0 58px; max-width:760px; }
+.most-asked-preview h2 { margin-bottom:16px; font-size:1.7rem; }
+.most-asked-grid { display:block; }
+.most-asked-grid a { padding:16px 0; font-size:1rem; }
+.community-invite { max-width:760px; margin:0 auto 64px; border-left:0; }
+.dashboard { width:min(760px,calc(100% - 48px)); margin:0 auto 72px; }
+.dashboard .main-column { max-width:none; }
+.quick-section .section-heading h2 { font-size:1.8rem; }
+.cards { margin-top:18px; border-radius:0; }
+.faq-question { min-height:68px; padding:18px 20px; }
+.faq-answer { padding:0 20px 22px; }
+.side-column { display:grid; grid-template-columns:1fr; position:static; margin-top:28px; }
+.first-month-section,.celebration-section,.community-walls,.contacts-section,.travel-section,.dates-section,.cost-section,.arrival-section,.health-section { width:min(1120px,calc(100% - 48px)); }
+@media (max-width:640px) {
+  .intro { min-height:350px; padding:80px 16px 150px; }
+  .intro h1 { font-size:1.9rem; }
+  .toolbox { width:min(100% - 32px,1120px); margin-top:-118px; }
+  .toolbox .filters { justify-content:flex-start; overflow-x:auto; }
+  .guide-preferences { justify-content:flex-start; }
+  .browse-section { width:min(100% - 32px,1120px); padding-block:54px; }
+  .browse-grid { gap:54px 16px; }
+  .browse-card { padding:0 8px; }
+  .browse-card p { font-size:.88rem; }
+  .most-asked-preview,.dashboard { width:min(100% - 32px,760px); }
+}
+
 /* Dedicated FAQ route reuses the live guide data and controls without duplicating it. */
 .faq-page .intro { padding-block:48px 12px; }
 .faq-page .intro h1 { font-size:clamp(2.4rem,5vw,4rem); }
