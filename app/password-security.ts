@@ -1,6 +1,9 @@
 import { timingSafeEqual } from "node:crypto";
 
-export const passwordIterations = { current: 600_000, legacy: 210_000 } as const;
+// Cloudflare Workers' native PBKDF2 implementation caps the work factor at
+// 100,000. Use that supported maximum so password derivation stays native and
+// does not exhaust the Worker's JavaScript CPU budget.
+export const passwordIterations = { current: 100_000, legacy: 210_000 } as const;
 const encoder = new TextEncoder();
 
 function hex(bytes: Uint8Array) {

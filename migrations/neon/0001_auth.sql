@@ -21,7 +21,7 @@ CREATE TABLE IF NOT EXISTS auth_credentials (
   user_id uuid PRIMARY KEY REFERENCES auth_users(id) ON DELETE CASCADE,
   password_hash varchar(128) NOT NULL,
   password_salt varchar(64) NOT NULL,
-  password_iterations integer NOT NULL CHECK (password_iterations >= 210000),
+  password_iterations integer NOT NULL CHECK (password_iterations >= 100000),
   changed_at timestamptz NOT NULL DEFAULT now()
 );
 

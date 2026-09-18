@@ -58,9 +58,6 @@ export async function POST(request: Request) {
     return noStoreJson({ ok: true, verificationEmailSent }, { status: 201 });
   } catch (error) {
     console.error("community signup failed", { stage, error });
-    const diagnostic = stage === "password" && error instanceof Error
-      ? `${error.name}:${error.message}`.replace(/[^A-Za-z0-9 .:_-]/g, "").slice(0, 160)
-      : undefined;
-    return noStoreJson({ error: "Account creation is temporarily unavailable.", code: `signup_${stage}`, diagnostic }, { status: 503 });
+    return noStoreJson({ error: "Account creation is temporarily unavailable.", code: `signup_${stage}` }, { status: 503 });
   }
 }

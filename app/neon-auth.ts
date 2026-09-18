@@ -80,7 +80,7 @@ export async function neonSecurityRowById(id: string): Promise<NeonSecurityRow |
       u.mfa_secret, u.mfa_pending, u.mfa_last_step,
       COALESCE(c.password_hash, '') AS password_hash,
       COALESCE(c.password_salt, '') AS password_salt,
-      COALESCE(c.password_iterations, 600000) AS password_iterations
+      COALESCE(c.password_iterations, 100000) AS password_iterations
     FROM auth_users u LEFT JOIN auth_credentials c ON c.user_id = u.id WHERE u.id = $1 LIMIT 1`, [id]);
   const row = rows[0] as Record<string, unknown> | undefined;
   if (!row) return null;
@@ -219,7 +219,7 @@ export async function resetNeonRateLimit(key: string) {
 export async function mirrorCommunityUser(user: NeonUser, credentials?: { hash: string; salt: string; iterations: number }) {
   const { ensureD1AuthSchema } = await import("./community-auth-schema");
   await ensureD1AuthSchema();
-  const password = credentials ?? { hash: user.passwordHash ?? "", salt: user.passwordSalt ?? "", iterations: user.passwordIterations ?? 600000 };
+  const password = credentials ?? { hash: user.passwordHash ?? "", salt: user.passwordSalt ?? "", iterations: user.passwordIterations ?? 100000 };
   await env.DB.prepare(`INSERT INTO community_users
     (id,email,display_name,password_hash,password_salt,password_iterations,email_verified,role,created_at)
     VALUES (?,?,?,?,?,?,?,?,?)
