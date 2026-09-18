@@ -1,2 +1,0 @@
-CREATE POLICY "Moderators read all posts" ON public.community_posts FOR SELECT TO authenticated USING (public.has_role(auth.uid(), 'moderator'));
-CREATE POLICY "Moderators read all comments" ON public.community_comments FOR SELECT TO authenticated USING (public.has_role(auth.uid(), 'moderator'));
