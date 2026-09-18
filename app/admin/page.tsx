@@ -3,7 +3,7 @@ import { env } from "cloudflare:workers";
 import { getDb } from "../../db";
 import { corrections, faqSuggestions, wallSubmissions } from "../../db/schema";
 import { getCommunityUser } from "../community-auth";
-import { redirect } from "next/navigation";
+import { forbidden, redirect } from "next/navigation";
 
 export const dynamic = "force-dynamic";
 
@@ -11,7 +11,7 @@ export default async function AdminPage() {
   const user = await getCommunityUser();
   if (!user || !user.emailVerified) redirect("/community");
   const isOwner = user.role === "moderator" || user.email.toLowerCase() === String(env.ADMIN_EMAIL ?? "").toLowerCase();
-  if (!isOwner) return <main className="admin-page"><a href="/">← Back to guide</a><section className="admin-header"><h1>Owner access only</h1><p>This moderation dashboard is restricted to the site owner.</p></section></main>;
+  if (!isOwner) forbidden();
   const [submissions, reports, suggestions] = await Promise.all([
     getDb().select().from(wallSubmissions).orderBy(desc(wallSubmissions.createdAt)).limit(100),
     getDb().select().from(corrections).orderBy(desc(corrections.createdAt)).limit(100),
