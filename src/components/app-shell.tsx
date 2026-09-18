@@ -40,17 +40,24 @@ export function AppShell({ children }: { children: ReactNode }) {
   useEffect(()=>{const storedTerm=window.localStorage.getItem("guide-term");const storedAudience=window.localStorage.getItem("guide-audience");if(storedTerm==="fall"||storedTerm==="spring")setTerm(storedTerm);if(storedAudience==="parent"||storedAudience==="student")setAudience(storedAudience);else window.localStorage.setItem("guide-audience","parent");},[]);
   useEffect(()=>{
     let active=true;
-    async function sync(){
-      const { data:{ user } } = await supabase.auth.getUser();
-      if(!active) return;
-      setSignedIn(Boolean(user));
-      if(!user){setModerator(false);return;}
-      const { data:roles } = await supabase.from("user_roles").select("role").eq("user_id",user.id);
-      if(active) setModerator(Boolean(roles?.some((row)=>row.role==="moderator")));
+    let unsubscribe: (()=>void)|undefined;
+    try {
+      async function sync(){
+        const { data:{ user } } = await supabase.auth.getUser();
+        if(!active) return;
+        setSignedIn(Boolean(user));
+        if(!user){setModerator(false);return;}
+        const { data:roles } = await supabase.from("user_roles").select("role").eq("user_id",user.id);
+        if(active) setModerator(Boolean(roles?.some((row)=>row.role==="moderator")));
+      }
+      sync().catch(()=>{setSignedIn(false);setModerator(false);});
+      const { data } = supabase.auth.onAuthStateChange(()=>{ sync().catch(()=>undefined); });
+      unsubscribe=()=>data.subscription.unsubscribe();
+    } catch {
+      setSignedIn(false);
+      setModerator(false);
     }
-    sync().catch(()=>setSignedIn(false));
-    const { data } = supabase.auth.onAuthStateChange(()=>{ sync().catch(()=>undefined); });
-    return ()=>{ active=false; data.subscription.unsubscribe(); };
+    return ()=>{ active=false; unsubscribe?.(); };
   },[]);
   function setPreference(kind:"term"|"audience",value:string){window.localStorage.setItem(`guide-${kind}`,value);window.dispatchEvent(new CustomEvent("guide-preference",{detail:{kind,value}}));if(kind==="term")setTerm(value as "fall"|"spring");else setAudience(value as "parent"|"student");}
   async function signOut(){await supabase.auth.signOut();setSignedIn(false);setModerator(false);}
