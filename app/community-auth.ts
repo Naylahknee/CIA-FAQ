@@ -65,6 +65,10 @@ export function noStoreJson(body: object, init: ResponseInit = {}) {
   return Response.json(body, { ...init, headers });
 }
 
+export function apiError(message: string, status: number) {
+  return noStoreJson({ error: message }, { status });
+}
+
 export async function createSession(userId: string) {
   const token = hex(crypto.getRandomValues(new Uint8Array(32)));
   const expiresAt = new Date(Date.now() + SESSION_DAYS * 86_400_000);
@@ -109,8 +113,8 @@ export async function getCommunityUser() {
 
 export async function requireCommunityUser() {
   const user = await getCommunityUser();
-  if (!user) throw new Response("Sign in required", { status: 401, headers: { "cache-control": "no-store" } });
-  if (user.verificationRequired && !user.emailVerified) throw new Response("Verify your email in Account settings before using the community.", { status: 403, headers: { "cache-control": "no-store" } });
+  if (!user) throw apiError("Sign in required.", 401);
+  if (user.verificationRequired && !user.emailVerified) throw apiError("Verify your email in Account settings before using the community.", 403);
   return user;
 }
 

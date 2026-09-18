@@ -55,7 +55,7 @@ export default function CommunityPage() {
             if (!result.ok) throw new Error(body.error || "Google sign-in could not be completed.");
             const me = await fetch("/api/community/auth/me").then(r => r.json());
             setUser(me.user); if (me.user) await loadFeed();
-          } catch (error) { setNotice(error instanceof Error ? error.message : "Google sign-in could not be completed."); }
+          } catch { setNotice("Google sign-in could not be completed. Please try again."); }
           finally { setBusy(false); }
         }});
         googleButtonRef.current.replaceChildren();

@@ -77,7 +77,10 @@ const worker = {
       return secure(await handler.fetch(request, env, ctx), request);
     } catch (error) {
       console.error("Unhandled worker request", error);
-      return secure(new Response("Service temporarily unavailable.", { status: 503 }), request);
+      const unavailable = url.pathname.startsWith("/api/")
+        ? Response.json({ error: "Service temporarily unavailable." }, { status: 503, headers: { "cache-control": "no-store" } })
+        : new Response("Service temporarily unavailable.", { status: 503 });
+      return secure(unavailable, request);
     }
   },
 };

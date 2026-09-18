@@ -57,4 +57,18 @@ This delivers Facebook-group-style building blocks: topic-based discussion, orig
 | Secrets | Secrets use GitHub Actions secrets and Cloudflare Worker secrets; no literal credential was found. | Keep public configuration in GitHub variables and private values in secrets only. |
 | Dependency vulnerabilities | `npm audit --omit=dev` found 0 vulnerabilities. Full audit found 14 development/build-tool advisories, including `vite`, `vinext`, `wrangler`, `react-server-dom-webpack`, and transitive `undici`, `ws`, `sharp`, and `image-size`. | Update the Vinext/Cloudflare build toolchain together once compatible patched versions are available; do not force isolated transitive overrides without verifying deployment compatibility. |
 
-The dependency manifest contains a number of unused starter packages: `@base-ui/react`, `@hookform/resolvers`, `@shadcn/react`, `class-variance-authority`, `clsx`, `cmdk`, `date-fns`, `embla-carousel-react`, `input-otp`, `next-themes`, `radix-ui`, `react-day-picker`, `react-hook-form`, `react-resizable-panels`, `recharts`, `sonner`, `tailwind-merge`, `vaul`, and `zod`. They are legitimate npm packages, but removing unreferenced packages reduces supply-chain surface and install size.
+`@hookform/resolvers`, `date-fns`, and `zod` had no source-code reference and were removed. The remaining listed UI packages are retained because tracked UI components still import them, even though those components are not currently rendered by the guide. Removing them would require removing that component library and its regression tests as a separate cleanup change.
+
+## Error handling and information disclosure review (2026-09-18)
+
+| Location | Prior risk | Result / exact remediation |
+| --- | --- | --- |
+| `worker/index.ts` | An unhandled application exception could receive the platform default error response. | Fixed: the Worker logs full details only in Cloudflare's server-side logs and returns generic `503` text for pages or `{ "error": "Service temporarily unavailable." }` for API routes. |
+| `app/community/page.tsx` | The Google callback displayed the caught JavaScript error message directly. A future backend change could have exposed unexpected detail. | Fixed: the UI now uses a fixed, visitor-safe message. |
+| `app/account/page.tsx` | The account screen displayed the caught JavaScript error message directly. | Fixed: the UI now uses a fixed, visitor-safe message. |
+| `app/community-auth.ts` | Unauthenticated and unverified community requests threw plain-text responses, making API response types inconsistent. | Fixed: these now return no-store JSON `{ "error": "…" }` with `401` or `403`. |
+| `app/api/media/:id` and `app/api/community/media/:id` | Error paths returned plain text while successful requests returned a media stream. These strings were not sensitive, but the format was inconsistent. | Fixed: failures now return generic no-store JSON; successful media continues to stream with `nosniff`. |
+| Page routes | No custom application-level 404, 403, or 500 UI existed. | Fixed: added `app/not-found.tsx`, `app/forbidden.tsx`, and `app/error.tsx`. None render an exception, path, database message, or stack trace. |
+| Database and crypto helpers | Helpers throw internal configuration or parsing errors. | Pass: route-level catches and the Worker boundary prevent these errors from reaching a visitor. They are useful only in private server logs. |
+
+The reviewed application does not return stack traces, filesystem paths, database schema messages, database-driver errors, or raw exception messages in production responses. The only full-detail logging is `console.error` in the Worker and sign-up handler, which remains server-side. API handlers use `400` for invalid requests, `401` for sign-in required, `403` for denied/CSRF-protected actions, `404` for missing resources, `413` for oversized input, `429` for rate limits, and generic `500`/`503` service failures.
