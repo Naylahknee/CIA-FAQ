@@ -1,0 +1,89 @@
+name: Deploy to Cloudflare Workers
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+      SUPABASE_URL: ${{ vars.SUPABASE_URL || vars.VITE_SUPABASE_URL || secrets.SUPABASE_URL || secrets.VITE_SUPABASE_URL }}
+      SUPABASE_PUBLISHABLE_KEY: ${{ vars.SUPABASE_PUBLISHABLE_KEY || vars.VITE_SUPABASE_PUBLISHABLE_KEY || secrets.SUPABASE_PUBLISHABLE_KEY || secrets.VITE_SUPABASE_PUBLISHABLE_KEY }}
+      VITE_SUPABASE_URL: ${{ vars.VITE_SUPABASE_URL || vars.SUPABASE_URL || secrets.VITE_SUPABASE_URL || secrets.SUPABASE_URL }}
+      VITE_SUPABASE_PUBLISHABLE_KEY: ${{ vars.VITE_SUPABASE_PUBLISHABLE_KEY || vars.SUPABASE_PUBLISHABLE_KEY || secrets.VITE_SUPABASE_PUBLISHABLE_KEY || secrets.SUPABASE_PUBLISHABLE_KEY }}
+      SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+      INSTAGRAM_ACCESS_TOKEN: ${{ secrets.INSTAGRAM_ACCESS_TOKEN }}
+      INSTAGRAM_ACCOUNT_ID: ${{ secrets.INSTAGRAM_ACCOUNT_ID }}
+      LOVABLE_CRON_SECRET: ${{ secrets.LOVABLE_CRON_SECRET }}
+      LOVABLE_CRON_SECRET_PREVIOUS: ${{ secrets.LOVABLE_CRON_SECRET_PREVIOUS }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Build Cloudflare Worker
+        run: bun run build
+
+      - name: Configure production Worker
+        run: |
+          node --input-type=module <<'NODE'
+          import fs from "node:fs";
+
+          const path = ".output/server/wrangler.json";
+          const config = JSON.parse(fs.readFileSync(path, "utf8"));
+          config.name = "cia-guide";
+
+          const runtimeVars = {
+            SUPABASE_URL: process.env.SUPABASE_URL,
+            SUPABASE_PUBLISHABLE_KEY: process.env.SUPABASE_PUBLISHABLE_KEY,
+          };
+          const populatedVars = Object.fromEntries(
+            Object.entries(runtimeVars).filter(([, value]) => value?.trim()),
+          );
+          if (Object.keys(populatedVars).length) {
+            config.vars = { ...(config.vars ?? {}), ...populatedVars };
+          }
+
+          fs.writeFileSync(path, JSON.stringify(config, null, 2) + "\n");
+          NODE
+
+      - name: Deploy Worker
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: deploy --config .output/server/wrangler.json
+
+      - name: Configure Supabase service role
+        if: ${{ env.SUPABASE_SERVICE_ROLE_KEY != '' }}
+        run: printf '%s' "$SUPABASE_SERVICE_ROLE_KEY" | bunx wrangler secret put SUPABASE_SERVICE_ROLE_KEY --config .output/server/wrangler.json
+
+      - name: Configure Instagram access token
+        if: ${{ env.INSTAGRAM_ACCESS_TOKEN != '' }}
+        run: printf '%s' "$INSTAGRAM_ACCESS_TOKEN" | bunx wrangler secret put INSTAGRAM_ACCESS_TOKEN --config .output/server/wrangler.json
+
+      - name: Configure Instagram account
+        if: ${{ env.INSTAGRAM_ACCOUNT_ID != '' }}
+        run: printf '%s' "$INSTAGRAM_ACCOUNT_ID" | bunx wrangler secret put INSTAGRAM_ACCOUNT_ID --config .output/server/wrangler.json
+
+      - name: Configure cron secret
+        if: ${{ env.LOVABLE_CRON_SECRET != '' }}
+        run: printf '%s' "$LOVABLE_CRON_SECRET" | bunx wrangler secret put LOVABLE_CRON_SECRET --config .output/server/wrangler.json
+
+      - name: Configure previous cron secret
+        if: ${{ env.LOVABLE_CRON_SECRET_PREVIOUS != '' }}
+        run: printf '%s' "$LOVABLE_CRON_SECRET_PREVIOUS" | bunx wrangler secret put LOVABLE_CRON_SECRET_PREVIOUS --config .output/server/wrangler.json
