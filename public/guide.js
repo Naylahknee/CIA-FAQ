@@ -96,6 +96,18 @@ const facts = [
     linkLabel: "Open the current CIA handbook"
   },
   {
+    id: "everbridge", audience: ["student","parent"], category: "health", icon: "📱",
+    studentQ: "How do I set up Everbridge 360 for campus safety alerts?",
+    parentQ: "What is Everbridge 360, and how does my student sign in?",
+    studentA: "Everbridge 360 is the app CIA uses for mass notifications about weather, closures, emergencies, and other safety information. Download Everbridge 360, choose the organization-code option, and enter Culinary1946. That code was pinned by CIA’s admissions director in the family chat on September 17, 2026; confirm it with CIA if the app does not recognize it.",
+    parentA: "Everbridge 360 is an organization-provided critical-communications app. CIA’s admissions director pinned Culinary1946 as the organization code in the family chat on September 17, 2026. Students should create or use their own authorized access; families should not ask for or use a student’s CIA password.",
+    stepStudent: "Allow the notifications needed for safety alerts, then test that your contact information is current. The app supplements—not replaces—911, alarms, posted evacuation instructions, and directions from Campus Safety.",
+    stepParent: "Help your student install the app, but let the student complete sign-in. If the code or credentials fail, contact CIA Campus Safety or Student ITS rather than sharing login information.",
+    source: "Needs verification · CIA family chat and official Everbridge app listings, September 2026", sourceType: "verify",
+    link: "https://download.everbridge.net/",
+    linkLabel: "Open the official Everbridge 360 download page"
+  },
+  {
     id: "movein", audience: ["student","parent"], category: "arrival", icon: "📦",
     studentQ: "What should I bring on move-in day?",
     parentQ: "How do we avoid overpacking for move-in?",

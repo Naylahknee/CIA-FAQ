@@ -175,6 +175,12 @@ h1 em { color: var(--red); font-style: normal; }
 .resource-tile a { margin-top: auto; color: var(--blue); font-size: .82rem; font-weight: 800; }
 .resource-links { display:flex; flex-wrap:wrap; gap:8px 12px; margin-top:auto; }
 .resource-links a { margin-top:0; }
+.everbridge-tile { grid-column: span 2; min-height: 290px; }
+.app-download-links { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px; width:100%; margin-top:auto; }
+.app-download-links a { display:block; margin:0; border-radius:12px; }
+.app-download-links a:focus-visible { outline:3px solid var(--gold); outline-offset:3px; }
+.app-download-links img { display:block; width:100%; height:auto; border-radius:12px; }
+.resource-tile .everbridge-faq-link { margin-top:12px; }
 .resource-tile.gold-tile { background: #fff8e6; border-color: #ead49d; }
 .resource-tile.red-tile { background: #fff1ed; border-color: #f0c2b6; }
 .resource-tile.navy-tile { background: var(--navy); border-color: var(--navy); }
@@ -429,6 +435,7 @@ h1 em { color: var(--red); font-style: normal; }
   .community-invite>a { width:fit-content; }
   .celebration-button { grid-column: 1/-1; }
   .resource-wall-grid, .memory-rules { grid-template-columns: repeat(2,minmax(0,1fr)); }
+  .everbridge-tile { grid-column:span 2; }
   .approved-wall-grid,.privacy-grid { grid-template-columns: repeat(2,minmax(0,1fr)); }
   .travel-regions, .shopping-grid { grid-template-columns: 1fr; }
   .travel-hub { grid-template-columns: 1fr; }
@@ -467,6 +474,8 @@ h1 em { color: var(--red); font-style: normal; }
   .wall-tabs { width: 100%; }
   .wall-tab { flex: 1; }
   .resource-wall-grid, .memory-rules { grid-template-columns: 1fr; }
+  .everbridge-tile { grid-column:auto; }
+  .app-download-links { grid-template-columns:1fr; }
   .approved-wall-grid,.privacy-grid { grid-template-columns:1fr; }
   .review-card { grid-template-columns:1fr; }
   .memory-empty { grid-template-columns: 1fr; padding: 24px; }
