@@ -48,11 +48,11 @@ export async function POST(request:Request, context:{params:Promise<{action:stri
   }
   const session=await getCommunityUser(); if (!session) return fail('Sign in first.',401);
   const user=await accountRow(session.id); if (!user) return fail('Sign in first.',401);
-  if (action==='status') return noStoreJson({email:user.email,emailVerified:Boolean(user.email_verified),twoFactorEnabled:Boolean(user.mfa_secret)});
+  if (action==='status') return noStoreJson({email:user.email,emailVerified:Boolean(user.email_verified),emailVerificationRequired:emailVerificationConfigured(),twoFactorEnabled:Boolean(user.mfa_secret)});
   if (action==='verify-request') { await sendAccountEmail(user,'verify'); return noStoreJson({message:'Verification link sent. Check your email.'}); }
   const password=String(data.password??'');
   if (password.length>128 || !await verifyPassword(password,user.password_salt,user.password_hash,user.password_iterations)) return fail('Credentials could not be verified.',401);
-  if (!user.email_verified) return fail('Verify your email first.',403);
+  if (emailVerificationConfigured() && !user.email_verified) return fail('Verify your email first.',403);
   if (!await checkFactor(user,String(data.code??''))) return fail('Authenticator or recovery code is invalid or already used.',401);
   if (action==='mfa-setup') {
    if (user.mfa_secret) return fail('Two-factor authentication is already enabled.');
