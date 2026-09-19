@@ -266,37 +266,73 @@
 }
 
 
-/* Community sign-in: a welcoming landing screen with account access in lightboxes.
+/* Community sign-in: a fixed desktop split, following the Facebook-style reference.
    The existing CIA palette and account flow remain unchanged. */
 .c-auth-page {
-  width: min(1280px, 100% - 40px);
+  width: 100%;
   min-height: calc(100svh - 60px);
-  margin-inline: auto;
   display: grid;
+  grid-template-columns: minmax(0, 1.12fr) minmax(450px, .88fr);
   grid-template-rows: minmax(0, 1fr) auto;
+  align-items: stretch;
 }
 .c-auth-welcome {
   min-width: 0;
-  padding: clamp(36px, 6vw, 80px) clamp(32px, 5vw, 72px);
+  padding: clamp(42px, 6vw, 84px) clamp(36px, 6vw, 96px);
+  border-right: 1px solid var(--c-card-border);
   display: grid;
-  grid-template-columns: minmax(230px, .7fr) minmax(360px, 1.3fr);
-  gap: clamp(32px, 6vw, 92px);
+  grid-template-columns: minmax(220px, .72fr) minmax(360px, 1.28fr);
+  gap: clamp(28px, 4vw, 64px);
   align-items: center;
 }
-.c-auth-welcome-copy { align-self: end; max-width: 365px; }
+.c-auth-welcome-copy { align-self: end; max-width: 340px; }
 .c-auth-eyebrow { margin: 0 0 12px; color: var(--c-green); font-size: .79rem; font-weight: 800; letter-spacing: .05em; text-transform: uppercase; }
-.c-auth-welcome h1 { margin: 0; font-size: clamp(2.7rem, 5vw, 5rem); line-height: .98; letter-spacing: -.055em; }
+.c-auth-welcome h1 { margin: 0; font-size: clamp(2.7rem, 4.8vw, 5rem); line-height: .98; letter-spacing: -.055em; }
 .c-auth-lead { margin: 20px 0 0; color: var(--c-muted); font-size: 1.03rem; line-height: 1.58; }
-.c-auth-landing-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 28px; }
-.c-auth-landing-actions .c-btn { min-height: 44px; }
 .c-auth-visual { width: min(100%, 620px); margin: 0; justify-self: end; }
 .c-auth-visual img { display: block; width: 100%; height: auto; }
+
+.c-auth-access {
+  min-width: 0;
+  padding: clamp(42px, 6vw, 96px) clamp(32px, 6vw, 120px);
+  background: var(--c-card);
+  display: grid;
+  align-items: center;
+}
+.c-auth-card {
+  width: min(100%, 620px);
+  max-width: none;
+  box-sizing: border-box;
+  margin-inline: auto;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+.c-auth-card > h2 { margin: 0; font-size: 1.7rem; letter-spacing: -.035em; }
+.c-auth-intro { margin: 9px 0 0; color: var(--c-meta); font-size: .93rem; line-height: 1.5; }
+.c-auth-card .c-auth-form { margin-top: 26px; }
+.c-auth-card .c-auth-form input:not([type="checkbox"]) { min-height: 58px; border-radius: var(--c-radius); background: var(--c-card); }
+.c-auth-card .c-password-row input { min-height: 58px; }
+.c-auth-card .c-password-row button { min-height: 58px; border-radius: var(--c-radius); }
+.c-auth-card .c-btn:not(.c-btn-ghost) { width: 100%; min-height: 56px; margin-top: 4px; border-radius: var(--c-pill); }
+.c-auth-card .c-auth-divider { margin: 28px 0 20px; }
+.c-auth-google { display: flex; justify-content: center; min-height: 40px; }
+.c-auth-create-account { width: 100%; min-height: 50px; margin-top: 28px; border: 1px solid var(--c-green); border-radius: var(--c-pill); background: transparent; color: var(--c-green); }
+.c-auth-create-account:hover { background: var(--c-green-tint); color: var(--c-green); }
+.c-auth-switch { margin: 22px 0 0; color: var(--c-meta); font-size: .88rem; text-align: center; }
+.c-auth-footnote { margin: 18px 0 0; color: var(--c-meta); font-size: .79rem; line-height: 1.45; text-align: center; }
+
 .c-auth-community-care {
+  grid-column: 1 / -1;
   display: grid;
   grid-template-columns: auto minmax(0, 1fr);
   gap: 22px;
   align-items: center;
-  padding: 16px 24px;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 16px clamp(24px, 5vw, 96px);
   border-top: 1px solid var(--c-green-tint-border);
   background: var(--c-green-tint);
 }
@@ -305,66 +341,19 @@
 .c-auth-community-care p span { display: inline-flex; align-items: center; gap: 8px; }
 .c-auth-community-care p span::before { content: "•"; color: var(--c-green); font-weight: 800; }
 
-.c-auth-lightbox-backdrop {
-  position: fixed;
-  z-index: 100;
-  inset: 0;
-  display: grid;
-  place-items: center;
-  padding: 24px;
-  background: rgb(16 24 40 / 45%);
-}
-.c-auth-lightbox {
-  position: relative;
-  width: min(100%, 560px);
-  max-height: calc(100svh - 48px);
-  overflow: auto;
-}
-.c-auth-lightbox-close {
-  position: absolute;
-  z-index: 1;
-  top: 10px;
-  right: 10px;
-  display: grid;
-  place-items: center;
-  width: 32px;
-  height: 32px;
-  border: 0;
-  border-radius: var(--c-pill);
-  background: var(--c-control);
-  color: var(--c-muted);
-  font: inherit;
-  font-size: 1.45rem;
-  line-height: 1;
-  cursor: pointer;
-}
-.c-auth-lightbox-close:hover { background: var(--c-green-tint); color: var(--c-green); }
-.c-auth-card { width: 100%; max-width: none; box-sizing: border-box; padding: 36px; }
-.c-auth-card > h2 { margin: 0; padding-right: 34px; font-size: 1.7rem; letter-spacing: -.035em; }
-.c-auth-intro { margin: 9px 0 0; color: var(--c-meta); font-size: .93rem; line-height: 1.5; }
-.c-auth-tabs { display: grid; grid-template-columns: 1fr 1fr; margin: 22px 0 4px; }
-.c-auth-tabs .c-pill { width: 100%; border-radius: var(--c-control-radius); }
-.c-auth-card .c-auth-form { margin-top: 18px; }
-.c-auth-card .c-btn:not(.c-btn-ghost) { width: 100%; min-height: 44px; }
-.c-auth-card .c-auth-divider { margin: 2px 0; }
-.c-auth-google { display: flex; justify-content: center; min-height: 40px; }
-.c-auth-switch { margin: 18px 0 0; color: var(--c-meta); font-size: .88rem; text-align: center; }
-.c-auth-footnote { margin: 16px 0 0; color: var(--c-meta); font-size: .79rem; line-height: 1.45; text-align: center; }
-
 @media (max-width: 960px) {
-  .c-auth-page { width: min(100% - 32px, 860px); }
-  .c-auth-welcome { padding: 42px 0 34px; grid-template-columns: minmax(0, .8fr) minmax(300px, 1.2fr); }
+  .c-auth-page { grid-template-columns: 1fr; grid-template-rows: auto; }
+  .c-auth-welcome { padding: 42px max(24px, 8vw) 34px; border-right: 0; border-bottom: 1px solid var(--c-card-border); grid-template-columns: minmax(0, .8fr) minmax(300px, 1.2fr); }
   .c-auth-welcome h1 { font-size: clamp(2.45rem, 7vw, 3.75rem); }
-  .c-auth-community-care { grid-template-columns: 1fr; gap: 6px; margin: 0 -16px; padding: 16px; }
+  .c-auth-access { padding: 46px 32px; }
+  .c-auth-community-care { grid-column: 1; grid-template-columns: 1fr; gap: 6px; padding: 16px max(24px, 8vw); }
 }
 @media (max-width: 640px) {
-  .c-auth-page { width: min(100% - 24px, 460px); min-height: auto; }
-  .c-auth-welcome { display: grid; grid-template-columns: 1fr; padding: 32px 0 28px; }
+  .c-auth-welcome { display: grid; grid-template-columns: 1fr; padding: 32px 24px 28px; }
   .c-auth-welcome h1 { font-size: clamp(2.2rem, 12vw, 3rem); }
   .c-auth-visual { width: min(100%, 390px); justify-self: center; }
-  .c-auth-community-care { margin: 0 -12px; padding: 16px 12px; }
+  .c-auth-access { padding: 32px 24px; }
+  .c-auth-community-care { padding: 16px 24px; }
   .c-auth-community-care p { display: grid; gap: 8px; }
-  .c-auth-lightbox-backdrop { padding: 12px; }
-  .c-auth-lightbox { max-height: calc(100svh - 24px); }
-  .c-auth-card { padding: 24px 22px; }
+  .c-auth-card .c-auth-form input:not([type="checkbox"]), .c-auth-card .c-password-row input, .c-auth-card .c-password-row button { min-height: 50px; }
 }
