@@ -14,6 +14,21 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  # Cheap and first: a text file that does not decode breaks the build wherever
+  # it is imported, and a corrupt stylesheet once got through to main and failed
+  # three Cloudflare deploys before anyone noticed. Needs no dependencies, so it
+  # reports in seconds rather than after a full install and build.
+  encoding:
+    name: File encoding
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check text files decode as UTF-8
+        run: node .github/scripts/check-encoding.mjs
+
   verify:
     name: Build and test
     runs-on: ubuntu-latest
