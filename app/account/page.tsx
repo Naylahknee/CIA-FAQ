@@ -1,4 +1,5 @@
 'use client';
+import Link from 'next/link';
 import { FormEvent, useEffect, useState } from 'react';
 export default function AccountPage(){
  const [status,setStatus]=useState<{email:string;emailVerified:boolean;emailVerificationRequired:boolean;twoFactorEnabled:boolean}|null>(null);
@@ -11,7 +12,7 @@ export default function AccountPage(){
  if(data.secret)setSecret(data.secret);if(data.codes){setCodes(data.codes);setSecret('');}if(['delete','mfa-confirm','mfa-disable'].includes(action))setStatus(null);
  }catch{setNotice('That request could not be completed. Please try again.');}finally{setBusy(false);}}
  const credentials=<><label>Current password<input name="password" type="password" autoComplete="current-password" required maxLength={128}/></label><label>Authenticator or recovery code (if enabled)<input name="code" autoComplete="one-time-code" maxLength={32}/></label></>;
- return <main className="form-page"><a href="/">Back to the guide</a><section className="form-card"><h1>Account &amp; privacy</h1><p>You can read every FAQ without joining. Sign up and verify your email to interact with other parents and students.</p><p><a href="/community">Sign in or create an account</a> · <a href="/privacy">Privacy details</a></p><p role="status" aria-live="polite">{busy?'Working…':notice}</p>
+ return <main className="form-page"><Link href="/">Back to the guide</Link><section className="form-card"><h1>Account &amp; privacy</h1><p>You can read every FAQ without joining. Sign up and verify your email to interact with other parents and students.</p><p><Link href="/community">Sign in or create an account</Link> · <Link href="/privacy">Privacy details</Link></p><p role="status" aria-live="polite">{busy?'Working…':notice}</p>
  {link&&<form onSubmit={e=>submit(e,link.action)}><h2>{link.action==='verify'?'Verify email':'Choose a new password'}</h2>{link.action==='reset'&&<label>New password<input name="password" type="password" autoComplete="new-password" minLength={12} maxLength={128} pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-Za-z0-9]).{12,128}" title="Use 12–128 characters with an uppercase letter, lowercase letter, number, and symbol." required/></label>}<button disabled={busy}>Confirm {link.action==='verify'?'email':'new password'}</button></form>}
  <form onSubmit={e=>submit(e,'reset-request')}><h2>Forgot your password?</h2><label>Email<input name="email" type="email" autoComplete="email" required maxLength={200}/></label><button disabled={busy}>Send password reset link</button></form>
  {status&&<><h2>{status.email}</h2><p>Email: {status.emailVerified?'verified':status.emailVerificationRequired?'verification needed':'verification is not required until email delivery is configured'}. Two-factor authentication: {status.twoFactorEnabled?'on':'off'}.</p>{status.emailVerificationRequired&&!status.emailVerified&&<form onSubmit={e=>submit(e,'verify-request')}><button disabled={busy}>Send verification email</button></form>}
