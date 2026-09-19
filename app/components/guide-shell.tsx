@@ -13,7 +13,7 @@ const links = [
   { to: "/faq", label: "FAQs & Help", icon: Search },
   { to: "/resources", label: "Resource Library", icon: Library },
   { to: "/calendar", label: "Calendar", icon: CalendarDays },
-  { to: "/shopping", label: "Support", icon: ShoppingBag },
+  { to: "/support", label: "Support", icon: ShoppingBag },
   { to: "/safety", label: "Safety & Support", icon: HeartHandshake },
 ] as const;
 
@@ -148,7 +148,7 @@ export function GuideShell({ children }: { children: ReactNode }) {
           <div className="radial-selector" role="radiogroup" aria-label="Academic year"><button type="button" role="radio" aria-checked={term === "fall"} className={term === "fall" ? "active" : ""} onClick={() => setTerm("fall")}>Fall 2026</button><button type="button" role="radio" aria-checked={term === "spring"} className={term === "spring" ? "active" : ""} onClick={() => setTerm("spring")}>Spring 2027</button></div>
         </div>
         {children}
-        <footer className="site-footer"><div className="site-footer-inner"><div className="site-footer-about"><strong>CIA Hyde Park Family Guide &amp; FAQ</strong><p>An independent guide built from official documents and anonymized family questions. Anyone can read the FAQs.</p><nav aria-label="Footer navigation"><Link href="/privacy">Privacy</Link><Link href="/corrections">Corrections</Link><Link href="/wall">Celebration Wall</Link><Link href="/support">Support the Guide</Link></nav></div></div><div className="site-footer-note">No advertising or analytics tracking. Signed-in accounts use one essential secure cookie.</div><a className="back-to-top" href="#top" aria-label="Back to top"><ArrowUp /></a></footer>
+        <footer className="site-footer"><div className="site-footer-inner"><div className="site-footer-about"><strong>CIA Hyde Park Family Guide &amp; FAQ</strong><p>An independent guide built from official documents and anonymized family questions. Anyone can read the FAQs.</p><nav aria-label="Footer navigation"><Link href="/privacy">Privacy</Link><Link href="/corrections">Corrections</Link><Link href="/wall">Celebration Wall</Link><a href="https://buymeacoffee.com/tq4yIJli7f" target="_blank" rel="noreferrer">Buy me a coffee</a></nav></div></div><div className="site-footer-note">No advertising or analytics tracking. Signed-in accounts use one essential secure cookie.</div><a className="back-to-top" href="#top" aria-label="Back to top"><ArrowUp /></a></footer>
       </div>
     </div>
   );

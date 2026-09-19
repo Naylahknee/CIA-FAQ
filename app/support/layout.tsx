@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Support the Guide",
-  description: "Help keep the CIA Hyde Park Family Guide free, independent and advertising-free for every family.",
+  title: "Shopping Near CIA Hyde Park: Pickup & Delivery for Students",
+  description: "Where to buy what a CIA Hyde Park student needs: storage and moving supplies, groceries and room essentials from stores near campus, with pickup and delivery guidance and how to send a Celebration Gram.",
   alternates: { canonical: "/support" },
-  openGraph: { title: "Support the Guide", description: "Help keep the CIA Hyde Park Family Guide free, independent and advertising-free for every family.", url: "/support", type: "website" },
+  openGraph: { title: "Shopping Near CIA Hyde Park: Pickup & Delivery for Students", description: "Where to buy what a CIA Hyde Park student needs: storage and moving supplies, groceries and room essentials from stores near campus, with pickup and delivery guidance and how to send a Celebration Gram.", url: "/support", type: "website" },
 };
 
 export default function Layout({ children }: { children: React.ReactNode }) { return children; }

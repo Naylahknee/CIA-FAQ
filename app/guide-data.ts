@@ -649,3 +649,57 @@ export const resources = [
   { title: "Hyde Park Travel Directions", description: "Current campus address, driving directions, and travel planning information.", href: "https://www.ciachef.edu/new-york-campus-directions/", kind: "Official resource" },
   { title: "CIA Activities", description: "Campus events and student activities shared through the official activities account.", href: "https://www.instagram.com/ciaactivities/", kind: "Official channel" }
 ] as const;
+
+export type Term = "fall" | "spring";
+
+/** What the term switch in the utility bar is actually choosing between. One
+ *  place, so a page never hardcodes the year in its own copy. */
+export const termLabels: Record<Term, string> = { fall: "Fall 2026", spring: "Spring 2027" };
+
+/** `termOverrides` existed in the data for a while before anything read it, so
+ *  a fact with spring-specific wording still rendered its fall answer whichever
+ *  term was selected. Every surface that shows a fact should go through here. */
+export function resolveFact(fact: Fact, term: Term): Fact {
+  const override = fact.termOverrides?.[term];
+  return override ? { ...fact, ...override } : fact;
+}
+
+/** A fact without `terms` belongs to every term; one with `terms` belongs only
+ *  to those listed, which is how Fall 2026 dates stay out of a Spring view. */
+export function factAppliesToTerm(fact: Fact, term: Term): boolean {
+  return !fact.terms || fact.terms.includes(term);
+}
+
+export function factsForTerm(term: Term): Fact[] {
+  return facts.filter((fact) => factAppliesToTerm(fact, term)).map((fact) => resolveFact(fact, term));
+}
+
+export function factForTerm(id: string, term: Term): Fact | undefined {
+  const fact = facts.find((entry) => entry.id === id);
+  if (!fact || !factAppliesToTerm(fact, term)) return undefined;
+  return resolveFact(fact, term);
+}
+
+/** `springNotice` is written as a caveat about Spring 2027 ("details are coming
+ *  soon", "confirm before relying on the Fall figures"). Shown while Fall is
+ *  selected it is just noise about a term the reader has not asked about, so it
+ *  is scoped to the term it describes. */
+export function termNotice(fact: Fact, term: Term): string | undefined {
+  return term === "spring" ? fact.springNotice : undefined;
+}
+
+/** Which answers the landing page leads with. These differ by term on purpose:
+ *  a family planning Spring 2027 needs the January return dates, not the
+ *  September new-student move-in. Ids are resolved through `factForTerm`, so a
+ *  pick that does not apply to the selected term drops out rather than
+ *  rendering the wrong year's answer. */
+export const homePicks: Record<Term, { opening: string[]; mostAsked: string[] }> = {
+  fall: {
+    opening: ["meal", "deposit", "movein", "textbooks"],
+    mostAsked: ["meal", "medical", "fall-dates", "groceries"],
+  },
+  spring: {
+    opening: ["meal", "deposit", "spring-dates", "textbooks"],
+    mostAsked: ["meal", "medical", "spring-dates", "travel"],
+  },
+};

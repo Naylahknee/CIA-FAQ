@@ -2,33 +2,54 @@
 /* eslint-disable @next/next/no-img-element */
 
 import { ArrowRight, ChevronLeft, ChevronRight, ExternalLink, Gift, HeartPulse, MapPin, ShoppingBag, Utensils } from "lucide-react";
-import { useEffect, useMemo, useState } from "react";
-import { facts, topics } from "../guide-data";
+import { useEffect, useMemo, useState, useSyncExternalStore } from "react";
+import { factForTerm, homePicks, termLabels, termNotice, topics } from "../guide-data";
 import { fullDates, resourceLibrary, academicEventAlt, academicEventDate, academicEventImage } from "../guide-sections";
 import { useGuidePreferences } from "./guide-shell";
 import { GuideIcon } from "./guide-icon";
 import { HelpSearch } from "./help-search";
 import Link from "next/link";
 
-const cutoff = new Date(2026, 8, 18);
+/** Events already past are not "upcoming". This is the server-rendered
+ *  starting point only -- the client replaces it with the real today on mount
+ *  (see below), so the first render is identical on both sides and the list
+ *  does not silently rot as the term goes on. */
+const initialCutoff = new Date(2026, 8, 18);
+const startOfToday = () => { const now = new Date(); return new Date(now.getFullYear(), now.getMonth(), now.getDate()); };
+/** Today does not change while the page is open in any way worth re-rendering
+ *  for, so there is nothing to subscribe to. */
+const subscribeNever = () => () => {};
 
 export function GuideHome() {
   const { audience, term } = useGuidePreferences();
   const [focusedEventIndex, setFocusedEventIndex] = useState(0);
-  const selectedTerm = term === "fall" ? "Fall 2026" : "Spring 2027";
+  const selectedTerm = termLabels[term];
 
-  const mostAsked = ["meal", "medical", "calendar", "groceries"].map((id) => facts.find((fact) => fact.id === id)).filter((fact): fact is (typeof facts)[number] => Boolean(fact));
-  const openingQuestions = ["meal", "deposit", "movein", "textbooks"].map((id) => facts.find((fact) => fact.id === id)).filter((fact): fact is (typeof facts)[number] => Boolean(fact));
-  const meal = facts.find((fact) => fact.id === "meal");
-  const medical = facts.find((fact) => fact.id === "medical");
+  // Every fact on this page is read for the selected term, so a spring visitor
+  // gets the spring answer (or nothing, where the fact is fall-only) instead of
+  // the fall answer relabelled.
+  const picks = homePicks[term];
+  const mostAsked = useMemo(() => picks.mostAsked.map((id) => factForTerm(id, term)).filter((fact) => Boolean(fact)) as NonNullable<ReturnType<typeof factForTerm>>[], [picks, term]);
+  const openingQuestions = useMemo(() => picks.opening.map((id) => factForTerm(id, term)).filter((fact) => Boolean(fact)) as NonNullable<ReturnType<typeof factForTerm>>[], [picks, term]);
+  const meal = factForTerm("meal", term);
+  const medical = factForTerm("medical", term);
+  const mealNotice = meal && termNotice(meal, term);
+  const medicalNotice = medical && termNotice(medical, term);
   const mealFile = resourceLibrary.find((resource) => resource.title === "Freshman Meal Plan");
+
+  // The clock is an external source, so it is read as one: the server snapshot
+  // is the fixed date above, which keeps the server and client first render
+  // byte-identical even when the two sit either side of midnight, and the
+  // client uses the real today from hydration onwards.
+  const cutoffTime = useSyncExternalStore(subscribeNever, () => startOfToday().getTime(), () => initialCutoff.getTime());
+  const cutoff = useMemo(() => new Date(cutoffTime), [cutoffTime]);
 
   const upcomingEvents = useMemo(() => fullDates
     .filter((item) => item.term === selectedTerm)
     .map((item) => ({ id: `academic-${item.term}-${item.month}-${item.day}-${item.title}`, date: academicEventDate(item), title: item.title, description: item.note, image: academicEventImage(item.title), alt: academicEventAlt(item.title), kind: item.term }))
     .filter((event) => event.date >= cutoff)
     .sort((a, b) => a.date.getTime() - b.date.getTime())
-    .slice(0, 6), [selectedTerm]);
+    .slice(0, 6), [selectedTerm, cutoff]);
 
   useEffect(() => setFocusedEventIndex(0), [audience, selectedTerm, upcomingEvents.length]);
   const focusedEvent = upcomingEvents[focusedEventIndex];
@@ -64,7 +85,11 @@ export function GuideHome() {
       <div className="home-opening-copy">
         <p className="eyebrow">CIA Hyde Park Family Guide &amp; FAQ</p>
         <h1>{audience === "student" ? "Your CIA Hyde Park student guide." : "Your CIA Hyde Park survival guide."}</h1>
-        <p>{audience === "student" ? "Official information, real questions from students, and the next useful step for your term on campus." : "Official information, real family questions, and what to do after move-in—without digging through six thousand chat messages."}</p>
+        <p>{audience === "student"
+          ? `Official information, real questions from students, and the next useful step for ${selectedTerm} on campus.`
+          : term === "spring"
+            ? `Official information, real family questions, and what ${selectedTerm} actually asks of your family—without digging through six thousand chat messages.`
+            : "Official information, real family questions, and what to do after move-in—without digging through six thousand chat messages."}</p>
         <span>CIA Hyde Park · {selectedTerm}</span>
         <HelpSearch title="" compact />
         <div className="opening-question-grid">{openingQuestions.map((fact) => <Link key={fact.id} href={`/faq/${fact.category}`}>{audience === "student" ? fact.studentQ : fact.parentQ}</Link>)}</div>
@@ -100,7 +125,7 @@ export function GuideHome() {
     </section>
 
     <section className="home-section home-tint"><div className="page-wrap">
-      <header><p className="eyebrow">Most asked</p><h2>Questions families are asking now</h2></header>
+      <header><p className="eyebrow">Most asked</p><h2>Questions families are asking about {selectedTerm}</h2></header>
       <div className="most-asked-list">{mostAsked.map((fact) => <Link key={fact.id} href={`/faq/${fact.category}`}><GuideIcon id={fact.id} /><strong>{audience === "student" ? fact.studentQ : fact.parentQ}</strong><ArrowRight /></Link>)}</div>
     </div></section>
 
@@ -108,12 +133,14 @@ export function GuideHome() {
       <p className="eyebrow">Freshman meal plan</p><h2>Blue today. Gold for later.</h2>
       <p>{audience === "student" ? meal.studentA : meal.parentA}</p>
       <strong>{audience === "student" ? meal.stepStudent : meal.stepParent}</strong>
+      {mealNotice && <p className="term-notice">{mealNotice}</p>}
       <div className="story-links"><Link href="/faq/living">Read meal-plan answers <ArrowRight /></Link>{mealFile && <a href={mealFile.href} target="_blank" rel="noreferrer">Open the meal-plan guide <ExternalLink /></a>}</div>
     </div><Utensils /></section>}
 
     {medical && <section className="feature-story safety-story"><div className="page-wrap"><HeartPulse /><div>
       <p className="eyebrow">Save this before it is needed</p><h2>Sick, injured, or out of medication?</h2>
       <p>{audience === "student" ? medical.studentA : medical.parentA}</p>
+      {medicalNotice && <p className="term-notice">{medicalNotice}</p>}
       <Link href="/safety">Save contacts and local care <ArrowRight /></Link>
     </div></div></section>}
 
@@ -121,7 +148,7 @@ export function GuideHome() {
       <p className="eyebrow">{audience === "student" ? "Shop near campus" : "Shop for your student"}</p>
       <h2>{audience === "student" ? "Pick up what you still need for your room and kit." : "Send what they need—and something that says you care."}</h2>
       <p>{audience === "student" ? "Local stores for supplies, groceries, and uniform care, with pickup and delivery options near campus." : "Find practical items for pickup or delivery after your student confirms what the room needs, or send a CIA Celebration Gram for a birthday, milestone, or encouraging moment."}</p>
-      <div className="story-links"><Link href="/shopping">{audience === "student" ? "Browse stores near campus" : "Shop for your student"} <ShoppingBag /></Link><a href="https://ciachef.formstack.com/forms/celebration_gram" target="_blank" rel="noreferrer">Send a Celebration Gram <Gift /></a></div>
+      <div className="story-links"><Link href="/support">{audience === "student" ? "Browse stores near campus" : "Shop for your student"} <ShoppingBag /></Link><a href="https://ciachef.formstack.com/forms/celebration_gram" target="_blank" rel="noreferrer">Send a Celebration Gram <Gift /></a></div>
     </div><ShoppingBag /></div></section>
   </main></>;
 }

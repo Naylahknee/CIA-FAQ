@@ -24,7 +24,9 @@ There are two ways to add an answer. Pick by how permanent it is.
    - **Answer** — the whole answer, in plain sentences. Assume the reader is anxious and short of time.
    - **Category** — Money, Arrival and dates, Classes and supplies, Campus life, or Health and safety.
    - **Official source URL** — optional but worth it. Every answer that cites a CIA page is one a family can check for themselves.
-5. Press **Publish this FAQ**. It is live on `/faq` straight away.
+5. Press **Publish this FAQ**. It is live on `/faq` straight away, and searchable from the box at the top of the site within the same request — database triggers add it to the search index, so there is nothing else to run.
+
+Unpublishing removes it from search too. Nothing you publish here needs a deploy.
 
 ### Before you publish
 
@@ -88,6 +90,10 @@ Never commit straight to `main`. The checks only run on a pull request, and they
 
 Admin entries are rows in the `faq_suggestions` table, served by `/api/faqs/community` and rendered by `PublishedFaqs` in `app/components/guide-faq-pages.tsx`. They survive deploys — they are data, not code.
 
-Code entries are in `app/guide-data.ts` and ship with the build.
+Code entries are in `app/guide-data.ts` and ship with the build. They are copied into the same search index on the first request after a deploy that changed them, so a new or edited answer becomes findable without any manual step.
+
+### How search works, in one paragraph
+
+Both kinds of answer are flattened into a `search_documents` table and indexed by an SQLite FTS5 virtual table (`faqs_search`) with Porter stemming, which is why "parking" finds "park" and "points" finds "point". Results are ranked by bm25 with the question weighted above the body. If D1 is unreachable the search box quietly falls back to matching the answers that ship with the page, so it is never dead.
 
 A note for whoever maintains this: the `faq_suggestions` table still has a `groupme_message_id` column, left over from an intake that no longer exists. It is `NOT NULL` with a unique index, so entries created from the admin page fill it with a synthetic `admin-<uuid>` value. Dropping the column needs a migration and would be a reasonable tidy-up.

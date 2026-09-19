@@ -2,7 +2,7 @@
 
 import { ChevronDown, Search } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
-import { facts, topics, type Audience, type TopicKey } from "../guide-data";
+import { factsForTerm, termNotice, topics, type Audience, type Term, type TopicKey } from "../guide-data";
 import { GuideIcon } from "./guide-icon";
 import Link from "next/link";
 
@@ -14,7 +14,7 @@ export function FaqExplorer({ initialTopic, compact = false, embedded = false, s
   const [query, setQuery] = useState("");
   const [topic, setTopic] = useState<TopicKey | "all">(initialTopic ?? "all");
   const [audience, setAudience] = useState<Audience>("parent");
-  const [term, setTerm] = useState<"fall" | "spring">("fall");
+  const [term, setTerm] = useState<Term>("fall");
   const [open, setOpen] = useState<string | null>(null);
 
   useEffect(() => {
@@ -25,15 +25,18 @@ export function FaqExplorer({ initialTopic, compact = false, embedded = false, s
     const update = (event: Event) => {
       const detail = (event as CustomEvent<{ kind: string; value: string }>).detail;
       if (detail?.kind === "audience") setAudience(detail.value as Audience);
-      if (detail?.kind === "term") setTerm(detail.value as "fall" | "spring");
+      if (detail?.kind === "term") setTerm(detail.value as Term);
     };
     window.addEventListener("guide-preference", update);
     return () => window.removeEventListener("guide-preference", update);
   }, []);
 
-  const results = useMemo(() => facts.filter((fact) => {
+  // factsForTerm drops facts that do not belong to the selected term and
+  // applies any termOverrides, so the text searched below is the same text the
+  // reader will actually be shown -- not the fall wording of a spring answer.
+  const results = useMemo(() => factsForTerm(term).filter((fact) => {
     const text = `${fact.studentQ} ${fact.parentQ} ${fact.studentA} ${fact.parentA} ${fact.source}`.toLowerCase();
-    return (topic === "all" || fact.category === topic) && (!fact.terms || fact.terms.includes(term)) && text.includes(query.toLowerCase());
+    return (topic === "all" || fact.category === topic) && text.includes(query.toLowerCase());
   }).slice(0, compact ? 5 : undefined), [query, topic, term, compact]);
 
   return <div className={`faq-explorer ${embedded ? "embedded" : ""}`}>
@@ -46,7 +49,7 @@ export function FaqExplorer({ initialTopic, compact = false, embedded = false, s
       const expanded = open === fact.id;
       return <article className="faq-item" key={fact.id}>
         <button type="button" className="faq-question" aria-expanded={expanded} onClick={() => setOpen(expanded ? null : fact.id)}><GuideIcon id={fact.id} /><strong>{audience === "parent" ? fact.parentQ : fact.studentQ}</strong><ChevronDown className={expanded ? "rotate-180" : ""} /></button>
-        <div className="faq-answer" hidden={!expanded}><p dangerouslySetInnerHTML={{ __html: audience === "parent" ? fact.parentA : fact.studentA }} /><aside><strong>Next step</strong><p>{audience === "parent" ? fact.stepParent : fact.stepStudent}</p></aside>{fact.springNotice && <p className="term-notice">{fact.springNotice}</p>}<span className={`source-badge ${fact.sourceType}`}>{fact.source}</span><a href={fact.link} target="_blank" rel="noreferrer">{fact.linkLabel} ↗</a></div>
+        <div className="faq-answer" hidden={!expanded}><p dangerouslySetInnerHTML={{ __html: audience === "parent" ? fact.parentA : fact.studentA }} /><aside><strong>Next step</strong><p>{audience === "parent" ? fact.stepParent : fact.stepStudent}</p></aside>{termNotice(fact, term) && <p className="term-notice">{termNotice(fact, term)}</p>}<span className={`source-badge ${fact.sourceType}`}>{fact.source}</span><a href={fact.link} target="_blank" rel="noreferrer">{fact.linkLabel} ↗</a></div>
       </article>;
     })}</div>
     {!results.length && <div className="empty-state"><Search /><h2>No answers found</h2><p>Try a shorter search or choose another topic.</p></div>}
