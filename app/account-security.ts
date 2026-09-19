@@ -68,7 +68,21 @@ export async function sendAccountEmail(user:SecurityRow, purpose:'verify'|'reset
       text,
       html: `<p>${heading}: <a href="${link}">${link}</a></p><p>This link expires in ${minutes} minutes. If you did not request it, ignore this email.</p>`,
     });
-  } catch {
+  } catch (cause) {
+    // Every caller of this function swallows the failure so that signup and
+    // password reset stay indistinguishable for an unknown address. That is
+    // right for the response, and useless for an operator: mail silently does
+    // not arrive and nothing anywhere says why. The Worker has observability
+    // enabled, so record the real reason where it can be read in Cloudflare's
+    // Workers logs, without leaking it to the caller.
+    console.error('sendAccountEmail failed', {
+      purpose,
+      from,
+      // The recipient's domain is enough to spot a pattern; the full address
+      // is not logged.
+      toDomain: user.email.split('@')[1] ?? 'unknown',
+      cause: cause instanceof Error ? `${cause.name}: ${cause.message}` : String(cause),
+    });
     // A token that was never delivered must not stay valid.
     if (neonAuthConfigured()) await deleteNeonAccountToken(tokenDigest);
     else await env.DB.prepare('DELETE FROM account_tokens WHERE token_hash=?').bind(tokenDigest).run();

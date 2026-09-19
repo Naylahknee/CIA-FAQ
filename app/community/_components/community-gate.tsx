@@ -15,7 +15,13 @@ export function CommunityGate({ children }: { children: ReactNode }) {
       <div className="c-wrap">
         <div className="c-empty">
           <h1>Verify your email</h1>
-          <p>We sent a link to {user.email}. Confirm it and the community opens up.</p>
+          {/* This used to state flatly that a link had been sent. It is
+              rendered from the account's unverified status, not from the
+              result of sending, so it said so even when delivery had failed --
+              which sent people to wait for mail that was never going to
+              arrive. Point at the resend control instead. */}
+          <p>Confirm the link sent to {user.email} and the community opens up.</p>
+          <p className="c-muted">Nothing arrived? Check spam, then send a new link from your account settings.</p>
           <a className="c-btn" href="/account">Account settings</a>
         </div>
       </div>
