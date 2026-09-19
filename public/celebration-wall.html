@@ -3,47 +3,58 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Student Celebration Wall - CIA Questions</title>
+  <title>Student Celebration Wall - CIA Parents & Family</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Caveat:wght@600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Figtree:wght@400;500;600;700;800&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
 
   <style>
     :root {
-      --site-bg: #f8fafc;
-      --site-surface: #ffffff;
-      --site-border: #e2e8f0;
-      --site-primary: #2563eb;
-      --site-primary-hover: #1d4ed8;
-      --site-text: #0f172a;
-      --site-muted: #64748b;
+      --c-green: #13654A;
+      --c-green-hover: #0F5540;
+      --c-green-tint: #E4F0EB;
+      --c-green-tint-border: #C6E0D6;
+      --c-orange: #FF8200;
+      --c-orange-tint: #FFE3C2;
+      --c-orange-ink: #8A4500;
+      --c-sand: #FFD9A8;
+
+      --c-page: #F0F2F5;
+      --c-card: #FFFFFF;
+      --c-control: #F0F2F5;
+      --c-card-border: #E4E6EB;
+      --c-ink: #101418;
+      --c-muted: #4B5563;
+      --c-meta: #65676B;
+      --c-divider: #E4E6EB;
+      --c-radius: 12px;
+      --c-control-radius: 8px;
+      --c-pill: 999px;
     }
 
     body {
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      font-family: 'Figtree', 'DM Sans', system-ui, sans-serif;
       user-select: none;
       -webkit-user-select: none;
       overflow: hidden;
-      background-color: var(--site-bg);
-      color: var(--site-text);
+      background-color: var(--c-page);
+      color: var(--c-ink);
     }
 
-    /* Clean modern dot-grid canvas instead of heavy wood planks */
-    .modern-canvas {
-      background-color: #f8fafc;
-      background-image: radial-gradient(rgba(148, 163, 184, 0.35) 1.25px, transparent 1.25px);
-      background-size: 28px 28px;
+    /* Soft CIA subtle grid canvas */
+    .cia-canvas {
+      background-color: var(--c-page);
+      background-image: radial-gradient(rgba(19, 101, 74, 0.15) 1.2px, transparent 1.2px);
+      background-size: 26px 26px;
     }
 
-    /* Refined Polaroid Card styling with soft ambient elevation */
+    /* Authentic Polaroid Card with CIA styling */
     .polaroid-card {
-      background: #ffffff;
-      border: 1px solid rgba(226, 232, 240, 0.9);
-      box-shadow: 
-        0 4px 6px -1px rgba(15, 23, 42, 0.08),
-        0 10px 20px -3px rgba(15, 23, 42, 0.06);
+      background: var(--c-card);
+      border: 1px solid var(--c-card-border);
+      box-shadow: 0 4px 12px -2px rgba(16, 20, 24, 0.08), 0 1px 3px rgba(16, 20, 24, 0.05);
       cursor: grab;
       touch-action: none;
       transition: box-shadow 0.2s cubic-bezier(0.2, 0.9, 0.3, 1), transform 0.2s cubic-bezier(0.2, 0.9, 0.3, 1);
@@ -51,17 +62,13 @@
     }
 
     .polaroid-card:hover {
-      box-shadow: 
-        0 10px 25px -5px rgba(15, 23, 42, 0.12),
-        0 8px 10px -6px rgba(15, 23, 42, 0.06);
+      box-shadow: 0 14px 28px -4px rgba(19, 101, 74, 0.16), 0 4px 10px -2px rgba(16, 20, 24, 0.08);
       filter: brightness(1.01);
     }
 
     .polaroid-card.is-dragging {
       cursor: grabbing !important;
-      box-shadow: 
-        0 20px 35px -5px rgba(37, 99, 235, 0.18),
-        0 12px 16px -6px rgba(15, 23, 42, 0.12) !important;
+      box-shadow: 0 22px 40px -6px rgba(19, 101, 74, 0.28), 0 8px 16px -4px rgba(16, 20, 24, 0.15) !important;
       filter: scale(1.03);
       z-index: 9999 !important;
     }
@@ -72,10 +79,9 @@
 
     .photo-frame {
       box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.06);
-      background-color: #f1f5f9;
+      background-color: #EAECEF;
     }
 
-    /* Custom drop animation */
     @keyframes dropIn {
       0% {
         opacity: 0;
@@ -98,7 +104,7 @@
     }
 
     @keyframes modalFadeIn {
-      from { opacity: 0; transform: scale(0.95) translateY(8px); }
+      from { opacity: 0; transform: scale(0.96) translateY(8px); }
       to { opacity: 1; transform: scale(1) translateY(0); }
     }
     .modal-content-anim {
@@ -110,112 +116,112 @@
       height: 6px;
     }
     ::-webkit-scrollbar-thumb {
-      background: rgba(148, 163, 184, 0.4);
+      background: var(--c-green-tint-border);
       border-radius: 4px;
     }
   </style>
 </head>
 <body class="w-screen h-screen m-0 p-0 overflow-hidden select-none">
 
-  <!-- Header styled to match clean site navigation -->
-  <header class="fixed top-0 left-0 right-0 z-40 bg-white/90 backdrop-blur-md border-b border-slate-200 px-4 py-3 sm:px-6 flex items-center justify-between shadow-sm">
+  <!-- App Header styled directly to match .c-topbar -->
+  <header class="fixed top-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-md border-b border-[#E4E6EB] px-4 py-2.5 sm:px-6 flex items-center justify-between shadow-xs">
     <div class="flex items-center gap-3">
-      <div class="w-10 h-10 rounded-xl bg-blue-600 text-white flex items-center justify-center shadow-md shadow-blue-500/20">
-        <i class="fa-solid fa-camera text-base"></i>
+      <div class="w-9 h-9 rounded-[10px] bg-[#13654A] text-white flex items-center justify-center shadow-xs">
+        <i class="fa-solid fa-camera-retro text-base"></i>
       </div>
       <div>
-        <h1 class="text-base sm:text-lg font-bold tracking-tight text-slate-900 flex items-center gap-2">
-          Culinary Memories & Milestones
-          <span class="text-xs px-2 py-0.5 rounded-full bg-blue-50 text-blue-700 font-semibold border border-blue-200 hidden sm:inline-block">Student Wall</span>
+        <h1 class="text-base sm:text-lg font-extrabold tracking-tight text-[#101418] flex items-center gap-2">
+          Celebration Wall
+          <span class="text-[11px] px-2.5 py-0.5 rounded-full bg-[#E4F0EB] text-[#13654A] font-bold border border-[#C6E0D6] hidden sm:inline-block">CIA Family</span>
         </h1>
-        <p class="text-xs text-slate-500 hidden sm:block">Click any polaroid to view notes, drag to reorganize</p>
+        <p class="text-xs text-[#65676B] hidden sm:block">Click any polaroid to see the story, drag freely to rearrange</p>
       </div>
     </div>
 
     <!-- Actions -->
-    <div class="flex items-center gap-2 sm:gap-3">
-      <button id="btnOrganize" title="Reshuffle photos" class="px-3 py-2 rounded-lg bg-white hover:bg-slate-50 text-slate-700 text-xs sm:text-sm font-medium border border-slate-200 transition flex items-center gap-1.5 shadow-sm active:scale-95">
-        <i class="fa-solid fa-shuffle text-slate-500"></i>
+    <div class="flex items-center gap-2">
+      <button id="btnOrganize" title="Reshuffle photos" class="px-3 py-1.5 rounded-[8px] bg-[#F0F2F5] hover:bg-[#E4F0EB] hover:text-[#13654A] text-[#4B5563] text-xs sm:text-sm font-bold transition flex items-center gap-1.5 border border-[#E4E6EB] active:scale-95">
+        <i class="fa-solid fa-shuffle text-[#13654A]"></i>
         <span class="hidden md:inline">Reshuffle</span>
       </button>
 
-      <button id="btnCenterView" title="Reset View" class="px-3 py-2 rounded-lg bg-white hover:bg-slate-50 text-slate-700 text-xs sm:text-sm font-medium border border-slate-200 transition flex items-center gap-1.5 shadow-sm active:scale-95">
-        <i class="fa-solid fa-arrows-to-dot text-slate-500"></i>
+      <button id="btnCenterView" title="Reset View" class="px-3 py-1.5 rounded-[8px] bg-[#F0F2F5] hover:bg-[#E4F0EB] hover:text-[#13654A] text-[#4B5563] text-xs sm:text-sm font-bold transition flex items-center gap-1.5 border border-[#E4E6EB] active:scale-95">
+        <i class="fa-solid fa-arrows-to-dot text-[#13654A]"></i>
         <span class="hidden md:inline">Center</span>
       </button>
 
-      <button id="btnOpenUpload" class="px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-700 text-white font-semibold text-xs sm:text-sm transition flex items-center gap-2 shadow-sm active:scale-95">
+      <button id="btnOpenUpload" class="px-4 py-1.5 rounded-[999px] bg-[#13654A] hover:bg-[#0F5540] text-white font-extrabold text-xs sm:text-sm transition flex items-center gap-2 shadow-xs active:scale-95">
         <i class="fa-solid fa-plus text-xs"></i>
-        <span>Add Photo</span>
+        <span>Pin Milestone</span>
       </button>
     </div>
   </header>
 
   <!-- Interactive Board Canvas -->
-  <main id="boardContainer" class="relative w-full h-full modern-canvas overflow-hidden cursor-default">
+  <main id="boardContainer" class="relative w-full h-full cia-canvas overflow-hidden cursor-default">
     <div id="canvasSurface" class="absolute w-[3600px] h-[2400px] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-auto">
-      <!-- Polaroids render here -->
+      <!-- Polaroids dynamically added here -->
     </div>
 
-    <!-- Floating status pill -->
-    <div class="absolute bottom-4 left-4 z-30 pointer-events-none bg-white/95 backdrop-blur-md px-3.5 py-2 rounded-lg border border-slate-200 text-xs text-slate-600 flex items-center gap-3 shadow-sm">
-      <span class="flex items-center gap-1.5"><i class="fa-regular fa-hand-pointer text-blue-600"></i> Drag photos</span>
-      <span class="text-slate-300">•</span>
-      <span class="flex items-center gap-1.5"><i class="fa-solid fa-expand text-blue-600"></i> Click to inspect</span>
-      <span class="text-slate-300">•</span>
-      <span id="photoCount" class="font-bold text-slate-900">0 Photos</span>
+    <!-- Bottom status bar pill -->
+    <div class="absolute bottom-4 left-4 z-30 pointer-events-none bg-white/95 backdrop-blur-md px-3.5 py-2 rounded-[12px] border border-[#E4E6EB] text-xs text-[#4B5563] flex items-center gap-3 shadow-xs">
+      <span class="flex items-center gap-1.5"><i class="fa-regular fa-hand-pointer text-[#13654A]"></i> Drag polaroids</span>
+      <span class="text-[#E4E6EB]">•</span>
+      <span class="flex items-center gap-1.5"><i class="fa-solid fa-expand text-[#13654A]"></i> Click to open</span>
+      <span class="text-[#E4E6EB]">•</span>
+      <span id="photoCount" class="font-extrabold text-[#13654A]">0 Milestones</span>
     </div>
 
-    <!-- Mobile FAB -->
-    <button id="fabUpload" class="sm:hidden fixed bottom-5 right-5 z-40 w-13 h-13 p-3.5 rounded-full bg-blue-600 text-white font-bold flex items-center justify-center shadow-lg active:scale-90 border-2 border-white">
+    <!-- Mobile Action Button -->
+    <button id="fabUpload" class="sm:hidden fixed bottom-5 right-5 z-40 w-13 h-13 p-3.5 rounded-full bg-[#13654A] text-white font-bold flex items-center justify-center shadow-lg active:scale-90 border-2 border-white">
       <i class="fa-solid fa-camera text-lg"></i>
     </button>
   </main>
 
-  <!-- Detail Lightbox Modal -->
-  <div id="lightboxModal" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm hidden items-center justify-center p-4 sm:p-8">
-    <div class="relative max-w-2xl w-full bg-white border border-slate-200 rounded-2xl shadow-2xl overflow-hidden modal-content-anim flex flex-col md:flex-row">
-      <button id="btnCloseLightbox" class="absolute top-3 right-3 z-10 w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-600 hover:text-slate-900 flex items-center justify-center transition">
+  <!-- Lightbox Modal -->
+  <div id="lightboxModal" class="fixed inset-0 z-50 bg-[#101418]/65 backdrop-blur-xs hidden items-center justify-center p-4 sm:p-8">
+    <div class="relative max-w-2xl w-full bg-white border border-[#E4E6EB] rounded-[16px] shadow-2xl overflow-hidden modal-content-anim flex flex-col md:flex-row">
+      <button id="btnCloseLightbox" class="absolute top-3 right-3 z-10 w-8 h-8 rounded-full bg-[#F0F2F5] hover:bg-[#E4F0EB] text-[#4B5563] hover:text-[#13654A] flex items-center justify-center transition">
         <i class="fa-solid fa-xmark text-sm"></i>
       </button>
 
-      <!-- Image Column -->
-      <div class="md:w-3/5 bg-slate-50 p-6 flex items-center justify-center border-b md:border-b-0 md:border-r border-slate-200">
-        <div class="relative bg-white p-3 pb-8 rounded-lg shadow-md border border-slate-200 w-full max-w-[320px]">
-          <div class="relative aspect-square w-full overflow-hidden bg-slate-100 rounded">
+      <!-- Polaroid Preview -->
+      <div class="md:w-3/5 bg-[#F0F2F5] p-6 flex items-center justify-center border-b md:border-b-0 md:border-r border-[#E4E6EB]">
+        <div class="relative bg-white p-3 pb-8 rounded-[6px] shadow-md border border-[#E4E6EB] w-full max-w-[320px]">
+          <div class="relative aspect-square w-full overflow-hidden bg-[#EAECEF] rounded-[4px]">
             <img id="modalImg" src="" alt="Enlarged photo" class="w-full h-full object-cover" />
           </div>
-          <p id="modalPolaroidCaption" class="handwritten text-2xl font-bold text-slate-800 text-center mt-3 truncate px-1">Graduated!</p>
+          <p id="modalPolaroidCaption" class="handwritten text-2xl font-bold text-[#101418] text-center mt-3 truncate px-1">Graduated!</p>
         </div>
       </div>
 
-      <!-- Info Column -->
+      <!-- Detail Story Column -->
       <div class="md:w-2/5 p-6 flex flex-col justify-between bg-white">
         <div>
           <div class="flex items-center gap-2 mb-3">
-            <span id="modalTag" class="text-[11px] uppercase tracking-wider font-bold px-2.5 py-0.5 rounded-full bg-blue-50 text-blue-700 border border-blue-200">Culinary</span>
-            <span id="modalDate" class="text-xs text-slate-400">June 2026</span>
+            <span id="modalTag" class="text-[11px] uppercase tracking-wider font-extrabold px-2.5 py-0.5 rounded-full bg-[#FFE3C2] text-[#8A4500]">Culinary Arts</span>
+            <span id="modalDate" class="text-xs text-[#65676B]">June 2026</span>
           </div>
-          <h2 id="modalTitle" class="text-xl font-bold text-slate-900 mb-2">Memory Note</h2>
-          <p id="modalDescription" class="text-slate-600 text-sm leading-relaxed mb-4">Proud moment shared by family and friends!</p>
+          <h2 id="modalTitle" class="text-xl font-extrabold text-[#101418] mb-2 tracking-tight">Milestone Note</h2>
+          <p id="modalDescription" class="text-[#4B5563] text-sm leading-relaxed mb-4">Celebrating this achievement with pride!</p>
         </div>
 
-        <div class="border-t border-slate-100 pt-4 mt-4">
+        <div class="border-t border-[#E4E6EB] pt-4 mt-4">
           <div class="flex items-center gap-3">
-            <div id="modalAvatar" class="w-9 h-9 rounded-full bg-blue-100 text-blue-700 font-bold flex items-center justify-center text-sm border border-blue-200">
-              S
+            <div id="modalAvatar" class="w-9 h-9 rounded-full bg-[#E4F0EB] text-[#13654A] font-extrabold flex items-center justify-center text-sm border border-[#C6E0D6]">
+              P
             </div>
             <div>
-              <p class="text-xs text-slate-400">Shared by</p>
-              <p id="modalAuthor" class="text-sm font-semibold text-slate-800">Sarah M.</p>
+              <p class="text-xs text-[#65676B]">Shared by</p>
+              <p id="modalAuthor" class="text-sm font-bold text-[#101418]">Proud Parent</p>
             </div>
           </div>
           
           <div class="mt-5 flex gap-2">
-            <button id="modalDeleteBtn" class="flex-1 px-3 py-2 rounded-lg bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200 text-xs font-semibold flex items-center justify-center gap-1.5 transition">
+            <button id="modalDeleteBtn" class="flex-1 px-3 py-2 rounded-[8px] bg-[#FFF5F4] hover:bg-[#FCE3E0] text-[#A8372C] border border-[#E9B7B0] text-xs font-bold flex items-center justify-center gap-1.5 transition">
               <i class="fa-solid fa-trash-can"></i> Remove
             </button>
-            <button id="modalCloseBtn2" class="flex-1 px-3 py-2 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold transition">
+            <button id="modalCloseBtn2" class="flex-1 px-3 py-2 rounded-[8px] bg-[#F0F2F5] hover:bg-[#E4F0EB] hover:text-[#13654A] text-[#4B5563] text-xs font-bold transition">
               Close
             </button>
           </div>
@@ -225,13 +231,13 @@
   </div>
 
   <!-- Upload Modal -->
-  <div id="uploadModal" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm hidden items-center justify-center p-4">
-    <div class="relative max-w-lg w-full bg-white border border-slate-200 rounded-2xl shadow-2xl p-6 modal-content-anim max-h-[90vh] overflow-y-auto">
-      <div class="flex items-center justify-between pb-3 border-b border-slate-100">
-        <h2 class="text-lg font-bold text-slate-900 flex items-center gap-2">
-          <i class="fa-solid fa-plus text-blue-600"></i> Post a Student Achievement
+  <div id="uploadModal" class="fixed inset-0 z-50 bg-[#101418]/65 backdrop-blur-xs hidden items-center justify-center p-4">
+    <div class="relative max-w-lg w-full bg-white border border-[#E4E6EB] rounded-[16px] shadow-2xl p-6 modal-content-anim max-h-[90vh] overflow-y-auto">
+      <div class="flex items-center justify-between pb-3 border-b border-[#E4E6EB]">
+        <h2 class="text-lg font-extrabold text-[#101418] flex items-center gap-2">
+          <i class="fa-solid fa-thumbtack text-[#FF8200]"></i> Pin a Student Milestone
         </h2>
-        <button id="btnCloseUpload" class="w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-600 flex items-center justify-center transition">
+        <button id="btnCloseUpload" class="w-8 h-8 rounded-full bg-[#F0F2F5] hover:bg-[#E4F0EB] text-[#4B5563] flex items-center justify-center transition">
           <i class="fa-solid fa-xmark text-sm"></i>
         </button>
       </div>
@@ -239,40 +245,40 @@
       <form id="uploadForm" class="mt-4 space-y-4">
         <!-- Photo Drop Area -->
         <div>
-          <label class="block text-xs font-semibold uppercase tracking-wider text-slate-500 mb-1.5">Photo</label>
-          <div class="border-2 border-dashed border-slate-200 hover:border-blue-500 rounded-xl p-4 text-center cursor-pointer transition bg-slate-50/50 relative group" id="dropZone">
+          <label class="block text-xs font-extrabold uppercase tracking-wider text-[#65676B] mb-1.5">Photo</label>
+          <div class="border-2 border-dashed border-[#C6E0D6] hover:border-[#13654A] rounded-[12px] p-4 text-center cursor-pointer transition bg-[#F0F2F5]/60 relative group" id="dropZone">
             <input type="file" id="fileInput" accept="image/*" class="absolute inset-0 opacity-0 cursor-pointer w-full h-full z-10" />
             <div id="previewContainer" class="hidden">
-              <img id="imagePreview" src="" alt="Upload Preview" class="h-36 mx-auto object-contain rounded-md border border-slate-200" />
-              <p class="text-xs text-blue-600 mt-2 font-medium">Click to choose another photo</p>
+              <img id="imagePreview" src="" alt="Upload Preview" class="h-36 mx-auto object-contain rounded-[8px] border border-[#E4E6EB]" />
+              <p class="text-xs text-[#13654A] mt-2 font-bold">Click or drag another image to replace</p>
             </div>
             <div id="uploadPrompt" class="py-4">
-              <div class="w-10 h-10 mx-auto rounded-full bg-blue-50 text-blue-600 flex items-center justify-center transition mb-2">
-                <i class="fa-solid fa-cloud-arrow-up"></i>
+              <div class="w-11 h-11 mx-auto rounded-full bg-[#E4F0EB] text-[#13654A] flex items-center justify-center transition mb-2">
+                <i class="fa-solid fa-cloud-arrow-up text-lg"></i>
               </div>
-              <p class="text-sm font-medium text-slate-700">Click or drag a photo here</p>
-              <p class="text-xs text-slate-400 mt-0.5">JPG, PNG, WebP supported</p>
+              <p class="text-sm font-bold text-[#101418]">Click to browse or drop student photo</p>
+              <p class="text-xs text-[#65676B] mt-0.5">JPG, PNG, WebP supported</p>
             </div>
           </div>
         </div>
 
         <!-- Quick Samples -->
         <div>
-          <span class="text-xs text-slate-500 block mb-1.5 font-medium">Or pick a culinary milestone preset:</span>
+          <span class="text-xs text-[#65676B] block mb-1.5 font-bold">Or pick a culinary celebration sample:</span>
           <div class="flex gap-2 overflow-x-auto pb-1" id="sampleThumbnails"></div>
         </div>
 
         <!-- Caption -->
         <div>
-          <label for="captionInput" class="block text-xs font-semibold uppercase tracking-wider text-slate-500 mb-1">Polaroid Caption</label>
-          <input type="text" id="captionInput" required maxlength="30" placeholder="e.g., Practical Exam Passed!, Dean's List!, Chef's Coat!" class="w-full px-3 py-2 bg-white border border-slate-200 rounded-lg text-slate-900 font-medium placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition text-sm" />
+          <label for="captionInput" class="block text-xs font-extrabold uppercase tracking-wider text-[#65676B] mb-1">Polaroid Caption</label>
+          <input type="text" id="captionInput" required maxlength="30" placeholder="e.g., Chef Whites Day!, Practical Exam Passed!, Dean's List!" class="w-full px-3 py-2.5 bg-[#F0F2F5] border border-[#E4E6EB] rounded-[8px] text-[#101418] font-semibold placeholder-[#65676B] focus:outline-none focus:border-[#13654A] transition text-sm" />
         </div>
 
         <!-- Category & Author -->
         <div class="grid grid-cols-2 gap-3">
           <div>
-            <label for="categorySelect" class="block text-xs font-semibold uppercase tracking-wider text-slate-500 mb-1">Category</label>
-            <select id="categorySelect" class="w-full px-3 py-2 bg-white border border-slate-200 rounded-lg text-slate-700 text-sm focus:outline-none focus:border-blue-500">
+            <label for="categorySelect" class="block text-xs font-extrabold uppercase tracking-wider text-[#65676B] mb-1">Category</label>
+            <select id="categorySelect" class="w-full px-3 py-2.5 bg-[#F0F2F5] border border-[#E4E6EB] rounded-[8px] text-[#101418] text-sm font-semibold focus:outline-none focus:border-[#13654A]">
               <option value="Culinary Arts">Culinary Arts</option>
               <option value="Baking & Pastry">Baking & Pastry</option>
               <option value="Graduation">Graduation</option>
@@ -281,20 +287,20 @@
             </select>
           </div>
           <div>
-            <label for="authorInput" class="block text-xs font-semibold uppercase tracking-wider text-slate-500 mb-1">Your Name</label>
-            <input type="text" id="authorInput" maxlength="25" placeholder="Mom, Dad, Chef Dave..." class="w-full px-3 py-2 bg-white border border-slate-200 rounded-lg text-slate-900 text-sm placeholder-slate-400 focus:outline-none focus:border-blue-500" />
+            <label for="authorInput" class="block text-xs font-extrabold uppercase tracking-wider text-[#65676B] mb-1">Shared By</label>
+            <input type="text" id="authorInput" maxlength="25" placeholder="Mom Beth, Chef Marco..." class="w-full px-3 py-2.5 bg-[#F0F2F5] border border-[#E4E6EB] rounded-[8px] text-[#101418] text-sm font-semibold placeholder-[#65676B] focus:outline-none focus:border-[#13654A]" />
           </div>
         </div>
 
         <!-- Story/Notes -->
         <div>
-          <label for="notesInput" class="block text-xs font-semibold uppercase tracking-wider text-slate-500 mb-1">Note or Message (optional)</label>
-          <textarea id="notesInput" rows="2" placeholder="Leave a congratulatory message..." class="w-full px-3 py-2 bg-white border border-slate-200 rounded-lg text-slate-900 text-sm placeholder-slate-400 focus:outline-none focus:border-blue-500 resize-none"></textarea>
+          <label for="notesInput" class="block text-xs font-extrabold uppercase tracking-wider text-[#65676B] mb-1">Congratulatory Note (optional)</label>
+          <textarea id="notesInput" rows="2" placeholder="Tell the family story behind this moment..." class="w-full px-3 py-2 bg-[#F0F2F5] border border-[#E4E6EB] rounded-[8px] text-[#101418] text-sm placeholder-[#65676B] focus:outline-none focus:border-[#13654A] resize-none"></textarea>
         </div>
 
         <div class="pt-2 flex justify-end gap-2.5">
-          <button type="button" id="btnCancelUpload" class="px-4 py-2 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 text-sm font-medium transition">Cancel</button>
-          <button type="submit" id="btnSubmitUpload" class="px-5 py-2 rounded-lg bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold shadow-sm transition active:scale-95">Post to Wall</button>
+          <button type="button" id="btnCancelUpload" class="px-4 py-2 rounded-[8px] bg-[#F0F2F5] hover:bg-[#E4F0EB] text-[#4B5563] text-sm font-bold transition">Cancel</button>
+          <button type="submit" id="btnSubmitUpload" class="px-5 py-2 rounded-[999px] bg-[#13654A] hover:bg-[#0F5540] text-white text-sm font-extrabold shadow-xs transition active:scale-95">Post to Wall</button>
         </div>
       </form>
     </div>
@@ -308,7 +314,7 @@
         image: 'https://images.unsplash.com/photo-1577219491135-ce391730fb2c?w=600&auto=format&fit=crop&q=80',
         author: 'Mom Beth',
         tag: 'Culinary Arts',
-        note: 'First day putting on the official chef whites. So proud of your journey!',
+        note: 'First official day wearing the chef coat at the Hyde Park campus!',
         date: 'June 2026',
         x: -280, y: -200, rot: -6
       },
@@ -318,7 +324,7 @@
         image: 'https://images.unsplash.com/photo-1509440159596-0249088772ff?w=600&auto=format&fit=crop&q=80',
         author: 'The Collins Family',
         tag: 'Baking & Pastry',
-        note: 'Aced the laminated dough and croissant examination with top marks!',
+        note: 'Aced the laminated dough and croissant examination with top honors!',
         date: 'May 2026',
         x: 180, y: -220, rot: 5
       },
@@ -328,7 +334,7 @@
         image: 'https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=600&auto=format&fit=crop&q=80',
         author: 'Sarah M.',
         tag: 'Academics',
-        note: 'Highest honors this semester for culinary management and wine studies.',
+        note: 'Highest academic honors this semester in culinary business management.',
         date: 'May 2026',
         x: -80, y: -240, rot: 4
       },
@@ -338,7 +344,7 @@
         image: 'https://images.unsplash.com/photo-1544717305-2782549b5136?w=600&auto=format&fit=crop&q=80',
         author: 'Proud Dad',
         tag: 'Graduation',
-        note: 'Degree in Culinary Arts achieved! Ready for Michelin star kitchens.',
+        note: 'Degree in Culinary Arts completed! Ready for the next restaurant kitchen.',
         date: 'June 2026',
         x: -320, y: 30, rot: -4
       },
@@ -348,7 +354,7 @@
         image: 'https://images.unsplash.com/photo-1555244162-803834f70033?w=600&auto=format&fit=crop&q=80',
         author: 'Chef Dave',
         tag: 'Culinary Arts',
-        note: 'Flawless execution on the senior fine dining banquet service.',
+        note: 'Flawless execution during banquet service practicals.',
         date: 'April 2026',
         x: 270, y: -90, rot: -7
       },
@@ -358,17 +364,17 @@
         image: 'https://images.unsplash.com/photo-1586444248902-2f64eddc13df?w=600&auto=format&fit=crop&q=80',
         author: 'Maya & Leo',
         tag: 'Baking & Pastry',
-        note: 'Beautiful open crumb after 48-hour wild levain fermentation.',
+        note: 'Perfect aeration and blistered crust after wild yeast levain bake.',
         date: 'April 2026',
         x: 210, y: 150, rot: 8
       },
       {
         id: 'pol-7',
-        caption: 'Wine & Beverage Day',
+        caption: 'Sommelier Day',
         image: 'https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?w=600&auto=format&fit=crop&q=80',
         author: 'Carlos Ramos',
         tag: 'Campus Life',
-        note: 'Sommelier pairing practical passed with distinction.',
+        note: 'Passed the wine tasting and food pairing practicals with distinction!',
         date: 'June 2026',
         x: -50, y: 200, rot: -5
       },
@@ -378,7 +384,7 @@
         image: 'https://images.unsplash.com/photo-1556910103-1c02745aae4d?w=600&auto=format&fit=crop&q=80',
         author: 'Elena Vance',
         tag: 'Culinary Arts',
-        note: 'Fastest and cleanest brunoise cut in the kitchen!',
+        note: 'Cleanest julienne and brunoise cuts in the kitchen cohort!',
         date: 'March 2026',
         x: -220, y: 180, rot: 7
       }
@@ -388,7 +394,7 @@
       { url: 'https://images.unsplash.com/photo-1556910103-1c02745aae4d?w=600&auto=format&fit=crop&q=80', label: 'Prep' },
       { url: 'https://images.unsplash.com/photo-1509440159596-0249088772ff?w=600&auto=format&fit=crop&q=80', label: 'Baking' },
       { url: 'https://images.unsplash.com/photo-1555244162-803834f70033?w=600&auto=format&fit=crop&q=80', label: 'Plating' },
-      { url: 'https://images.unsplash.com/photo-1577219491135-ce391730fb2c?w=600&auto=format&fit=crop&q=80', label: 'Chef' }
+      { url: 'https://images.unsplash.com/photo-1577219491135-ce391730fb2c?w=600&auto=format&fit=crop&q=80', label: 'Chef Coat' }
     ];
 
     let polaroids = [];
@@ -431,7 +437,7 @@
     function renderPolaroid(item, isNew = false) {
       const card = document.createElement('div');
       card.id = item.id;
-      card.className = `polaroid-card absolute w-[145px] sm:w-[175px] md:w-[195px] p-2.5 pb-5 sm:pb-6 rounded-md ${isNew ? 'animate-drop' : ''}`;
+      card.className = `polaroid-card absolute w-[145px] sm:w-[175px] md:w-[195px] p-2.5 pb-5 sm:pb-6 rounded-[8px] ${isNew ? 'animate-drop' : ''}`;
       
       const centerX = canvasSurface.offsetWidth / 2;
       const centerY = canvasSurface.offsetHeight / 2;
@@ -442,13 +448,13 @@
       card.style.zIndex = item.zIndex || ++highestZIndex;
 
       card.innerHTML = `
-        <div class="relative w-full aspect-square overflow-hidden rounded bg-slate-100 photo-frame mb-2 pointer-events-none">
+        <div class="relative w-full aspect-square overflow-hidden rounded-[4px] bg-[#EAECEF] photo-frame mb-2 pointer-events-none">
           <img src="${item.image}" alt="${item.caption}" class="w-full h-full object-cover select-none" loading="lazy" />
         </div>
         <div class="text-center px-1 overflow-hidden pointer-events-none">
-          <p class="handwritten text-lg sm:text-xl md:text-2xl font-bold text-slate-800 truncate leading-tight">${item.caption}</p>
+          <p class="handwritten text-lg sm:text-xl md:text-2xl font-bold text-[#101418] truncate leading-tight">${item.caption}</p>
         </div>
-        <div class="absolute -top-2 left-1/2 -translate-x-1/2 w-8 h-2.5 bg-slate-200/80 border border-slate-300/50 rounded-xs shadow-xs transform -rotate-1 pointer-events-none"></div>
+        <div class="absolute -top-2 left-1/2 -translate-x-1/2 w-8 h-2.5 bg-[#E4F0EB]/90 border border-[#C6E0D6] rounded-[2px] shadow-xs transform -rotate-1 pointer-events-none"></div>
       `;
 
       attachInteractions(card, item);
@@ -524,7 +530,7 @@
       modalPolaroidCaption.innerText = item.caption;
       modalTitle.innerText = item.caption;
       modalDescription.innerText = item.note || 'A captured culinary milestone pinned to celebrate student achievement!';
-      modalAuthor.innerText = item.author || 'Proud Supporter';
+      modalAuthor.innerText = item.author || 'Proud Parent';
       modalAvatar.innerText = (item.author || 'P').charAt(0).toUpperCase();
       modalDate.innerText = item.date || 'Recent';
       modalTag.innerText = item.tag || 'Culinary';
@@ -588,12 +594,12 @@
 
     dropZone.addEventListener('dragover', (e) => {
       e.preventDefault();
-      dropZone.classList.add('border-blue-500');
+      dropZone.classList.add('border-[#13654A]');
     });
-    dropZone.addEventListener('dragleave', () => dropZone.classList.remove('border-blue-500'));
+    dropZone.addEventListener('dragleave', () => dropZone.classList.remove('border-[#13654A]'));
     dropZone.addEventListener('drop', (e) => {
       e.preventDefault();
-      dropZone.classList.remove('border-blue-500');
+      dropZone.classList.remove('border-[#13654A]');
       if (e.dataTransfer.files && e.dataTransfer.files[0]) {
         const reader = new FileReader();
         reader.onload = (event) => setChosenImage(event.target.result);
@@ -611,7 +617,7 @@
     PRESET_PHOTOS.forEach(sample => {
       const btn = document.createElement('button');
       btn.type = 'button';
-      btn.className = 'flex-shrink-0 w-14 h-14 rounded-lg overflow-hidden border-2 border-slate-200 hover:border-blue-500 transition';
+      btn.className = 'flex-shrink-0 w-14 h-14 rounded-[8px] overflow-hidden border-2 border-[#E4E6EB] hover:border-[#13654A] transition';
       btn.innerHTML = `<img src="${sample.url}" alt="${sample.label}" class="w-full h-full object-cover"/>`;
       btn.addEventListener('click', () => setChosenImage(sample.url));
       sampleThumbnails.appendChild(btn);
@@ -621,7 +627,7 @@
       e.preventDefault();
       const caption = document.getElementById('captionInput').value.trim();
       const tag = document.getElementById('categorySelect').value;
-      const author = document.getElementById('authorInput').value.trim() || 'Supporter';
+      const author = document.getElementById('authorInput').value.trim() || 'Proud Parent';
       const notes = document.getElementById('notesInput').value.trim() || caption;
       const image = selectedUploadImg || PRESET_PHOTOS[Math.floor(Math.random() * PRESET_PHOTOS.length)].url;
 
@@ -680,7 +686,7 @@
     });
 
     function updateCount() {
-      photoCountEl.innerText = `${polaroids.length} Photos`;
+      photoCountEl.innerText = `${polaroids.length} Milestones`;
     }
 
     window.addEventListener('DOMContentLoaded', () => {
