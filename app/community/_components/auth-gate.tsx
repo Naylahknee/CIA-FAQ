@@ -149,5 +149,4 @@ export function AuthGate() {
       </footer>
     </main>
   );
-  );
 }
