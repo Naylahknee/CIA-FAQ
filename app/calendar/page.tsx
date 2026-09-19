@@ -1,10 +1,9 @@
 "use client";
 
-import { AlertTriangle, CalendarDays, CalendarPlus, ChevronLeft, ChevronRight, Download, Search, SlidersHorizontal, Target } from "lucide-react";
+import { AlertTriangle, CalendarDays, CalendarPlus, ChevronLeft, ChevronRight, Download, ExternalLink, Search, SlidersHorizontal, Target, Users } from "lucide-react";
 import { useMemo, useState, type CSSProperties } from "react";
-import { GuideShell } from "../components/guide-shell";
 import { PageHeader } from "../components/page-header";
-import { EVENT_TYPES, fullDates, academicEventDate, academicEventType, type EventType } from "../guide-sections";
+import { EVENT_TYPES, familyWeekend, fullDates, academicEventDate, academicEventType, type EventType } from "../guide-sections";
 
 const cutoff = new Date(2026, 8, 18);
 const TODAY = new Date(2026, 8, 18);
@@ -121,7 +120,7 @@ export default function CalendarPage() {
   const upNext = sorted.filter((event) => isoDate(event.date).startsWith(monthPrefix)).slice(0, 4);
 
   return (
-    <GuideShell>
+    <>
       <main className="calendar-page page-wrap">
         <PageHeader
           eyebrow="Family calendar"
@@ -296,6 +295,98 @@ export default function CalendarPage() {
           </aside>
         </div>
 
+        <section className="family-weekend-panel" aria-labelledby="family-weekend-heading">
+          <header>
+            <Users aria-hidden="true" />
+            <div>
+              <p className="eyebrow">{familyWeekend.campus}</p>
+              <h2 id="family-weekend-heading">{familyWeekend.title}</h2>
+              <p className="family-weekend-dates"><time dateTime={familyWeekend.startsISO}>{familyWeekend.dateLabel}</time></p>
+              <p className="family-weekend-summary">{familyWeekend.summary}</p>
+            </div>
+          </header>
+
+          <aside className="family-weekend-deadline">
+            <AlertTriangle aria-hidden="true" />
+            <div>
+              <strong>Book restaurant tables by {familyWeekend.deadline.label}</strong>
+              <p>{familyWeekend.deadline.what}</p>
+            </div>
+          </aside>
+
+          <div className="family-weekend-columns">
+            <section>
+              <h3>What it costs</h3>
+              <p className="fw-note">{familyWeekend.registration.required}</p>
+              <dl className="fw-tiers">
+                {familyWeekend.registration.tiers.map(([who, cost]) => (
+                  <div key={who}><dt>{who}</dt><dd>{cost}</dd></div>
+                ))}
+              </dl>
+              <p className="fw-note"><strong>Included:</strong> {familyWeekend.registration.included}</p>
+              <p className="fw-note"><strong>Not included:</strong> {familyWeekend.registration.notIncluded}</p>
+              <p className="fw-warn">{familyWeekend.registration.warning}</p>
+            </section>
+
+            <section>
+              <h3>Check in first</h3>
+              <p className="fw-note">{familyWeekend.checkIn.note}</p>
+              <ul className="fw-checkin">
+                {familyWeekend.checkIn.times.map(([day, time, place]) => (
+                  <li key={day}><strong>{day}</strong><span>{time}</span><small>{place}</small></li>
+                ))}
+              </ul>
+            </section>
+          </div>
+
+          <h3 className="fw-section-heading">Schedule</h3>
+          <div className="family-weekend-schedule">
+            {familyWeekend.schedule.map((day) => (
+              <section key={day.day}>
+                <h4>{day.day}</h4>
+                <ul>
+                  {day.items.map(([time, what, where]) => (
+                    <li key={`${day.day}-${time}-${what}`}><time>{time}</time><span><strong>{what}</strong><small>{where}</small></span></li>
+                  ))}
+                </ul>
+              </section>
+            ))}
+          </div>
+
+          <h3 className="fw-section-heading">Planning your visit</h3>
+          <div className="family-weekend-grid">
+            {familyWeekend.planning.map((item) => (
+              <article key={item.title}>
+                <h4>{item.title}</h4>
+                <p>{item.body}</p>
+              </article>
+            ))}
+          </div>
+
+          <div className="family-weekend-columns">
+            <section>
+              <h3>Partner hotels</h3>
+              <ul className="fw-hotels">
+                {familyWeekend.hotels.map(([name, phone, distance]) => (
+                  <li key={name}><strong>{name}</strong><a href={`tel:${phone.replace(/-/g, "")}`}>{phone}</a><small>{distance} from campus</small></li>
+                ))}
+              </ul>
+            </section>
+            <section>
+              <h3>Getting there and asking questions</h3>
+              <p className="fw-note">{familyWeekend.address}</p>
+              <p className="fw-note">Questions for CIA: <a href={`mailto:${familyWeekend.contactEmail}`}>{familyWeekend.contactEmail}</a></p>
+            </section>
+          </div>
+
+          <div className="family-weekend-links">
+            <a href={familyWeekend.officialUrl} target="_blank" rel="noreferrer">
+              <span><strong>Register and read the full CIA page</strong><small>Registration, FAQs, printable schedule and campus map</small></span>
+              <ExternalLink aria-hidden="true" />
+            </a>
+          </div>
+          <p className="fw-source">Condensed from CIA&rsquo;s Family Weekend page. Times and details can change &mdash; confirm on the official page before you travel.</p>
+        </section>
         <aside className="calendar-caution">
           <AlertTriangle aria-hidden="true" />
           <div>
@@ -304,6 +395,6 @@ export default function CalendarPage() {
           </div>
         </aside>
       </main>
-    </GuideShell>
+    </>
   );
 }

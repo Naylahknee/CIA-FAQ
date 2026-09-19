@@ -3,7 +3,6 @@
 
 import { Download, FileText, Search, X } from "lucide-react";
 import { useMemo, useState } from "react";
-import { GuideShell } from "../components/guide-shell";
 import { PageHeader } from "../components/page-header";
 import { resourceLibrary, type ResourceKind } from "../guide-sections";
 
@@ -20,7 +19,7 @@ export default function ResourcesPage() {
   function pickTopic(next: (typeof categories)[number]) { setCategory(next); setShowNav(true); }
   function reset() { setQuery(""); setCategory("All"); setShowNav(false); }
 
-  return <GuideShell><main className="help-page">
+  return <><main className="help-page">
     <div className="page-wrap"><PageHeader eyebrow="Resource Library" title="Find the guide you need." description="Search and open the documents families use most.">
       <label className="page-search"><Search aria-hidden="true" /><span className="sr-only">Search documents</span><input value={query} onChange={(event) => search(event.target.value)} placeholder="Search documents and guides…" />{query && <button type="button" className="page-search-clear" aria-label="Clear search" onClick={() => search("")}><X aria-hidden="true" /></button>}</label>
     </PageHeader></div>
@@ -31,7 +30,7 @@ export default function ResourcesPage() {
         {resources.length ? <div className="document-grid">{resourceCards(resources, pickTopic)}</div> : <div className="empty-state"><Search aria-hidden="true" /><h2>No documents found</h2><p>Try another search or category.</p><button type="button" className="text-link" onClick={reset}><X aria-hidden="true" />Clear filters</button></div>}
       </section>
     </div>
-  </main></GuideShell>;
+  </main></>;
 }
 
 function resourceCards(resources: typeof resourceLibrary, pickTopic: (kind: ResourceKind) => void) {

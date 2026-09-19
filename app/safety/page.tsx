@@ -3,7 +3,6 @@
 
 import { BellRing, ExternalLink, HeartPulse, MapPin, Search, ShieldCheck, Smartphone } from "lucide-react";
 import { useMemo, useState } from "react";
-import { GuideShell } from "../components/guide-shell";
 import { PageHeader } from "../components/page-header";
 import { facts } from "../guide-data";
 import { careDirectory, providerLogos } from "../guide-sections";
@@ -16,7 +15,7 @@ export default function SafetyPage() {
     .map((group) => ({ ...group, items: group.items.filter(([name, address, phone]) => `${group.kind} ${name} ${address} ${phone}`.toLowerCase().includes(query.toLowerCase())) }))
     .filter((group) => group.items.length), [query]);
 
-  return <GuideShell><main className="page-wrap page-main">
+  return <><main className="page-wrap page-main">
     <PageHeader eyebrow="Safety &amp; Support" title="Sick, injured, or unsure where to start?" description={<>For immediate danger or a life-threatening emergency, call <a href="tel:911">911</a>.</>}>
       <label className="page-search"><Search aria-hidden="true" /><span className="sr-only">Search safety and support</span><input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Search pharmacies, urgent care, or hospitals…" /></label>
     </PageHeader>
@@ -43,5 +42,5 @@ export default function SafetyPage() {
     </section>
     <a className="official-safety-link" href="https://catalog.ciachef.edu/" target="_blank" rel="noreferrer">Open the current CIA handbook <ExternalLink aria-hidden="true" /></a>
     <aside className="warning-panel"><BellRing aria-hidden="true" /><div><strong>Community advice is not emergency guidance.</strong><p>Call each provider to verify current details. Use official campus contacts for health, safety, harassment, discrimination, or serious unresolved concerns.</p></div></aside>
-  </main></GuideShell>;
+  </main></>;
 }

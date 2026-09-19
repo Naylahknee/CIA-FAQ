@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { GuideShell } from "./components/guide-shell";
 import "./globals.css";
 import "./guide.css";
 import "./forms.css";
@@ -37,7 +38,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className="antialiased">{children}</body>
+      <body className="antialiased"><GuideShell>{children}</GuideShell></body>
     </html>
   );
 }

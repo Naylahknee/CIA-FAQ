@@ -11,6 +11,9 @@ export const fullDates = [
   { month: "OCT", day: "02", title: "Health Insurance Waiver Deadline", note: "Students with other coverage must submit the waiver by this date.", term: "Fall 2026" },
   { month: "OCT", day: "05", title: "Career Fair (Hyde Park)", note: "Review participation details and prepare early.", term: "Fall 2026" },
   { month: "OCT", day: "05", title: "No Classes — Community Day", note: "Published on the CIA academic calendar.", term: "Fall 2026" },
+  { month: "OCT", day: "09", title: "Family Weekend Begins (Hyde Park)", note: "Family Weekend runs Friday October 9 through Sunday October 11. Registration, the schedule, and any ticketed events are on the official CIA Family Weekend page.", term: "Fall 2026" },
+  { month: "OCT", day: "10", title: "Family Weekend (Hyde Park)", note: "Second day of Family Weekend. Confirm event times and restaurant reservations directly with CIA.", term: "Fall 2026" },
+  { month: "OCT", day: "11", title: "Family Weekend Ends (Hyde Park)", note: "Final day of Family Weekend. Check departure timing against your student’s class and kitchen block schedule.", term: "Fall 2026" },
   { month: "OCT", day: "12", title: "No Classes — Community Day", note: "Published on the CIA academic calendar.", term: "Fall 2026" },
   { month: "OCT", day: "13", title: "Restaurants Closed", note: "CIA teaching restaurants are closed on this date.", term: "Fall 2026" },
   { month: "OCT", day: "16", title: "Kitchen/Bakeshop End Date", note: "Block rotations end.", term: "Fall 2026" },
@@ -53,6 +56,12 @@ export const fullDates = [
   { month: "FEB", day: "15", title: "No Classes", note: "Published on the CIA academic calendar.", term: "Spring 2027" },
   { month: "FEB", day: "16", title: "Kitchen/Bakeshop Start Date", note: "A new block begins.", term: "Spring 2027" },
   { month: "FEB", day: "16", title: "Restaurants Closed", note: "CIA teaching restaurants are closed on this date.", term: "Spring 2027" },
+  { month: "SEP", day: "21", title: "Yom Kippur", note: "Noted on the official Hyde Park academic calendar. Confirm campus operating hours if this affects travel plans.", term: "Fall 2026" },
+  { month: "OCT", day: "26", title: "Tri-Wizards", note: "Listed on the official Hyde Park academic calendar as printed; a fuller description isn\u2019t available yet, so confirm details with the college.", term: "Fall 2026" },
+  { month: "DEC", day: "21", title: "Fall Semester Grades Due", note: "Grades post to the student portal on this date, per the official Hyde Park academic calendar.", term: "Fall 2026" },
+  { month: "MAR", day: "10", title: "Eid al-Fitr", note: "Noted on the official Hyde Park academic calendar. Confirm campus operating hours if this affects travel plans.", term: "Spring 2027" },
+  { month: "MAR", day: "26", title: "Good Friday", note: "Noted on the official Hyde Park academic calendar. Confirm campus operating hours if this affects travel plans.", term: "Spring 2027" },
+  { month: "APR", day: "19", title: "Spring Semester Grades Due", note: "Grades post to the student portal on this date, per the official Hyde Park academic calendar.", term: "Spring 2027" },
 ] as const;
 
 export const careDirectory = [
@@ -118,7 +127,7 @@ export const providerLogos: Record<string, { src: string; alt: string }> = {
   "Vassar Brothers Medical Center": { src: "/providers/northwell.png", alt: "Northwell Health, Vassar Brothers Medical Center's health system" },
 };
 
-const monthNumbers: Record<string, number> = { SEP: 8, OCT: 9, NOV: 10, DEC: 11, JAN: 0, FEB: 1, APR: 3 };
+const monthNumbers: Record<string, number> = { JAN: 0, FEB: 1, MAR: 2, APR: 3, MAY: 4, JUN: 5, JUL: 6, AUG: 7, SEP: 8, OCT: 9, NOV: 10, DEC: 11 };
 
 export function academicEventDate(event: (typeof fullDates)[number]) {
   const year = event.term === "Fall 2026" ? 2026 : 2027;
@@ -161,7 +170,7 @@ export type EventType = (typeof EVENT_TYPES)[number];
 export function academicEventType(title: string): EventType {
   const value = title.toLowerCase();
   if (value.includes("no classes") || value.includes("break") || value.includes("holiday") || value.includes("intersession")) return "No classes";
-  if (value.includes("career fair") || value.includes("commencement") || value.includes("restaurant")) return "Campus";
+  if (value.includes("career fair") || value.includes("commencement") || value.includes("restaurant") || value.includes("family weekend")) return "Campus";
   if (value.includes("grades")) return "Academic";
   if (value.includes("deadline") || value.includes("refund") || value.includes("waiver") || value.includes("add/drop") || value.includes("opt-out")) return "Deadline";
   return "Academic";
@@ -189,3 +198,86 @@ export const arrivalLanes = [
   { title: "Student lane", subtitle: "You own the school tasks.", steps: ["Check your CIA email and assigned move-in time", "Keep essentials where you can reach them", "Inspect uniforms and kits before buying duplicates", "Follow every required orientation block", "Locate first-night dining, support, medication, and routes"] },
   { title: "Parent lane", subtitle: "You support the launch.", steps: ["Book around the assigned schedule", "Bring less than you think", "Handle setup—not school business", "Expect a real goodbye", "Leave a calm backup plan"] },
 ] as const;
+
+/** CIA Hyde Park Family Weekend, condensed from the official CIA page to the
+ *  decisions a parent actually has to make. The full programme, FAQs, printable
+ *  schedule and campus map stay on ciachef.edu, which is the authority.
+ *  Check-in times use the narrower of the two windows the CIA page gives, so a
+ *  family is never told the desk is open later than it is. */
+export const familyWeekend = {
+  title: "Family Weekend 2026",
+  campus: "CIA Hyde Park",
+  address: "1946 Campus Drive (Route 9), Hyde Park, NY 12538",
+  startsISO: "2026-10-09",
+  endsISO: "2026-10-11",
+  dateLabel: "Friday, October 9 \u2013 Sunday, October 11, 2026",
+  summary: "Three days on campus: demos and tastings, campus tours, a home soccer game with family lunch, the Eastdale alumni experience, and the 36th Chili Cook-Off.",
+  officialUrl: "https://www.ciachef.edu/cia-family-weekend/",
+  contactEmail: "campuslife@culinary.edu",
+
+  deadline: {
+    label: "September 12, 2026",
+    what: "Restaurant seats are held exclusively for Family Weekend guests until this date. Book before it passes \u2014 availability is limited and demand is high.",
+  },
+
+  registration: {
+    required: "Every family member and guest must be registered, including children.",
+    tiers: [
+      ["Age 13 and over", "$70 per person"],
+      ["Youth, age 6\u201312", "$45 per person"],
+      ["Age 5 and under", "Free, but must still be registered for the headcount"],
+      ["Your CIA student", "Included in your registration at no charge"],
+    ],
+    included: "Demos, workshops, tastings, campus tours, entertainment, the welcome reception, family lunch and the Chili Cook-Off.",
+    notIncluded: "Meals at the CIA restaurants. Those need their own reservation and are charged separately.",
+    warning: "All ticket and merchandise purchases are non-refundable.",
+  },
+
+  checkIn: {
+    note: "You check in once, on the first day you arrive \u2014 not every day. Pick up your welcome packet, swag and event wristband, which is required for most Family Weekend events. Use whichever window below matches your arrival day.",
+    times: [
+      ["Friday, October 9", "4\u20138:30 p.m.", "Charlie Palmer Plaza"],
+      ["Saturday, October 10", "7 a.m.\u2013noon", "Charlie Palmer Plaza"],
+      ["Sunday, October 11", "noon\u20132 p.m.", "Anton Plaza"],
+    ],
+  },
+
+  schedule: [
+    { day: "Friday, October 9", items: [
+      ["4\u20138:30 p.m.", "Check-in, if Friday is your first day", "Charlie Palmer Plaza"],
+      ["6\u20138 p.m.", "Welcome reception", "Post Road"],
+      ["6\u20138:30 p.m.", "Restaurant reservations", "Separate booking and cost"],
+    ]},
+    { day: "Saturday, October 10", items: [
+      ["7 a.m.\u2013noon", "Check-in, if Saturday is your first day", "Charlie Palmer Plaza"],
+      ["9 a.m.\u20131:15 p.m.", "Demos, tours and tastings", "Space is limited"],
+      ["11:30 a.m.\u20131 p.m.", "Restaurant reservations", "Separate booking and cost"],
+      ["1\u20133:30 p.m.", "Home soccer game and family lunch", "Soccer Field"],
+      ["4:30\u20137:30 p.m.", "Eastdale alumni experience", "Eastdale Village, offsite, free parking"],
+      ["6\u20138:30 p.m.", "Restaurant reservations", "Separate booking and cost"],
+      ["8\u20139 p.m.", "Psychic entertainer Robert Channing", "Marriott Pavilion"],
+    ]},
+    { day: "Sunday, October 11", items: [
+      ["9 a.m.\u2013noon", "Student Commons open", "The Egg, food and coffee to buy"],
+      ["11 a.m. and noon", "Campus walking tour", "Welcome Center, Roth Hall"],
+      ["noon\u20132 p.m.", "Check-in and Chili Cook-Off badges", "Anton Plaza"],
+      ["1\u20134 p.m.", "36th Chili Cook-Off", "Anton Plaza"],
+      ["1\u20134 p.m.", "Biergarten", "Post Road, student-brewed beer to buy"],
+    ]},
+  ],
+
+  planning: [
+    { title: "Book restaurants by September 12", body: "American Bounty, The Bocuse Restaurant and Ristorante Caterina de\u2019 Medici take lunch and dinner Friday and Saturday. Call 845-905-4533 or email ciarestaurantgroup@culinary.edu. Separate reservation, separate cost." },
+    { title: "Arrive early on Saturday", body: "The Run for Your Knives 5K closes roads and limits parking from 9\u201311 a.m. on Saturday. If you are coming for the morning demos, get there before it starts." },
+    { title: "Parking is free", body: "Attendants direct you on arrival; the Layer Cake and Champagne lots are recommended for the weekend. Accessible spaces are available across campus with no advance request." },
+    { title: "Stay off campus, book early", body: "Families stay off campus. CIA partner hotels hold Family Weekend rates and fill up: book direct." },
+    { title: "Campus is cashless", body: "Card or mobile payment only, everywhere on campus. Bring no cash expecting to spend it." },
+    { title: "Pets are not permitted", body: "Service animals are welcome under the ADA; other pets cannot attend Family Weekend events." },
+  ],
+
+  hotels: [
+    ["Courtyard by Marriott Poughkeepsie", "845-485-6336", "6.5 miles"],
+    ["Residence Inn by Marriott Poughkeepsie", "845-463-4343", "6.5 miles"],
+    ["Hyatt Place Poughkeepsie", "845-632-3100", "9.5 miles"],
+  ],
+} as const;

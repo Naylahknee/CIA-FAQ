@@ -1,15 +1,14 @@
 "use client";
-/* eslint-disable @next/next/no-html-link-for-pages */
 
 import { ArrowLeft, ArrowRight, ExternalLink, HeartHandshake } from "lucide-react";
 import { useEffect, useState } from "react";
 import { facts, topics, type TopicKey } from "../guide-data";
 import { arrivalLanes, contacts, costs, resourceLibrary, travelRegions } from "../guide-sections";
-import { GuideShell } from "./guide-shell";
 import { PageHeader } from "./page-header";
 import { HelpSearch } from "./help-search";
 import { FaqExplorer } from "./faq-explorer";
 import { GuideRail } from "./guide-rail";
+import Link from "next/link";
 
 export function FaqHub() {
   const [audience, setAudience] = useState<"parent" | "student">("parent");
@@ -20,12 +19,12 @@ export function FaqHub() {
     return () => window.removeEventListener("guide-preference", sync);
   }, []);
 
-  return <GuideShell><main className="faq-hub page-wrap">
+  return <><main className="faq-hub page-wrap">
     <PageHeader eyebrow="Family help center" title="FAQs & Help" description={audience === "student" ? "Search approved answers written for students on campus." : "Search approved answers or choose the part of campus life you need help with."}><HelpSearch title="" compact /></PageHeader>
     <div className="faq-hub-layout">
       <section>
         <p className="eyebrow">Most asked</p><h2>Popular questions</h2>
-        <div className="faq-popular">{facts.slice(0, 8).map((fact) => <a key={fact.id} href={`/faq/${fact.category}`}>{audience === "student" ? fact.studentQ : fact.parentQ}<ArrowRight /></a>)}</div>
+        <div className="faq-popular">{facts.slice(0, 8).map((fact) => <Link key={fact.id} href={`/faq/${fact.category}`}>{audience === "student" ? fact.studentQ : fact.parentQ}<ArrowRight /></Link>)}</div>
         <FaqExplorer embedded compact showSearch={false} />
         <section className="quick-contact-section">
           <p className="eyebrow">Quick action assistance</p><h2>Who do I contact?</h2>
@@ -34,13 +33,13 @@ export function FaqHub() {
       </section>
       <GuideRail />
     </div>
-  </main></GuideShell>;
+  </main></>;
 }
 
 export function TopicPage({ topic }: { topic: string }) {
   const key = topic as TopicKey;
   const item = topics[key];
-  if (!item) return <GuideShell><main className="page-wrap topic-page"><PageHeader eyebrow="Topic guide" title="This FAQ topic is unavailable." description="Choose another section of the help center." /><a className="header-back-link" href="/faq"><ArrowLeft size={16} /> Help Center</a></main></GuideShell>;
+  if (!item) return <><main className="page-wrap topic-page"><PageHeader eyebrow="Topic guide" title="This FAQ topic is unavailable." description="Choose another section of the help center." /><Link className="header-back-link" href="/faq"><ArrowLeft size={16} /> Help Center</Link></main></>;
 
   const related = resourceLibrary.filter((resource) => key === "health" ? resource.kind === "Health & safety"
     : key === "classes" ? resource.kind === "Academic programs" || resource.kind === "Equipment"
@@ -48,8 +47,8 @@ export function TopicPage({ topic }: { topic: string }) {
     : key === "arrival" ? resource.kind === "Student tasks" || resource.kind === "Local guides"
     : resource.kind === "Dining").slice(0, 3);
 
-  return <GuideShell><main className="page-wrap topic-page">
-    <PageHeader eyebrow="Topic guide" title={`${item.name}, explained.`} description={item.description} action={<a className="header-back-link" href="/faq"><ArrowLeft size={16} /> Help Center</a>}><HelpSearch title="" compact /></PageHeader>
+  return <><main className="page-wrap topic-page">
+    <PageHeader eyebrow="Topic guide" title={`${item.name}, explained.`} description={item.description} action={<Link className="header-back-link" href="/faq"><ArrowLeft size={16} /> Help Center</Link>}><HelpSearch title="" compact /></PageHeader>
     <div className="topic-workspace">
       <div className="topic-content">
         <FaqExplorer initialTopic={key} embedded showSearch={false} />
@@ -66,10 +65,10 @@ export function TopicPage({ topic }: { topic: string }) {
       </div>
       <aside className="topic-aside">
         <section><h2>In this section</h2><nav>{["Overview", "Questions & answers", "Related resources", "Official sources"].map((label) => <a key={label} href={label === "Overview" ? "#top" : "#"}>{label}</a>)}</nav></section>
-        <section><h2>Common questions</h2>{Object.entries(topics).filter(([topicKey]) => topicKey !== key).slice(0, 3).map(([topicKey, value]) => <a key={topicKey} href={`/faq/${topicKey}`}>{value.name} <span>→</span></a>)}</section>
-        <section className="support-callout"><HeartHandshake /><h2>Need immediate support?</h2><p>For immediate danger or a life-threatening emergency, call 911.</p><a href="/safety">Safety resources</a></section>
+        <section><h2>Common questions</h2>{Object.entries(topics).filter(([topicKey]) => topicKey !== key).slice(0, 3).map(([topicKey, value]) => <Link key={topicKey} href={`/faq/${topicKey}`}>{value.name} <span>→</span></Link>)}</section>
+        <section className="support-callout"><HeartHandshake /><h2>Need immediate support?</h2><p>For immediate danger or a life-threatening emergency, call 911.</p><Link href="/safety">Safety resources</Link></section>
         <section><ExternalLink /><h2>Confirm current details</h2><p>Schedules, charges, contacts, and policies can change. Follow each answer&rsquo;s official source.</p></section>
       </aside>
     </div>
-  </main></GuideShell>;
+  </main></>;
 }
