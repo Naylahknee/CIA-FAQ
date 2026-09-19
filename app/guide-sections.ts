@@ -113,7 +113,7 @@ export const resourceLibrary: ResourceItem[] = [
 ];
 
 export const providerLogos: Record<string, { src: string; alt: string }> = {
-  "CVS Pharmacy": { src: "/providers/cvs.png", alt: "CVS Pharmacy" },
+  "CVS Pharmacy": { src: "/providers/cvs.svg", alt: "CVS Pharmacy" },
   "Emergency One": { src: "/providers/emergency-one.png", alt: "Emergency One Urgent Care" },
   "Vassar Brothers Medical Center": { src: "/providers/northwell.png", alt: "Northwell Health, Vassar Brothers Medical Center's health system" },
 };
