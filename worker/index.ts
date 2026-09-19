@@ -29,14 +29,14 @@ const contentSecurityPolicy = [
   "default-src 'self'",
   "base-uri 'self'",
   "object-src 'none'",
-  "frame-ancestors 'none'",
+  "frame-ancestors 'self'",
   "form-action 'self'",
   "img-src 'self' data: blob: https://media.giphy.com",
-  "script-src 'self' 'unsafe-inline' https://accounts.google.com",
-  "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
-  "font-src 'self' data: https://fonts.gstatic.com",
+  "script-src 'self' 'unsafe-inline' https://accounts.google.com https://cdn.tailwindcss.com",
+  "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com",
+  "font-src 'self' data: https://fonts.gstatic.com https://cdnjs.cloudflare.com",
   "connect-src 'self' https://accounts.google.com",
-  "frame-src https://accounts.google.com",
+  "frame-src 'self' https://accounts.google.com",
   "upgrade-insecure-requests",
 ].join("; ");
 
@@ -44,7 +44,9 @@ function secure(response: Response, request: Request) {
   const secured = new Response(response.body, response);
   secured.headers.set("x-content-type-options", "nosniff");
   secured.headers.set("referrer-policy", "strict-origin-when-cross-origin");
-  secured.headers.set("x-frame-options", "DENY");
+  // SAMEORIGIN rather than DENY, matching frame-ancestors above: the
+  // celebration wall is embedded by /wall on this same origin.
+  secured.headers.set("x-frame-options", "SAMEORIGIN");
   secured.headers.set("content-security-policy", contentSecurityPolicy);
   secured.headers.set("permissions-policy", "camera=(), microphone=(), geolocation=(), payment=(), usb=()");
   secured.headers.set("cross-origin-opener-policy", "same-origin");
