@@ -11,6 +11,9 @@ export const fullDates = [
   { month: "OCT", day: "02", title: "Health Insurance Waiver Deadline", note: "Students with other coverage must submit the waiver by this date.", term: "Fall 2026" },
   { month: "OCT", day: "05", title: "Career Fair (Hyde Park)", note: "Review participation details and prepare early.", term: "Fall 2026" },
   { month: "OCT", day: "05", title: "No Classes — Community Day", note: "Published on the CIA academic calendar.", term: "Fall 2026" },
+  { month: "OCT", day: "09", title: "Family Weekend Begins (Hyde Park)", note: "Family Weekend runs Friday October 9 through Sunday October 11. Registration, the schedule, and any ticketed events are on the official CIA Family Weekend page.", term: "Fall 2026" },
+  { month: "OCT", day: "10", title: "Family Weekend (Hyde Park)", note: "Second day of Family Weekend. Confirm event times and restaurant reservations directly with CIA.", term: "Fall 2026" },
+  { month: "OCT", day: "11", title: "Family Weekend Ends (Hyde Park)", note: "Final day of Family Weekend. Check departure timing against your student’s class and kitchen block schedule.", term: "Fall 2026" },
   { month: "OCT", day: "12", title: "No Classes — Community Day", note: "Published on the CIA academic calendar.", term: "Fall 2026" },
   { month: "OCT", day: "13", title: "Restaurants Closed", note: "CIA teaching restaurants are closed on this date.", term: "Fall 2026" },
   { month: "OCT", day: "16", title: "Kitchen/Bakeshop End Date", note: "Block rotations end.", term: "Fall 2026" },
@@ -161,7 +164,7 @@ export type EventType = (typeof EVENT_TYPES)[number];
 export function academicEventType(title: string): EventType {
   const value = title.toLowerCase();
   if (value.includes("no classes") || value.includes("break") || value.includes("holiday") || value.includes("intersession")) return "No classes";
-  if (value.includes("career fair") || value.includes("commencement") || value.includes("restaurant")) return "Campus";
+  if (value.includes("career fair") || value.includes("commencement") || value.includes("restaurant") || value.includes("family weekend")) return "Campus";
   if (value.includes("grades")) return "Academic";
   if (value.includes("deadline") || value.includes("refund") || value.includes("waiver") || value.includes("add/drop") || value.includes("opt-out")) return "Deadline";
   return "Academic";
@@ -189,3 +192,25 @@ export const arrivalLanes = [
   { title: "Student lane", subtitle: "You own the school tasks.", steps: ["Check your CIA email and assigned move-in time", "Keep essentials where you can reach them", "Inspect uniforms and kits before buying duplicates", "Follow every required orientation block", "Locate first-night dining, support, medication, and routes"] },
   { title: "Parent lane", subtitle: "You support the launch.", steps: ["Book around the assigned schedule", "Bring less than you think", "Handle setup—not school business", "Expect a real goodbye", "Leave a calm backup plan"] },
 ] as const;
+
+/** CIA Hyde Park Family Weekend. Dates are as supplied by the guide owner; the
+ *  official page is the authority for schedule, registration and ticketing, so
+ *  nothing here restates those details. */
+export const familyWeekend = {
+  title: "Family Weekend 2026",
+  campus: "CIA Hyde Park",
+  startsISO: "2026-10-09",
+  endsISO: "2026-10-11",
+  dateLabel: "Friday, October 9 – Sunday, October 11, 2026",
+  summary: "Three days on the Hyde Park campus for families. The official CIA page carries the schedule, registration and any ticketed events; confirm everything there before booking travel.",
+  planning: [
+    { title: "Book lodging early", body: "Hyde Park and Poughkeepsie rooms go quickly on a weekend the whole campus hosts families. Confirm your dates before you book anything non-refundable." },
+    { title: "Check your student\u2019s schedule first", body: "Kitchen and bakeshop blocks do not pause for the weekend. Ask your student what they are actually free for before you plan around it." },
+    { title: "Reserve restaurants separately", body: "CIA\u2019s teaching restaurants take their own reservations and fill fast during Family Weekend. A Family Weekend registration is not a table booking." },
+    { title: "Confirm before you travel", body: "Times, locations and ticketing can change. The official page is the authority, not this guide." },
+  ],
+  links: [
+    { label: "Official CIA Family Weekend page", href: "https://www.ciachef.edu/cia-family-weekend/", note: "Schedule, registration and ticketing" },
+    { label: "CIA restaurants and dining", href: "https://www.ciafoodies.com/cia-copia/", note: "Dining information from CIA" },
+  ],
+} as const;

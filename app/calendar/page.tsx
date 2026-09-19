@@ -1,10 +1,10 @@
 "use client";
 
-import { AlertTriangle, CalendarDays, CalendarPlus, ChevronLeft, ChevronRight, Download, Search, SlidersHorizontal, Target } from "lucide-react";
+import { AlertTriangle, CalendarDays, CalendarPlus, ChevronLeft, ChevronRight, Download, ExternalLink, Search, SlidersHorizontal, Target, Users } from "lucide-react";
 import { useMemo, useState, type CSSProperties } from "react";
 import { GuideShell } from "../components/guide-shell";
 import { PageHeader } from "../components/page-header";
-import { EVENT_TYPES, fullDates, academicEventDate, academicEventType, type EventType } from "../guide-sections";
+import { EVENT_TYPES, familyWeekend, fullDates, academicEventDate, academicEventType, type EventType } from "../guide-sections";
 
 const cutoff = new Date(2026, 8, 18);
 const TODAY = new Date(2026, 8, 18);
@@ -296,6 +296,33 @@ export default function CalendarPage() {
           </aside>
         </div>
 
+        <section className="family-weekend-panel" aria-labelledby="family-weekend-heading">
+          <header>
+            <Users aria-hidden="true" />
+            <div>
+              <p className="eyebrow">{familyWeekend.campus}</p>
+              <h2 id="family-weekend-heading">{familyWeekend.title}</h2>
+              <p className="family-weekend-dates"><time dateTime={familyWeekend.startsISO}>{familyWeekend.dateLabel}</time></p>
+            </div>
+          </header>
+          <p className="family-weekend-summary">{familyWeekend.summary}</p>
+          <div className="family-weekend-grid">
+            {familyWeekend.planning.map((item) => (
+              <article key={item.title}>
+                <h3>{item.title}</h3>
+                <p>{item.body}</p>
+              </article>
+            ))}
+          </div>
+          <div className="family-weekend-links">
+            {familyWeekend.links.map((link) => (
+              <a key={link.href} href={link.href} target="_blank" rel="noreferrer">
+                <span><strong>{link.label}</strong><small>{link.note}</small></span>
+                <ExternalLink aria-hidden="true" />
+              </a>
+            ))}
+          </div>
+        </section>
         <aside className="calendar-caution">
           <AlertTriangle aria-hidden="true" />
           <div>
