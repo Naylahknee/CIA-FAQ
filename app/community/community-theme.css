@@ -332,6 +332,27 @@
 .c-auth-switch { margin: 14px 0 0; color: var(--c-meta); font-size: .88rem; text-align: center; }
 .c-auth-footnote { margin: 12px 0 0; color: var(--c-meta); font-size: .79rem; line-height: 1.45; text-align: center; }
 
+/* Keep the complete Create account form in the desktop viewport, while preserving every field and acknowledgement. */
+.c-auth-card .c-auth-form-signup {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  column-gap: 12px;
+  row-gap: 8px;
+}
+.c-auth-card .c-auth-form-signup > label { min-width: 0; }
+.c-auth-card .c-auth-form-signup > .c-auth-checks,
+.c-auth-card .c-auth-form-signup > .c-btn { grid-column: 1 / -1; }
+.c-auth-card .c-auth-form-signup input:not([type="checkbox"]),
+.c-auth-card .c-auth-form-signup .c-password-row input,
+.c-auth-card .c-auth-form-signup .c-password-row button { min-height: 44px; }
+.c-auth-card .c-auth-form-signup .c-auth-checks { gap: 7px; padding: 10px 12px; }
+.c-auth-card .c-auth-form-signup .c-check { gap: 6px; font-size: .76rem; line-height: 1.35; }
+.c-auth-card .c-auth-form-signup .c-btn:not(.c-btn-ghost) { min-height: 46px; }
+.c-auth-page-signup .c-auth-card > h2 { font-size: 1.45rem; }
+.c-auth-page-signup .c-auth-intro { font-size: .82rem; }
+.c-auth-page-signup .c-auth-divider { margin: 12px 0 10px; }
+.c-auth-page-signup .c-auth-switch { margin-top: 10px; }
+.c-auth-page-signup .c-auth-footnote { margin-top: 8px; }
+
 .c-auth-community-care {
   grid-column: 1 / -1;
   display: grid;
