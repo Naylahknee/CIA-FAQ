@@ -1,6 +1,6 @@
 // Guide section data ported from the Lovable redesign build (commit f65d5b2).
-// Resource links point at verified official CIA sources rather than the
-// Lovable-hosted PDF copies, which are not available outside that host.
+// Documents and provider logos are served from public/ rather than the
+// Lovable-hosted copies the redesign referenced.
 
 export const fullDates = [
   { month: "SEP", day: "21", title: "No Classes — Community Day", note: "Published on the CIA academic calendar. Campus service hours may vary.", term: "Fall 2026" },
@@ -97,20 +97,26 @@ export const shoppingStores = [
   },
 ] as const;
 export type ResourceKind = "Dining" | "Academic programs" | "Equipment" | "Health & safety" | "Local guides" | "Student tasks";
-export type ResourceItem = { title: string; description: string; href: string; kind: ResourceKind; source: string; cover: string };
+export type ResourceItem = { title: string; description: string; href: string; kind: ResourceKind; format: "PDF"; cover: string; pages: number };
 
 export const resourceLibrary: ResourceItem[] = [
-  { title: "Freshman Meal Plan", description: "Blue and Gold Point rules, dining locations, and daily use.", href: "https://www.ciachef.edu/cia-tuition/", kind: "Dining", source: "ciachef.edu", cover: "/documents/meal-plan.jpg" },
-  { title: "2026–27 Hyde Park Academic Calendar", description: "Semester, class, commencement, career fair, and recess dates.", href: "https://ciamainmenu.culinary.edu/", kind: "Student tasks", source: "CIA Main Menu", cover: "/documents/academic-calendar.jpg" },
-  { title: "Food Business Management: Culinary Fundamentals", description: "Nine-semester course sequence and program requirements.", href: "https://catalog.ciachef.edu/", kind: "Academic programs", source: "catalog.ciachef.edu", cover: "/documents/food-business.jpg" },
-  { title: "Culinary Arts AOS Degree", description: "Five-semester Culinary Arts course sequence.", href: "https://catalog.ciachef.edu/", kind: "Academic programs", source: "catalog.ciachef.edu", cover: "/documents/culinary-arts.jpg" },
-  { title: "Baking & Pastry Kit", description: "Complete issued tool and equipment list.", href: "https://catalog.ciachef.edu/", kind: "Equipment", source: "catalog.ciachef.edu", cover: "/documents/baking-kit.jpg" },
-  { title: "Culinary Kit", description: "Complete issued culinary knife and tool list.", href: "https://catalog.ciachef.edu/", kind: "Equipment", source: "catalog.ciachef.edu", cover: "/documents/culinary-kit.jpg" },
-  { title: "Food Allergies & Intolerances", description: "The Inform, Question, Protect protocol and campus contacts.", href: "https://catalog.ciachef.edu/", kind: "Health & safety", source: "catalog.ciachef.edu", cover: "/documents/allergies.jpg" },
-  { title: "CIA Alumni-Owned Restaurants Nearby", description: "A local guide to nearby CIA alumni-owned restaurants.", href: "https://www.ciachef.edu/parents/", kind: "Local guides", source: "ciachef.edu", cover: "/documents/restaurants.jpg" },
-  { title: "Ordering Your CIA Textbooks", description: "Step-by-step instructions for finding and ordering course materials.", href: "https://ciamainmenu.culinary.edu/", kind: "Student tasks", source: "CIA Main Menu", cover: "/documents/textbooks.jpg" },
-  { title: "Pharmacy, Urgent Care & Hospital Information", description: "Nearby medical providers with addresses and phone numbers.", href: "https://catalog.ciachef.edu/", kind: "Health & safety", source: "catalog.ciachef.edu", cover: "/documents/medical-care.jpg" },
+  { title: "Freshman Meal Plan", description: "Blue and Gold Point rules, dining locations, and daily use.", href: "/documents/meal-plan.pdf", kind: "Dining", format: "PDF", cover: "/documents/meal-plan.jpg", pages: 2 },
+  { title: "2026\u201327 Hyde Park Academic Calendar", description: "Semester, class, commencement, career fair, and recess dates.", href: "/documents/academic-calendar.pdf", kind: "Student tasks", format: "PDF", cover: "/documents/academic-calendar.jpg", pages: 1 },
+  { title: "Food Business Management: Culinary Fundamentals", description: "Nine-semester course sequence and program requirements.", href: "/documents/food-business.pdf", kind: "Academic programs", format: "PDF", cover: "/documents/food-business.jpg", pages: 1 },
+  { title: "Culinary Arts AOS Degree", description: "Five-semester Culinary Arts course sequence.", href: "/documents/culinary-arts.pdf", kind: "Academic programs", format: "PDF", cover: "/documents/culinary-arts.jpg", pages: 1 },
+  { title: "Baking & Pastry Kit", description: "Complete issued tool and equipment list.", href: "/documents/baking-kit.pdf", kind: "Equipment", format: "PDF", cover: "/documents/baking-kit.jpg", pages: 1 },
+  { title: "Culinary Kit", description: "Complete issued culinary knife and tool list.", href: "/documents/culinary-kit.pdf", kind: "Equipment", format: "PDF", cover: "/documents/culinary-kit.jpg", pages: 1 },
+  { title: "Food Allergies & Intolerances", description: "The Inform, Question, Protect protocol and campus contacts.", href: "/documents/allergies.pdf", kind: "Health & safety", format: "PDF", cover: "/documents/allergies.jpg", pages: 2 },
+  { title: "CIA Alumni-Owned Restaurants Nearby", description: "A local guide to nearby CIA alumni-owned restaurants.", href: "/documents/restaurants.pdf", kind: "Local guides", format: "PDF", cover: "/documents/restaurants.jpg", pages: 1 },
+  { title: "Ordering Your CIA Textbooks", description: "Step-by-step instructions for finding and ordering course materials.", href: "/documents/textbooks.pdf", kind: "Student tasks", format: "PDF", cover: "/documents/textbooks.jpg", pages: 6 },
+  { title: "Pharmacy, Urgent Care & Hospital Information", description: "Nearby medical providers with addresses and phone numbers.", href: "/documents/medical-care.pdf", kind: "Health & safety", format: "PDF", cover: "/documents/medical-care.jpg", pages: 2 },
 ];
+
+export const providerLogos: Record<string, { src: string; alt: string }> = {
+  "CVS Pharmacy": { src: "/providers/cvs.png", alt: "CVS Pharmacy" },
+  "Emergency One": { src: "/providers/emergency-one.png", alt: "Emergency One Urgent Care" },
+  "Vassar Brothers Medical Center": { src: "/providers/northwell.png", alt: "Northwell Health, Vassar Brothers Medical Center's health system" },
+};
 
 const monthNumbers: Record<string, number> = { SEP: 8, OCT: 9, NOV: 10, DEC: 11, JAN: 0, FEB: 1, APR: 3 };
 

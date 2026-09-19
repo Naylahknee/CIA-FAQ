@@ -1015,3 +1015,5 @@ h1 em { color: var(--red); font-style: normal; }
   .store-viewer iframe { height: 380px; }
   .detail-panel { padding: 18px; }
 }
+
+.provider-logo { width: 34px; height: 34px; object-fit: contain; object-position: left center; margin-bottom: 4px; }

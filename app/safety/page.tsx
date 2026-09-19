@@ -1,11 +1,12 @@
 "use client";
+/* eslint-disable @next/next/no-img-element */
 
 import { BellRing, ExternalLink, HeartPulse, MapPin, Search, ShieldCheck, Smartphone } from "lucide-react";
 import { useMemo, useState } from "react";
 import { GuideShell } from "../components/guide-shell";
 import { PageHeader } from "../components/page-header";
 import { facts } from "../guide-data";
-import { careDirectory } from "../guide-sections";
+import { careDirectory, providerLogos } from "../guide-sections";
 
 export default function SafetyPage() {
   const [query, setQuery] = useState("");
@@ -34,6 +35,7 @@ export default function SafetyPage() {
     </div></section>}
     <section className="detail-panel"><h2>Local care directory</h2>
       {groups.length ? <div className="care-grid">{groups.map((group) => <article key={group.kind}><h3>{group.kind}</h3>{group.items.map(([name, address, phone]) => <div className="care-row" key={name + address}>
+        {providerLogos[name] && <img className="provider-logo" src={providerLogos[name].src} alt={providerLogos[name].alt} loading="lazy" />}
         <strong>{name}</strong>
         <a href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${name}, ${address}`)}`} target="_blank" rel="noreferrer"><MapPin aria-hidden="true" />{address}</a>
         <a href={`tel:${phone.replace(/-/g, "")}`}>{phone}</a>

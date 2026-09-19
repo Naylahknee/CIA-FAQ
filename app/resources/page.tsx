@@ -1,7 +1,7 @@
 "use client";
 /* eslint-disable @next/next/no-img-element */
 
-import { ExternalLink, FileText, Search, X } from "lucide-react";
+import { Download, FileText, Search, X } from "lucide-react";
 import { useMemo, useState } from "react";
 import { GuideShell } from "../components/guide-shell";
 import { PageHeader } from "../components/page-header";
@@ -36,11 +36,11 @@ export default function ResourcesPage() {
 
 function resourceCards(resources: typeof resourceLibrary, pickTopic: (kind: ResourceKind) => void) {
   return resources.map((resource) => <article className="document-card" key={resource.title}>
-    <a className="document-cover" href={resource.href} target="_blank" rel="noreferrer"><img src={resource.cover} alt={`Cover of ${resource.title}`} loading="lazy" /><span><FileText aria-hidden="true" />Guide</span></a>
+    <a className="document-cover" href={resource.href} target="_blank" rel="noreferrer"><img src={resource.cover} alt={`First page of ${resource.title}`} loading="lazy" /><span><FileText aria-hidden="true" />{resource.format}</span></a>
     <div className="document-body">
       <button type="button" className="document-kind" onClick={() => pickTopic(resource.kind)}>{resource.kind}</button>
       <h3>{resource.title}</h3><p>{resource.description}</p>
-      <div><span>{resource.source}</span><a className="document-open" href={resource.href} target="_blank" rel="noreferrer">Open <ExternalLink aria-hidden="true" /></a></div>
+      <div><span>{resource.pages} {resource.pages === 1 ? "page" : "pages"}</span><a className="document-open" href={resource.href} target="_blank" rel="noreferrer">Open <Download aria-hidden="true" /></a></div>
     </div>
   </article>);
 }
