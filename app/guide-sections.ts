@@ -2,57 +2,25 @@
 // Documents and provider logos are served from public/ rather than the
 // Lovable-hosted copies the redesign referenced.
 
+// Sourced from the official Hyde Park Academic Calendar 2026–2027 PDF
+// (public/documents/academic-calendar.pdf, approved 9/8/2025), transcribing
+// only the items printed as plain text footnotes on that calendar. The grid
+// also color-codes semester start/end, kitchen/bakeshop block rotations,
+// commencement, and Saturday-class dates, but those are distinguishable only
+// by cell color/border in the source PDF and are deliberately left out here
+// pending visual confirmation against the source, rather than risk a wrong
+// date. Summer 2027 items (6/14 Career Fair, 8/9 grades due, Master's
+// Commencement 8/5/27) are omitted because the site's term model only
+// supports Fall/Spring.
 export const fullDates = [
-  { month: "SEP", day: "21", title: "No Classes — Community Day", note: "Published on the CIA academic calendar. Campus service hours may vary.", term: "Fall 2026" },
-  { month: "SEP", day: "21", title: "Last Day for 85% Tuition Refund (Hyde Park)", note: "California and Texas refund schedules differ. Confirm in the student account.", term: "Fall 2026" },
-  { month: "SEP", day: "25", title: "Kitchen/Bakeshop End Date", note: "Block rotations end. Check the student’s schedule before planning travel.", term: "Fall 2026" },
-  { month: "SEP", day: "28", title: "Kitchen/Bakeshop Start Date", note: "A new block begins. Early-morning reporting times are common.", term: "Fall 2026" },
-  { month: "SEP", day: "28", title: "Last Day for 50% Tuition Refund (Hyde Park)", note: "California and Texas refund schedules differ. Confirm in the student account.", term: "Fall 2026" },
-  { month: "OCT", day: "02", title: "Health Insurance Waiver Deadline", note: "Students with other coverage must submit the waiver by this date.", term: "Fall 2026" },
-  { month: "OCT", day: "05", title: "Career Fair (Hyde Park)", note: "Review participation details and prepare early.", term: "Fall 2026" },
-  { month: "OCT", day: "05", title: "No Classes — Community Day", note: "Published on the CIA academic calendar.", term: "Fall 2026" },
-  { month: "OCT", day: "12", title: "No Classes — Community Day", note: "Published on the CIA academic calendar.", term: "Fall 2026" },
-  { month: "OCT", day: "13", title: "Restaurants Closed", note: "CIA teaching restaurants are closed on this date.", term: "Fall 2026" },
-  { month: "OCT", day: "16", title: "Kitchen/Bakeshop End Date", note: "Block rotations end.", term: "Fall 2026" },
-  { month: "OCT", day: "19", title: "Kitchen/Bakeshop Start Date", note: "A new block begins.", term: "Fall 2026" },
-  { month: "OCT", day: "26", title: "No Classes — Community Day", note: "Published on the CIA academic calendar.", term: "Fall 2026" },
-  { month: "NOV", day: "02", title: "No Classes — Community Day", note: "Published on the CIA academic calendar.", term: "Fall 2026" },
-  { month: "NOV", day: "03", title: "Restaurants Closed", note: "CIA teaching restaurants are closed on this date.", term: "Fall 2026" },
-  { month: "NOV", day: "06", title: "Kitchen/Bakeshop End Date", note: "Block rotations end.", term: "Fall 2026" },
-  { month: "NOV", day: "09", title: "Kitchen/Bakeshop Start Date", note: "A new block begins.", term: "Fall 2026" },
-  { month: "NOV", day: "21", title: "Saturday Class", note: "Classes are held on this Saturday. Do not plan travel around it.", term: "Fall 2026" },
-  { month: "NOV", day: "23", title: "Restaurants Open", note: "CIA teaching restaurants reopen.", term: "Fall 2026" },
-  { month: "NOV", day: "24", title: "Kitchen/Bakeshop End Date", note: "Block rotations end before the holiday.", term: "Fall 2026" },
-  { month: "NOV", day: "25", title: "Thanksgiving Holiday, Nov 25 – Nov 29", note: "Verify travel against kitchen, bakeshop, and restaurant obligations.", term: "Fall 2026" },
-  { month: "NOV", day: "30", title: "No Classes — Community Day", note: "Published on the CIA academic calendar.", term: "Fall 2026" },
-  { month: "DEC", day: "01", title: "Kitchen/Bakeshop Start Date", note: "A new block begins after the holiday.", term: "Fall 2026" },
-  { month: "DEC", day: "07", title: "No Classes — Community Day", note: "Published on the CIA academic calendar.", term: "Fall 2026" },
-  { month: "DEC", day: "08", title: "Restaurant Closed", note: "A CIA teaching restaurant is closed on this date.", term: "Fall 2026" },
-  { month: "DEC", day: "17", title: "Bachelor’s Commencement (Hyde Park)", note: "Guest and ticket details come from the college directly.", term: "Fall 2026" },
-  { month: "DEC", day: "18", title: "Associate Commencement (HP, GS, SA)", note: "Guest and ticket details come from the college directly.", term: "Fall 2026" },
-  { month: "DEC", day: "18", title: "Fall Semester Ends", note: "See the student’s class schedule to find their actual last day of class.", term: "Fall 2026" },
-  { month: "DEC", day: "19", title: "Winter Break, Dec 19 – Jan 3", note: "Confirm residence-hall closing instructions before booking travel.", term: "Fall 2026" },
-  { month: "DEC", day: "21", title: "Grades Due to Registrar", note: "Students should check their record and follow up on unresolved issues.", term: "Fall 2026" },
-  { month: "JAN", day: "04", title: "No Classes — Faculty Intersession", note: "Published on the CIA academic calendar.", term: "Spring 2027" },
-  { month: "JAN", day: "05", title: "Spring Semester Begins", note: "Check the student’s actual schedule for the first required class.", term: "Spring 2027" },
-  { month: "JAN", day: "05", title: "Kitchen/Bakeshop Start Date", note: "A new block begins.", term: "Spring 2027" },
-  { month: "JAN", day: "11", title: "Add/Drop for Spring 2027 Ends", note: "Schedule changes after this date follow a different process.", term: "Spring 2027" },
-  { month: "JAN", day: "11", title: "Last Day for 100% Tuition Refund (Hyde Park)", note: "California and Texas refund schedules differ.", term: "Spring 2027" },
-  { month: "JAN", day: "11", title: "Tuition Insurance Opt-out Deadline", note: "Families who do not want tuition insurance must opt out by this date.", term: "Spring 2027" },
-  { month: "JAN", day: "16", title: "No Classes", note: "Published on the CIA academic calendar.", term: "Spring 2027" },
-  { month: "JAN", day: "18", title: "No Classes", note: "Published on the CIA academic calendar.", term: "Spring 2027" },
-  { month: "JAN", day: "18", title: "Last Day for 85% Tuition Refund (Hyde Park)", note: "California and Texas refund schedules differ.", term: "Spring 2027" },
-  { month: "JAN", day: "22", title: "Kitchen/Bakeshop End Date", note: "Block rotations end.", term: "Spring 2027" },
-  { month: "JAN", day: "25", title: "Last Day for 50% Tuition Refund (Hyde Park)", note: "California and Texas refund schedules differ.", term: "Spring 2027" },
-  { month: "JAN", day: "25", title: "No Classes — Community Day", note: "Published on the CIA academic calendar.", term: "Spring 2027" },
-  { month: "JAN", day: "26", title: "Kitchen/Bakeshop Start Date", note: "A new block begins.", term: "Spring 2027" },
-  { month: "FEB", day: "01", title: "Health Insurance Waiver Deadline", note: "Students with other coverage must submit the waiver by this date.", term: "Spring 2027" },
-  { month: "FEB", day: "08", title: "Career Fair (Hyde Park)", note: "Review participation details and avoid conflicting travel plans.", term: "Spring 2027" },
-  { month: "FEB", day: "08", title: "No Classes — Community Day", note: "Published on the CIA academic calendar.", term: "Spring 2027" },
-  { month: "FEB", day: "12", title: "Kitchen/Bakeshop End Date", note: "Block rotations end.", term: "Spring 2027" },
-  { month: "FEB", day: "15", title: "No Classes", note: "Published on the CIA academic calendar.", term: "Spring 2027" },
-  { month: "FEB", day: "16", title: "Kitchen/Bakeshop Start Date", note: "A new block begins.", term: "Spring 2027" },
-  { month: "FEB", day: "16", title: "Restaurants Closed", note: "CIA teaching restaurants are closed on this date.", term: "Spring 2027" },
+  { month: "SEP", day: "21", title: "Yom Kippur", note: "Noted on the official Hyde Park academic calendar. Confirm campus operating hours if this affects travel plans.", term: "Fall 2026" },
+  { month: "OCT", day: "05", title: "Career Fair (Hyde Park)", note: "Published on the official Hyde Park academic calendar. Confirm exact hours and location with Career Services.", term: "Fall 2026" },
+  { month: "OCT", day: "26", title: "Tri-Wizards", note: "Listed on the official Hyde Park academic calendar as printed; a fuller description isn't available yet, so confirm details with the college.", term: "Fall 2026" },
+  { month: "DEC", day: "21", title: "Fall Semester Grades Due", note: "Grades post to the student portal on this date, per the official Hyde Park academic calendar.", term: "Fall 2026" },
+  { month: "FEB", day: "08", title: "Career Fair (Hyde Park)", note: "Published on the official Hyde Park academic calendar. Confirm exact hours and location with Career Services.", term: "Spring 2027" },
+  { month: "MAR", day: "10", title: "Eid al-Fitr", note: "Noted on the official Hyde Park academic calendar. Confirm campus operating hours if this affects travel plans.", term: "Spring 2027" },
+  { month: "MAR", day: "26", title: "Good Friday", note: "Noted on the official Hyde Park academic calendar. Confirm campus operating hours if this affects travel plans.", term: "Spring 2027" },
+  { month: "APR", day: "19", title: "Spring Semester Grades Due", note: "Grades post to the student portal on this date, per the official Hyde Park academic calendar.", term: "Spring 2027" },
 ] as const;
 
 export const careDirectory = [
@@ -118,7 +86,7 @@ export const providerLogos: Record<string, { src: string; alt: string }> = {
   "Vassar Brothers Medical Center": { src: "/providers/northwell.png", alt: "Northwell Health, Vassar Brothers Medical Center's health system" },
 };
 
-const monthNumbers: Record<string, number> = { SEP: 8, OCT: 9, NOV: 10, DEC: 11, JAN: 0, FEB: 1, APR: 3 };
+const monthNumbers: Record<string, number> = { SEP: 8, OCT: 9, NOV: 10, DEC: 11, JAN: 0, FEB: 1, MAR: 2, APR: 3 };
 
 export function academicEventDate(event: (typeof fullDates)[number]) {
   const year = event.term === "Fall 2026" ? 2026 : 2027;
@@ -131,7 +99,7 @@ export function academicEventImage(title: string) {
   if (value.includes("thanksgiving") || value.includes("winter break") || value.includes("recess") || value.includes("resume")) return "/calendar/recess-travel.jpg";
   if (value.includes("tuition") || value.includes("refund") || value.includes("add/drop")) return "/calendar/tuition-refund.jpg";
   if (value.includes("health insurance")) return "/calendar/health-insurance.jpg";
-  if (value.includes("community day") || value === "no classes" || value.includes("intersession")) return "/calendar/community-day.jpg";
+  if (value.includes("community day") || value === "no classes" || value.includes("intersession") || value.includes("yom kippur") || value.includes("eid") || value.includes("good friday") || value.includes("tri-wizard")) return "/calendar/community-day.jpg";
   if (value.includes("restaurant")) return "/calendar/restaurants.jpg";
   if (value.includes("commencement")) return "/calendar/commencement.jpg";
   if (value.includes("departure") || value.includes("semester ends")) return "/calendar/departure.jpg";
@@ -146,7 +114,7 @@ export function academicEventAlt(title: string) {
   if (value.includes("thanksgiving") || value.includes("winter break") || value.includes("recess") || value.includes("resume")) return "Travel bag and chef jacket ready for an academic break";
   if (value.includes("tuition") || value.includes("refund") || value.includes("add/drop")) return "Parent and student reviewing college account information together";
   if (value.includes("health insurance")) return "Culinary student reviewing health coverage information";
-  if (value.includes("community day") || value === "no classes" || value.includes("intersession")) return "Culinary students gathering for a campus community day";
+  if (value.includes("community day") || value === "no classes" || value.includes("intersession") || value.includes("yom kippur") || value.includes("eid") || value.includes("good friday") || value.includes("tri-wizard")) return "Culinary students gathering for a campus community day";
   if (value.includes("restaurant")) return "CIA teaching restaurant dining room and open kitchen";
   if (value.includes("commencement")) return "Graduating culinary students celebrating with their families";
   if (value.includes("departure") || value.includes("semester ends")) return "Residence hall room packed for campus departure";
@@ -161,7 +129,7 @@ export type EventType = (typeof EVENT_TYPES)[number];
 export function academicEventType(title: string): EventType {
   const value = title.toLowerCase();
   if (value.includes("no classes") || value.includes("break") || value.includes("holiday") || value.includes("intersession")) return "No classes";
-  if (value.includes("career fair") || value.includes("commencement") || value.includes("restaurant")) return "Campus";
+  if (value.includes("career fair") || value.includes("commencement") || value.includes("restaurant") || value.includes("yom kippur") || value.includes("eid") || value.includes("good friday") || value.includes("tri-wizard")) return "Campus";
   if (value.includes("grades")) return "Academic";
   if (value.includes("deadline") || value.includes("refund") || value.includes("waiver") || value.includes("add/drop") || value.includes("opt-out")) return "Deadline";
   return "Academic";
