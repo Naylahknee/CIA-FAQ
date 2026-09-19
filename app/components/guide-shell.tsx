@@ -1,6 +1,6 @@
 "use client";
 
-import { ArrowUp, Bell, Bookmark, CalendarDays, ChevronDown, HeartHandshake, Home, Library, LogOut, Menu, MessageCircle, PanelLeft, Search, ShieldCheck, ShoppingBag, UserRound, Users, X } from "lucide-react";
+import { ArrowUp, CalendarDays, HeartHandshake, Home, Library, LogOut, Menu, PanelLeft, Search, ShieldCheck, ShoppingBag, UserRound, X } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { useEffect, useState, type ReactNode } from "react";
 import Link from "next/link";
@@ -10,7 +10,6 @@ type Term = "fall" | "spring";
 
 const links = [
   { to: "/", label: "Home", icon: Home },
-  { to: "/community", label: "CIA Parents and Family", icon: MessageCircle },
   { to: "/faq", label: "FAQs & Help", icon: Search },
   { to: "/resources", label: "Resource Library", icon: Library },
   { to: "/calendar", label: "Calendar", icon: CalendarDays },
@@ -18,21 +17,15 @@ const links = [
   { to: "/safety", label: "Safety & Support", icon: HeartHandshake },
 ] as const;
 
-const communityViews = [
-  { view: "feed", label: "Discussion", icon: MessageCircle },
-  { view: "saved", label: "Saved", icon: Bookmark },
-  { view: "events", label: "Events", icon: CalendarDays },
-  { view: "members", label: "Members", icon: Users },
-  { view: "notifications", label: "Notifications", icon: Bell },
-] as const;
-
 const SIDEBAR_KEY = "guide-sidebar-collapsed";
 
 /** The community runs on its own subdomain when NEXT_PUBLIC_COMMUNITY_URL is
- *  set, and falls back to the in-app route otherwise. Either way it opens in a
- *  new window, so the guide keeps its place behind it. */
+ *  set, and falls back to the in-app route otherwise. Kept as the single place
+ *  that resolves the community's address: the guide no longer links to it from
+ *  the main menu, but the subdomain still has to be bound somewhere. Note the
+ *  sign-in link in the sidebar's account row hardcodes /community and so will
+ *  not follow the subdomain until it is pointed here. */
 export const COMMUNITY_URL = process.env.NEXT_PUBLIC_COMMUNITY_URL || "/community";
-const communityLinkProps = { href: COMMUNITY_URL, target: "_blank", rel: "noreferrer" } as const;
 
 /** Applied before paint by the inline script in the root layout, so a collapsed
  *  sidebar never flashes open on load. Kept in sync here when the user toggles. */
@@ -74,7 +67,6 @@ export function GuideShell({ children }: { children: ReactNode }) {
   const [open, setOpen] = useState(false);
   const [collapsed, setCollapsed] = useState(false);
   const [signedIn, setSignedIn] = useState(false);
-  const [communityOpen, setCommunityOpen] = useState(false);
   const [moderator, setModerator] = useState(false);
   const { audience, term, setAudience, setTerm } = useGuidePreferences();
   const pathname = usePathname() ?? "/";
@@ -127,14 +119,7 @@ export function GuideShell({ children }: { children: ReactNode }) {
           <button type="button" className="sidebar-toggle" aria-label={collapsed ? "Expand menu" : "Collapse menu"} aria-expanded={!collapsed} title={collapsed ? "Expand menu" : "Collapse menu"} onClick={() => { const next = !collapsed; setCollapsed(next); applyCollapsed(next); }}><PanelLeft size={18} /></button>
         </div>
         <nav className="desktop-nav" aria-label="Main navigation">{links.map(({ to, label, icon: Icon }) => <div key={to}>
-          {to === "/community"
-            ? <a {...communityLinkProps} className={active(to) ? "active" : ""}><Icon size={20} /><span>{label}</span>{signedIn && <button type="button" className={`nav-caret${communityOpen ? " open" : ""}`} aria-label={communityOpen ? "Collapse community menu" : "Expand community menu"} aria-expanded={communityOpen} onClick={(event) => { event.preventDefault(); setCommunityOpen((value) => !value); }}><ChevronDown size={15} /></button>}</a>
-            : <Link href={to} className={active(to) ? "active" : ""}><Icon size={20} /><span>{label}</span></Link>}
-          {to === "/community" && signedIn && communityOpen && <div className="sidebar-subnav">
-            {/* Profile, moderation and sign-out live in the account row at the
-                foot of the sidebar, so they are not repeated here. */}
-            {communityViews.map(({ view, label: viewLabel, icon: ViewIcon }) => <Link key={view} href={`/community?view=${view}`}><ViewIcon size={15} />{viewLabel}</Link>)}
-          </div>}
+          <Link href={to} className={active(to) ? "active" : ""}><Icon size={20} /><span>{label}</span></Link>
         </div>)}</nav>
         <div className="sidebar-account">
           {signedIn
@@ -147,9 +132,7 @@ export function GuideShell({ children }: { children: ReactNode }) {
         </div>
       </aside>
       <header className="mobile-header"><Link href="/" className="site-brand"><span className="brand-seal">CIA</span><span>Family Guide</span></Link><button type="button" aria-label={open ? "Close menu" : "Open menu"} onClick={() => setOpen(!open)}>{open ? <X /> : <Menu />}</button></header>
-      {open && <nav className="mobile-nav" aria-label="Mobile navigation">{links.map(({ to, label, icon: Icon }) => to === "/community"
-        ? <a key={to} {...communityLinkProps} onClick={() => setOpen(false)}><Icon size={18} />{label}</a>
-        : <Link key={to} href={to} onClick={() => setOpen(false)}><Icon size={18} />{label}</Link>)}</nav>}
+      {open && <nav className="mobile-nav" aria-label="Mobile navigation">{links.map(({ to, label, icon: Icon }) => <Link key={to} href={to} onClick={() => setOpen(false)}><Icon size={18} />{label}</Link>)}</nav>}
       <div id="top" className={`app-content audience-${audience}`}>
         <div className="utility-bar">
           <div className="radial-selector" role="radiogroup" aria-label="Who is using this guide"><button type="button" role="radio" aria-checked={audience === "parent"} className={audience === "parent" ? "active" : ""} onClick={() => setAudience("parent")}>Parent</button><button type="button" role="radio" aria-checked={audience === "student"} className={audience === "student" ? "active" : ""} onClick={() => setAudience("student")}>Student</button></div>
