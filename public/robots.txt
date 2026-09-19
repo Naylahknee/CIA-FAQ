@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+Disallow: /api/
+Disallow: /account
+Disallow: /admin
+
+Sitemap: https://ciaquestions.com/sitemap.xml

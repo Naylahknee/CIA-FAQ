@@ -264,3 +264,45 @@
 .home-event-dots button.active{background:var(--accent);border-color:var(--accent);color:var(--accent-foreground)}
 .mobile-header button{display:grid;place-items:center;width:40px;height:40px;border:0;border-radius:var(--radius);background:transparent;color:inherit;cursor:pointer}
 .sidebar-subnav button{display:flex;align-items:center;gap:9px;width:100%;padding:8px 12px;border:0;background:transparent;color:inherit;font:inherit;font-size:.85rem;text-align:left;cursor:pointer}
+
+/* Mobile sizing: the chip rows wrapped to three lines on a phone because
+   .topic-filters and .calendar-tabs never got a responsive rule. Use the
+   horizontal scroll strip this stylesheet already applies to .utility-bar
+   and .category-nav at the same breakpoints. */
+@media (max-width: 700px) {
+  .topic-filters,
+  .calendar-tabs {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    scroll-snap-type: x proximity;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    padding-bottom: 2px;
+  }
+  .topic-filters::-webkit-scrollbar,
+  .calendar-tabs::-webkit-scrollbar { display: none; }
+  .topic-filters button,
+  .calendar-tabs button {
+    flex: 0 0 auto;
+    min-width: 0;
+    height: 36px;
+    padding: 0 14px;
+    font-size: .8rem;
+    white-space: nowrap;
+    scroll-snap-align: start;
+  }
+
+  .section-page-header { margin-bottom: 24px; padding-bottom: 18px; }
+  .section-page-header h1 { font-size: clamp(1.9rem, 7vw, 2.4rem); }
+  .section-page-heading { display: grid; gap: 12px; align-items: start; }
+  .section-page-heading > div { max-width: none; }
+  .section-page-heading p:last-child { font-size: .95rem; }
+
+  .utility-bar { padding: 6px 12px; gap: 6px; }
+  .utility-bar button { padding: 5px 11px; font-size: .78rem; }
+  .radial-selector button { height: 30px; padding: 0 11px; font-size: .78rem; }
+}
+
+/* Answers stay in the HTML so crawlers and AI assistants can read them;
+   the accordion hides them visually instead of unmounting them. */
+.faq-answer[hidden] { display: none; }

@@ -3,9 +3,27 @@ import "./globals.css";
 import "./guide.css";
 import "./forms.css";
 
+export const SITE_URL = "https://ciaquestions.com";
+const SITE_NAME = "CIA Hyde Park Family Guide & FAQ";
+const SITE_DESCRIPTION = "Practical answers for Culinary Institute of America Hyde Park students and families: meal plans, move-in, tuition and costs, kits and textbooks, campus life, health and safety.";
+
 export const metadata: Metadata = {
-  title: "CIA Hyde Park Family Guide & FAQ",
-  description: "A practical student and parent guide for Culinary Institute of America Hyde Park families.",
+  metadataBase: new URL(SITE_URL),
+  title: { default: SITE_NAME, template: `%s | CIA Hyde Park Family Guide` },
+  description: SITE_DESCRIPTION,
+  applicationName: SITE_NAME,
+  alternates: { canonical: "/" },
+  keywords: ["CIA Hyde Park", "Culinary Institute of America", "family guide", "parent FAQ", "meal plan", "move-in", "culinary school"],
+  openGraph: {
+    type: "website",
+    siteName: SITE_NAME,
+    title: SITE_NAME,
+    description: SITE_DESCRIPTION,
+    url: SITE_URL,
+    locale: "en_US",
+  },
+  twitter: { card: "summary_large_image", title: SITE_NAME, description: SITE_DESCRIPTION },
+  robots: { index: true, follow: true, googleBot: { index: true, follow: true, "max-snippet": -1, "max-image-preview": "large" } },
   icons: {
     icon: "/favicon.svg",
     shortcut: "/favicon.svg",
