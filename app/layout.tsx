@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import "./guide.css";
+import "./forms.css";
 
 export const metadata: Metadata = {
   title: "CIA Hyde Park Family Guide & FAQ",
