@@ -24,6 +24,17 @@ export default async function AdminPage() {
     <section className="admin-section"><h2>Photos and resources</h2><div className="review-grid">{submissions.length ? submissions.map(item => <article className="review-card" key={item.id}>
       <img src={`/api/media/${item.id}`} alt="Submitted preview" /><div><small>{item.kind} · {item.status}</small><h3>{item.title}</h3><p>{item.caption}</p><p><strong>Displayed name:</strong> {item.studentName || "None"}<br/><strong>Submitted by:</strong> {item.submitterEmail}<br/><strong>Consent:</strong> {item.consentName}</p><form action="/api/admin/submissions" method="post"><input type="hidden" name="type" value="submission"/><input type="hidden" name="id" value={item.id}/>{item.status !== "approved" && <button name="action" value="approved">Approve</button>}{item.status !== "rejected" && <button className="reject" name="action" value="rejected">{item.status === "approved" ? "Remove from wall" : "Reject"}</button>}</form></div>
     </article>) : <p>No submissions yet.</p>}</div></section>
+    <section className="admin-section" id="add-faq"><h2>Add an FAQ</h2><p>Publishes straight to the FAQs page. Write the answer as you want families to read it, and cite an official CIA source whenever one exists.</p>
+      <form action="/api/admin/faq-suggestions" method="post">
+        <input type="hidden" name="action" value="create"/>
+        <label>Question<input name="question" maxLength={300} required placeholder="When is the last day to add or drop a course?"/></label>
+        <label>Answer<textarea name="answer" maxLength={3000} rows={5} required placeholder="Write the answer families should see. Check it against an official source before publishing."/></label>
+        <label>Category<select name="category" defaultValue="living"><option value="money">Money</option><option value="arrival">Arrival and dates</option><option value="classes">Classes and supplies</option><option value="living">Campus life</option><option value="health">Health and safety</option></select></label>
+        <label>Official source URL <span>(optional)</span><input name="sourceUrl" type="url" placeholder="https://www.ciachef.edu/..."/></label>
+        <div className="faq-review-actions"><button type="submit">Publish this FAQ</button></div>
+      </form>
+    </section>
+
     <section className="admin-section" id="faq-suggestions"><h2>FAQ suggestions</h2><p>Queued questions awaiting review. Sender details are stripped before anything reaches this list. Review every answer and source before publishing.</p><div className="faq-review-list">{suggestions.length ? suggestions.map(item => <article className="faq-review-card" key={item.id}>
       <small>{item.status}{item.matchedFaqId ? ` · Similar to ${item.matchedFaqId}` : ""}</small>
       {item.sourceText && <p className="source-message"><strong>De-identified source text:</strong> {item.sourceText}</p>}

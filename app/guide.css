@@ -435,3 +435,14 @@
 .sidebar-account { margin-top: 0; }
 :root[data-sidebar="collapsed"] .sidebar-milestone a { justify-content: center; padding-inline: 0; }
 :root[data-sidebar="collapsed"] .sidebar-milestone a span { display: none; }
+
+/* FAQs published from /admin. These sit below the hand-written explorer and
+   are labelled as recent additions, so a reader can tell the two apart. */
+.published-faqs { margin-top: 52px; }
+.published-faqs h2 { margin: .15em 0 18px; font-size: clamp(1.8rem, 3.2vw, 2.5rem); }
+.published-faq-list { display: grid; gap: 12px; }
+.published-faq-list article { padding: 22px; background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); }
+.published-faq-list h3 { margin: 0 0 .45rem; font-size: 1.08rem; }
+.published-faq-list p { margin: 0; color: var(--muted-foreground); line-height: 1.6; }
+.published-faq-list a { display: inline-flex; align-items: center; gap: 6px; margin-top: 12px; color: var(--destructive); font-size: .84rem; font-weight: 700; }
+.published-faq-list a svg { width: 14px; height: 14px; }

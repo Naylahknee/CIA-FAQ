@@ -10,6 +10,35 @@ import { FaqExplorer } from "./faq-explorer";
 import { GuideRail } from "./guide-rail";
 import Link from "next/link";
 
+
+type PublishedFaq = { id: string; question: string; answer: string; category: string; sourceUrl: string | null };
+
+/** Entries published from /admin. These live in the database rather than in
+ *  guide-data.ts, so the site owner can add an answer without a code change or
+ *  a deployment. The section hides itself entirely when there are none. */
+function PublishedFaqs() {
+  const [faqs, setFaqs] = useState<PublishedFaq[]>([]);
+  useEffect(() => {
+    let active = true;
+    fetch("/api/faqs/community")
+      .then((response) => response.json())
+      .then((data: { faqs?: PublishedFaq[] }) => { if (active) setFaqs(data.faqs ?? []); })
+      .catch(() => { /* the hand-written FAQs above still stand on their own */ });
+    return () => { active = false; };
+  }, []);
+
+  if (!faqs.length) return null;
+
+  return <section className="published-faqs">
+    <p className="eyebrow">Recently added</p><h2>Answers added since the last update</h2>
+    <div className="published-faq-list">{faqs.map((faq) => <article key={faq.id}>
+      <h3>{faq.question}</h3>
+      <p>{faq.answer}</p>
+      {faq.sourceUrl && <a href={faq.sourceUrl} target="_blank" rel="noreferrer">Official source <ExternalLink aria-hidden="true" /></a>}
+    </article>)}</div>
+  </section>;
+}
+
 export function FaqHub() {
   const [audience, setAudience] = useState<"parent" | "student">("parent");
   useEffect(() => {
@@ -26,6 +55,7 @@ export function FaqHub() {
         <p className="eyebrow">Most asked</p><h2>Popular questions</h2>
         <div className="faq-popular">{facts.slice(0, 8).map((fact) => <Link key={fact.id} href={`/faq/${fact.category}`}>{audience === "student" ? fact.studentQ : fact.parentQ}<ArrowRight /></Link>)}</div>
         <FaqExplorer embedded compact showSearch={false} />
+        <PublishedFaqs />
         <section className="quick-contact-section">
           <p className="eyebrow">Quick action assistance</p><h2>Who do I contact?</h2>
           <div className="contact-grid">{contacts.map((contact) => <article key={contact.title}><small>{contact.label}</small><h3>{contact.title}</h3><p>{contact.description}</p><a href={`mailto:${contact.email}`}>{contact.email}</a><a href={`tel:${contact.phone.replace(/-/g, "")}`}>{contact.phone}</a></article>)}</div>
