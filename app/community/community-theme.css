@@ -294,7 +294,7 @@
 
 /* Keep the collage at its intended full desktop scale without changing the form panel. */
 @media (min-width: 961px) {
-  .c-auth-visual { transform: scale(1.25); transform-origin: center; }
+  .c-auth-visual { transform: scale(1.55); transform-origin: center; }
 }
 
 .c-auth-access {
