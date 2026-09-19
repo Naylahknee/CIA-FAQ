@@ -306,3 +306,24 @@
 /* Answers stay in the HTML so crawlers and AI assistants can read them;
    the accordion hides them visually instead of unmounting them. */
 .faq-answer[hidden] { display: none; }
+
+/* Audience / term sliders. Four earlier rule sets compete over these: the bar
+   sets min-height 48px, .utility-bar button adds a border and its own padding,
+   and on mobile .utility-bar becomes a grid of two full-width rows. The result
+   was a control far larger than intended. These are the last rules in the file
+   so they settle it. */
+.utility-bar { min-height: 0; padding: 6px 24px; gap: 10px; }
+.utility-bar > div { gap: 0; }
+.utility-bar button { border: 0; padding: 0 12px; }
+.radial-selector { padding: 2px; }
+.radial-selector button { min-height: 0; height: 28px; padding: 0 12px; font-size: .78rem; line-height: 1; }
+
+.nav-caret { display: grid; place-items: center; margin-left: auto; padding: 2px; border: 0; border-radius: 4px; background: transparent; color: inherit; cursor: pointer; transition: transform .18s ease; }
+.nav-caret.open { transform: rotate(180deg); }
+
+@media (max-width: 700px) {
+  .utility-bar { display: flex; flex-wrap: wrap; align-items: center; padding: 5px 12px; gap: 6px; }
+  .utility-bar > div { width: auto; overflow: visible; }
+  .radial-selector { padding: 2px; }
+  .radial-selector button { height: 26px; padding: 0 10px; font-size: .72rem; }
+}

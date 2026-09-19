@@ -29,7 +29,7 @@ const communityViews = [
 const SIDEBAR_KEY = "guide-sidebar";
 
 export function revealSidebar() {
-  try { window.localStorage.setItem(SIDEBAR_KEY, "open"); } catch { /* storage unavailable */ }
+  try { window.sessionStorage.setItem(SIDEBAR_KEY, "open"); } catch { /* storage unavailable */ }
   window.dispatchEvent(new Event("guide-sidebar-reveal"));
 }
 
@@ -66,15 +66,30 @@ export function GuideShell({ children }: { children: ReactNode }) {
   const [open, setOpen] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [signedIn, setSignedIn] = useState(false);
+  const [communityOpen, setCommunityOpen] = useState(false);
   const [moderator, setModerator] = useState(false);
   const { audience, term, setAudience, setTerm } = useGuidePreferences();
   const pathname = usePathname() ?? "/";
 
   useEffect(() => {
-    try { if (window.localStorage.getItem(SIDEBAR_KEY) === "open") setSidebarOpen(true); } catch { /* storage unavailable */ }
-    const reveal = () => setSidebarOpen(true);
+    let open = false;
+    try { open = window.sessionStorage.getItem(SIDEBAR_KEY) === "open"; } catch { /* storage unavailable */ }
+    if (open) { setSidebarOpen(true); return; }
+
+    const reveal = () => {
+      setSidebarOpen(true);
+      try { window.sessionStorage.setItem(SIDEBAR_KEY, "open"); } catch { /* storage unavailable */ }
+    };
+    // Spec: the landing view shows only the header. The first interaction of any
+    // kind brings the sidebar in, and it stays for the rest of the visit.
     window.addEventListener("guide-sidebar-reveal", reveal);
-    return () => window.removeEventListener("guide-sidebar-reveal", reveal);
+    document.addEventListener("pointerdown", reveal, { once: true });
+    document.addEventListener("keydown", reveal, { once: true });
+    return () => {
+      window.removeEventListener("guide-sidebar-reveal", reveal);
+      document.removeEventListener("pointerdown", reveal);
+      document.removeEventListener("keydown", reveal);
+    };
   }, []);
 
   useEffect(() => {
@@ -104,8 +119,8 @@ export function GuideShell({ children }: { children: ReactNode }) {
       <aside className="site-sidebar">
         <a href="/" className="site-brand" aria-label="CIA Hyde Park Family Guide home"><span className="brand-seal">CIA</span><span>CIA Hyde Park<br />Family Help Center</span></a>
         <nav className="desktop-nav" aria-label="Main navigation">{links.map(({ to, label, icon: Icon }) => <div key={to}>
-          <a href={to} className={active(to) ? "active" : ""}><Icon size={20} /><span>{label}</span>{to === "/community" && signedIn && <ChevronDown size={15} className="nav-caret" />}</a>
-          {to === "/community" && signedIn && <div className="sidebar-subnav">
+          <a href={to} className={active(to) ? "active" : ""}><Icon size={20} /><span>{label}</span>{to === "/community" && signedIn && <button type="button" className={`nav-caret${communityOpen ? " open" : ""}`} aria-label={communityOpen ? "Collapse community menu" : "Expand community menu"} aria-expanded={communityOpen} onClick={(event) => { event.preventDefault(); setCommunityOpen((value) => !value); }}><ChevronDown size={15} /></button>}</a>
+          {to === "/community" && signedIn && communityOpen && <div className="sidebar-subnav">
             {communityViews.map(({ view, label: viewLabel, icon: ViewIcon }) => <a key={view} href={`/community?view=${view}`}><ViewIcon size={15} />{viewLabel}</a>)}
             <a href="/account"><UserRound size={15} />Your profile</a>
             {moderator && <a href="/admin"><ShieldCheck size={15} />Moderation</a>}
