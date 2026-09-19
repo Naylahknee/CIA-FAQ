@@ -329,25 +329,61 @@
 }
 
 /* Family Weekend detail on the calendar page. */
-.family-weekend-panel { margin-top: 26px; padding: 24px; border: 1px solid var(--border); border-radius: var(--radius); background: var(--card); }
+.family-weekend-panel { margin-top: 26px; padding: 26px; border: 1px solid var(--border); border-radius: var(--radius); background: var(--card); }
 .family-weekend-panel > header { display: grid; grid-template-columns: 44px minmax(0, 1fr); gap: 16px; align-items: start; }
 .family-weekend-panel > header > svg { width: 34px; height: 34px; color: var(--destructive); }
-.family-weekend-panel h2 { margin: .1em 0 .2em; font-size: 1.7rem; }
-.family-weekend-dates { margin: 0; color: var(--destructive); font-weight: 800; font-size: .92rem; }
-.family-weekend-summary { max-width: 760px; margin: 16px 0 0; color: var(--muted-foreground); }
-.family-weekend-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; margin-top: 20px; }
+.family-weekend-panel h2 { margin: .1em 0 .2em; font-size: 1.75rem; }
+.family-weekend-panel h3 { margin: 0 0 .5em; font-family: var(--font-sans); font-size: 1rem; }
+.family-weekend-panel h4 { margin: 0 0 .35em; font-family: var(--font-sans); font-size: .93rem; }
+.family-weekend-dates { margin: 0; color: var(--destructive); font-weight: 800; font-size: .95rem; }
+.family-weekend-summary { max-width: 760px; margin: .5rem 0 0; color: var(--muted-foreground); }
+.fw-section-heading { margin: 26px 0 12px !important; padding-top: 18px; border-top: 1px solid var(--border); font-size: 1.05rem !important; }
+.fw-note { margin: 0 0 .6rem; color: var(--muted-foreground); font-size: .87rem; line-height: 1.55; }
+.fw-note strong { color: var(--foreground); }
+.fw-warn { margin: 0; color: var(--destructive); font-size: .83rem; font-weight: 700; }
+.fw-source { margin: 16px 0 0; color: var(--muted-foreground); font-size: .8rem; }
+
+.family-weekend-deadline { display: grid; grid-template-columns: 30px minmax(0, 1fr); gap: 12px; align-items: start; margin-top: 20px; padding: 15px 17px; border: 1px solid var(--accent); border-radius: var(--radius); background: color-mix(in oklch, var(--accent) 16%, var(--card)); }
+.family-weekend-deadline svg { width: 22px; height: 22px; color: var(--destructive); }
+.family-weekend-deadline p { margin: .3rem 0 0; font-size: .87rem; line-height: 1.5; }
+
+.family-weekend-columns { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 22px; margin-top: 22px; }
+.fw-tiers { display: grid; gap: 0; margin: 0 0 .8rem; }
+.fw-tiers > div { display: flex; justify-content: space-between; gap: 12px; padding: 8px 0; border-bottom: 1px solid var(--border); font-size: .87rem; }
+.fw-tiers dt { color: var(--muted-foreground); }
+.fw-tiers dd { margin: 0; font-weight: 800; white-space: nowrap; }
+.fw-checkin { display: grid; gap: 8px; margin: 0; padding: 0; list-style: none; }
+.fw-checkin li { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 2px 12px; padding: 9px 12px; border: 1px solid var(--border); border-radius: var(--radius); font-size: .86rem; }
+.fw-checkin span { font-weight: 800; text-align: right; white-space: nowrap; }
+.fw-checkin small { grid-column: 1 / -1; color: var(--muted-foreground); }
+
+.family-weekend-schedule { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+.family-weekend-schedule section { padding: 16px; border: 1px solid var(--border); border-radius: var(--radius); background: var(--background); }
+.family-weekend-schedule ul { display: grid; gap: 10px; margin: 0; padding: 0; list-style: none; }
+.family-weekend-schedule li { display: grid; gap: 2px; font-size: .84rem; }
+.family-weekend-schedule time { color: var(--destructive); font-weight: 800; font-size: .78rem; }
+.family-weekend-schedule small { color: var(--muted-foreground); }
+
+.family-weekend-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
 .family-weekend-grid article { padding: 16px; border: 1px solid var(--border); border-radius: var(--radius); background: var(--background); }
-.family-weekend-grid h3 { margin: 0 0 .35em; font-family: var(--font-sans); font-size: .95rem; }
 .family-weekend-grid p { margin: 0; color: var(--muted-foreground); font-size: .85rem; line-height: 1.5; }
-.family-weekend-links { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 12px; margin-top: 18px; }
-.family-weekend-links a { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 14px 16px; border: 1px solid var(--border); border-radius: var(--radius); color: inherit; text-decoration: none; }
-.family-weekend-links a:hover { border-color: var(--accent); }
+
+.fw-hotels { display: grid; gap: 8px; margin: 0; padding: 0; list-style: none; }
+.fw-hotels li { display: grid; gap: 1px; padding: 10px 12px; border: 1px solid var(--border); border-radius: var(--radius); font-size: .86rem; }
+.fw-hotels a { color: var(--destructive); font-weight: 700; width: max-content; }
+.fw-hotels small { color: var(--muted-foreground); font-size: .79rem; }
+
+.family-weekend-links { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 12px; margin-top: 22px; }
+.family-weekend-links a { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 15px 17px; border: 1px solid var(--destructive); border-radius: var(--radius); color: inherit; text-decoration: none; }
+.family-weekend-links a:hover { background: color-mix(in oklch, var(--destructive) 7%, var(--card)); }
 .family-weekend-links span { display: grid; gap: 2px; min-width: 0; }
 .family-weekend-links small { color: var(--muted-foreground); font-size: .8rem; }
 .family-weekend-links svg { width: 16px; height: 16px; flex: 0 0 auto; color: var(--destructive); }
-@media (max-width: 1120px) { .family-weekend-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+
+@media (max-width: 1120px) { .family-weekend-schedule, .family-weekend-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media (max-width: 700px) {
   .family-weekend-panel { padding: 18px; }
+  .family-weekend-panel > header { grid-template-columns: 1fr; gap: 10px; }
   .family-weekend-panel h2 { font-size: 1.4rem; }
-  .family-weekend-grid, .family-weekend-links { grid-template-columns: 1fr; }
+  .family-weekend-columns, .family-weekend-schedule, .family-weekend-grid { grid-template-columns: 1fr; }
 }

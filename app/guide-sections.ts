@@ -193,23 +193,85 @@ export const arrivalLanes = [
   { title: "Parent lane", subtitle: "You support the launch.", steps: ["Book around the assigned schedule", "Bring less than you think", "Handle setup—not school business", "Expect a real goodbye", "Leave a calm backup plan"] },
 ] as const;
 
-/** CIA Hyde Park Family Weekend. Dates are as supplied by the guide owner; the
- *  official page is the authority for schedule, registration and ticketing, so
- *  nothing here restates those details. */
+/** CIA Hyde Park Family Weekend, condensed from the official CIA page to the
+ *  decisions a parent actually has to make. The full programme, FAQs, printable
+ *  schedule and campus map stay on ciachef.edu, which is the authority.
+ *  Check-in times use the narrower of the two windows the CIA page gives, so a
+ *  family is never told the desk is open later than it is. */
 export const familyWeekend = {
   title: "Family Weekend 2026",
   campus: "CIA Hyde Park",
+  address: "1946 Campus Drive (Route 9), Hyde Park, NY 12538",
   startsISO: "2026-10-09",
   endsISO: "2026-10-11",
-  dateLabel: "Friday, October 9 – Sunday, October 11, 2026",
-  summary: "Three days on the Hyde Park campus for families. The official CIA page carries the schedule, registration and any ticketed events; confirm everything there before booking travel.",
-  planning: [
-    { title: "Book lodging early", body: "Hyde Park and Poughkeepsie rooms go quickly on a weekend the whole campus hosts families. Confirm your dates before you book anything non-refundable." },
-    { title: "Check your student\u2019s schedule first", body: "Kitchen and bakeshop blocks do not pause for the weekend. Ask your student what they are actually free for before you plan around it." },
-    { title: "Reserve restaurants separately", body: "CIA\u2019s teaching restaurants take their own reservations and fill fast during Family Weekend. A Family Weekend registration is not a table booking." },
-    { title: "Confirm before you travel", body: "Times, locations and ticketing can change. The official page is the authority, not this guide." },
+  dateLabel: "Friday, October 9 \u2013 Sunday, October 11, 2026",
+  summary: "Three days on campus: demos and tastings, campus tours, a home soccer game with family lunch, the Eastdale alumni experience, and the 36th Chili Cook-Off.",
+  officialUrl: "https://www.ciachef.edu/cia-family-weekend/",
+  contactEmail: "campuslife@culinary.edu",
+
+  deadline: {
+    label: "September 12, 2026",
+    what: "Restaurant seats are held exclusively for Family Weekend guests until this date. Book before it passes \u2014 availability is limited and demand is high.",
+  },
+
+  registration: {
+    required: "Every family member and guest must be registered, including children.",
+    tiers: [
+      ["Age 13 and over", "$70 per person"],
+      ["Youth, age 6\u201312", "$45 per person"],
+      ["Age 5 and under", "Free, but must still be registered for the headcount"],
+      ["Your CIA student", "Included in your registration at no charge"],
+    ],
+    included: "Demos, workshops, tastings, campus tours, entertainment, the welcome reception, family lunch and the Chili Cook-Off.",
+    notIncluded: "Meals at the CIA restaurants. Those need their own reservation and are charged separately.",
+    warning: "All ticket and merchandise purchases are non-refundable.",
+  },
+
+  checkIn: {
+    note: "Check in on your first visit before anything else \u2014 the wristband you collect there is required for most events. You also get your welcome packet and swag.",
+    times: [
+      ["Friday, October 9", "4\u20138 p.m.", "Charlie Palmer Plaza"],
+      ["Saturday, October 10", "8 a.m.\u2013noon", "Charlie Palmer Plaza"],
+      ["Sunday, October 11", "noon\u20132 p.m.", "Charlie Palmer Plaza"],
+    ],
+  },
+
+  schedule: [
+    { day: "Friday, October 9", items: [
+      ["4\u20138 p.m.", "Check-in", "Charlie Palmer Plaza"],
+      ["6\u20138 p.m.", "Welcome reception", "Post Road"],
+      ["6\u20138:30 p.m.", "Restaurant reservations", "Separate booking and cost"],
+    ]},
+    { day: "Saturday, October 10", items: [
+      ["8 a.m.\u2013noon", "Check-in", "Charlie Palmer Plaza"],
+      ["9 a.m.\u20131:15 p.m.", "Demos, tours and tastings", "Space is limited"],
+      ["11:30 a.m.\u20131 p.m.", "Restaurant reservations", "Separate booking and cost"],
+      ["1\u20133:30 p.m.", "Home soccer game and family lunch", "Soccer Field"],
+      ["4:30\u20137:30 p.m.", "Eastdale alumni experience", "Eastdale Village, offsite, free parking"],
+      ["6\u20138:30 p.m.", "Restaurant reservations", "Separate booking and cost"],
+      ["8\u20139 p.m.", "Psychic entertainer Robert Channing", "Marriott Pavilion"],
+    ]},
+    { day: "Sunday, October 11", items: [
+      ["9 a.m.\u2013noon", "Student Commons open", "The Egg, food and coffee to buy"],
+      ["11 a.m. and noon", "Campus walking tour", "Welcome Center, Roth Hall"],
+      ["noon\u20132 p.m.", "Check-in and Chili Cook-Off badges", "Charlie Palmer Plaza"],
+      ["1\u20134 p.m.", "36th Chili Cook-Off", "Anton Plaza"],
+      ["1\u20134 p.m.", "Biergarten", "Post Road, student-brewed beer to buy"],
+    ]},
   ],
-  links: [
-    { label: "Official CIA Family Weekend page", href: "https://www.ciachef.edu/cia-family-weekend/", note: "Schedule, registration and ticketing" },
+
+  planning: [
+    { title: "Book restaurants by September 12", body: "American Bounty, The Bocuse Restaurant and Ristorante Caterina de\u2019 Medici take lunch and dinner Friday and Saturday. Call 845-905-4533 or email ciarestaurantgroup@culinary.edu. Separate reservation, separate cost." },
+    { title: "Arrive early on Saturday", body: "The Run for Your Knives 5K closes roads and limits parking from 9\u201311 a.m. on Saturday. If you are coming for the morning demos, get there before it starts." },
+    { title: "Parking is free", body: "Attendants direct you on arrival; the Layer Cake and Champagne lots are recommended for the weekend. Accessible spaces are available across campus with no advance request." },
+    { title: "Stay off campus, book early", body: "Families stay off campus. CIA partner hotels hold Family Weekend rates and fill up: book direct." },
+    { title: "Campus is cashless", body: "Card or mobile payment only, everywhere on campus. Bring no cash expecting to spend it." },
+    { title: "Pets are not permitted", body: "Service animals are welcome under the ADA; other pets cannot attend Family Weekend events." },
+  ],
+
+  hotels: [
+    ["Courtyard by Marriott Poughkeepsie", "845-485-6336", "6.5 miles"],
+    ["Residence Inn by Marriott Poughkeepsie", "845-463-4343", "6.5 miles"],
+    ["Hyatt Place Poughkeepsie", "845-632-3100", "9.5 miles"],
   ],
 } as const;
