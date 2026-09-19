@@ -56,6 +56,12 @@ export const fullDates = [
   { month: "FEB", day: "15", title: "No Classes", note: "Published on the CIA academic calendar.", term: "Spring 2027" },
   { month: "FEB", day: "16", title: "Kitchen/Bakeshop Start Date", note: "A new block begins.", term: "Spring 2027" },
   { month: "FEB", day: "16", title: "Restaurants Closed", note: "CIA teaching restaurants are closed on this date.", term: "Spring 2027" },
+  { month: "SEP", day: "21", title: "Yom Kippur", note: "Noted on the official Hyde Park academic calendar. Confirm campus operating hours if this affects travel plans.", term: "Fall 2026" },
+  { month: "OCT", day: "26", title: "Tri-Wizards", note: "Listed on the official Hyde Park academic calendar as printed; a fuller description isn\u2019t available yet, so confirm details with the college.", term: "Fall 2026" },
+  { month: "DEC", day: "21", title: "Fall Semester Grades Due", note: "Grades post to the student portal on this date, per the official Hyde Park academic calendar.", term: "Fall 2026" },
+  { month: "MAR", day: "10", title: "Eid al-Fitr", note: "Noted on the official Hyde Park academic calendar. Confirm campus operating hours if this affects travel plans.", term: "Spring 2027" },
+  { month: "MAR", day: "26", title: "Good Friday", note: "Noted on the official Hyde Park academic calendar. Confirm campus operating hours if this affects travel plans.", term: "Spring 2027" },
+  { month: "APR", day: "19", title: "Spring Semester Grades Due", note: "Grades post to the student portal on this date, per the official Hyde Park academic calendar.", term: "Spring 2027" },
 ] as const;
 
 export const careDirectory = [
@@ -121,7 +127,7 @@ export const providerLogos: Record<string, { src: string; alt: string }> = {
   "Vassar Brothers Medical Center": { src: "/providers/northwell.png", alt: "Northwell Health, Vassar Brothers Medical Center's health system" },
 };
 
-const monthNumbers: Record<string, number> = { SEP: 8, OCT: 9, NOV: 10, DEC: 11, JAN: 0, FEB: 1, APR: 3 };
+const monthNumbers: Record<string, number> = { JAN: 0, FEB: 1, MAR: 2, APR: 3, MAY: 4, JUN: 5, JUL: 6, AUG: 7, SEP: 8, OCT: 9, NOV: 10, DEC: 11 };
 
 export function academicEventDate(event: (typeof fullDates)[number]) {
   const year = event.term === "Fall 2026" ? 2026 : 2027;

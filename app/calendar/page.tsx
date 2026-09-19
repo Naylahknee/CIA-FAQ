@@ -2,7 +2,6 @@
 
 import { AlertTriangle, CalendarDays, CalendarPlus, ChevronLeft, ChevronRight, Download, ExternalLink, Search, SlidersHorizontal, Target, Users } from "lucide-react";
 import { useMemo, useState, type CSSProperties } from "react";
-import { GuideShell } from "../components/guide-shell";
 import { PageHeader } from "../components/page-header";
 import { EVENT_TYPES, familyWeekend, fullDates, academicEventDate, academicEventType, type EventType } from "../guide-sections";
 
@@ -121,7 +120,7 @@ export default function CalendarPage() {
   const upNext = sorted.filter((event) => isoDate(event.date).startsWith(monthPrefix)).slice(0, 4);
 
   return (
-    <GuideShell>
+    <>
       <main className="calendar-page page-wrap">
         <PageHeader
           eyebrow="Family calendar"
@@ -396,6 +395,6 @@ export default function CalendarPage() {
           </div>
         </aside>
       </main>
-    </GuideShell>
+    </>
   );
 }

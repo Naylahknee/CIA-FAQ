@@ -4,6 +4,7 @@ import { getDb } from "../../db";
 import { corrections, faqSuggestions, wallSubmissions } from "../../db/schema";
 import { getCommunityUser } from "../community-auth";
 import { forbidden, redirect } from "next/navigation";
+import Link from "next/link";
 
 export const dynamic = "force-dynamic";
 
@@ -17,7 +18,7 @@ export default async function AdminPage() {
     getDb().select().from(corrections).orderBy(desc(corrections.createdAt)).limit(100),
     getDb().select().from(faqSuggestions).orderBy(desc(faqSuggestions.createdAt)).limit(100),
   ]);
-  return <main className="admin-page"><a href="/">← Back to guide</a><section className="admin-header"><p className="eyebrow">Owner dashboard</p><h1>Review community submissions</h1><p>Nothing reaches the walls until you approve it here.</p></section>
+  return <main className="admin-page"><Link href="/">← Back to guide</Link><section className="admin-header"><p className="eyebrow">Owner dashboard</p><h1>Review community submissions</h1><p>Nothing reaches the walls until you approve it here.</p></section>
     <section className="admin-section"><h2>Photos and resources</h2><div className="review-grid">{submissions.length ? submissions.map(item => <article className="review-card" key={item.id}>
       <img src={`/api/media/${item.id}`} alt="Submitted preview" /><div><small>{item.kind} · {item.status}</small><h3>{item.title}</h3><p>{item.caption}</p><p><strong>Displayed name:</strong> {item.studentName || "None"}<br/><strong>Submitted by:</strong> {item.submitterEmail}<br/><strong>Consent:</strong> {item.consentName}</p><form action="/api/admin/submissions" method="post"><input type="hidden" name="type" value="submission"/><input type="hidden" name="id" value={item.id}/>{item.status !== "approved" && <button name="action" value="approved">Approve</button>}{item.status !== "rejected" && <button className="reject" name="action" value="rejected">{item.status === "approved" ? "Remove from wall" : "Reject"}</button>}</form></div>
     </article>) : <p>No submissions yet.</p>}</div></section>

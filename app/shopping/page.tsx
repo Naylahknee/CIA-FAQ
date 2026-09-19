@@ -1,18 +1,17 @@
 "use client";
-/* eslint-disable @next/next/no-html-link-for-pages */
 
 import { ExternalLink, Gift, MapPin, Maximize2, PackageCheck, Search, Truck, X } from "lucide-react";
 import { useMemo, useState } from "react";
-import { GuideShell } from "../components/guide-shell";
 import { PageHeader } from "../components/page-header";
 import { shoppingStores } from "../guide-sections";
+import Link from "next/link";
 
 export default function ShoppingPage() {
   const [query, setQuery] = useState("");
   const [preview, setPreview] = useState<(typeof shoppingStores)[number] | null>(null);
   const stores = useMemo(() => shoppingStores.filter((store) => `${store.kind} ${store.name} ${store.address} ${store.items.join(" ")}`.toLowerCase().includes(query.toLowerCase())), [query]);
 
-  return <GuideShell><main className="shopping-page page-wrap">
+  return <><main className="shopping-page page-wrap">
     <PageHeader eyebrow="Shop for your student" title="Send the useful things—and the thoughtful ones." description="Confirm what your student needs, then arrange pickup or delivery using their correct name and residence-hall instructions.">
       <label className="page-search"><Search aria-hidden="true" /><span className="sr-only">Search shopping options</span><input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Search stores, supplies, or delivery options…" /></label>
     </PageHeader>
@@ -32,6 +31,6 @@ export default function ShoppingPage() {
       <p>Some retailers block in-page viewing. If the store does not load, open it in a new window.</p>
     </section>}
     <aside className="shopping-note"><PackageCheck aria-hidden="true" /><div><strong>Before you order</strong><p>Confirm current residence-hall rules, delivery access, availability, and return policies.</p></div></aside>
-    <a className="back-link" href="/faq/living">Read campus-life shopping guidance</a>
-  </main></GuideShell>;
+    <Link className="back-link" href="/faq/living">Read campus-life shopping guidance</Link>
+  </main></>;
 }
