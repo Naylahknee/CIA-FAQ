@@ -47,7 +47,11 @@ jobs:
     permissions:
       contents: read
     steps:
+      # Full history: the ratchet checks the base branch out into a scratch
+      # worktree to measure it, so a shallow clone has nothing to compare against.
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - uses: actions/setup-node@v4
         with:
           node-version: 22
@@ -56,8 +60,10 @@ jobs:
         run: npm ci --no-audit --no-fund
       - name: Restore script permissions
         run: chmod +x scripts/*.sh
-      # Fails only when a branch adds errors on top of the recorded baseline,
-      # so the existing backlog does not redden every pull request. See the
-      # comments in the script.
+      # Fails only when a branch adds eslint errors relative to its base branch,
+      # measured in this same checkout so the existing backlog does not redden
+      # every pull request. See the comments in the script.
       - name: Lint (no new errors)
+        env:
+          BASE_REF: origin/${{ github.base_ref || github.ref_name }}
         run: bash .github/scripts/lint-ratchet.sh

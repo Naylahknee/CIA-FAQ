@@ -14,6 +14,10 @@ const schemaColumns = {
     ["topic_id", "TEXT"],
     ["is_anonymous", "INTEGER NOT NULL DEFAULT 0"],
   ]),
+  community_onboarding: new Map([
+    ["topics_json", "TEXT NOT NULL DEFAULT '[]'"],
+    ["onboarding_completed_at", "INTEGER"],
+  ]),
 } as const;
 
 type SchemaTable = keyof typeof schemaColumns;
@@ -45,8 +49,10 @@ async function prepareSchema() {
     env.DB.prepare("CREATE INDEX IF NOT EXISTS idx_recovery_codes_user ON recovery_codes(user_id)"),
     env.DB.prepare("CREATE TABLE IF NOT EXISTS community_topics (id TEXT PRIMARY KEY, name TEXT NOT NULL UNIQUE, created_by TEXT NOT NULL REFERENCES community_users(id) ON DELETE CASCADE, status TEXT NOT NULL DEFAULT 'active', created_at INTEGER NOT NULL)"),
     env.DB.prepare("CREATE INDEX IF NOT EXISTS idx_community_topics_status_created ON community_topics(status, created_at)"),
-    env.DB.prepare("CREATE TABLE IF NOT EXISTS community_onboarding (user_id TEXT PRIMARY KEY REFERENCES community_users(id) ON DELETE CASCADE, member_type TEXT NOT NULL, student_stage TEXT NOT NULL, guidelines_accepted_at INTEGER NOT NULL, privacy_accepted_at INTEGER NOT NULL, created_at INTEGER NOT NULL)"),
+    env.DB.prepare("CREATE TABLE IF NOT EXISTS community_onboarding (user_id TEXT PRIMARY KEY REFERENCES community_users(id) ON DELETE CASCADE, member_type TEXT NOT NULL, student_stage TEXT, topics_json TEXT NOT NULL DEFAULT '[]', guidelines_accepted_at INTEGER NOT NULL, privacy_accepted_at INTEGER NOT NULL, onboarding_completed_at INTEGER, created_at INTEGER NOT NULL)"),
   ]);
+  await addMissingColumn("community_onboarding", "topics_json");
+  await addMissingColumn("community_onboarding", "onboarding_completed_at");
 }
 
 export function ensureD1AuthSchema() {

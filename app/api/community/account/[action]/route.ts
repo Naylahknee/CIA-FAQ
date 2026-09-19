@@ -49,6 +49,14 @@ export async function POST(request:Request, context:{params:Promise<{action:stri
   const session=await getCommunityUser(); if (!session) return fail('Sign in first.',401);
   const user=await accountRow(session.id); if (!user) return fail('Sign in first.',401);
   if (action==='status') return noStoreJson({email:user.email,emailVerified:Boolean(user.email_verified),emailVerificationRequired:emailVerificationConfigured(),twoFactorEnabled:Boolean(user.mfa_secret)});
+  if (action==='delete') {
+   const media=await env.DB.prepare('SELECT media_key AS key FROM community_posts WHERE user_id=? AND media_key IS NOT NULL UNION SELECT image_key AS key FROM wall_submissions WHERE submitter_email=? COLLATE NOCASE').bind(user.id,user.email).all<{key:string}>();
+   for (const row of media.results) if(row.key) await env.BUCKET.delete(row.key);
+   await ensureD1AuthSchema();
+   await env.DB.batch([env.DB.prepare('DELETE FROM wall_submissions WHERE submitter_email=? COLLATE NOCASE').bind(user.email),env.DB.prepare('DELETE FROM corrections WHERE submitter_email=? COLLATE NOCASE').bind(user.email),env.DB.prepare('DELETE FROM community_users WHERE id=?').bind(user.id)]);
+   if(neonAuthConfigured()) await getNeonAuthDb().query('DELETE FROM auth_users WHERE id=$1',[user.id]);
+   await clearSession(); return noStoreJson({message:'Your account and associated submissions have been deleted.'});
+  }
   if (action==='verify-request') { await sendAccountEmail(user,'verify'); return noStoreJson({message:'Verification link sent. Check your email.'}); }
   const password=String(data.password??'');
   if (password.length>128 || !await verifyPassword(password,user.password_salt,user.password_hash,user.password_iterations)) return fail('Credentials could not be verified.',401);
@@ -95,6 +103,7 @@ export async function POST(request:Request, context:{params:Promise<{action:stri
    result.community_comments=(await env.DB.prepare('SELECT * FROM community_comments WHERE user_id=?').bind(user.id).all()).results;
    result.community_reactions=(await env.DB.prepare('SELECT * FROM community_reactions WHERE user_id=?').bind(user.id).all()).results;
    result.community_reports=(await env.DB.prepare('SELECT * FROM community_reports WHERE user_id=?').bind(user.id).all()).results;
+   result.communityOnboarding=(await env.DB.prepare('SELECT member_type,student_stage,topics_json,guidelines_accepted_at,privacy_accepted_at,onboarding_completed_at FROM community_onboarding WHERE user_id=?').bind(user.id).all()).results;
    result.wallSubmissions=(await env.DB.prepare('SELECT * FROM wall_submissions WHERE submitter_email=? COLLATE NOCASE').bind(user.email).all()).results;
    result.corrections=(await env.DB.prepare('SELECT * FROM corrections WHERE submitter_email=? COLLATE NOCASE').bind(user.email).all()).results;
    const media=await env.DB.prepare('SELECT media_key AS key FROM community_posts WHERE user_id=? AND media_key IS NOT NULL UNION SELECT image_key AS key FROM wall_submissions WHERE submitter_email=? COLLATE NOCASE').bind(user.id,user.email).all<{key:string}>();
@@ -107,16 +116,6 @@ export async function POST(request:Request, context:{params:Promise<{action:stri
     controller.enqueue(encoder.encode(']}'));controller.close();
    }catch(error){controller.error(error);}}});
    return new Response(stream,{headers:{'Content-Type':'application/json','Cache-Control':'no-store','Content-Disposition':'attachment; filename="cia-guide-account.json"'}});
-  }
-  if (action==='delete') {
-   if (data.confirmation!=='DELETE MY ACCOUNT') return fail('Type DELETE MY ACCOUNT to confirm.');
-   const media=await env.DB.prepare('SELECT media_key AS key FROM community_posts WHERE user_id=? AND media_key IS NOT NULL UNION SELECT image_key AS key FROM wall_submissions WHERE submitter_email=? COLLATE NOCASE').bind(user.id,user.email).all<{key:string}>();
-   // Delete objects first. On storage failure the account remains so deletion can be retried.
-   for (const row of media.results) if(row.key) await env.BUCKET.delete(row.key);
-   await ensureD1AuthSchema();
-   await env.DB.batch([env.DB.prepare('DELETE FROM wall_submissions WHERE submitter_email=? COLLATE NOCASE').bind(user.email),env.DB.prepare('DELETE FROM corrections WHERE submitter_email=? COLLATE NOCASE').bind(user.email),env.DB.prepare('DELETE FROM community_users WHERE id=?').bind(user.id)]);
-   if(neonAuthConfigured()) await getNeonAuthDb().query('DELETE FROM auth_users WHERE id=$1',[user.id]);
-   await clearSession(); return noStoreJson({message:'Your account and associated submissions have been deleted.'});
   }
   return fail('Unknown action.',404);
  } catch { return fail('Account service is unavailable. Please try again later.',503); }

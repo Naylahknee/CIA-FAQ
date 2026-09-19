@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Bell, BookOpen, Hash, LogOut, Mail, MessagesSquare, UserRound } from "lucide-react";
+import { Bell, BookOpen, Hash, LogOut, Mail, MessagesSquare, ShieldCheck, UserRound } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useCommunity, initials } from "./community-data";
 import { VillageIconMark, randomVillageIcon, resolveVillageIcon } from "./village-icon-view";
@@ -68,6 +68,7 @@ export function CommunityNav() {
               ))}
             </nav>
             <Link className="c-signout" href="/" title="Back to the Guide and FAQ"><BookOpen size={16} aria-hidden="true" />Guide</Link>
+            {user.role === "admin" && <Link className="c-signout" href="/admin"><ShieldCheck size={16} aria-hidden="true" />Admin</Link>}
             <button type="button" className="c-signout" onClick={signOut}><LogOut size={16} aria-hidden="true" />Sign out</button>
           </>
         )}
