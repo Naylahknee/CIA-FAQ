@@ -159,6 +159,8 @@ export default function CalendarPage() {
   const selectedEvents = byDate.get(selected) ?? [];
   const nextAfter = sorted.find((event) => isoDate(event.date) > selected) ?? sorted[0];
   const selectedDate = new Date(`${selected}T12:00:00`);
+  const selectedEventDetails = selectedEvents.map((event) => ({ event, detail: audienceDetails(event.title, event.note, audience) }));
+  const needsExpandedSelectedDetails = selectedEventDetails.length > 1 || selectedEventDetails.some(({ detail }) => detail.length > 165);
 
   const upNext = sorted.filter((event) => isoDate(event.date).startsWith(monthPrefix)).slice(0, 4);
 
@@ -288,8 +290,10 @@ export default function CalendarPage() {
 
               {selectedEvents.length > 0 ? (
                 <div className="calendar-rail-events">
-                  {selectedEvents.map((event) => {
+                  {selectedEventDetails.map(({ event, detail }) => {
                     const colors = TYPE_COLORS[event.type];
+                    const showBelow = selectedEventDetails.length > 1 || detail.length > 165;
+                    const railDetail = showBelow ? `${detail.slice(0, 158).trimEnd()}…` : detail;
                     return (
                       <article className="calendar-rail-event" key={event.id}>
                         <div>
@@ -297,7 +301,8 @@ export default function CalendarPage() {
                           <span className="calendar-event-term">{event.term}</span>
                         </div>
                         <h3>{event.title}</h3>
-                        <p>{audienceDetails(event.title, event.note, audience)}</p>
+                        <p>{railDetail}</p>
+                        {showBelow && <span className="calendar-rail-overflow">Full planning details are below the calendar.</span>}
                         <footer>
                           <button type="button" className="calendar-ics-btn" onClick={() => downloadICS(`${event.id}.ics`, buildICS([event]))}>
                             <CalendarPlus aria-hidden="true" />Add to calendar
@@ -338,26 +343,27 @@ export default function CalendarPage() {
           </aside>
         </div>
 
-        <section className="calendar-selected-summary" aria-live="polite" aria-labelledby="selected-date-heading">
-          <p className="eyebrow">Selected date</p>
-          <h2 id="selected-date-heading">{selectedDate.toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric", year: "numeric" })}</h2>
-          {selectedEvents.length > 0 ? (
+        {needsExpandedSelectedDetails && (
+          <section className="calendar-selected-summary" aria-live="polite" aria-labelledby="selected-date-heading">
+            <p className="eyebrow">Full planning details</p>
+            <h2 id="selected-date-heading">{selectedDate.toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric", year: "numeric" })}</h2>
             <div className="calendar-selected-events">
-              {selectedEvents.map((event) => (
-                <article key={`selected-${event.id}`}>
-                  {event.title.toLowerCase().includes("family weekend") && <img src="/calendar/family-weekend-2026.png" alt="CIA Family Weekend 2026" />}
-                  <div>
-                    <span className="calendar-event-term">{event.term}</span>
-                    <h3>{event.title}</h3>
-                    <p>{audienceDetails(event.title, event.note, audience)}</p>
-                  </div>
-                </article>
-              ))}
+              {selectedEventDetails.map(({ event, detail }) => {
+                const hasArt = event.title.toLowerCase().includes("family weekend");
+                return (
+                  <article className={hasArt ? "calendar-selected-event has-art" : "calendar-selected-event"} key={`selected-${event.id}`}>
+                    {hasArt && <img src="/calendar/family-weekend-2026.png" alt="CIA Family Weekend 2026" />}
+                    <div>
+                      <span className="calendar-event-term">{event.term}</span>
+                      <h3>{event.title}</h3>
+                      <p>{detail}</p>
+                    </div>
+                  </article>
+                );
+              })}
             </div>
-          ) : (
-            <p className="calendar-selected-empty">There is no matching calendar item on this date for {selectedTerm}. Use the month controls or the search field to explore another date.</p>
-          )}
-        </section>
+          </section>
+        )}
 
         {selectedTerm === "Fall 2026" && <section className="family-weekend-panel" aria-labelledby="family-weekend-heading">
           <header>
