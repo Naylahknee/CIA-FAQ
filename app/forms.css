@@ -112,13 +112,22 @@
    only when there is an image to place next to it. */
 .not-found-page{max-width:960px;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,340px);gap:clamp(24px,5vw,56px);align-items:center}
 .not-found-copy{min-width:0}
-/* The illustration has no alpha channel -- its background is baked-in white,
-   which would sit as a hard white rectangle on the cream page. Multiply blends
-   that white into whatever is behind it while leaving the artwork's own colours
-   alone. It only works over a light backdrop, so the dark theme (defined but
-   not currently applied anywhere) gets an explicit white panel instead. */
-.not-found-art{width:100%;height:auto;justify-self:center;mix-blend-mode:multiply}
-.dark .not-found-art{mix-blend-mode:normal;background:#fff;border-radius:var(--radius)}
+/* This illustration carries a real alpha channel, so it needs no blend trick to
+   sit on the cream page -- and must not have one, since multiply would tint the
+   artwork's own light areas against the background. */
+.not-found-art{width:100%;height:auto;justify-self:center}
+
+/* "404" is the page's visual anchor, so it is set as a display numeral rather
+   than the small uppercase label .eyebrow gives every other page. Scoped here:
+   the shared .eyebrow is used across the whole site. */
+.not-found-page .eyebrow{
+  font-family:var(--font-display,Georgia,serif);
+  font-size:clamp(4.5rem,15vw,9.5rem);
+  line-height:.85;
+  letter-spacing:-.02em;
+  text-transform:none;
+  margin:0 0 .1em -.04em;
+}
 @media (max-width:760px){
   .not-found-page{grid-template-columns:1fr;gap:20px}
   /* Copy first: the message matters more than the picture on a small screen. */
