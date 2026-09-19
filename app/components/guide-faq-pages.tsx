@@ -1,35 +1,75 @@
 "use client";
 /* eslint-disable @next/next/no-html-link-for-pages */
 
-import { ArrowLeft, ArrowRight, ExternalLink, HeartPulse, MapPin, Search } from "lucide-react";
-import { useSearchParams } from "next/navigation";
-import { FaqExplorer, HelpSearch } from "./faq-explorer";
+import { ArrowLeft, ArrowRight, ExternalLink, HeartHandshake } from "lucide-react";
+import { useEffect, useState } from "react";
+import { facts, topics, type TopicKey } from "../guide-data";
+import { arrivalLanes, contacts, costs, resourceLibrary, travelRegions } from "../guide-sections";
 import { GuideShell } from "./guide-shell";
-import { facts, resources, topics, type TopicKey } from "../guide-data";
-
-const travelMatrix = [
-  { title: "West Coast", summary: "Fly most of the trip; ship less.", options: ["Drive · 40–47 hrs", "Train · 3–4 days", "Fly · 5–6 hrs"] },
-  { title: "Midwest", summary: "Compare a one-day drive with a short flight.", options: ["Drive · 6–13 hrs", "Train · 10–22 hrs", "Fly · 1½–3 hrs"] },
-  { title: "East Coast and nearby", summary: "Car and rail are usually the cleanest comparison.", options: ["Drive · 1½–6½ hrs", "Train · about 2 hrs", "Fly · rarely worth it"] },
-];
-
-const contacts = [
-  { label: "Bills · aid · registration", title: "Student Financial & Registration Services", email: "sfrs@culinary.edu", phone: "845-451-1500", note: "Use for financial records, account questions, registration systems, and parent proxy concerns." },
-  { label: "Portal · password · access", title: "ITS Student Help Desk", email: "ITHelp@CIA.Culinary.Edu", phone: "845-451-1698", note: "Use for technical trouble with the portal, proxy accounts, passwords, and school systems." },
-  { label: "Your student record", title: "CIA Student Portal", href: "https://ciamainmenu.culinary.edu", action: "Open CIA Main Menu ↗", note: "Check schedules, financial aid, textbooks, notices, and assigned student tasks here first." },
-  { label: "Immediate danger", title: "Emergency Services", href: "tel:911", action: "Call 911", note: "For an immediate medical or safety emergency. Do not wait for an email response or search the group chat." },
-];
+import { PageHeader } from "./page-header";
+import { HelpSearch } from "./help-search";
+import { FaqExplorer } from "./faq-explorer";
+import { GuideRail } from "./guide-rail";
 
 export function FaqHub() {
-  return <GuideShell><main className="faq-hub-redesign page-wrap"><div className="page-heading-redesign"><p className="eyebrow">Family help center</p><h1>FAQs &amp; Help</h1><p>Search approved answers or choose the part of campus life you need help with.</p><HelpSearch compact /></div><div className="faq-hub-layout-redesign"><section><p className="eyebrow">Most asked</p><h2>Popular questions</h2><div className="faq-popular-links">{facts.slice(0, 8).map((fact) => <a key={fact.id} href={`/faq/${fact.category}?q=${fact.id}`}>{fact.parentQ}<ArrowRight aria-hidden="true" /></a>)}</div><FaqExplorer /><section className="help-escalation"><p className="eyebrow">Still need help?</p><h2>Contact the office that owns it.</h2><p>Contacts and office responsibilities can change. Check the CIA portal before relying on an older number.</p><div>{contacts.map((contact) => <article key={contact.title}><small>{contact.label}</small><h3>{contact.title}</h3>{contact.email && <a href={`mailto:${contact.email}`}>{contact.email}</a>}{contact.phone && <a href={`tel:${contact.phone.replace(/-/g, "")}`}>{contact.phone}</a>}{contact.href && <a href={contact.href} target={contact.href.startsWith("http") ? "_blank" : undefined} rel="noreferrer">{contact.action}</a>}<p>{contact.note}</p></article>)}</div></section></section><aside className="faq-rail"><section><Search aria-hidden="true" /><h2>Search the guide</h2><p>Use a topic page to stay focused, or search across every answer here.</p></section><section><HeartPulse aria-hidden="true" /><h2>Safety &amp; support</h2><p>For immediate danger or a life-threatening emergency, call 911.</p><a href="/faq/health">Health &amp; safety answers <ArrowRight aria-hidden="true" /></a></section><section><h2>Community answers</h2><p>Parents and students can sign in to share questions and resources privately.</p><a href="/community">Visit the community <ArrowRight aria-hidden="true" /></a></section></aside></div></main></GuideShell>;
+  const [audience, setAudience] = useState<"parent" | "student">("parent");
+  useEffect(() => {
+    const sync = () => { const value = window.localStorage.getItem("guide-audience"); if (value === "parent" || value === "student") setAudience(value); };
+    sync();
+    window.addEventListener("guide-preference", sync);
+    return () => window.removeEventListener("guide-preference", sync);
+  }, []);
+
+  return <GuideShell><main className="faq-hub page-wrap">
+    <PageHeader eyebrow="Family help center" title="FAQs & Help" description={audience === "student" ? "Search approved answers written for students on campus." : "Search approved answers or choose the part of campus life you need help with."}><HelpSearch title="" compact /></PageHeader>
+    <div className="faq-hub-layout">
+      <section>
+        <p className="eyebrow">Most asked</p><h2>Popular questions</h2>
+        <div className="faq-popular">{facts.slice(0, 8).map((fact) => <a key={fact.id} href={`/faq/${fact.category}`}>{audience === "student" ? fact.studentQ : fact.parentQ}<ArrowRight /></a>)}</div>
+        <FaqExplorer embedded compact showSearch={false} />
+        <section className="quick-contact-section">
+          <p className="eyebrow">Quick action assistance</p><h2>Who do I contact?</h2>
+          <div className="contact-grid">{contacts.map((contact) => <article key={contact.title}><small>{contact.label}</small><h3>{contact.title}</h3><p>{contact.description}</p><a href={`mailto:${contact.email}`}>{contact.email}</a><a href={`tel:${contact.phone.replace(/-/g, "")}`}>{contact.phone}</a></article>)}</div>
+        </section>
+      </section>
+      <GuideRail />
+    </div>
+  </main></GuideShell>;
 }
 
 export function TopicPage({ topic }: { topic: string }) {
-  const searchParams = useSearchParams();
-  if (!(topic in topics)) return <GuideShell><main className="page-wrap topic-not-found"><p className="eyebrow">Topic unavailable</p><h1>We couldn’t find that guide section.</h1><a href="/faq">Return to FAQs &amp; Help <ArrowRight aria-hidden="true" /></a></main></GuideShell>;
   const key = topic as TopicKey;
   const item = topics[key];
-  const relatedFacts = facts.filter((fact) => fact.category === key).slice(0, 4);
-  const query = searchParams.get("q") ?? "";
-  return <GuideShell><main className="topic-page-redesign"><header className="topic-heading-redesign"><div className="page-wrap"><a href="/faq"><ArrowLeft aria-hidden="true" /> FAQs &amp; Help</a><p className="eyebrow">Topic guide</p><h1>{item.name}, explained.</h1><p>{item.description}</p><HelpSearch compact /></div></header><div className="page-wrap topic-workspace-redesign"><section className="topic-content-redesign"><nav className="in-this-section" aria-label="In this section"><a href="#answers">Questions &amp; answers</a><a href="#details">Planning details</a><a href="#resources">Related resources</a></nav><section id="answers"><FaqExplorer initialTopic={key} initialQuery={query} /></section>{key === "arrival" && <section id="details" className="topic-detail"><p className="eyebrow">Getting to campus</p><h2>How far you start out changes which trip makes sense.</h2><p>Use these ranges to compare routes. Check live schedules, fares, weather, and the student’s assigned arrival time before purchasing anything.</p><div className="travel-matrix">{travelMatrix.map((region) => <article key={region.title}><h3>{region.title}</h3><p>{region.summary}</p>{region.options.map((option) => <span key={option}>{option}</span>)}</article>)}</div></section>}{key === "money" && <section id="details" className="topic-detail"><p className="eyebrow">Money &amp; costs</p><h2>Plan with published information. Confirm with the student bill.</h2><p>The rate sheet is a planning tool, not an account balance. The full cost answers, payment access guidance, and official source links are above.</p></section>}{key === "health" && <section id="details" className="topic-detail health-detail"><MapPin aria-hidden="true" /><div><p className="eyebrow">Save this before it is needed</p><h2>Need medical care or a safety alert?</h2><p>Use the local-care and Everbridge answers above. For an immediate medical or safety emergency, call 911.</p></div></section>}<section id="resources" className="topic-detail"><p className="eyebrow">Related resources</p><h2>Official places to confirm details</h2><div className="related-resource-list">{resources.slice(key === "money" ? 0 : key === "arrival" ? 3 : 0, key === "money" ? 3 : key === "arrival" ? 6 : 4).map((resource) => <a key={resource.title} href={resource.href} target="_blank" rel="noreferrer"><span><strong>{resource.title}</strong><small>{resource.description}</small></span><ExternalLink aria-hidden="true" /></a>)}</div></section></section><aside className="topic-rail-redesign"><section><h2>In this section</h2><nav><a href="#answers">Questions &amp; answers</a><a href="#details">Planning details</a><a href="#resources">Related resources</a></nav></section><section><h2>Related questions</h2>{relatedFacts.map((fact) => <a key={fact.id} href={`#answers`}>{fact.parentQ}<ArrowRight aria-hidden="true" /></a>)}</section><section className="topic-support"><HeartPulse aria-hidden="true" /><h2>Need immediate support?</h2><p>For immediate danger or a life-threatening emergency, call 911.</p><a href="/faq/health">Safety resources <ArrowRight aria-hidden="true" /></a></section></aside></div></main></GuideShell>;
+  if (!item) return <GuideShell><main className="page-wrap topic-page"><PageHeader eyebrow="Topic guide" title="This FAQ topic is unavailable." description="Choose another section of the help center." /><a className="header-back-link" href="/faq"><ArrowLeft size={16} /> Help Center</a></main></GuideShell>;
+
+  const related = resourceLibrary.filter((resource) => key === "health" ? resource.kind === "Health & safety"
+    : key === "classes" ? resource.kind === "Academic programs" || resource.kind === "Equipment"
+    : key === "money" ? resource.kind === "Student tasks"
+    : key === "arrival" ? resource.kind === "Student tasks" || resource.kind === "Local guides"
+    : resource.kind === "Dining").slice(0, 3);
+
+  return <GuideShell><main className="page-wrap topic-page">
+    <PageHeader eyebrow="Topic guide" title={`${item.name}, explained.`} description={item.description} action={<a className="header-back-link" href="/faq"><ArrowLeft size={16} /> Help Center</a>}><HelpSearch title="" compact /></PageHeader>
+    <div className="topic-workspace">
+      <div className="topic-content">
+        <FaqExplorer initialTopic={key} embedded showSearch={false} />
+        {key === "money" && <section className="detail-panel"><h2>Fall 2026 planning rates</h2><p>Use the student&rsquo;s actual bill as the final authority.</p><div className="cost-table">{costs.map(([charge, timing, amount]) => <div key={charge}><strong>{charge}</strong><span>{timing}</span><b>{amount}</b></div>)}</div></section>}
+        {key === "arrival" && <>
+          <section className="detail-panel"><h2>Your arrival-day game plan</h2><div className="lane-grid">{arrivalLanes.map((lane) => <article key={lane.title}><h3>{lane.title}</h3><p>{lane.subtitle}</p><ol>{lane.steps.map((step) => <li key={step}>{step}</li>)}</ol></article>)}</div></section>
+          <section className="detail-panel"><h2>Getting to campus</h2><div className="travel-grid">{travelRegions.map((region) => <article key={region.title}><h3>{region.title}</h3><p>{region.summary}</p>{region.options.map((option) => <span key={option}>{option}</span>)}</article>)}</div></section>
+        </>}
+        {key === "living" && <section className="detail-panel"><h2>The first-month reset</h2><div className="lane-grid">
+          <article><h3>For students</h3><p>Build your operating system.</p><ul><li>Check CIA email every day.</li><li>Protect one clean uniform.</li><li>Learn the point system.</li><li>Save the right contacts.</li><li>Ask early.</li></ul></article>
+          <article><h3>For parents</h3><p>Support without becoming the portal.</p><ul><li>Agree on a check-in rhythm.</li><li>Use your own access.</li><li>Ask what they tried first.</li><li>Watch the budget, not every meal.</li><li>Know the escalation line.</li></ul></article>
+        </div></section>}
+        <section className="detail-panel"><h2>Related resources</h2><div className="related-files">{related.map((resource) => <a key={resource.title} href={resource.href} target="_blank" rel="noreferrer"><b>{resource.format}</b><span><strong>{resource.title}</strong><small>{resource.kind}</small></span></a>)}</div></section>
+      </div>
+      <aside className="topic-aside">
+        <section><h2>In this section</h2><nav>{["Overview", "Questions & answers", "Related resources", "Official sources"].map((label) => <a key={label} href={label === "Overview" ? "#top" : "#"}>{label}</a>)}</nav></section>
+        <section><h2>Common questions</h2>{Object.entries(topics).filter(([topicKey]) => topicKey !== key).slice(0, 3).map(([topicKey, value]) => <a key={topicKey} href={`/faq/${topicKey}`}>{value.name} <span>→</span></a>)}</section>
+        <section className="support-callout"><HeartHandshake /><h2>Need immediate support?</h2><p>For immediate danger or a life-threatening emergency, call 911.</p><a href="/safety">Safety resources</a></section>
+        <section><ExternalLink /><h2>Confirm current details</h2><p>Schedules, charges, contacts, and policies can change. Follow each answer&rsquo;s official source.</p></section>
+      </aside>
+    </div>
+  </main></GuideShell>;
 }

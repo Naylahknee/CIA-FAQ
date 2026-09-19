@@ -154,3 +154,26 @@ export function academicEventAlt(title: string) {
   if (value.includes("orientation") || value.includes("welcome") || value.includes("return") || value.includes("semester begins")) return "Campus welcome table prepared for student arrival";
   return "Professional teaching kitchen prepared for classes";
 }
+
+export const contacts = [
+  { title: "Student Financial & Registration Services", label: "Bills · aid · registration", email: "sfrs@culinary.edu", phone: "845-451-1500", description: "Financial records, account questions, registration systems, and parent proxy concerns." },
+  { title: "ITS Student Help Desk", label: "Portal · password · access", email: "ITHelp@CIA.Culinary.Edu", phone: "845-451-1698", description: "Technical trouble with the portal, proxy accounts, passwords, and school systems." },
+] as const;
+
+export const costs = [
+  ["Full-time tuition", "Per semester", "$19,755"], ["Undergraduate meal plan", "Per semester", "$2,595"],
+  ["General fee", "Per semester", "$885"], ["Residence-hall housing", "Per semester", "$4,135–$5,560"],
+  ["Supplies", "One time", "$1,194"], ["Student orientation", "One time", "$275"],
+  ["Health insurance", "Annual", "$2,100"], ["Tuition refund plan", "Per semester", "$145"], ["Commuter parking", "Per semester", "$115"],
+] as const;
+
+export const travelRegions = [
+  { title: "West Coast", summary: "Fly most of the trip; ship less.", options: ["Drive · 40–47 hrs", "Train · 3–4 days", "Fly · 5–6 hrs"] },
+  { title: "Midwest", summary: "Compare a one-day drive with a short flight.", options: ["Drive · 6–13 hrs", "Train · 10–22 hrs", "Fly · 1½–3 hrs"] },
+  { title: "East Coast and nearby", summary: "Car and rail are usually the cleanest comparison.", options: ["Drive · 1½–6½ hrs", "Train · about 2 hrs", "Fly · rarely worth it"] },
+] as const;
+
+export const arrivalLanes = [
+  { title: "Student lane", subtitle: "You own the school tasks.", steps: ["Check your CIA email and assigned move-in time", "Keep essentials where you can reach them", "Inspect uniforms and kits before buying duplicates", "Follow every required orientation block", "Locate first-night dining, support, medication, and routes"] },
+  { title: "Parent lane", subtitle: "You support the launch.", steps: ["Book around the assigned schedule", "Bring less than you think", "Handle setup—not school business", "Expect a real goodbye", "Leave a calm backup plan"] },
+] as const;
