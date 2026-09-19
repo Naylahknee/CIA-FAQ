@@ -130,7 +130,9 @@ export function GuideShell({ children }: { children: ReactNode }) {
       <aside className="site-sidebar">
         <Link href="/" className="site-brand" aria-label="CIA Hyde Park Family Guide home"><span className="brand-seal">CIA</span><span>CIA Hyde Park<br />Family Help Center</span></Link>
         <nav className="desktop-nav" aria-label="Main navigation">{links.map(({ to, label, icon: Icon }) => <div key={to}>
-          <a {...(to === "/community" ? communityLinkProps : { href: to })} className={active(to) ? "active" : ""}><Icon size={20} /><span>{label}</span>{to === "/community" && signedIn && <button type="button" className={`nav-caret${communityOpen ? " open" : ""}`} aria-label={communityOpen ? "Collapse community menu" : "Expand community menu"} aria-expanded={communityOpen} onClick={(event) => { event.preventDefault(); setCommunityOpen((value) => !value); }}><ChevronDown size={15} /></button>}</a>
+          {to === "/community"
+            ? <a {...communityLinkProps} className={active(to) ? "active" : ""}><Icon size={20} /><span>{label}</span>{signedIn && <button type="button" className={`nav-caret${communityOpen ? " open" : ""}`} aria-label={communityOpen ? "Collapse community menu" : "Expand community menu"} aria-expanded={communityOpen} onClick={(event) => { event.preventDefault(); setCommunityOpen((value) => !value); }}><ChevronDown size={15} /></button>}</a>
+            : <Link href={to} className={active(to) ? "active" : ""}><Icon size={20} /><span>{label}</span></Link>}
           {to === "/community" && signedIn && communityOpen && <div className="sidebar-subnav">
             {communityViews.map(({ view, label: viewLabel, icon: ViewIcon }) => <Link key={view} href={`/community?view=${view}`}><ViewIcon size={15} />{viewLabel}</Link>)}
             <Link href="/account"><UserRound size={15} />Your profile</Link>
@@ -141,7 +143,9 @@ export function GuideShell({ children }: { children: ReactNode }) {
         <div className="sidebar-note"><strong>Family Help Center</strong><span>Official documents and practical answers.</span></div>
       </aside>
       <header className="mobile-header"><Link href="/" className="site-brand"><span className="brand-seal">CIA</span><span>Family Guide</span></Link><button type="button" aria-label={open ? "Close menu" : "Open menu"} onClick={() => setOpen(!open)}>{open ? <X /> : <Menu />}</button></header>
-      {open && <nav className="mobile-nav" aria-label="Mobile navigation">{links.map(({ to, label, icon: Icon }) => <a key={to} href={to} onClick={() => setOpen(false)}><Icon size={18} />{label}</a>)}</nav>}
+      {open && <nav className="mobile-nav" aria-label="Mobile navigation">{links.map(({ to, label, icon: Icon }) => to === "/community"
+        ? <a key={to} {...communityLinkProps} onClick={() => setOpen(false)}><Icon size={18} />{label}</a>
+        : <Link key={to} href={to} onClick={() => setOpen(false)}><Icon size={18} />{label}</Link>)}</nav>}
       <div id="top" className={`app-content audience-${audience}`}>
         {!sidebarOpen && <header className="sticky-site-header">
           <Link href="/" className="sticky-site-brand" aria-label="CIA Hyde Park Family Guide and FAQ home"><span className="brand-seal">CIA</span><span>CIA Hyde Park Family Guide &amp;<br />FAQ</span></Link>
@@ -149,7 +153,7 @@ export function GuideShell({ children }: { children: ReactNode }) {
             <Link href="/" className={pathname === "/" ? "active" : ""}>Guide home</Link>
             <Link href="/faq" className={pathname.startsWith("/faq") ? "active" : ""}>FAQs &amp; Help</Link>
             <a {...communityLinkProps} className={pathname.startsWith("/community") ? "active" : ""}>CIA Parents and Family</a>
-            <a href={signedIn ? "/account" : "/community"}>{signedIn ? "Your profile" : "Sign in or join"}</a>
+            {signedIn ? <Link href="/account">Your profile</Link> : <a {...communityLinkProps}>Sign in or join</a>}
           </nav>
         </header>}
         <div className="utility-bar">
