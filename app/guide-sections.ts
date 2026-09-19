@@ -155,6 +155,18 @@ export function academicEventAlt(title: string) {
   return "Professional teaching kitchen prepared for classes";
 }
 
+export const EVENT_TYPES = ["Deadline", "Academic", "No classes", "Campus"] as const;
+export type EventType = (typeof EVENT_TYPES)[number];
+
+export function academicEventType(title: string): EventType {
+  const value = title.toLowerCase();
+  if (value.includes("no classes") || value.includes("break") || value.includes("holiday") || value.includes("intersession")) return "No classes";
+  if (value.includes("career fair") || value.includes("commencement") || value.includes("restaurant")) return "Campus";
+  if (value.includes("grades")) return "Academic";
+  if (value.includes("deadline") || value.includes("refund") || value.includes("waiver") || value.includes("add/drop") || value.includes("opt-out")) return "Deadline";
+  return "Academic";
+}
+
 export const contacts = [
   { title: "Student Financial & Registration Services", label: "Bills · aid · registration", email: "sfrs@culinary.edu", phone: "845-451-1500", description: "Financial records, account questions, registration systems, and parent proxy concerns." },
   { title: "ITS Student Help Desk", label: "Portal · password · access", email: "ITHelp@CIA.Culinary.Edu", phone: "845-451-1698", description: "Technical trouble with the portal, proxy accounts, passwords, and school systems." },
