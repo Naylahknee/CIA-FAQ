@@ -385,4 +385,5 @@
   .c-auth-community-care { padding: 16px 24px; }
   .c-auth-community-care p { display: grid; gap: 8px; }
   .c-auth-card .c-auth-form input:not([type="checkbox"]), .c-auth-card .c-password-row input, .c-auth-card .c-password-row button { min-height: 50px; }
+  .c-auth-card .c-auth-form-signup { grid-template-columns: 1fr; }
 }
