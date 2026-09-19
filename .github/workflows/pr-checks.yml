@@ -41,15 +41,11 @@ jobs:
         run: node --test tests/security/*.test.mjs
 
   lint:
-    name: Lint (advisory)
+    name: Lint
     runs-on: ubuntu-latest
     timeout-minutes: 15
     permissions:
       contents: read
-    # Advisory on purpose: the tree carries 8 pre-existing eslint errors, so a
-    # blocking lint job would fail every PR on day one regardless of its diff.
-    # Flip this to a required check once that backlog is cleared.
-    continue-on-error: true
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -60,5 +56,8 @@ jobs:
         run: npm ci --no-audit --no-fund
       - name: Restore script permissions
         run: chmod +x scripts/*.sh
-      - name: Lint
-        run: npm run lint
+      # Fails only when a branch adds errors on top of the recorded baseline,
+      # so the existing backlog does not redden every pull request. See the
+      # comments in the script.
+      - name: Lint (no new errors)
+        run: bash .github/scripts/lint-ratchet.sh
