@@ -211,6 +211,5 @@ export const familyWeekend = {
   ],
   links: [
     { label: "Official CIA Family Weekend page", href: "https://www.ciachef.edu/cia-family-weekend/", note: "Schedule, registration and ticketing" },
-    { label: "CIA restaurants and dining", href: "https://www.ciafoodies.com/cia-copia/", note: "Dining information from CIA" },
   ],
 } as const;
