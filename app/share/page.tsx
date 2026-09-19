@@ -12,7 +12,7 @@ export default function SharePage() {
     setMessage(result.message ?? result.error ?? "Something went wrong."); setBusy(false);
     if (response.ok) event.currentTarget.reset();
   }
-  return <main className="form-page"><Link className="form-back" href="/">← Back to the guide</Link><section className="form-card"><p className="eyebrow">Share with the village</p><h1>Submit a resource or memory</h1><p>Every submission is reviewed before publication. GroupMe content is never imported automatically.</p><form onSubmit={submit}>
+  return <main className="form-page"><Link className="form-back" href="/">← Back to the guide</Link><section className="form-card"><p className="eyebrow">Share with the village</p><h1>Submit a resource or memory</h1><p>Every submission is reviewed before publication.</p><form onSubmit={submit}>
     <label>Wall<select name="kind" required defaultValue="memory"><option value="memory">Wall of Wonder</option><option value="resource">Resource Wall</option></select></label>
     <label>Title<input name="title" required maxLength={120} placeholder="First day in chef whites" /></label>
     <label>Caption<textarea name="caption" required maxLength={600} rows={4} placeholder="Tell us what is happening and why it matters." /></label>

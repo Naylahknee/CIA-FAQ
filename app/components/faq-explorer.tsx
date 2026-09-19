@@ -4,7 +4,6 @@ import { ChevronDown, Search } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import { facts, topics, type Audience, type TopicKey } from "../guide-data";
 import { GuideIcon } from "./guide-icon";
-import { revealSidebar } from "./guide-shell";
 import Link from "next/link";
 
 export { HelpSearch } from "./help-search";
@@ -38,9 +37,9 @@ export function FaqExplorer({ initialTopic, compact = false, embedded = false, s
   }).slice(0, compact ? 5 : undefined), [query, topic, term, compact]);
 
   return <div className={`faq-explorer ${embedded ? "embedded" : ""}`}>
-    {showSearch && <div className="search-control"><Search aria-hidden="true" /><label className="sr-only" htmlFor="faq-search">Search FAQs</label><input id="faq-search" type="search" value={query} onChange={(event) => { setQuery(event.target.value); if (event.target.value.trim()) revealSidebar(); }} placeholder="Search housing, meal points, uniforms…" /></div>}
+    {showSearch && <div className="search-control"><Search aria-hidden="true" /><label className="sr-only" htmlFor="faq-search">Search FAQs</label><input id="faq-search" type="search" value={query} onChange={(event) => { setQuery(event.target.value) }} placeholder="Search housing, meal points, uniforms…" /></div>}
     <div className="explorer-controls">
-      <div className="topic-filters" aria-label="Filter by topic">{(["all", ...(Object.keys(topics) as TopicKey[])] as Array<TopicKey | "all">).map((key) => <button type="button" key={key} className={topic === key ? "active" : ""} onClick={() => { setTopic(key); revealSidebar(); }}>{key === "all" ? "All" : topics[key].name}</button>)}</div>
+      <div className="topic-filters" aria-label="Filter by topic">{(["all", ...(Object.keys(topics) as TopicKey[])] as Array<TopicKey | "all">).map((key) => <button type="button" key={key} className={topic === key ? "active" : ""} onClick={() => setTopic(key)}>{key === "all" ? "All" : topics[key].name}</button>)}</div>
     </div>
     {!compact && <p className="result-count" aria-live="polite">{results.length} {results.length === 1 ? "answer" : "answers"}</p>}
     <div className="faq-list">{results.map((fact) => {

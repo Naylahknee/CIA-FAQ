@@ -38,6 +38,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        {/* Applies the saved sidebar state before first paint, so a collapsed
+            sidebar never flashes open and nothing shifts after load. */}
+        <script dangerouslySetInnerHTML={{ __html: `try{document.documentElement.dataset.sidebar=localStorage.getItem("guide-sidebar-collapsed")==="1"?"collapsed":"expanded"}catch(e){document.documentElement.dataset.sidebar="expanded"}` }} />
+      </head>
       <body className="antialiased"><GuideShell>{children}</GuideShell></body>
     </html>
   );

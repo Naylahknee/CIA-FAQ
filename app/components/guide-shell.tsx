@@ -1,6 +1,6 @@
 "use client";
 
-import { ArrowUp, Bell, Bookmark, CalendarDays, ChevronDown, HeartHandshake, Home, Library, LogOut, Menu, MessageCircle, Search, ShieldCheck, ShoppingBag, UserRound, Users, X } from "lucide-react";
+import { ArrowUp, Bell, Bookmark, CalendarDays, ChevronDown, HeartHandshake, Home, Library, LogOut, Menu, MessageCircle, PanelLeft, Search, ShieldCheck, ShoppingBag, UserRound, Users, X } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { useEffect, useState, type ReactNode } from "react";
 import Link from "next/link";
@@ -26,7 +26,7 @@ const communityViews = [
   { view: "notifications", label: "Notifications", icon: Bell },
 ] as const;
 
-const SIDEBAR_KEY = "guide-sidebar";
+const SIDEBAR_KEY = "guide-sidebar-collapsed";
 
 /** The community runs on its own subdomain when NEXT_PUBLIC_COMMUNITY_URL is
  *  set, and falls back to the in-app route otherwise. Either way it opens in a
@@ -34,9 +34,11 @@ const SIDEBAR_KEY = "guide-sidebar";
 export const COMMUNITY_URL = process.env.NEXT_PUBLIC_COMMUNITY_URL || "/community";
 const communityLinkProps = { href: COMMUNITY_URL, target: "_blank", rel: "noreferrer" } as const;
 
-export function revealSidebar() {
-  try { window.sessionStorage.setItem(SIDEBAR_KEY, "open"); } catch { /* storage unavailable */ }
-  window.dispatchEvent(new Event("guide-sidebar-reveal"));
+/** Applied before paint by the inline script in the root layout, so a collapsed
+ *  sidebar never flashes open on load. Kept in sync here when the user toggles. */
+function applyCollapsed(collapsed: boolean) {
+  document.documentElement.dataset.sidebar = collapsed ? "collapsed" : "expanded";
+  try { window.localStorage.setItem(SIDEBAR_KEY, collapsed ? "1" : "0"); } catch { /* storage unavailable */ }
 }
 
 const dispatchPreference = (kind: "audience" | "term", value: Audience | Term) => {
@@ -70,7 +72,7 @@ export function useGuidePreferences() {
 
 export function GuideShell({ children }: { children: ReactNode }) {
   const [open, setOpen] = useState(false);
-  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [collapsed, setCollapsed] = useState(false);
   const [signedIn, setSignedIn] = useState(false);
   const [communityOpen, setCommunityOpen] = useState(false);
   const [moderator, setModerator] = useState(false);
@@ -78,25 +80,14 @@ export function GuideShell({ children }: { children: ReactNode }) {
   const pathname = usePathname() ?? "/";
 
   useEffect(() => {
-    // The shell is mounted once in the root layout and navigation is client-side,
-    // so this runs a single time per visit. The sidebar appears on the first
-    // interaction and then never moves again \u2014 no transition, no remount.
-    let open = false;
-    try { open = window.sessionStorage.getItem(SIDEBAR_KEY) === "open"; } catch { /* storage unavailable */ }
-    if (open) { setSidebarOpen(true); return; }
-
-    const reveal = () => {
-      setSidebarOpen(true);
-      try { window.sessionStorage.setItem(SIDEBAR_KEY, "open"); } catch { /* storage unavailable */ }
-    };
-    window.addEventListener("guide-sidebar-reveal", reveal);
-    document.addEventListener("pointerdown", reveal, { once: true });
-    document.addEventListener("keydown", reveal, { once: true });
-    return () => {
-      window.removeEventListener("guide-sidebar-reveal", reveal);
-      document.removeEventListener("pointerdown", reveal);
-      document.removeEventListener("keydown", reveal);
-    };
+    // The sidebar is permanent. It changes only when the user presses the
+    // collapse button -- never on navigation, scroll, pointer movement or
+    // anything else. This reads back what the layout's inline script already
+    // applied, so React's idea of the state matches the DOM.
+    const timer = setTimeout(() => {
+      setCollapsed(document.documentElement.dataset.sidebar === "collapsed");
+    }, 0);
+    return () => clearTimeout(timer);
   }, []);
 
   useEffect(() => {
@@ -126,36 +117,37 @@ export function GuideShell({ children }: { children: ReactNode }) {
   const active = (to: string) => pathname === to || (to === "/faq" && pathname.startsWith("/faq/"));
 
   return (
-    <div className={`app-frame min-h-screen bg-background text-foreground${sidebarOpen ? "" : " sidebar-hidden"}`}>
+    <div className="app-frame min-h-screen bg-background text-foreground">
       <aside className="site-sidebar">
-        <Link href="/" className="site-brand" aria-label="CIA Hyde Park Family Guide home"><span className="brand-seal">CIA</span><span>CIA Hyde Park<br />Family Help Center</span></Link>
+        <div className="sidebar-top">
+          <Link href="/" className="site-brand" aria-label="CIA Hyde Park Family Guide home"><span className="brand-seal">CIA</span><span>CIA Hyde Park<br />Family Help Center</span></Link>
+          <button type="button" className="sidebar-toggle" aria-label={collapsed ? "Expand menu" : "Collapse menu"} aria-expanded={!collapsed} title={collapsed ? "Expand menu" : "Collapse menu"} onClick={() => { const next = !collapsed; setCollapsed(next); applyCollapsed(next); }}><PanelLeft size={18} /></button>
+        </div>
         <nav className="desktop-nav" aria-label="Main navigation">{links.map(({ to, label, icon: Icon }) => <div key={to}>
           {to === "/community"
             ? <a {...communityLinkProps} className={active(to) ? "active" : ""}><Icon size={20} /><span>{label}</span>{signedIn && <button type="button" className={`nav-caret${communityOpen ? " open" : ""}`} aria-label={communityOpen ? "Collapse community menu" : "Expand community menu"} aria-expanded={communityOpen} onClick={(event) => { event.preventDefault(); setCommunityOpen((value) => !value); }}><ChevronDown size={15} /></button>}</a>
             : <Link href={to} className={active(to) ? "active" : ""}><Icon size={20} /><span>{label}</span></Link>}
           {to === "/community" && signedIn && communityOpen && <div className="sidebar-subnav">
+            {/* Profile, moderation and sign-out live in the account row at the
+                foot of the sidebar, so they are not repeated here. */}
             {communityViews.map(({ view, label: viewLabel, icon: ViewIcon }) => <Link key={view} href={`/community?view=${view}`}><ViewIcon size={15} />{viewLabel}</Link>)}
-            <Link href="/account"><UserRound size={15} />Your profile</Link>
-            {moderator && <Link href="/admin"><ShieldCheck size={15} />Moderation</Link>}
-            <button type="button" onClick={signOut}><LogOut size={15} />Sign out</button>
           </div>}
         </div>)}</nav>
-        <div className="sidebar-note"><strong>Family Help Center</strong><span>Official documents and practical answers.</span></div>
+        <div className="sidebar-account">
+          {signedIn
+            ? <>
+                <Link href="/account" className={pathname === "/account" ? "active" : ""}><UserRound size={18} /><span>Your profile</span></Link>
+                {moderator && <Link href="/admin" className={pathname === "/admin" ? "active" : ""}><ShieldCheck size={18} /><span>Moderation</span></Link>}
+                <button type="button" onClick={signOut}><LogOut size={18} /><span>Sign out</span></button>
+              </>
+            : <a {...communityLinkProps}><UserRound size={18} /><span>Sign in or join</span></a>}
+        </div>
       </aside>
       <header className="mobile-header"><Link href="/" className="site-brand"><span className="brand-seal">CIA</span><span>Family Guide</span></Link><button type="button" aria-label={open ? "Close menu" : "Open menu"} onClick={() => setOpen(!open)}>{open ? <X /> : <Menu />}</button></header>
       {open && <nav className="mobile-nav" aria-label="Mobile navigation">{links.map(({ to, label, icon: Icon }) => to === "/community"
         ? <a key={to} {...communityLinkProps} onClick={() => setOpen(false)}><Icon size={18} />{label}</a>
         : <Link key={to} href={to} onClick={() => setOpen(false)}><Icon size={18} />{label}</Link>)}</nav>}
       <div id="top" className={`app-content audience-${audience}`}>
-        {!sidebarOpen && <header className="sticky-site-header">
-          <Link href="/" className="sticky-site-brand" aria-label="CIA Hyde Park Family Guide and FAQ home"><span className="brand-seal">CIA</span><span>CIA Hyde Park Family Guide &amp;<br />FAQ</span></Link>
-          <nav aria-label="Primary navigation">
-            <Link href="/" className={pathname === "/" ? "active" : ""}>Guide home</Link>
-            <Link href="/faq" className={pathname.startsWith("/faq") ? "active" : ""}>FAQs &amp; Help</Link>
-            <a {...communityLinkProps} className={pathname.startsWith("/community") ? "active" : ""}>CIA Parents and Family</a>
-            {signedIn ? <Link href="/account">Your profile</Link> : <a {...communityLinkProps}>Sign in or join</a>}
-          </nav>
-        </header>}
         <div className="utility-bar">
           <div className="radial-selector" role="radiogroup" aria-label="Who is using this guide"><button type="button" role="radio" aria-checked={audience === "parent"} className={audience === "parent" ? "active" : ""} onClick={() => setAudience("parent")}>Parent</button><button type="button" role="radio" aria-checked={audience === "student"} className={audience === "student" ? "active" : ""} onClick={() => setAudience("student")}>Student</button></div>
           <div className="radial-selector" role="radiogroup" aria-label="Academic year"><button type="button" role="radio" aria-checked={term === "fall"} className={term === "fall" ? "active" : ""} onClick={() => setTerm("fall")}>Fall 2026</button><button type="button" role="radio" aria-checked={term === "spring"} className={term === "spring" ? "active" : ""} onClick={() => setTerm("spring")}>Spring 2027</button></div>

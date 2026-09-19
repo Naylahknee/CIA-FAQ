@@ -34,6 +34,31 @@ export function GuideHome() {
   const focusedEvent = upcomingEvents[focusedEventIndex];
   const moveEvent = (direction: number) => setFocusedEventIndex((current) => (current + direction + upcomingEvents.length) % upcomingEvents.length);
 
+  // Advance on its own, but never fight the reader: hovering, focusing a
+  // control, or leaving the tab pauses it, and any manual pick restarts the
+  // clock rather than cutting the new slide short. Honours reduced-motion.
+  const [paused, setPaused] = useState(false);
+  useEffect(() => {
+    if (paused || upcomingEvents.length < 2) return;
+    if (window.matchMedia?.("(prefers-reduced-motion: reduce)").matches) return;
+
+    const advance = () => setFocusedEventIndex((current) => (current + 1) % upcomingEvents.length);
+    let timer = window.setInterval(advance, 6000);
+
+    // A background tab should not silently burn through every slide.
+    const onVisibility = () => {
+      window.clearInterval(timer);
+      if (!document.hidden) timer = window.setInterval(advance, 6000);
+    };
+    document.addEventListener("visibilitychange", onVisibility);
+    return () => {
+      window.clearInterval(timer);
+      document.removeEventListener("visibilitychange", onVisibility);
+    };
+  }, [paused, upcomingEvents.length, focusedEventIndex]);
+
+  const pickEvent = (index: number) => setFocusedEventIndex(index);
+
   return <><main className="guide-home">
     <section className="home-opening page-wrap">
       <div className="home-opening-copy">
@@ -57,10 +82,14 @@ export function GuideHome() {
           <p>{focusedEvent.description || "Add this date to your calendar and check the full calendar for the latest details."}</p>
           <div className="home-event-focus-links"><Link href="/calendar">See calendar details <ArrowRight /></Link></div>
         </article>
-        <div className="home-event-slides">
+        <div className="home-event-slides"
+          onMouseEnter={() => setPaused(true)}
+          onMouseLeave={() => setPaused(false)}
+          onFocusCapture={() => setPaused(true)}
+          onBlurCapture={(event) => { if (!event.currentTarget.contains(event.relatedTarget as Node | null)) setPaused(false); }}>
           <div className="home-event-slide"><img key={focusedEvent.id} src={focusedEvent.image} alt={focusedEvent.alt} loading="lazy" width={1200} height={800} /><div className="home-event-date-badge"><strong>{focusedEvent.date.toLocaleDateString("en-US", { month: "short" }).toUpperCase()}</strong><span>{focusedEvent.date.getDate()}</span></div></div>
           <div className="home-event-carousel-controls"><span>{focusedEventIndex + 1} / {upcomingEvents.length}</span><div><button type="button" onClick={() => moveEvent(-1)} aria-label="Previous event"><ChevronLeft /></button><button type="button" onClick={() => moveEvent(1)} aria-label="Next event"><ChevronRight /></button></div></div>
-          <div className="home-event-dots" aria-label="Choose an event">{upcomingEvents.map((event, index) => <button key={event.id} type="button" className={index === focusedEventIndex ? "active" : ""} onClick={() => setFocusedEventIndex(index)} aria-label={`Show ${event.title}`} aria-current={index === focusedEventIndex ? "true" : undefined}><span>{index + 1}</span></button>)}</div>
+          <div className="home-event-dots" aria-label="Choose an event">{upcomingEvents.map((event, index) => <button key={event.id} type="button" className={index === focusedEventIndex ? "active" : ""} onClick={() => pickEvent(index)} aria-label={`Show ${event.title}`} aria-current={index === focusedEventIndex ? "true" : undefined}><span>{index + 1}</span></button>)}</div>
         </div>
       </div> : <p className="resource-wall-note">No upcoming dates to show right now.</p>}
     </div></section>
