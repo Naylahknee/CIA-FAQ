@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 import { Bell, BookOpen, Hash, LogOut, Mail, MessagesSquare, UserRound } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useCommunity, initials } from "./community-data";
-import { randomFoodIcon, resolveFoodIcon, type FoodIcon } from "./food-icons";
+import { VillageIconMark, randomVillageIcon, resolveVillageIcon } from "./village-icon-view";
 
 /** The member icon changes each sign-in. Held for the session so it does not
  *  flicker between navigations. */
@@ -19,18 +19,18 @@ const LINKS = [
   { href: "/community/profile", label: "Profile", icon: UserRound },
 ] as const;
 
-function readIcon(): FoodIcon {
+function readIcon(): string {
   try {
     const stored = window.sessionStorage.getItem(ICON_KEY);
-    if (stored) return JSON.parse(stored) as FoodIcon;
-    const picked = randomFoodIcon();
-    window.sessionStorage.setItem(ICON_KEY, JSON.stringify(picked));
+    if (stored) return stored;
+    const picked = randomVillageIcon().id;
+    window.sessionStorage.setItem(ICON_KEY, picked);
     return picked;
-  } catch { return randomFoodIcon(); }
+  } catch { return randomVillageIcon().id; }
 }
 
 function useSessionIcon(signedIn: boolean) {
-  const [icon, setIcon] = useState<FoodIcon | null>(null);
+  const [icon, setIcon] = useState<string | null>(null);
   useEffect(() => {
     if (!signedIn) return;
     // Deferred so the read does not set state during the effect body.
@@ -44,7 +44,7 @@ export function CommunityNav() {
   const { user, signOut } = useCommunity();
   const pathname = usePathname() ?? "/community";
   const icon = useSessionIcon(Boolean(user));
-  const { Icon, badge, stroke, label } = resolveFoodIcon(icon);
+  const mark = icon ? resolveVillageIcon(icon) : null;
 
   const isActive = (href: string, exact?: boolean) => (exact ? pathname === href : pathname.startsWith(href));
 
@@ -52,8 +52,8 @@ export function CommunityNav() {
     <header className="c-topbar">
       <div className="c-topbar-inner">
         <Link className="c-brand" href="/community">
-          <span className="c-brand-icon" style={{ background: badge, color: stroke }} title={icon ? label : undefined}>
-            {icon ? <Icon size={22} strokeWidth={2} aria-hidden="true" /> : <span>{user ? initials(user.displayName) : "CIA"}</span>}
+          <span className="c-brand-icon" style={mark ? { background: mark.bg, color: mark.ink } : undefined} title={mark ? `${mark.label} · ${mark.set}` : undefined}>
+            {mark ? <VillageIconMark icon={mark} /> : <span>{user ? initials(user.displayName) : "CIA"}</span>}
           </span>
           <span>CIA Parents and Family<small>A private space for CIA Hyde Park families</small></span>
         </Link>
