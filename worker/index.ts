@@ -31,10 +31,14 @@ const contentSecurityPolicy = [
   "object-src 'none'",
   "frame-ancestors 'self'",
   "form-action 'self'",
-  "img-src 'self' data: blob: https://media.giphy.com",
-  "script-src 'self' 'unsafe-inline' https://accounts.google.com https://cdn.tailwindcss.com",
-  "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com",
-  "font-src 'self' data: https://fonts.gstatic.com https://cdnjs.cloudflare.com",
+  // images.unsplash.com serves the celebration wall's twelve placeholder
+  // photos. An image source cannot execute anything, so this is a far smaller
+  // concession than a script origin; withdraw it once the seed data is
+  // replaced with real uploads.
+  "img-src 'self' data: blob: https://media.giphy.com https://images.unsplash.com",
+  "script-src 'self' 'unsafe-inline' https://accounts.google.com",
+  "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
+  "font-src 'self' data: https://fonts.gstatic.com",
   "connect-src 'self' https://accounts.google.com",
   "frame-src 'self' https://accounts.google.com",
   "upgrade-insecure-requests",
