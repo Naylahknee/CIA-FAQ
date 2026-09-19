@@ -70,9 +70,11 @@ export function GuideShell({ children }: { children: ReactNode }) {
         <button className="redesign-menu" type="button" aria-label="Open navigation" aria-expanded={open} onClick={() => setOpen(!open)}><Menu /></button>
         <nav className={open ? "open" : ""} aria-label="Primary navigation">
           <a href="/faq"><Search aria-hidden="true" /> FAQs &amp; Help</a>
-          <a href="/faq/arrival">Dates</a>
+          <a href="/calendar">Dates</a>
           <a href="/faq/money">Costs</a>
-          <a href="/faq/health">Safety &amp; support</a>
+          <a href="/safety">Safety &amp; support</a>
+          <a href="/resources">Resources</a>
+          <a href="/shopping">Shopping</a>
           <a className="community-link" href="/community"><Users aria-hidden="true" /> Family community</a>
           <GuideControls />
         </nav>
@@ -80,7 +82,7 @@ export function GuideShell({ children }: { children: ReactNode }) {
       {children}
       <footer className="redesign-footer">
         <p>Not affiliated with CIA. Dates, contacts, costs, and policies can change—confirm time-sensitive information directly with the school.</p>
-        <nav aria-label="Footer"><a href="/faq">FAQs &amp; Help</a><a href="/community">Family community</a><a href="/privacy">Privacy</a></nav>
+        <nav aria-label="Footer"><a href="/faq">FAQs &amp; Help</a><a href="/calendar">Dates</a><a href="/resources">Resources</a><a href="/shopping">Shopping</a><a href="/safety">Safety &amp; support</a><a href="/community">Family community</a><a href="/privacy">Privacy</a></nav>
       </footer>
     </div>
   );
