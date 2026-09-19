@@ -1,0 +1,63 @@
+# Runs on every pull request so a change is checked before it reaches main.
+# The deploy workflow only runs after a merge, so without this nothing looks
+# at a PR at all.
+name: PR checks
+
+on:
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+# Two PRs in a row on the same branch: cancel the older run.
+concurrency:
+  group: pr-checks-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    name: Build and test
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - name: Install locked dependencies
+        run: npm ci --no-audit --no-fund
+      - name: Restore script permissions
+        run: chmod +x scripts/*.sh
+      - name: Build
+        run: npm run build
+      # npm test rebuilds, so the suites are run directly against the build
+      # above. The security suite lives in a subdirectory that the package
+      # script's tests/*.test.mjs glob does not reach, so it is named here.
+      - name: Unit tests
+        run: node --test tests/*.test.mjs
+      - name: Security tests
+        run: node --test tests/security/*.test.mjs
+
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - name: Install locked dependencies
+        run: npm ci --no-audit --no-fund
+      - name: Restore script permissions
+        run: chmod +x scripts/*.sh
+      # Fails only when a branch adds errors on top of the recorded baseline,
+      # so the existing backlog does not redden every pull request. See the
+      # comments in the script.
+      - name: Lint (no new errors)
+        run: bash .github/scripts/lint-ratchet.sh
