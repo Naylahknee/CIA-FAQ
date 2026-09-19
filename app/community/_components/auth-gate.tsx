@@ -113,20 +113,11 @@ export function AuthGate() {
       <section className="c-auth-welcome" aria-labelledby="community-welcome-title">
         <div className="c-auth-welcome-copy">
           <p className="c-auth-eyebrow">CIA Hyde Park family community</p>
-          <h1 id="community-welcome-title">A place for the questions you cannot ask in the group chat.</h1>
+          <h1 id="community-welcome-title">Your CIA family community.</h1>
           <p className="c-auth-lead">Connect with other CIA parents and family members who understand the move-in nerves, the chef whites, and the “wait, where do I find that?” texts.</p>
-          <div className="c-auth-community-note">
-            <h2>Community care</h2>
-            <ul>
-              <li>Share your experience with kindness and respect.</li>
-              <li>Protect student privacy: no IDs, rooms, schedules, or private records.</li>
-              <li>Use the Guide for official, time-sensitive school information.</li>
-            </ul>
-          </div>
         </div>
         <figure className="c-auth-visual">
           <img src="/community-login-collage.webp" alt="Families at the CIA Hyde Park campus." />
-          <figcaption><strong>For CIA Hyde Park families.</strong><span>Private conversations, practical help, and a little less guesswork.</span></figcaption>
         </figure>
       </section>
 
@@ -150,6 +141,15 @@ export function AuthGate() {
         </div>
         {step !== "onboarding" && <p className="c-auth-footnote">The Family Guide & FAQ is always available without an account.</p>}
       </section>
+
+      <footer className="c-auth-community-care" aria-label="Community care">
+        <h2>Community care</h2>
+        <p>
+          <span>Share your experience with kindness and respect.</span>
+          <span>Protect student privacy: no IDs, rooms, schedules, or private records.</span>
+          <span>Use the Guide for official, time-sensitive school information.</span>
+        </p>
+      </footer>
     </main>
   );
 }
