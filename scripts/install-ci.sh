@@ -4,7 +4,7 @@ set -euo pipefail
 script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 if [[ "${SITES_ENV_READY:-}" != "1" ]]; then
-  exec "${script_dir}/sites-env.sh" -- "$0" "$@"
+  exec bash "${script_dir}/sites-env.sh" -- bash "$0" "$@"
 fi
 
 command -v flock || {
@@ -172,8 +172,8 @@ timeout \
   "${SITES_INSTALL_TIMEOUT:-8m}" \
   npm "${npm_ci_args[@]}"
 
-vinext="${SITES_PROJECT_ROOT}/node_modules/.bin/vinext"
-if [[ ! -x "${vinext}" ]]; then
+vinext="${SITES_PROJECT_ROOT}/node_modules/vinext/dist/cli.js"
+if [[ ! -f "${vinext}" ]]; then
   echo "npm ci exited successfully but node_modules/.bin/vinext is unavailable." >&2
   exit 69
 fi
