@@ -1,4 +1,5 @@
 import { eq } from "drizzle-orm";
+import { randomUUID } from "node:crypto";
 import { env } from "cloudflare:workers";
 import { redirect } from "next/navigation";
 import { getDb } from "../../../../db";
@@ -6,7 +7,7 @@ import { faqSuggestions } from "../../../../db/schema";
 import { getCommunityUser, validSameOrigin } from "../../../community-auth";
 
 const categories = new Set(["money", "arrival", "classes", "living", "health"]);
-const actions = new Set(["save", "approve", "publish", "reject", "unpublish"]);
+const actions = new Set(["create", "save", "approve", "publish", "reject", "unpublish"]);
 
 function sourceUrl(value: string) {
   if (!value) return null;
@@ -30,8 +31,35 @@ export async function POST(request: Request) {
   const answer = String(data.get("answer") ?? "").trim().slice(0, 3000);
   const category = String(data.get("category") ?? "");
   const rawSourceUrl = String(data.get("sourceUrl") ?? "").trim();
-  if (!/^[0-9a-f-]{36}$/i.test(id) || !actions.has(action) || !categories.has(category) || !question || (rawSourceUrl && !sourceUrl(rawSourceUrl))) return new Response("Invalid request", { status: 400 });
-  if (action === "publish" && !answer) return new Response("An answer is required before publication", { status: 400 });
+  // "create" writes a new entry, so it is the one action that arrives without
+  // an id. Everything else still has to name the row it is editing.
+  const creating = action === "create";
+  if (!actions.has(action) || !categories.has(category) || !question || (rawSourceUrl && !sourceUrl(rawSourceUrl))) return new Response("Invalid request", { status: 400 });
+  if (!creating && !/^[0-9a-f-]{36}$/i.test(id)) return new Response("Invalid request", { status: 400 });
+  if ((action === "publish" || creating) && !answer) return new Response("An answer is required before publication", { status: 400 });
+
+  if (creating) {
+    const now = new Date();
+    await getDb().insert(faqSuggestions).values({
+      id: randomUUID(),
+      // The column is NOT NULL with a unique index, left over from the
+      // GroupMe intake that used to fill it. A synthetic value keeps entries
+      // written here distinct without a schema migration; the column is dead
+      // weight now and could be dropped in one.
+      groupmeMessageId: `admin-${randomUUID()}`,
+      question,
+      answer,
+      category: category as "money" | "arrival" | "classes" | "living" | "health",
+      sourceUrl: sourceUrl(rawSourceUrl),
+      // Written by an admin who has already decided the wording, so it goes
+      // straight to published rather than back into a review queue they own.
+      status: "published",
+      createdAt: now,
+      reviewedAt: now,
+      publishedAt: now,
+    });
+    redirect("/admin#faq-suggestions");
+  }
 
   const now = new Date();
   const status = action === "save" ? "pending" : action === "unpublish" ? "approved" : action === "approve" ? "approved" : action === "publish" ? "published" : "rejected";

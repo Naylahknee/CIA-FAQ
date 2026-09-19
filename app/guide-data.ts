@@ -551,9 +551,9 @@ export const facts: Fact[] = [
     "studentQ": "What should I know about Family Weekend?",
     "parentQ": "Where should we stay, and is there a guest dress code for Family Weekend?",
     "studentA": "Confirm your own class, competition, work, or team obligations before making plans with visiting family. Being on campus for Family Weekend does not automatically clear your schedule.",
-    "parentA": "Hotels can sell out early because other Hudson Valley events may overlap. Use CIA’s lodging page and call hotels directly about current CIA rates. The September group was told that Family Weekend guests do not have to follow the student business-casual dress code and do not need jackets, but event-specific instructions still control.",
+    "parentA": "Hotels can sell out early because other Hudson Valley events may overlap, and the weekend is expensive enough that some families choose to bring their student home instead and visit at an open house later. Families who booked report two things worth knowing. Looking further out often costs less than staying close: Mahwah, New Jersey sits right off the thruway and runs about 45 minutes to campus outside traffic, and an hour away is no hardship after a long drive. And some hotels near campus open only the Friday and Saturday at first, so if you need the Sunday, call and ask to extend rather than assuming it is full. Book refundable where you can. On dress, the September group was told that Family Weekend guests do not have to follow the student business-casual dress code and do not need jackets, but event-specific instructions still control.",
     "stepStudent": "Tell family about required obligations before they buy tickets or plan the weekend around you.",
-    "stepParent": "Book refundable lodging when possible and check the current Family Weekend schedule before packing or purchasing activities.",
+    "stepParent": "Book refundable lodging early, widen the search beyond Hyde Park before paying a premium, and call about extending a Friday-Saturday booking rather than assuming Sunday is unavailable.",
     "source": "CIA lodging page and September 2026 family discussion",
     "sourceType": "verify",
     "link": "https://www.ciachef.edu/new-york-where-to-stay/",
@@ -568,6 +568,44 @@ export const facts: Fact[] = [
         "sourceType": "verify"
       }
     }
+  },
+  {
+    "id": "add-drop",
+    "audience": [
+      "student",
+      "parent"
+    ],
+    "category": "classes",
+    "icon": "\ud83d\udcc5",
+    "studentQ": "When is the last day to add or drop a course?",
+    "parentQ": "When does add/drop close, and what happens after it does?",
+    "studentA": "Add/Drop for Spring 2027 ends on January 11. Schedule changes after that date follow a different process rather than a simple swap, so raise anything you are unsure about with your advisor before the deadline rather than after it. The Fall 2026 add/drop date is not published in this guide \u2014 confirm it with the Registrar or in the academic catalog.",
+    "parentA": "Add/Drop for Spring 2027 ends on January 11, and it appears on the calendar page alongside the other term dates. Changes made after the deadline follow a different process, which can carry academic or financial consequences depending on timing, so the deadline is worth putting in your own calendar. The Fall 2026 date is not published in this guide; the Registrar or the academic catalog will confirm it. This is your student\u2019s decision to make with their advisor \u2014 the college will not discuss it with a parent without the student\u2019s consent on file.",
+    "stepStudent": "Put the add/drop date in your phone now, and talk to your advisor before it passes rather than after.",
+    "stepParent": "Check the calendar page for the current term\u2019s date, and ask your student to confirm the Fall deadline with the Registrar.",
+    "source": "Official \u00b7 Hyde Park academic calendar",
+    "sourceType": "official",
+    "link": "https://catalog.ciachef.edu/",
+    "linkLabel": "Open the CIA academic catalog"
+  },
+  {
+    "id": "dining-concern",
+    "audience": [
+      "student",
+      "parent"
+    ],
+    "category": "health",
+    "icon": "\u26a0\ufe0f",
+    "studentQ": "What should I do if food I am served looks undercooked?",
+    "parentQ": "How do we report a food safety concern in a campus dining outlet?",
+    "studentA": "Do not eat it, and say something at the station straight away \u2014 the staff on shift can replace it and can stop the same plate going to the next person, which a complaint made later cannot. If you are not comfortable raising it there, or it happens more than once, take it to the manager of that dining location. A campus built around teaching food safety takes an undercooked-protein report seriously, and reporting it is the expected thing to do, not a nuisance.",
+    "parentA": "Ask your student to raise it at the station at the time, because that is the only point where the food can be replaced and the rest of the batch checked. If that does not resolve it, or the problem repeats, the manager of the dining location is the next step, and Campus Safety or Student Affairs after that. It is worth encouraging your student to report it themselves: they were there, they can describe what they were served, and the college needs the detail rather than second-hand concern. If they become unwell, Student Health Services should hear about it too.",
+    "stepStudent": "Raise it at the station while you still have the plate, and ask for a replacement.",
+    "stepParent": "Encourage your student to report it in the moment, and escalate to the dining location\u2019s manager if it is not resolved.",
+    "source": "Village insight \u00b7 Recurring family discussion",
+    "sourceType": "village",
+    "link": "https://www.ciachef.edu/cia-new-york-campus-health-services/",
+    "linkLabel": "CIA New York campus health services"
   }
 ] as Fact[];
 
