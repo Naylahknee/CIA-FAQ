@@ -48,6 +48,8 @@ export function CommunityNav() {
 
   const isActive = (href: string, exact?: boolean) => (exact ? pathname === href : pathname.startsWith(href));
 
+  if (!user) return null;
+
   return (
     <header className="c-topbar">
       <div className="c-topbar-inner">
@@ -68,14 +70,10 @@ export function CommunityNav() {
               ))}
             </nav>
             <Link className="c-signout" href="/" title="Back to the Guide and FAQ"><BookOpen size={16} aria-hidden="true" />Guide</Link>
-            {user.role === "admin" && <Link className="c-signout" href="/admin"><ShieldCheck size={16} aria-hidden="true" />Admin</Link>}
+            {user.role === "admin" && <Link className="c-signout" href="/community/admin"><ShieldCheck size={16} aria-hidden="true" />Members &amp; roles</Link>}
             <button type="button" className="c-signout" onClick={signOut}><LogOut size={16} aria-hidden="true" />Sign out</button>
           </>
         )}
-        {!user && <nav className="c-nav" aria-label="Community account actions">
-          <Link href="/community">Sign in</Link>
-          <Link href="/community?mode=signup">Create an account</Link>
-        </nav>}
       </div>
     </header>
   );

@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useMemo, useState } from "react";
-import { MessageCircle, Settings2 } from "lucide-react";
+import { MessageCircle, Settings2, ShieldCheck } from "lucide-react";
 import { useCommunity, initials, relativeTime } from "../_components/community-data";
 
 export default function CommunityProfile() {
@@ -18,6 +18,7 @@ export default function CommunityProfile() {
     [posts, user],
   );
   const topicsUsed = useMemo(() => new Set(mine.map((p) => p.topicName).filter(Boolean)).size, [mine]);
+  const roleLabel = user?.role === "admin" ? "Admin" : user?.role === "moderator" ? "Moderator" : "Member";
 
   if (!user) return null;
 
@@ -27,7 +28,7 @@ export default function CommunityProfile() {
         <span className="c-avatar" aria-hidden="true">{initials(user.displayName)}</span>
         <div>
           <h1>{user.displayName}</h1>
-          <p>{user.role === "moderator" ? "Moderator" : "Member"} · {user.email}</p>
+          <p>{roleLabel} · {user.email}</p>
         </div>
         <div className="c-banner-actions">
           <Link className="c-btn c-btn-orange" href="/account">Edit profile</Link>
@@ -78,6 +79,14 @@ export default function CommunityProfile() {
               : <div className="c-chips">{follows.map((f) => <button key={f} type="button" className="c-chip" onClick={() => toggleFollow(f)}>{f} ×</button>)}</div>}
             <Link className="c-btn c-btn-ghost" href="/community/topics" style={{ marginTop: 12 }}><Settings2 size={16} aria-hidden="true" />Manage topics</Link>
           </div>
+
+          {user.role === "admin" && (
+            <div className="c-card c-profile-admin-tools">
+              <h2>Admin tools</h2>
+              <p className="c-muted">View every member and assign Member, Moderator, or Admin roles.</p>
+              <Link className="c-btn" href="/community/admin" style={{ marginTop: 12 }}><ShieldCheck size={16} aria-hidden="true" />Members &amp; roles</Link>
+            </div>
+          )}
 
           <div className="c-card" style={{ background: "var(--c-green-tint)", borderColor: "var(--c-green-tint-border)" }}>
             <h2>Notification settings</h2>

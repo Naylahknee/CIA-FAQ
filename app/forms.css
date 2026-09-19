@@ -107,30 +107,44 @@
 
 .system-page .primary-button{display:inline-flex;margin-top:1.2rem}
 
-/* 404: the illustration sits beside the copy on desktop and above it on a
-   phone. The page keeps its 680px measure for the text, so the wrapper widens
-   only when there is an image to place next to it. */
-.not-found-page{max-width:960px;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,340px);gap:clamp(24px,5vw,56px);align-items:center}
-.not-found-copy{min-width:0}
-/* This illustration carries a real alpha channel, so it needs no blend trick to
-   sit on the cream page -- and must not have one, since multiply would tint the
-   artwork's own light areas against the background. */
-.not-found-art{width:100%;height:auto;justify-self:center}
 
-/* "404" is the page's visual anchor, so it is set as a display numeral rather
-   than the small uppercase label .eyebrow gives every other page. Scoped here:
-   the shared .eyebrow is used across the whole site. */
-.not-found-page .eyebrow{
-  font-family:var(--font-display,Georgia,serif);
-  font-size:clamp(4.5rem,15vw,9.5rem);
-  line-height:.85;
-  letter-spacing:-.02em;
-  text-transform:none;
-  margin:0 0 .1em -.04em;
+/* Branded 404 page */
+.lost-page {
+  width: min(1120px, calc(100% - 48px));
+  min-height: calc(100vh - 76px);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: minmax(0, .9fr) minmax(280px, 1.1fr);
+  align-items: center;
+  gap: clamp(32px, 7vw, 100px);
+  padding: clamp(42px, 8vw, 96px) 0;
+  color: var(--ink);
 }
-@media (max-width:760px){
-  .not-found-page{grid-template-columns:1fr;gap:20px}
-  /* Copy first: the message matters more than the picture on a small screen. */
-  .not-found-art{order:2;width:min(62vw,300px)}
-  .not-found-copy{order:1}
+.lost-page-copy { max-width: 500px; }
+.lost-page h1 {
+  margin: .25rem 0 1rem;
+  color: var(--primary);
+  font: 800 clamp(2.8rem, 6vw, 5.4rem)/.98 "Fraunces", Georgia, serif;
+  letter-spacing: -.055em;
+}
+.lost-page-copy > p:not(.eyebrow) {
+  max-width: 43ch;
+  color: var(--muted-foreground);
+  font-size: clamp(1rem, 1.7vw, 1.16rem);
+  line-height: 1.6;
+}
+.lost-page .primary-button {
+  display: inline-flex;
+  margin-top: 1.5rem;
+  background: var(--primary);
+  color: var(--primary-foreground);
+}
+.lost-page .primary-button:hover { background: var(--navy-2); }
+.lost-page-art { width: min(100%, 500px); margin: 0; justify-self: center; }
+.lost-page-art img { display: block; width: 100%; height: auto; }
+@media (max-width: 760px) {
+  .lost-page { width: min(100% - 40px, 560px); grid-template-columns: 1fr; gap: 28px; padding: 48px 0 64px; text-align: center; }
+  .lost-page-copy { margin-inline: auto; }
+  .lost-page-copy > p:not(.eyebrow) { margin-inline: auto; }
+  .lost-page-art { width: min(100%, 390px); order: -1; }
 }

@@ -33,6 +33,7 @@ export function AuthGate() {
     window.history.replaceState({}, "", url);
   }
 
+
   async function finishOnboarding(form: HTMLFormElement, skipOptional = false) {
     const values = Object.fromEntries(new FormData(form));
     if (skipOptional) { values.studentStage = "prefer_not_to_say"; values.topics = []; }
@@ -89,7 +90,7 @@ export function AuthGate() {
     finally { setBusy(false); }
   }
 
-  const accountForm = <form ref={formRef} onSubmit={submitAccount} className="c-auth-form">
+  const accountForm = <form ref={formRef} onSubmit={submitAccount} className={`c-auth-form${mode === "signup" ? " c-auth-form-signup" : ""}`}>
     {mode === "signup" && <label>Display name<span>Use your first name, a nickname, or an alias. This is what other members will see.</span><input name="displayName" required maxLength={60} autoComplete="name" /></label>}
     <label>Email address<span>Used for sign-in, verification, password recovery, and account notices. It is never displayed publicly.</span><input name="email" type="email" required maxLength={200} autoComplete="email" /></label>
     <label>Password<div className="c-password-row"><input name="password" type={showPassword ? "text" : "password"} required minLength={12} maxLength={128} autoComplete={mode === "signup" ? "new-password" : "current-password"} onChange={(event) => setPassword(event.target.value)} /><button type="button" onClick={() => setShowPassword((value) => !value)}>{showPassword ? "Hide" : "Show"}</button></div>{mode === "signup" && <span>{passwordHint(password)}</span>}</label>
@@ -108,5 +109,44 @@ export function AuthGate() {
     <div className="c-auth-actions"><button className="c-btn" disabled={busy}>{busy ? "Saving…" : "Enter the community"}</button><button type="button" className="c-btn c-btn-ghost" disabled={busy} onClick={() => { if (onboardingRef.current) void finishOnboarding(onboardingRef.current, true); }}>Skip optional questions and enter</button></div>
   </form>;
 
-  return <div className="c-wrap"><div className="c-columns"><section className="c-center"><div className="c-card c-auth-card">{step === "onboarding" ? onboardingForm : <><h1>{mode === "signup" ? "Join the CIA family community" : "CIA Parents and Family"}</h1><p className="c-muted">{mode === "signup" ? "Read the Guide & FAQ without an account. Create one only if you want to ask questions, share resources, or connect with other families." : "A private space for CIA Hyde Park families."}</p><div className="c-pill-row c-auth-tabs"><button type="button" className="c-pill" aria-pressed={mode === "signin"} onClick={() => chooseMode("signin")}>Sign in</button><button type="button" className="c-pill" aria-pressed={mode === "signup"} onClick={() => chooseMode("signup")}>Create an account</button></div>{accountForm}<div className="c-auth-divider"><span>or</span></div><div ref={googleRef} />{mode === "signup" ? <p className="c-muted">Already have an account? <button type="button" className="c-auth-link" onClick={() => chooseMode("signin")}>Sign in</button></p> : <p className="c-muted">Need to join? <button type="button" className="c-auth-link" onClick={() => chooseMode("signup")}>Create an account</button></p>}</>} {notice && <p className="c-notice" role="status" aria-live="polite">{notice}</p>}</div></section><aside className="c-rail"><div className="c-card c-card-green"><h2>Community care</h2><ul><li>Be helpful; do not harass, shame, discriminate, or target another family.</li><li>Do not share student credentials, IDs, room numbers, schedules, or private records.</li><li>Report harmful posts, scams, impersonation, or safety concerns.</li></ul></div><div className="c-card"><img src="/community-login-collage.webp" alt="Families at the CIA Hyde Park campus." style={{ width: "100%", borderRadius: 14 }} /></div></aside></div></div>;
+  return (
+    <main className={`c-auth-page${mode === "signup" ? " c-auth-page-signup" : ""}`}>
+      <section className="c-auth-welcome" aria-labelledby="community-welcome-title">
+        <div className="c-auth-welcome-copy">
+          <p className="c-auth-eyebrow">CIA Hyde Park family community</p>
+          <h1 id="community-welcome-title">Your CIA family community.</h1>
+          <p className="c-auth-lead">Private conversations, practical help, and a little less guesswork.</p>
+        </div>
+        <figure className="c-auth-visual">
+          <img src="/community-login-collage.webp" alt="Families at the CIA Hyde Park campus." />
+        </figure>
+      </section>
+
+      <section className="c-auth-access" aria-label="Community account access">
+        <div className="c-card c-auth-card">
+          {step === "onboarding" ? onboardingForm : <>
+            <h2>{mode === "signup" ? "Create an account" : "Sign in to your community"}</h2>
+            <p className="c-auth-intro">{mode === "signup" ? "Join other CIA parents and family members to ask questions, share resources, and connect." : "Use your community account to continue."}</p>
+            {accountForm}
+            <div className="c-auth-divider"><span>or</span></div>
+            <div className="c-auth-google" ref={googleRef} />
+            {mode === "signup"
+              ? <p className="c-auth-switch">Already have an account? <button type="button" className="c-auth-link" onClick={() => chooseMode("signin")}>Sign in</button></p>
+              : <button type="button" className="c-btn c-btn-ghost c-auth-create-account" onClick={() => chooseMode("signup")}>Create an account</button>}
+          </>}
+          {notice && <p className="c-notice" role="status" aria-live="polite">{notice}</p>}
+          {step !== "onboarding" && <p className="c-auth-footnote">The Family Guide & FAQ is always available without an account.</p>}
+        </div>
+      </section>
+
+      <footer className="c-auth-community-care" aria-label="Community care">
+        <h2>Community care</h2>
+        <p>
+          <span>Share your experience with kindness and respect.</span>
+          <span>Protect student privacy: no IDs, rooms, schedules, or private records.</span>
+          <span>Use the Guide for official, time-sensitive school information.</span>
+        </p>
+      </footer>
+    </main>
+  );
 }

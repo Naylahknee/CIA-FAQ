@@ -352,13 +352,15 @@
 
 /* Family Weekend detail on the calendar page. */
 .family-weekend-panel { margin-top: 26px; padding: 26px; border: 1px solid var(--border); border-radius: var(--radius); background: var(--card); }
+.calendar-rail-overflow { display: block; margin-top: 9px; color: var(--destructive); font-size: .76rem; font-weight: 800; }
 .calendar-selected-summary { margin-top: 28px; padding: 24px 26px; border-top: 3px solid var(--accent); background: var(--secondary); }
 .calendar-selected-summary > h2 { margin: .1rem 0 16px; font-size: clamp(1.45rem, 3vw, 2rem); }
 .calendar-selected-events { display: grid; gap: 10px; }
-.calendar-selected-events article { display: grid; grid-template-columns: 122px minmax(0, 1fr); gap: 16px; align-items: center; padding: 16px; border: 1px solid var(--border); background: var(--card); }
+.calendar-selected-event { display: block; padding: 16px; border: 1px solid var(--border); background: var(--card); }
+.calendar-selected-event.has-art { display: grid; grid-template-columns: 122px minmax(0, 1fr); gap: 16px; align-items: center; }
 .calendar-selected-events img { width: 100%; max-height: 92px; object-fit: contain; }
 .calendar-selected-events h3 { margin: .25rem 0; font-size: 1rem; }
-.calendar-selected-events p, .calendar-selected-empty { margin: 0; color: var(--muted-foreground); line-height: 1.55; }
+.calendar-selected-events p { margin: 0; color: var(--muted-foreground); line-height: 1.55; }
 .family-weekend-panel > header { display: grid; grid-template-columns: 168px minmax(0, 1fr); gap: 20px; align-items: center; }
 .family-weekend-art { display: block; width: 100%; max-height: 118px; object-fit: contain; object-position: center; }
 .family-weekend-panel h2 { margin: .1em 0 .2em; font-size: 1.75rem; }
@@ -419,32 +421,4 @@
   .family-weekend-art { width: min(250px, 100%); max-height: 110px; }
   .family-weekend-panel h2 { font-size: 1.4rem; }
   .family-weekend-columns, .family-weekend-schedule, .family-weekend-grid { grid-template-columns: 1fr; }
-}
-
-/* Family-shared resources on the shopping page. Uses existing tokens only, so it
-   inherits the guide palette in both themes. */
-.family-resources { margin-top: 60px; display: grid; gap: 22px; }
-.family-resources-intro { max-width: 760px; }
-.family-resources-intro h2 { margin: .15em 0 .4rem; font-size: clamp(1.9rem, 3.4vw, 2.7rem); }
-.family-resources-intro > p:last-child { color: var(--muted-foreground); }
-.staff-guidance { padding: 24px; background: color-mix(in oklch, var(--accent) 16%, var(--card)); border: 1px solid var(--border); border-left: 4px solid var(--accent); border-radius: var(--radius); }
-.staff-guidance h3 { display: flex; align-items: center; gap: 9px; margin: 0 0 14px; font-size: 1.15rem; }
-.staff-guidance svg { flex: 0 0 auto; color: var(--destructive); }
-.staff-guidance dl { display: grid; gap: 13px; margin: 0; }
-.staff-guidance dt { font-weight: 800; font-size: .93rem; }
-.staff-guidance dd { margin: 2px 0 0; color: var(--muted-foreground); font-size: .9rem; line-height: 1.55; }
-.resource-group-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 14px; margin-bottom: 12px; }
-.resource-group-head h3 { margin: 0; font-size: 1.3rem; }
-.resource-group-head p { margin: 0; color: var(--muted-foreground); font-size: .86rem; }
-.resource-group ul { display: grid; grid-template-columns: repeat(auto-fill, minmax(268px, 1fr)); gap: 10px; margin: 0; padding: 0; list-style: none; }
-.resource-group li { display: grid; }
-.resource-group a { display: grid; gap: 5px; height: 100%; padding: 16px 18px; background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); color: inherit; text-decoration: none; }
-.resource-group a:hover { border-color: var(--accent); background: color-mix(in oklch, var(--accent) 9%, var(--card)); }
-.resource-group strong { display: flex; align-items: center; gap: 7px; font-size: .95rem; }
-.resource-group strong svg { flex: 0 0 auto; width: 14px; height: 14px; color: var(--destructive); }
-.resource-group span { color: var(--muted-foreground); font-size: .85rem; line-height: 1.5; }
-@media (max-width: 760px) {
-  .family-resources { margin-top: 42px; }
-  .resource-group ul { grid-template-columns: 1fr; }
-  .staff-guidance { padding: 18px; }
 }
