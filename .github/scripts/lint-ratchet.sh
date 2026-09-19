@@ -13,7 +13,7 @@
 # line of the default formatter instead.
 set -uo pipefail
 
-BASELINE=8
+BASELINE=7
 
 output=$(npm run lint 2>&1)
 status=$?

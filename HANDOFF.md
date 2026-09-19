@@ -2,8 +2,8 @@
 
 _Created: 2026-09-19 · From: Claude Code (remote, Claude Code on the web) · To: any_
 _Source: this chat_
-_Status: live and deploying. Main site complete. Community rebuilt and merged; two of its five
-views are deliberately unbuilt pending a backend._
+_Status: live. Main site complete. Community rebuilt and merged; two of its five views are
+deliberately unbuilt pending a backend. Pull requests are now checked by CI before merge._
 
 ## 1. What this project is
 
@@ -25,8 +25,10 @@ library, a safety directory, and a private community for parents. Not affiliated
 - Env var names only (values live in GitHub Actions secrets / Cloudflare):
   `CLOUDFLARE_API_TOKEN`, `CLOUDFLARE_ACCOUNT_ID`, `CLOUDFLARE_D1_DATABASE_ID`,
   `CLOUDFLARE_D1_DATABASE_NAME`, `CLOUDFLARE_R2_BUCKET_NAME`, `APP_ORIGIN`, `AUTH_ENCRYPTION_KEY`,
-  `RESEND_API_KEY`, `ADMIN_EMAIL`, `GROUPME_WEBHOOK_SECRET`, `GROUPME_GROUP_ID`, `DATABASE_URL`,
-  `GOOGLE_CLIENT_ID`, and **`NEXT_PUBLIC_COMMUNITY_URL`** (not yet set — see §8)
+  `RESEND_API_KEY`, `ADMIN_EMAIL`, `DATABASE_URL`, `GOOGLE_CLIENT_ID`, and
+  **`NEXT_PUBLIC_COMMUNITY_URL`** (not yet set — see §8).
+  `GROUPME_WEBHOOK_SECRET` / `GROUPME_GROUP_ID` were removed from the workflow. If they still
+  exist as GitHub Actions secrets, delete them — otherwise nothing, but they are dead weight.
 - How to run: `npm ci && npm run build`. `npm run dev` for Wrangler-backed dev.
   **`npm start` fails outside the Workers runtime** (`cloudflare:workers` import) — expected.
 
@@ -109,18 +111,26 @@ Files live at `github.com/Naylahknee/CIA-FAQ`, branch `main` (currently `b70f756
 - `npm start` fails locally on `cloudflare:workers` — pre-existing, not a regression.
 - Community search was never implemented (only the icon was imported in the old page). Net-new
   whenever wanted.
-- `app/community/legacy/` still present by design.
+- **eslint's `json` formatter crashes on this tree**, inside `eslint-plugin-react`'s
+  `Components.js`. `.github/scripts/lint-ratchet.sh` therefore parses the default formatter's
+  summary line. Unfixed.
+- `tsc` reports 21 errors, almost all missing `cloudflare:workers` ambient types. Running
+  `wrangler types --config dist/server/wrangler.json` makes it **worse** (21 → 71), so typecheck
+  is deliberately not a CI gate.
+- The admin FAQ-suggestion review queue has **no input source** since GroupMe ingestion was
+  removed. `faq_suggestions` and its `groupme_message_id` column remain because
+  `app/api/faqs/community/route.ts` reads published rows; removing them needs a migration.
 
 ## 8. Remaining work (in order)
 
-1. **Visual QA** at 1440 / 1024 / 390 on all five community views plus `/faq/living` and
-   `/calendar`. This is the gate on everything below.
-2. **Bind the subdomain.** In the Cloudflare dashboard: DNS → `CNAME` `parents` → the worker
+1. **Merge PR #13** (green: build, tests, lint). Sidebar/carousel/GroupMe work.
+2. **Visual QA** at 1440 / 1024 / 390 on all five community views plus `/faq/living` and
+   `/calendar`. Still the gate on everything below — nothing here has ever been seen rendered.
+3. **Bind the subdomain.** In the Cloudflare dashboard: DNS → `CNAME` `parents` → the worker
    (proxied); Workers & Pages → `cia-guide` → Settings → Domains & Routes → add custom domain
    `parents.ciaquestions.com`; then set `NEXT_PUBLIC_COMMUNITY_URL=https://parents.ciaquestions.com`
    and redeploy. **Cannot be done from the repo** — the deploy workflow runs `delete config.routes`
    so deployments never rewrite zone routes.
-3. **Delete `app/community/legacy/`** once QA passes.
 4. **Build the Messages backend**: `communityThreads` + `communityMessages` tables, D1 migration,
    `app/api/community/messages/` routes, then replace the empty state.
 5. **Build the Alerts backend**: `communityNotifications` with read state, plus generation on
@@ -132,15 +142,29 @@ Files live at `github.com/Naylahknee/CIA-FAQ`, branch `main` (currently `b70f756
 8. Member-only gated content (e.g. the Everbridge 360 code). Use the existing auth-gated route
    `app/api/community/media/[id]/route.ts`, which calls `requireCommunityUser()`. **Anything in
    `public/` is world-readable regardless of login** — do not put gated documents there.
+9. Optional: decide the fate of the orphaned FAQ-suggestion queue (see §7), and clear the 7
+   remaining eslint errors so the ratchet baseline can go to 0 and lint can become a hard gate.
 
 ## 9. Exact next step
 
-Open `https://ciaquestions.com/community` on a phone and on a 1440px desktop. Confirm: the top bar
-reads "CIA Parents and Family"; the five nav items route correctly and the active one is tinted
-orange; the member icon shows a food glyph on a tinted circle; the Feed composer expands from the
-single-line bar and a test post appears. Then open `https://ciaquestions.com/faq/living` and confirm
-the topic chips sit on **one horizontally-scrolling row**, not three stacked rows. Report anything
-that looks wrong with the page and the viewport width.
+Merge PR #13 (`https://github.com/Naylahknee/CIA-FAQ/pull/13`) — build, tests and lint are all
+green on head `1a97872`. Merging pushes to `main`, which triggers
+`.github/workflows/deploy-cloudflare.yml` and deploys to Cloudflare Workers in about a minute.
+
+Then open `https://ciaquestions.com` on a 1440px desktop and confirm the three things that PR
+changes, because none of them have been seen rendered:
+
+1. The left sidebar is visible on load and **does not move, fade or resize** when you click a nav
+   item, search, or pick a topic chip. The only thing that may change it is the collapse button
+   at the top-right of the sidebar, which folds it to a 64px icon rail; pressing it again restores
+   it, and the choice survives a reload with no flash of the wrong state.
+2. There is no longer a separate sticky header bar at the top of the content column — brand, nav
+   and the profile/sign-in link all live in the sidebar now.
+3. On the home page, the upcoming-events carousel advances by itself every 6 seconds, and stops
+   while the pointer is over it.
+
+Then on a phone (390px): the hamburger is in the top-right and opens the full menu. Report anything
+wrong with the page **and the viewport width**.
 
 ## 10. Guardrails for the next model
 
@@ -150,6 +174,12 @@ that looks wrong with the page and the viewport width.
 - Keep community styles scoped under `.cia-community`; don't touch global styles.
 - Don't re-add `GuideShell` to individual pages.
 - Verify before claiming: this repo's convention is to build, render, and assert — not to eyeball.
+- **CI must stay green.** `.github/workflows/pr-checks.yml` runs build + both test suites
+  (blocking) and the lint ratchet on every PR. If lint errors drop below the baseline in
+  `.github/scripts/lint-ratchet.sh`, lower `BASELINE` in the same commit — the number only
+  ratchets down. Never raise it.
+- Note `npm test`'s glob is `tests/*.test.mjs` and does **not** reach `tests/security/`. CI runs
+  that suite explicitly; do the same locally.
 - Never put gated content in `public/`.
 - This is a live site families use for travel and money decisions. Accuracy beats completeness;
   cite the official CIA source rather than restating details that can go stale.
@@ -157,3 +187,13 @@ that looks wrong with the page and the viewport width.
 ## 11. Checkpoint log
 
 - 2026-09-19 15:21 — PR #11 merged as `b70f756`; deploy run #111 started. → next: visual QA (§9)
+- 2026-09-19 15:47 — PR #12 merged as `ba8eced`; deploy #112 green. Fixed the mobile hamburger
+  (a `max-width:760px` rule hid it with `display:none !important`, so it existed only between
+  761–820px) and the plain-anchor sidebar. Added `pr-checks.yml` — first CI this repo has ever
+  had. → next: user-reported sidebar still moving
+- 2026-09-19 16:10 — PR #13 open and green. Found the **real** cause of the moving sidebar:
+  `.app-frame` animated `grid-template-columns` over .35s and `.sidebar-hidden` set the column to
+  `0`, with a document-level `pointerdown` listener revealing it on first click. Sidebar is now
+  permanent with an explicit collapse toggle; sticky header removed; carousel auto-advances;
+  GroupMe fully removed; legacy folder deleted; lint baseline 8 → 7.
+  → next: merge #13, then visual QA (§9)
