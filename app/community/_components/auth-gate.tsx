@@ -111,11 +111,10 @@ export function AuthGate() {
 
   return (
     <main className={`c-auth-page${mode === "signup" ? " c-auth-page-signup" : ""}`}>
+      <p className="c-auth-campus">Hyde Park Campus</p>
       <section className="c-auth-welcome" aria-labelledby="community-welcome-title">
         <div className="c-auth-welcome-copy">
-          <p className="c-auth-eyebrow">CIA Hyde Park family community</p>
           <h1 id="community-welcome-title">Your CIA family community.</h1>
-          <p className="c-auth-lead">Private conversations, practical help, and a little less guesswork.</p>
         </div>
         <figure className="c-auth-visual">
           <img src="/community-login-collage.webp" alt="Families at the CIA Hyde Park campus." />

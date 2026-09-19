@@ -21,8 +21,11 @@ export function normalizeEmail(email: string) { return email.trim().toLowerCase(
 function effectiveRole(email: string, role: "member" | "moderator" | "admin") {
   return normalizeEmail(email) === normalizeEmail(String(env.ADMIN_EMAIL ?? "")) && String(env.ADMIN_EMAIL ?? "") ? "admin" : role;
 }
+/** Mail is sent through Cloudflare Email Service, so what has to be present is
+ *  the EMAIL binding rather than a third-party API key. The binding only exists
+ *  once the domain is onboarded under Compute > Email Service > Email Sending. */
 export function emailVerificationConfigured() {
-  if (!env.RESEND_API_KEY || !env.AUTH_EMAIL_FROM || !env.APP_ORIGIN) return false;
+  if (!(env as unknown as { EMAIL?: unknown }).EMAIL || !env.AUTH_EMAIL_FROM || !env.APP_ORIGIN) return false;
   try { return new URL(String(env.APP_ORIGIN)).protocol === "https:"; }
   catch { return false; }
 }

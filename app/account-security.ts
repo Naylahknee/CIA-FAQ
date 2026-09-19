@@ -21,20 +21,55 @@ export async function checkFactor(user:SecurityRow, code:string) {
   if (neonAuthConfigured()) return Boolean((await getNeonAuthDb().query('UPDATE auth_users SET mfa_last_step=$1 WHERE id=$2 AND mfa_last_step < $1 RETURNING id',[step,user.id]))[0]);
   return Boolean(await env.DB.prepare('UPDATE community_users SET mfa_last_step=? WHERE id=? AND mfa_last_step < ? RETURNING id').bind(step,user.id,step).first());
 }
+/** Cloudflare Email Service's Workers binding. It is declared in the deploy
+ *  workflow as `send_email: [{ name: "EMAIL" }]` and is not part of the
+ *  generated worker types, so the shape we rely on is stated here. */
+type EmailBinding = {
+  send(message:{ to:string; from:string; subject:string; text:string; html?:string }):Promise<{ messageId?:string }>;
+};
+const emailBinding = () => (env as unknown as { EMAIL?:EmailBinding }).EMAIL;
+
 export async function sendAccountEmail(user:SecurityRow, purpose:'verify'|'reset') {
+  // Mail goes out through Cloudflare Email Service rather than a third-party
+  // API, so there is no key to hold: the binding is authorised by belonging to
+  // this Worker. The sending domain is authorised by the SPF, DKIM and DMARC
+  // records added when the domain is onboarded in the Cloudflare dashboard --
+  // without that onboarding, send() fails no matter what this code does.
   const origin = new URL(String(env.APP_ORIGIN ?? ''));
-  if (origin.protocol !== 'https:' || !env.RESEND_API_KEY || !env.AUTH_EMAIL_FROM) throw new Error('Email configuration missing');
+  const sender = emailBinding();
+  const from = String(env.AUTH_EMAIL_FROM ?? '').trim();
+  // Name the missing piece: this error surfaces in logs, and "configuration
+  // missing" on its own cost a day of guessing once already.
+  if (origin.protocol !== 'https:') throw new Error('Email configuration missing: APP_ORIGIN must be an https origin');
+  if (!sender) throw new Error('Email configuration missing: the EMAIL binding is not attached to this Worker');
+  if (!from) throw new Error('Email configuration missing: AUTH_EMAIL_FROM is not set');
+
   const token = randomToken();
   const tokenDigest = digest(token);
-  if (neonAuthConfigured()) await storeNeonAccountToken(user.id,purpose,tokenDigest,new Date(Date.now()+(purpose==='reset'?30:60)*60000));
+  const minutes = purpose === 'reset' ? 30 : 60;
+  if (neonAuthConfigured()) await storeNeonAccountToken(user.id,purpose,tokenDigest,new Date(Date.now()+minutes*60000));
   else {
     await ensureD1AuthSchema();
     await env.DB.prepare('DELETE FROM account_tokens WHERE user_id=? AND purpose=?').bind(user.id,purpose).run();
-    await env.DB.prepare('INSERT INTO account_tokens(token_hash,user_id,purpose,expires_at) VALUES(?,?,?,?)').bind(tokenDigest,user.id,purpose,Date.now()+(purpose==='reset'?30:60)*60000).run();
+    await env.DB.prepare('INSERT INTO account_tokens(token_hash,user_id,purpose,expires_at) VALUES(?,?,?,?)').bind(tokenDigest,user.id,purpose,Date.now()+minutes*60000).run();
   }
+
   const link = `${origin.origin}/account#${purpose}=${token}`;
-  const result = await fetch('https://api.resend.com/emails',{method:'POST',headers:{Authorization:`Bearer ${env.RESEND_API_KEY}`,'Content-Type':'application/json'},body:JSON.stringify({from:env.AUTH_EMAIL_FROM,to:[user.email],subject:purpose==='verify'?'Verify your CIA Guide email':'Reset your CIA Guide password',text:`${purpose==='verify'?'Verify your email':'Reset your password'}: ${link}\nThis link expires in ${purpose==='reset'?30:60} minutes. If you did not request it, ignore this email.`})});
-  if (!result.ok) {
+  const heading = purpose === 'verify' ? 'Verify your email' : 'Reset your password';
+  const subject = purpose === 'verify' ? 'Verify your CIA Guide email' : 'Reset your CIA Guide password';
+  const text = `${heading}: ${link}\nThis link expires in ${minutes} minutes. If you did not request it, ignore this email.`;
+  try {
+    // send() rejects on failure, where the previous provider returned a
+    // non-ok response, so the token cleanup moves into a catch.
+    await sender.send({
+      to: user.email,
+      from,
+      subject,
+      text,
+      html: `<p>${heading}: <a href="${link}">${link}</a></p><p>This link expires in ${minutes} minutes. If you did not request it, ignore this email.</p>`,
+    });
+  } catch {
+    // A token that was never delivered must not stay valid.
     if (neonAuthConfigured()) await deleteNeonAccountToken(tokenDigest);
     else await env.DB.prepare('DELETE FROM account_tokens WHERE token_hash=?').bind(tokenDigest).run();
     throw new Error('Email delivery failed');
