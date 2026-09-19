@@ -17,8 +17,8 @@ export default async function CommunityAdminPage() {
 
   // An admin whose address is unverified used to be redirected straight back to
   // the feed, so pressing "Members & roles" looked like a dead button. Nothing
-  // told them why. Verification needs RESEND_API_KEY, AUTH_EMAIL_FROM and an
-  // https APP_ORIGIN to be configured; until they are, no address can ever be
+  // told them why. Verification needs the Cloudflare EMAIL binding and
+  // AUTH_EMAIL_FROM; until the domain is onboarded no address can ever be
   // verified, so say that plainly rather than bouncing the page.
   if (!user.emailVerified) {
     return (
