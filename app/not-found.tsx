@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { LOST_AUNTIE_ART } from "./lost-auntie-art";
 
 export default function NotFound() {
   return (
@@ -10,7 +11,7 @@ export default function NotFound() {
         <Link href="/" className="primary-button">Return to the guide</Link>
       </section>
       <figure className="lost-page-art">
-        <img src="/lost-auntie.webp" alt="A parent looking at a map with question marks overhead." />
+        <img src={LOST_AUNTIE_ART} alt="A parent looking at a map with question marks overhead." />
       </figure>
     </main>
   );
