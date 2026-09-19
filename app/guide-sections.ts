@@ -228,22 +228,22 @@ export const familyWeekend = {
   },
 
   checkIn: {
-    note: "Check in on your first visit before anything else \u2014 the wristband you collect there is required for most events. You also get your welcome packet and swag.",
+    note: "You check in once, on the first day you arrive \u2014 not every day. Pick up your welcome packet, swag and event wristband, which is required for most Family Weekend events. Use whichever window below matches your arrival day.",
     times: [
-      ["Friday, October 9", "4\u20138 p.m.", "Charlie Palmer Plaza"],
-      ["Saturday, October 10", "8 a.m.\u2013noon", "Charlie Palmer Plaza"],
-      ["Sunday, October 11", "noon\u20132 p.m.", "Charlie Palmer Plaza"],
+      ["Friday, October 9", "4\u20138:30 p.m.", "Charlie Palmer Plaza"],
+      ["Saturday, October 10", "7 a.m.\u2013noon", "Charlie Palmer Plaza"],
+      ["Sunday, October 11", "noon\u20132 p.m.", "Anton Plaza"],
     ],
   },
 
   schedule: [
     { day: "Friday, October 9", items: [
-      ["4\u20138 p.m.", "Check-in", "Charlie Palmer Plaza"],
+      ["4\u20138:30 p.m.", "Check-in, if Friday is your first day", "Charlie Palmer Plaza"],
       ["6\u20138 p.m.", "Welcome reception", "Post Road"],
       ["6\u20138:30 p.m.", "Restaurant reservations", "Separate booking and cost"],
     ]},
     { day: "Saturday, October 10", items: [
-      ["8 a.m.\u2013noon", "Check-in", "Charlie Palmer Plaza"],
+      ["7 a.m.\u2013noon", "Check-in, if Saturday is your first day", "Charlie Palmer Plaza"],
       ["9 a.m.\u20131:15 p.m.", "Demos, tours and tastings", "Space is limited"],
       ["11:30 a.m.\u20131 p.m.", "Restaurant reservations", "Separate booking and cost"],
       ["1\u20133:30 p.m.", "Home soccer game and family lunch", "Soccer Field"],
@@ -254,7 +254,7 @@ export const familyWeekend = {
     { day: "Sunday, October 11", items: [
       ["9 a.m.\u2013noon", "Student Commons open", "The Egg, food and coffee to buy"],
       ["11 a.m. and noon", "Campus walking tour", "Welcome Center, Roth Hall"],
-      ["noon\u20132 p.m.", "Check-in and Chili Cook-Off badges", "Charlie Palmer Plaza"],
+      ["noon\u20132 p.m.", "Check-in and Chili Cook-Off badges", "Anton Plaza"],
       ["1\u20134 p.m.", "36th Chili Cook-Off", "Anton Plaza"],
       ["1\u20134 p.m.", "Biergarten", "Post Road, student-brewed beer to buy"],
     ]},
