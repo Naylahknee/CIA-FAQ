@@ -148,7 +148,7 @@ export function GuideHome() {
       <p className="eyebrow">{audience === "student" ? "Shop near campus" : "Shop for your student"}</p>
       <h2>{audience === "student" ? "Pick up what you still need for your room and kit." : "Send what they need—and something that says you care."}</h2>
       <p>{audience === "student" ? "Local stores for supplies, groceries, and uniform care, with pickup and delivery options near campus." : "Find practical items for pickup or delivery after your student confirms what the room needs, or send a CIA Celebration Gram for a birthday, milestone, or encouraging moment."}</p>
-      <div className="story-links"><Link href="/shopping">{audience === "student" ? "Browse stores near campus" : "Shop for your student"} <ShoppingBag /></Link><a href="https://ciachef.formstack.com/forms/celebration_gram" target="_blank" rel="noreferrer">Send a Celebration Gram <Gift /></a></div>
+      <div className="story-links"><Link href="/support">{audience === "student" ? "Browse stores near campus" : "Shop for your student"} <ShoppingBag /></Link><a href="https://ciachef.formstack.com/forms/celebration_gram" target="_blank" rel="noreferrer">Send a Celebration Gram <Gift /></a></div>
     </div><ShoppingBag /></div></section>
   </main></>;
 }
