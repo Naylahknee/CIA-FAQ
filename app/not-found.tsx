@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import Link from "next/link";
 import { LOST_AUNTIE_ART } from "./lost-auntie-art";
 
