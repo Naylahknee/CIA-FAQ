@@ -32,21 +32,21 @@
 
 .privacy-actions a { padding:10px 13px; border-radius:10px; background:var(--navy); color:white; font-size:.82rem; font-weight:800; text-decoration:none; }
 
-.form-page,.admin-page { min-height:100vh; max-width:1000px; margin:0 auto; padding:42px 20px 70px; }
+.form-page,.admin-page { max-width:900px; margin:0 auto; padding:24px 20px 44px; }
 
 .form-back,.admin-page>a { color:var(--navy); font-weight:800; }
 
-.form-card,.admin-header,.admin-section { margin-top:24px; padding:clamp(24px,5vw,48px); border:1px solid var(--line); border-radius:26px; background:white; box-shadow:var(--shadow); }
+.form-card,.admin-header,.admin-section { margin-top:16px; padding:clamp(20px,3vw,30px); border:1px solid var(--line); border-radius:20px; background:white; box-shadow:var(--shadow); }
 
-.form-card h1,.admin-header h1 { font:800 clamp(2.3rem,6vw,4.5rem)/1 "Fraunces",serif; }
+.form-card h1,.admin-header h1 { margin:.1em 0 .35rem; font:800 clamp(1.8rem,3.4vw,2.6rem)/1.05 "Fraunces",serif; }
 
-.form-card form { display:grid; gap:17px; margin-top:28px; }
+.form-card form { display:grid; gap:13px; margin-top:18px; }
 
 .form-card label { display:grid; gap:7px; color:var(--navy); font-weight:800; }
 
 .form-card label>span { color:var(--muted-foreground); font-size:.78rem; font-weight:500; }
 
-.form-card input,.form-card textarea,.form-card select { width:100%; padding:12px 13px; border:1px solid var(--line); border-radius:10px; background:#f8fafc; color:var(--ink); font:inherit; }
+.form-card input,.form-card textarea,.form-card select { width:100%; padding:9px 12px; border:1px solid var(--line); border-radius:10px; background:#f8fafc; color:var(--ink); font:inherit; }
 
 .form-card .consent-row { grid-template-columns:22px 1fr; align-items:start; }
 
