@@ -1,7 +1,8 @@
 import { env } from "cloudflare:workers";
 import { createRemoteJWKSet, jwtVerify } from "jose";
 import { createSession, noStoreJson, normalizeEmail, takeAuthAttempt, validSameOrigin } from "../../../../community-auth";
-import { findOrCreateGoogleUser, mirrorCommunityUser, neonAuthConfigured } from "../../../../neon-auth";
+import { findOrCreateGoogleUser, mirrorCommunityUser, neonAuthConfigured, saveNeonCommunityOnboarding } from "../../../../neon-auth";
+import { readCommunityOnboarding } from "../../../../community-onboarding";
 
 const googleKeys = createRemoteJWKSet(new URL("https://www.googleapis.com/oauth2/v3/certs"));
 
@@ -13,7 +14,8 @@ export async function POST(request: Request) {
     if (!clientId) return noStoreJson({ error: "Google sign-in is not configured yet." }, { status: 503 });
     const raw = await request.text();
     if (raw.length > 12_000) return noStoreJson({ error: "Request is too large." }, { status: 413 });
-    const credential = String((JSON.parse(raw) as { credential?: string }).credential ?? "");
+    const data = JSON.parse(raw) as Record<string, unknown>;
+    const credential = String(data.credential ?? "");
     if (!credential) return noStoreJson({ error: "Google did not return a sign-in credential." }, { status: 400 });
 
     const limit = await takeAuthAttempt(request, "signin", "google");
@@ -30,6 +32,11 @@ export async function POST(request: Request) {
     if (!subject || !payload.email_verified || !/^\S+@\S+\.\S+$/.test(email)) return noStoreJson({ error: "Google could not verify this email address." }, { status: 401 });
 
     const user = await findOrCreateGoogleUser({ subject, email, displayName: displayName.length >= 2 ? displayName : "Community member" });
+    if (data.signupIntent === true) {
+      const onboarding = readCommunityOnboarding(data);
+      if (!onboarding.value) return noStoreJson({ error: onboarding.error ?? "Complete the community sign-up details." }, { status: 400 });
+      await saveNeonCommunityOnboarding(user.id, onboarding.value);
+    }
     await mirrorCommunityUser(user);
     await createSession(user.id);
     return noStoreJson({ ok: true });

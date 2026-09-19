@@ -5,21 +5,26 @@ import { hashPassword, passwordError } from "../../../../password-security";
 import { accountRow, sendAccountEmail } from "../../../../account-security";
 import { getDb } from "../../../../../db";
 import { communityUsers } from "../../../../../db/schema";
-import { createNeonPasswordUser, mirrorCommunityUser, neonAuthConfigured, neonUserByEmail, neonUserById } from "../../../../neon-auth";
+import { createNeonPasswordUser, mirrorCommunityUser, neonAuthConfigured, neonUserByEmail, neonUserById, saveNeonCommunityOnboarding } from "../../../../neon-auth";
 import { ensureD1AuthSchema } from "../../../../community-auth-schema";
+import { readCommunityOnboarding, saveD1CommunityOnboarding } from "../../../../community-onboarding";
 
 export async function POST(request: Request) {
   let stage = "request";
   try {
     if (!await validSameOrigin(request)) return noStoreJson({ error: "Request could not be verified." }, { status: 403 });
-    const data = await request.json() as { displayName?: string; email?: string; password?: string };
+    const data = await request.json() as Record<string, unknown>;
     const displayName = String(data.displayName ?? "").replace(/[\u0000-\u001F\u007F]/g, "").trim();
     const email = normalizeEmail(String(data.email ?? ""));
     const password = String(data.password ?? "");
+    const passwordConfirmation = String(data.passwordConfirmation ?? "");
     if (displayName.length < 2 || displayName.length > 60) return noStoreJson({ error: "Enter a display name between 2 and 60 characters." }, { status: 400 });
     if (!/^\S+@\S+\.\S+$/.test(email) || email.length > 200) return noStoreJson({ error: "Enter a valid email address." }, { status: 400 });
     const invalidPassword = passwordError(password);
     if (invalidPassword) return noStoreJson({ error: invalidPassword }, { status: 400 });
+    if (password !== passwordConfirmation) return noStoreJson({ error: "Passwords do not match." }, { status: 400 });
+    const onboarding = readCommunityOnboarding(data);
+    if (!onboarding.value) return noStoreJson({ error: onboarding.error ?? "Complete the community sign-up details." }, { status: 400 });
 
     stage = "rate-limit";
     const limit = await takeAuthAttempt(request, "signup", email);
@@ -37,6 +42,7 @@ export async function POST(request: Request) {
       const user = await neonUserById(id);
       if (!user) throw new Error("Created account could not be loaded.");
       await mirrorCommunityUser(user, { hash: passwordData.hash, salt: passwordData.salt, iterations: passwordData.iterations });
+      await saveNeonCommunityOnboarding(id, onboarding.value);
     } else {
       stage = "schema";
       await ensureD1AuthSchema();
@@ -45,6 +51,7 @@ export async function POST(request: Request) {
       if (existing.length) return noStoreJson({ error: "Account could not be created. Try signing in or use another email." }, { status: 409 });
       stage = "insert";
       await getDb().insert(communityUsers).values({ id, email, displayName, passwordHash: passwordData.hash, passwordSalt: passwordData.salt, passwordIterations: passwordData.iterations, createdAt: new Date() });
+      await saveD1CommunityOnboarding(id, onboarding.value);
     }
     stage = "session";
     await createSession(id);

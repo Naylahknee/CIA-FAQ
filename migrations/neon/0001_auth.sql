@@ -67,4 +67,13 @@ CREATE TABLE IF NOT EXISTS auth_rate_limits (
   window_start timestamptz NOT NULL
 );
 
+CREATE TABLE IF NOT EXISTS auth_community_onboarding (
+  user_id uuid PRIMARY KEY REFERENCES auth_users(id) ON DELETE CASCADE,
+  member_type varchar(32) NOT NULL,
+  student_stage varchar(32) NOT NULL,
+  guidelines_accepted_at timestamptz NOT NULL,
+  privacy_accepted_at timestamptz NOT NULL,
+  created_at timestamptz NOT NULL DEFAULT now()
+);
+
 COMMIT;

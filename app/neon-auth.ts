@@ -25,6 +25,8 @@ export type NeonSecurityRow = {
   password_iterations: number;
 };
 
+export type NeonCommunityOnboarding = { memberType: string; studentStage: string };
+
 let cachedUrl = "";
 let cachedSql: NeonQueryFunction<false, false> | null = null;
 
@@ -177,6 +179,24 @@ export async function updateNeonPassword(userId: string, passwordHash: string, p
     ON CONFLICT (user_id) DO UPDATE SET password_hash = EXCLUDED.password_hash,
       password_salt = EXCLUDED.password_salt, password_iterations = EXCLUDED.password_iterations, changed_at = now()`,
     [userId, passwordHash, passwordSalt, passwordIterations]);
+}
+
+export async function saveNeonCommunityOnboarding(userId: string, onboarding: NeonCommunityOnboarding) {
+  const sql = getNeonAuthDb();
+  await sql.query(`CREATE TABLE IF NOT EXISTS auth_community_onboarding (
+    user_id uuid PRIMARY KEY REFERENCES auth_users(id) ON DELETE CASCADE,
+    member_type varchar(32) NOT NULL,
+    student_stage varchar(32) NOT NULL,
+    guidelines_accepted_at timestamptz NOT NULL,
+    privacy_accepted_at timestamptz NOT NULL,
+    created_at timestamptz NOT NULL DEFAULT now()
+  )`);
+  await sql.query(`INSERT INTO auth_community_onboarding
+    (user_id, member_type, student_stage, guidelines_accepted_at, privacy_accepted_at)
+    VALUES ($1, $2, $3, now(), now())
+    ON CONFLICT (user_id) DO UPDATE SET member_type = EXCLUDED.member_type, student_stage = EXCLUDED.student_stage,
+      guidelines_accepted_at = EXCLUDED.guidelines_accepted_at, privacy_accepted_at = EXCLUDED.privacy_accepted_at`,
+  [userId, onboarding.memberType, onboarding.studentStage]);
 }
 
 export async function createNeonSession(userId: string, tokenHash: string, expiresAt: Date) {

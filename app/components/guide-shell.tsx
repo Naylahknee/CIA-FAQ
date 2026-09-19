@@ -140,7 +140,7 @@ export function GuideShell({ children }: { children: ReactNode }) {
                 {moderator && <Link href="/admin" className={pathname === "/admin" ? "active" : ""}><ShieldCheck size={18} /><span>Moderation</span></Link>}
                 <button type="button" onClick={signOut}><LogOut size={18} /><span>Sign out</span></button>
               </>
-            : <a {...communityLinkProps}><UserRound size={18} /><span>Sign in or join</span></a>}
+            : <a href="/community?mode=signup" target="_blank" rel="noreferrer"><UserRound size={18} /><span>Sign in or join</span></a>}
         </div>
       </aside>
       <header className="mobile-header"><Link href="/" className="site-brand"><span className="brand-seal">CIA</span><span>Family Guide</span></Link><button type="button" aria-label={open ? "Close menu" : "Open menu"} onClick={() => setOpen(!open)}>{open ? <X /> : <Menu />}</button></header>
