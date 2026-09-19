@@ -48,6 +48,8 @@ export function CommunityNav() {
 
   const isActive = (href: string, exact?: boolean) => (exact ? pathname === href : pathname.startsWith(href));
 
+  if (!user) return null;
+
   return (
     <header className="c-topbar">
       <div className="c-topbar-inner">
