@@ -77,6 +77,22 @@
 .c-btn-ghost:hover { background: var(--c-orange-tint-light); color: var(--c-ink); }
 .c-btn-orange { background: var(--c-orange); color: #fff; }
 .c-btn-orange:hover { background: #E87500; }
+.c-auth-card { max-width: 680px; }
+.c-auth-tabs { justify-content: flex-start; margin: 20px 0 4px; }
+.c-auth-form { display: grid; gap: 14px; margin-top: 20px; }
+.c-auth-form label { display: grid; gap: 6px; color: var(--c-ink); font-size: .92rem; font-weight: 800; }
+.c-auth-form label > span, .c-auth-form fieldset > legend small { color: var(--c-meta); font-size: .79rem; font-weight: 600; }
+.c-auth-form input:not([type="checkbox"]), .c-auth-form select { width: 100%; min-height: 44px; box-sizing: border-box; padding: 0 13px; border: 1px solid var(--c-card-border); border-radius: 12px; background: var(--c-page); color: var(--c-ink); font: inherit; }
+.c-password-row { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 8px; }
+.c-password-row button { min-height: 44px; padding: 0 13px; border: 1px solid var(--c-card-border); border-radius: 12px; background: var(--c-card); color: var(--c-green); font: inherit; font-weight: 800; cursor: pointer; }
+.c-auth-checks, .c-auth-form fieldset { display: grid; gap: 10px; margin: 0; padding: 15px; border: 1px solid var(--c-card-border); border-radius: 14px; }
+.c-auth-form fieldset legend { padding: 0 5px; font-weight: 900; }
+.c-auth-form .c-check { display: flex; align-items: flex-start; line-height: 1.45; }
+.c-auth-form .c-check input { margin-top: 4px; }
+.c-auth-divider { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 10px; color: var(--c-meta); font-size: .82rem; font-weight: 700; }
+.c-auth-divider::before, .c-auth-divider::after { content: ""; height: 1px; background: var(--c-divider); }
+.c-auth-link { border: 0; padding: 0; background: transparent; color: var(--c-green); font: inherit; font-weight: 800; text-decoration: underline; cursor: pointer; }
+.c-auth-actions { display: flex; flex-wrap: wrap; gap: 10px; }
 .c-round-add { display: grid; place-items: center; width: 40px; height: 40px; flex: 0 0 auto; border: 0; border-radius: var(--c-pill); background: var(--c-green); color: #fff; cursor: pointer; }
 .c-round-add:hover { background: var(--c-green-hover); }
 

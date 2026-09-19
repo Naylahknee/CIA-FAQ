@@ -6,7 +6,7 @@ export type NeonUser = {
   id: string;
   email: string;
   displayName: string;
-  role: "member" | "moderator";
+  role: "member" | "moderator" | "admin";
   emailVerified: boolean;
   passwordHash: string | null;
   passwordSalt: string | null;
@@ -25,7 +25,7 @@ export type NeonSecurityRow = {
   password_iterations: number;
 };
 
-export type NeonCommunityOnboarding = { memberType: string; studentStage: string };
+export type NeonCommunityOnboarding = { memberType: string; studentStage: string; topics: string[] };
 
 let cachedUrl = "";
 let cachedSql: NeonQueryFunction<false, false> | null = null;
@@ -54,7 +54,7 @@ function mapUser(row: Record<string, unknown> | undefined): NeonUser | null {
     id: String(row.id),
     email: String(row.email),
     displayName: String(row.display_name),
-    role: row.role === "moderator" ? "moderator" : "member",
+    role: row.role === "admin" ? "admin" : row.role === "moderator" ? "moderator" : "member",
     emailVerified: Boolean(row.email_verified_at),
     passwordHash: row.password_hash == null ? null : String(row.password_hash),
     passwordSalt: row.password_salt == null ? null : String(row.password_salt),
@@ -191,12 +191,15 @@ export async function saveNeonCommunityOnboarding(userId: string, onboarding: Ne
     privacy_accepted_at timestamptz NOT NULL,
     created_at timestamptz NOT NULL DEFAULT now()
   )`);
+  await sql.query("ALTER TABLE auth_community_onboarding ADD COLUMN IF NOT EXISTS topics_json jsonb NOT NULL DEFAULT '[]'::jsonb");
+  await sql.query("ALTER TABLE auth_community_onboarding ADD COLUMN IF NOT EXISTS onboarding_completed_at timestamptz");
   await sql.query(`INSERT INTO auth_community_onboarding
-    (user_id, member_type, student_stage, guidelines_accepted_at, privacy_accepted_at)
-    VALUES ($1, $2, $3, now(), now())
+    (user_id, member_type, student_stage, topics_json, guidelines_accepted_at, privacy_accepted_at, onboarding_completed_at)
+    VALUES ($1, $2, $3, $4::jsonb, now(), now(), now())
     ON CONFLICT (user_id) DO UPDATE SET member_type = EXCLUDED.member_type, student_stage = EXCLUDED.student_stage,
-      guidelines_accepted_at = EXCLUDED.guidelines_accepted_at, privacy_accepted_at = EXCLUDED.privacy_accepted_at`,
-  [userId, onboarding.memberType, onboarding.studentStage]);
+      topics_json = EXCLUDED.topics_json, guidelines_accepted_at = EXCLUDED.guidelines_accepted_at,
+      privacy_accepted_at = EXCLUDED.privacy_accepted_at, onboarding_completed_at = EXCLUDED.onboarding_completed_at`,
+  [userId, onboarding.memberType, onboarding.studentStage, JSON.stringify(onboarding.topics)]);
 }
 
 export async function createNeonSession(userId: string, tokenHash: string, expiresAt: Date) {

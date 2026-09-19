@@ -36,7 +36,7 @@ export const communityUsers = sqliteTable("community_users", {
   mfaSecret: text("mfa_secret"),
   mfaPending: text("mfa_pending"),
   mfaLastStep: integer("mfa_last_step").notNull().default(-1),
-  role: text("role", { enum: ["member", "moderator"] }).notNull().default("member"),
+  role: text("role", { enum: ["member", "moderator", "admin"] }).notNull().default("member"),
   createdAt: integer("created_at", { mode: "timestamp_ms" }).notNull(),
 }, (table) => [uniqueIndex("idx_community_users_email").on(table.email)]);
 

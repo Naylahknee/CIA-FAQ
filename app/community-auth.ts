@@ -114,7 +114,7 @@ export async function getCommunityUser() {
 export async function requireCommunityUser() {
   const user = await getCommunityUser();
   if (!user) throw apiError("Sign in required.", 401);
-  if (user.verificationRequired && !user.emailVerified) throw apiError("Verify your email in Account settings before using the community.", 403);
+  if (!user.emailVerified) throw apiError("Verify your email in Account settings before using the community.", 403);
   return user;
 }
 

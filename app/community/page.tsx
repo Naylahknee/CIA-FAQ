@@ -177,7 +177,7 @@ export default function CommunityFeed() {
                 <div className="c-post-who">
                   <span className="c-post-name">
                     {post.isAnonymous ? "Anonymous family" : post.displayName}
-                    {post.role === "moderator" && <span className="c-role">Moderator</span>}
+                    {post.role !== "member" && <span className="c-role">{post.role === "admin" ? "Admin" : "Moderator"}</span>}
                   </span>
                   <span className="c-post-meta">{relativeTime(post.createdAt)}{post.topicName ? ` · ${post.topicName}` : ""}</span>
                 </div>
