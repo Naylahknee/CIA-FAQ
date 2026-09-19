@@ -19,7 +19,6 @@ export function AuthGate() {
   const { setUser, loadFeed, notice, setNotice, busy, setBusy } = useCommunity();
   const params = useSearchParams();
   const [mode, setMode] = useState<"signin" | "signup">(() => params.get("mode") === "signup" ? "signup" : "signin");
-  const [accessOpen, setAccessOpen] = useState(() => params.has("mode"));
   const [step, setStep] = useState<"account" | "onboarding">("account");
   const [showPassword, setShowPassword] = useState(false);
   const [password, setPassword] = useState("");
@@ -28,18 +27,12 @@ export function AuthGate() {
   const googleRef = useRef<HTMLDivElement>(null);
 
   function chooseMode(next: "signin" | "signup") {
-    setMode(next); setAccessOpen(true); setStep("account"); setNotice("");
+    setMode(next); setStep("account"); setNotice("");
     const url = new URL(window.location.href);
     if (next === "signup") url.searchParams.set("mode", "signup"); else url.searchParams.delete("mode");
     window.history.replaceState({}, "", url);
   }
 
-  function closeAccess() {
-    setAccessOpen(false); setStep("account"); setNotice("");
-    const url = new URL(window.location.href);
-    url.searchParams.delete("mode");
-    window.history.replaceState({}, "", url);
-  }
 
   async function finishOnboarding(form: HTMLFormElement, skipOptional = false) {
     const values = Object.fromEntries(new FormData(form));
@@ -122,15 +115,28 @@ export function AuthGate() {
         <div className="c-auth-welcome-copy">
           <p className="c-auth-eyebrow">CIA Hyde Park family community</p>
           <h1 id="community-welcome-title">Your CIA family community.</h1>
-          <p className="c-auth-lead">Connect with other CIA parents and family members who understand the move-in nerves, the chef whites, and the “wait, where do I find that?” texts.</p>
-          <div className="c-auth-landing-actions">
-            <button type="button" className="c-btn" onClick={() => chooseMode("signin")}>Sign in</button>
-            <button type="button" className="c-btn c-btn-ghost" onClick={() => chooseMode("signup")}>Create an account</button>
-          </div>
+          <p className="c-auth-lead">Private conversations, practical help, and a little less guesswork.</p>
         </div>
         <figure className="c-auth-visual">
           <img src="/community-login-collage.webp" alt="Families at the CIA Hyde Park campus." />
         </figure>
+      </section>
+
+      <section className="c-auth-access" aria-label="Community account access">
+        <div className="c-card c-auth-card">
+          {step === "onboarding" ? onboardingForm : <>
+            <h2>{mode === "signup" ? "Create an account" : "Sign in to your community"}</h2>
+            <p className="c-auth-intro">{mode === "signup" ? "Join other CIA parents and family members to ask questions, share resources, and connect." : "Use your community account to continue."}</p>
+            {accountForm}
+            <div className="c-auth-divider"><span>or</span></div>
+            <div className="c-auth-google" ref={googleRef} />
+            {mode === "signup"
+              ? <p className="c-auth-switch">Already have an account? <button type="button" className="c-auth-link" onClick={() => chooseMode("signin")}>Sign in</button></p>
+              : <button type="button" className="c-btn c-btn-ghost c-auth-create-account" onClick={() => chooseMode("signup")}>Create an account</button>}
+          </>}
+          {notice && <p className="c-notice" role="status" aria-live="polite">{notice}</p>}
+          {step !== "onboarding" && <p className="c-auth-footnote">The Family Guide & FAQ is always available without an account.</p>}
+        </div>
       </section>
 
       <footer className="c-auth-community-care" aria-label="Community care">
@@ -141,32 +147,7 @@ export function AuthGate() {
           <span>Use the Guide for official, time-sensitive school information.</span>
         </p>
       </footer>
-
-      {accessOpen && (
-        <div className="c-auth-lightbox-backdrop" role="presentation" onClick={(event) => { if (event.target === event.currentTarget) closeAccess(); }}>
-          <section className="c-auth-lightbox" role="dialog" aria-modal="true" aria-label={step === "onboarding" ? "Community preferences" : mode === "signup" ? "Create a community account" : "Sign in to the community"}>
-            <button type="button" className="c-auth-lightbox-close" aria-label="Close" onClick={closeAccess}>×</button>
-            <div className="c-card c-auth-card">
-              {step === "onboarding" ? onboardingForm : <>
-                <h2>{mode === "signup" ? "Join the CIA family community" : "Welcome back"}</h2>
-                <p className="c-auth-intro">{mode === "signup" ? "Read the Guide & FAQ without an account. Create one only if you want to ask questions, share resources, or connect with other families." : "Sign in to return to your family community."}</p>
-                <div className="c-pill-row c-auth-tabs">
-                  <button type="button" className="c-pill" aria-pressed={mode === "signin"} onClick={() => chooseMode("signin")}>Sign in</button>
-                  <button type="button" className="c-pill" aria-pressed={mode === "signup"} onClick={() => chooseMode("signup")}>Create an account</button>
-                </div>
-                {accountForm}
-                <div className="c-auth-divider"><span>or</span></div>
-                <div className="c-auth-google" ref={googleRef} />
-                {mode === "signup"
-                  ? <p className="c-auth-switch">Already have an account? <button type="button" className="c-auth-link" onClick={() => chooseMode("signin")}>Sign in</button></p>
-                  : <p className="c-auth-switch">Need to join? <button type="button" className="c-auth-link" onClick={() => chooseMode("signup")}>Create an account</button></p>}
-              </>}
-              {notice && <p className="c-notice" role="status" aria-live="polite">{notice}</p>}
-              {step !== "onboarding" && <p className="c-auth-footnote">The Family Guide & FAQ is always available without an account.</p>}
-            </div>
-          </section>
-        </div>
-      )}
     </main>
+  );
   );
 }
