@@ -117,7 +117,7 @@ h1 em { color: var(--red); font-style: normal; }
 .category-icon { display: grid; place-items: center; width: 40px; height: 40px; border-radius: 12px; background: #eef3f7; font-size: 1.15rem; }
 .chevron { color: var(--red); font-size: 1.35rem; transition: transform .2s; }
 .faq-card.open .chevron { transform: rotate(45deg); }
-.faq-answer { display: none; padding: 0 22px 23px 76px; color: #3d4b5c; }
+.faq-card .faq-answer { display: none; padding: 0 22px 23px 76px; color: #3d4b5c; }
 .faq-card.open .faq-answer { display: block; }
 .faq-answer p { margin: 0 0 13px; }
 .term-note { margin: 0 0 14px; padding: 12px 14px; border: 1px solid #e6b34a; background: #fff8e6; color: var(--navy); border-radius: 8px; }
