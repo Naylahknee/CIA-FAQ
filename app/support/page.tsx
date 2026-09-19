@@ -1,4 +1,5 @@
 import { env } from "cloudflare:workers";
+import Link from "next/link";
 import "../scholarship/scholarship.css";
 
 export const dynamic = "force-dynamic";
@@ -19,7 +20,7 @@ export default function SupportPage() {
     if (url.protocol === "https:" && !url.username && !url.password) paymentUrl = url.href;
   } catch { /* Use the verified Buy Me a Coffee page when no override is configured. */ }
 
-  return <main className="form-page"><a className="form-back" href="/">Back to the Guide &amp; FAQ</a>
+  return <main className="form-page"><Link className="form-back" href="/">Back to the Guide &amp; FAQ</Link>
     <section className="form-card scholarship"><p className="eyebrow">An independent family guide &amp; FAQ</p><h1>Support the Guide</h1>
       <p>If this guide saved you some time—or a few frantic parent texts—you can buy me a coffee. Contributions support my time and the costs of keeping this independent guide updated. Giving is optional, and the FAQs stay free.</p>
       <div className="scholarship-progress">
@@ -40,7 +41,7 @@ export default function SupportPage() {
       </div>
       <h2>What your support makes possible</h2><p>Updating FAQs and campus links, checking dates and resources, and covering website hosting and maintenance.</p>
       <p>Contributions support the guide’s creator. Reading the FAQs never requires an account or contribution. Sign up only to interact with other parents and students.</p>
-      <p>This independent guide is not affiliated with The Culinary Institute of America.</p><a href="/privacy">Privacy information</a>
+      <p>This independent guide is not affiliated with The Culinary Institute of America.</p><Link href="/privacy">Privacy information</Link>
     </section>
   </main>;
 }

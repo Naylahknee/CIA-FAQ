@@ -1,7 +1,7 @@
 "use client";
-/* eslint-disable @next/next/no-html-link-for-pages */
 
 import { ExternalLink, Gift, MapPin, Maximize2, PackageCheck, Search, Truck, X } from "lucide-react";
+import Link from "next/link";
 import { useMemo, useState } from "react";
 import { GuideShell } from "../components/guide-shell";
 import { PageHeader } from "../components/page-header";
@@ -32,6 +32,6 @@ export default function ShoppingPage() {
       <p>Some retailers block in-page viewing. If the store does not load, open it in a new window.</p>
     </section>}
     <aside className="shopping-note"><PackageCheck aria-hidden="true" /><div><strong>Before you order</strong><p>Confirm current residence-hall rules, delivery access, availability, and return policies.</p></div></aside>
-    <a className="back-link" href="/faq/living">Read campus-life shopping guidance</a>
+    <Link className="back-link" href="/faq/living">Read campus-life shopping guidance</Link>
   </main></GuideShell>;
 }

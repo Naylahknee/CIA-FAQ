@@ -1,7 +1,7 @@
 "use client";
-/* eslint-disable @next/next/no-html-link-for-pages */
 
 import { ChevronDown, Search } from "lucide-react";
+import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import { facts, topics, type Audience, type TopicKey } from "../guide-data";
 import { GuideIcon } from "./guide-icon";
@@ -51,6 +51,6 @@ export function FaqExplorer({ initialTopic, compact = false, embedded = false, s
       </article>;
     })}</div>
     {!results.length && <div className="empty-state"><Search /><h2>No answers found</h2><p>Try a shorter search or choose another topic.</p></div>}
-    {compact && <a className="browse-all-faqs" href="/faq">Browse all FAQs</a>}
+    {compact && <Link className="browse-all-faqs" href="/faq">Browse all FAQs</Link>}
   </div>;
 }

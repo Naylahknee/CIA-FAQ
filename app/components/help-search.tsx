@@ -1,7 +1,7 @@
 "use client";
-/* eslint-disable @next/next/no-html-link-for-pages */
 
 import { Search } from "lucide-react";
+import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import { facts, topics, type Audience } from "../guide-data";
 import { GuideIcon } from "./guide-icon";
@@ -27,7 +27,7 @@ export function HelpSearch({ title = "How can we help?", compact = false }: { ti
       <Search aria-hidden="true" />
       <label className="sr-only" htmlFor={id}>Search the family guide</label>
       <input id={id} type="search" value={query} onChange={(event) => { setQuery(event.target.value); if (event.target.value.trim()) revealSidebar(); }} placeholder="Search meals, move-in, classes, health…" autoComplete="off" />
-      {matches.length > 0 && <div className="help-search-results">{matches.map((fact) => <a key={fact.id} href={`/faq/${fact.category}`} onClick={() => setQuery("")}><GuideIcon id={fact.id} /><span><strong>{audience === "parent" ? fact.parentQ : fact.studentQ}</strong><small>{topics[fact.category].name}</small></span></a>)}</div>}
+      {matches.length > 0 && <div className="help-search-results">{matches.map((fact) => <Link key={fact.id} href={`/faq/${fact.category}`} onClick={() => setQuery("")}><GuideIcon id={fact.id} /><span><strong>{audience === "parent" ? fact.parentQ : fact.studentQ}</strong><small>{topics[fact.category].name}</small></span></Link>)}</div>}
     </div>
   </div></section>;
 }

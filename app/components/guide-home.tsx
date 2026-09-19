@@ -1,7 +1,8 @@
 "use client";
-/* eslint-disable @next/next/no-html-link-for-pages, @next/next/no-img-element */
+/* eslint-disable @next/next/no-img-element */
 
 import { ArrowRight, ChevronLeft, ChevronRight, ExternalLink, Gift, HeartPulse, MapPin, ShoppingBag, Utensils } from "lucide-react";
+import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import { facts, topics } from "../guide-data";
 import { fullDates, resourceLibrary, academicEventAlt, academicEventDate, academicEventImage } from "../guide-sections";
@@ -41,20 +42,20 @@ export function GuideHome() {
         <p>{audience === "student" ? "Official information, real questions from students, and the next useful step for your term on campus." : "Official information, real family questions, and what to do after move-in—without digging through six thousand chat messages."}</p>
         <span>CIA Hyde Park · {selectedTerm}</span>
         <HelpSearch title="" compact />
-        <div className="opening-question-grid">{openingQuestions.map((fact) => <a key={fact.id} href={`/faq/${fact.category}`}>{audience === "student" ? fact.studentQ : fact.parentQ}</a>)}</div>
+        <div className="opening-question-grid">{openingQuestions.map((fact) => <Link key={fact.id} href={`/faq/${fact.category}`}>{audience === "student" ? fact.studentQ : fact.parentQ}</Link>)}</div>
       </div>
       <div className="home-opening-media"><img src="/community-campus-building.webp" alt="The Culinary Institute of America Hyde Park campus" width={720} height={980} /></div>
     </section>
 
     <section className="home-resource-wall"><div className="page-wrap">
-      <div className="resource-wall-heading"><div><p className="eyebrow">On the family calendar</p><h2>Upcoming events</h2></div><a href="/calendar">Full calendar <ArrowRight /></a></div>
+      <div className="resource-wall-heading"><div><p className="eyebrow">On the family calendar</p><h2>Upcoming events</h2></div><Link href="/calendar">Full calendar <ArrowRight /></Link></div>
       {focusedEvent ? <div className="home-event-carousel">
         <article className="home-event-focus" aria-live="polite">
           <span className="calendar-event-term">{focusedEvent.kind}</span>
           <h3>{focusedEvent.title}</h3>
           <time dateTime={focusedEvent.date.toISOString()}>{focusedEvent.date.toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric", year: "numeric" })}</time>
           <p>{focusedEvent.description || "Add this date to your calendar and check the full calendar for the latest details."}</p>
-          <div className="home-event-focus-links"><a href="/calendar">See calendar details <ArrowRight /></a></div>
+          <div className="home-event-focus-links"><Link href="/calendar">See calendar details <ArrowRight /></Link></div>
         </article>
         <div className="home-event-slides">
           <div className="home-event-slide"><img key={focusedEvent.id} src={focusedEvent.image} alt={focusedEvent.alt} loading="lazy" width={1200} height={800} /><div className="home-event-date-badge"><strong>{focusedEvent.date.toLocaleDateString("en-US", { month: "short" }).toUpperCase()}</strong><span>{focusedEvent.date.getDate()}</span></div></div>
@@ -66,32 +67,32 @@ export function GuideHome() {
 
     <section className="home-section page-wrap">
       <header><p className="eyebrow">Guide sections</p><h2>Browse by topic</h2></header>
-      <div className="editorial-topic-grid">{Object.entries(topics).map(([key, value]) => <a key={key} href={`/faq/${key}`}><GuideIcon id={key} /><span><strong>{value.name}</strong><small>{value.description}</small></span><ArrowRight /></a>)}</div>
+      <div className="editorial-topic-grid">{Object.entries(topics).map(([key, value]) => <Link key={key} href={`/faq/${key}`}><GuideIcon id={key} /><span><strong>{value.name}</strong><small>{value.description}</small></span><ArrowRight /></Link>)}</div>
     </section>
 
     <section className="home-section home-tint"><div className="page-wrap">
       <header><p className="eyebrow">Most asked</p><h2>Questions families are asking now</h2></header>
-      <div className="most-asked-list">{mostAsked.map((fact) => <a key={fact.id} href={`/faq/${fact.category}`}><GuideIcon id={fact.id} /><strong>{audience === "student" ? fact.studentQ : fact.parentQ}</strong><ArrowRight /></a>)}</div>
+      <div className="most-asked-list">{mostAsked.map((fact) => <Link key={fact.id} href={`/faq/${fact.category}`}><GuideIcon id={fact.id} /><strong>{audience === "student" ? fact.studentQ : fact.parentQ}</strong><ArrowRight /></Link>)}</div>
     </div></section>
 
     {term === "spring" && meal && <section className="feature-story page-wrap"><div>
       <p className="eyebrow">Freshman meal plan</p><h2>Blue today. Gold for later.</h2>
       <p>{audience === "student" ? meal.studentA : meal.parentA}</p>
       <strong>{audience === "student" ? meal.stepStudent : meal.stepParent}</strong>
-      <div className="story-links"><a href="/faq/living">Read meal-plan answers <ArrowRight /></a>{mealFile && <a href={mealFile.href} target="_blank" rel="noreferrer">Open the meal-plan guide <ExternalLink /></a>}</div>
+      <div className="story-links"><Link href="/faq/living">Read meal-plan answers <ArrowRight /></Link>{mealFile && <a href={mealFile.href} target="_blank" rel="noreferrer">Open the meal-plan guide <ExternalLink /></a>}</div>
     </div><Utensils /></section>}
 
     {medical && <section className="feature-story safety-story"><div className="page-wrap"><HeartPulse /><div>
       <p className="eyebrow">Save this before it is needed</p><h2>Sick, injured, or out of medication?</h2>
       <p>{audience === "student" ? medical.studentA : medical.parentA}</p>
-      <a href="/safety">Save contacts and local care <ArrowRight /></a>
+      <Link href="/safety">Save contacts and local care <ArrowRight /></Link>
     </div></div></section>}
 
     <section className="shopping-preview"><div className="page-wrap"><div>
       <p className="eyebrow">{audience === "student" ? "Shop near campus" : "Shop for your student"}</p>
       <h2>{audience === "student" ? "Pick up what you still need for your room and kit." : "Send what they need—and something that says you care."}</h2>
       <p>{audience === "student" ? "Local stores for supplies, groceries, and uniform care, with pickup and delivery options near campus." : "Find practical items for pickup or delivery after your student confirms what the room needs, or send a CIA Celebration Gram for a birthday, milestone, or encouraging moment."}</p>
-      <div className="story-links"><a href="/shopping">{audience === "student" ? "Browse stores near campus" : "Shop for your student"} <ShoppingBag /></a><a href="https://ciachef.formstack.com/forms/celebration_gram" target="_blank" rel="noreferrer">Send a Celebration Gram <Gift /></a></div>
+      <div className="story-links"><Link href="/shopping">{audience === "student" ? "Browse stores near campus" : "Shop for your student"} <ShoppingBag /></Link><a href="https://ciachef.formstack.com/forms/celebration_gram" target="_blank" rel="noreferrer">Send a Celebration Gram <Gift /></a></div>
     </div><ShoppingBag /></div></section>
   </main></GuideShell>;
 }
