@@ -106,3 +106,45 @@
 .system-page p:not(.eyebrow){font-size:1.08rem;line-height:1.6;max-width:54ch}
 
 .system-page .primary-button{display:inline-flex;margin-top:1.2rem}
+
+
+/* Branded 404 page */
+.lost-page {
+  width: min(1120px, calc(100% - 48px));
+  min-height: calc(100vh - 76px);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: minmax(0, .9fr) minmax(280px, 1.1fr);
+  align-items: center;
+  gap: clamp(32px, 7vw, 100px);
+  padding: clamp(42px, 8vw, 96px) 0;
+  color: var(--ink);
+}
+.lost-page-copy { max-width: 500px; }
+.lost-page h1 {
+  margin: .25rem 0 1rem;
+  color: var(--primary);
+  font: 800 clamp(2.8rem, 6vw, 5.4rem)/.98 "Fraunces", Georgia, serif;
+  letter-spacing: -.055em;
+}
+.lost-page-copy > p:not(.eyebrow) {
+  max-width: 43ch;
+  color: var(--muted-foreground);
+  font-size: clamp(1rem, 1.7vw, 1.16rem);
+  line-height: 1.6;
+}
+.lost-page .primary-button {
+  display: inline-flex;
+  margin-top: 1.5rem;
+  background: var(--primary);
+  color: var(--primary-foreground);
+}
+.lost-page .primary-button:hover { background: var(--navy-2); }
+.lost-page-art { width: min(100%, 500px); margin: 0; justify-self: center; }
+.lost-page-art img { display: block; width: 100%; height: auto; }
+@media (max-width: 760px) {
+  .lost-page { width: min(100% - 40px, 560px); grid-template-columns: 1fr; gap: 28px; padding: 48px 0 64px; text-align: center; }
+  .lost-page-copy { margin-inline: auto; }
+  .lost-page-copy > p:not(.eyebrow) { margin-inline: auto; }
+  .lost-page-art { width: min(100%, 390px); order: -1; }
+}
