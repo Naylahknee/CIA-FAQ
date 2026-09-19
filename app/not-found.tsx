@@ -10,7 +10,7 @@ export default function NotFound() {
         <Link href="/" className="primary-button">Return to the guide</Link>
       </section>
       <figure className="lost-page-art">
-        <img src="/lost-auntie.png" alt="A parent looking at a map with question marks overhead." />
+        <img src="/lost-auntie.webp" alt="A parent looking at a map with question marks overhead." />
       </figure>
     </main>
   );
