@@ -1,8 +1,9 @@
 "use client";
 
-import { AlertTriangle, CalendarDays, CalendarPlus, ChevronLeft, ChevronRight, Download, ExternalLink, Search, SlidersHorizontal, Target, Users } from "lucide-react";
-import { useMemo, useState, type CSSProperties } from "react";
+import { AlertTriangle, CalendarDays, CalendarPlus, ChevronLeft, ChevronRight, Download, ExternalLink, Search, SlidersHorizontal, Target } from "lucide-react";
+import { useEffect, useMemo, useState, type CSSProperties } from "react";
 import { PageHeader } from "../components/page-header";
+import { useGuidePreferences } from "../components/guide-shell";
 import { EVENT_TYPES, familyWeekend, fullDates, academicEventDate, academicEventType, type EventType } from "../guide-sections";
 
 const cutoff = new Date(2026, 8, 18);
@@ -52,7 +53,26 @@ function dotStyle(color: string, size = 8): CSSProperties {
   return { width: size, height: size, borderRadius: "50%", background: color, flex: "none" };
 }
 
+function audienceDetails(title: string, note: string, audience: "parent" | "student") {
+  const value = title.toLowerCase();
+  if (audience === "student") {
+    if (value.includes("family weekend")) return "Confirm classes, kitchen or bakeshop blocks, work shifts, competitions, and team obligations before making plans with visiting family.";
+    if (value.includes("refund") || value.includes("add/drop") || value.includes("waiver") || value.includes("opt-out")) return "Check your CIA account and complete any required action before the deadline. Ask Student Financial & Registration Services if something does not match your record.";
+    if (value.includes("break") || value.includes("holiday") || value.includes("no classes")) return "No classes does not always mean no obligations. Check your actual kitchen, bakeshop, restaurant, work, or residence-hall instructions before making travel plans.";
+    if (value.includes("career fair")) return "Prepare your résumé and professional attire early, then confirm your participation details with CIA.";
+    return note;
+  }
+
+  if (value.includes("family weekend")) return "Confirm the official Family Weekend schedule, registration, lodging, restaurant reservations, and your student’s class or work commitments before you travel.";
+  if (value.includes("refund") || value.includes("add/drop") || value.includes("waiver") || value.includes("opt-out")) return "If you are an authorized proxy, review the student account together and make sure the student completes any required CIA action before the deadline.";
+  if (value.includes("break") || value.includes("holiday") || value.includes("no classes")) return "Before booking travel, have your student confirm their actual kitchen, bakeshop, restaurant, work, and residence-hall instructions.";
+  if (value.includes("career fair")) return "Encourage your student to prepare early and avoid scheduling travel that conflicts with this professional opportunity.";
+  if (value.includes("commencement")) return "Wait for CIA’s guest, ticket, and ceremony instructions before purchasing nonrefundable travel.";
+  return note;
+}
+
 export default function CalendarPage() {
+  const { audience, term: guideTerm, setTerm: setGuideTerm } = useGuidePreferences();
   const allEvents = useMemo(
     () =>
       fullDates
@@ -71,20 +91,43 @@ export default function CalendarPage() {
   const [year, setYear] = useState(TODAY.getFullYear());
   const [month, setMonth] = useState(TODAY.getMonth());
   const [selected, setSelected] = useState(isoDate(allEvents[0]?.date ?? TODAY));
-  const [term, setTerm] = useState<"all" | "Fall 2026" | "Spring 2027">("all");
   const [query, setQuery] = useState("");
   const [filtersOpen, setFiltersOpen] = useState(false);
   const [activeTypes, setActiveTypes] = useState<EventType[]>([]);
 
+  const selectedTerm = guideTerm === "fall" ? "Fall 2026" : "Spring 2027";
+
+  useEffect(() => {
+    const selectedYear = new Date(`${selected}T12:00:00`).getFullYear();
+    const termYear = selectedTerm === "Fall 2026" ? 2026 : 2027;
+    if (selectedYear === termYear) return;
+    const firstEvent = allEvents.find((event) => event.term === selectedTerm);
+    if (!firstEvent) return;
+    setYear(firstEvent.date.getFullYear());
+    setMonth(firstEvent.date.getMonth());
+    setSelected(isoDate(firstEvent.date));
+  }, [allEvents, selected, selectedTerm]);
+
+  function selectTerm(nextGuideTerm: "fall" | "spring") {
+    const nextTerm = nextGuideTerm === "fall" ? "Fall 2026" : "Spring 2027";
+    const firstEvent = allEvents.find((event) => event.term === nextTerm);
+    setGuideTerm(nextGuideTerm);
+    if (firstEvent) {
+      setYear(firstEvent.date.getFullYear());
+      setMonth(firstEvent.date.getMonth());
+      setSelected(isoDate(firstEvent.date));
+    }
+  }
+
   const visible = useMemo(() => {
     const q = query.trim().toLowerCase();
     return allEvents.filter((event) => {
-      if (term !== "all" && event.term !== term) return false;
+      if (event.term !== selectedTerm) return false;
       if (activeTypes.length && !activeTypes.includes(event.type)) return false;
       if (q && !`${event.title} ${event.note} ${event.term}`.toLowerCase().includes(q)) return false;
       return true;
     });
-  }, [allEvents, term, activeTypes, query]);
+  }, [allEvents, selectedTerm, activeTypes, query]);
 
   const byDate = useMemo(() => {
     const map = new Map<string, typeof visible>();
@@ -125,7 +168,7 @@ export default function CalendarPage() {
         <PageHeader
           eyebrow="Family calendar"
           title="Upcoming dates"
-          description="Pick a date to see what is happening. Deadlines, breaks, and campus events for the 2026–27 academic year."
+          description={`Pick a date to see ${audience === "parent" ? "family planning details" : "your next steps"}. Showing ${selectedTerm}.`}
           action={
             <div style={{ display: "flex", gap: 10 }}>
               <button type="button" className="calendar-filter-toggle" onClick={() => setFiltersOpen((value) => !value)} aria-expanded={filtersOpen}>
@@ -149,9 +192,9 @@ export default function CalendarPage() {
                 <input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Search events, dates, or terms…" />
               </label>
               <div className="calendar-tabs" role="group" aria-label="Academic term">
-                {(["all", "Fall 2026", "Spring 2027"] as const).map((value) => (
-                  <button key={value} type="button" className={term === value ? "active" : ""} onClick={() => setTerm(value)}>
-                    {value === "all" ? "All upcoming" : value}
+                {(["fall", "spring"] as const).map((value) => (
+                  <button key={value} type="button" className={guideTerm === value ? "active" : ""} onClick={() => selectTerm(value)}>
+                    {value === "fall" ? "Fall 2026" : "Spring 2027"}
                   </button>
                 ))}
               </div>
@@ -254,7 +297,7 @@ export default function CalendarPage() {
                           <span className="calendar-event-term">{event.term}</span>
                         </div>
                         <h3>{event.title}</h3>
-                        <p>{event.note}</p>
+                        <p>{audienceDetails(event.title, event.note, audience)}</p>
                         <footer>
                           <button type="button" className="calendar-ics-btn" onClick={() => downloadICS(`${event.id}.ics`, buildICS([event]))}>
                             <CalendarPlus aria-hidden="true" />Add to calendar
@@ -297,7 +340,7 @@ export default function CalendarPage() {
 
         <section className="family-weekend-panel" aria-labelledby="family-weekend-heading">
           <header>
-            <Users aria-hidden="true" />
+            <img className="family-weekend-art" src="/calendar/family-weekend-2026.png" alt="CIA Family Weekend 2026" />
             <div>
               <p className="eyebrow">{familyWeekend.campus}</p>
               <h2 id="family-weekend-heading">{familyWeekend.title}</h2>
