@@ -72,10 +72,6 @@ export function CommunityNav() {
             <button type="button" className="c-signout" onClick={signOut}><LogOut size={16} aria-hidden="true" />Sign out</button>
           </>
         )}
-        {!user && <nav className="c-nav" aria-label="Community account actions">
-          <Link href="/community">Sign in</Link>
-          <Link href="/community?mode=signup">Create an account</Link>
-        </nav>}
       </div>
     </header>
   );
