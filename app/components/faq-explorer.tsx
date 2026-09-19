@@ -47,7 +47,7 @@ export function FaqExplorer({ initialTopic, compact = false, embedded = false, s
       const expanded = open === fact.id;
       return <article className="faq-item" key={fact.id}>
         <button type="button" className="faq-question" aria-expanded={expanded} onClick={() => setOpen(expanded ? null : fact.id)}><GuideIcon id={fact.id} /><strong>{audience === "parent" ? fact.parentQ : fact.studentQ}</strong><ChevronDown className={expanded ? "rotate-180" : ""} /></button>
-        {expanded && <div className="faq-answer"><p dangerouslySetInnerHTML={{ __html: audience === "parent" ? fact.parentA : fact.studentA }} /><aside><strong>Next step</strong><p>{audience === "parent" ? fact.stepParent : fact.stepStudent}</p></aside>{fact.springNotice && <p className="term-notice">{fact.springNotice}</p>}<span className={`source-badge ${fact.sourceType}`}>{fact.source}</span><a href={fact.link} target="_blank" rel="noreferrer">{fact.linkLabel} ↗</a></div>}
+        <div className="faq-answer" hidden={!expanded}><p dangerouslySetInnerHTML={{ __html: audience === "parent" ? fact.parentA : fact.studentA }} /><aside><strong>Next step</strong><p>{audience === "parent" ? fact.stepParent : fact.stepStudent}</p></aside>{fact.springNotice && <p className="term-notice">{fact.springNotice}</p>}<span className={`source-badge ${fact.sourceType}`}>{fact.source}</span><a href={fact.link} target="_blank" rel="noreferrer">{fact.linkLabel} ↗</a></div>
       </article>;
     })}</div>
     {!results.length && <div className="empty-state"><Search /><h2>No answers found</h2><p>Try a shorter search or choose another topic.</p></div>}
