@@ -90,7 +90,7 @@ export function AuthGate() {
     finally { setBusy(false); }
   }
 
-  const accountForm = <form ref={formRef} onSubmit={submitAccount} className="c-auth-form">
+  const accountForm = <form ref={formRef} onSubmit={submitAccount} className={`c-auth-form${mode === "signup" ? " c-auth-form-signup" : ""}`}>
     {mode === "signup" && <label>Display name<span>Use your first name, a nickname, or an alias. This is what other members will see.</span><input name="displayName" required maxLength={60} autoComplete="name" /></label>}
     <label>Email address<span>Used for sign-in, verification, password recovery, and account notices. It is never displayed publicly.</span><input name="email" type="email" required maxLength={200} autoComplete="email" /></label>
     <label>Password<div className="c-password-row"><input name="password" type={showPassword ? "text" : "password"} required minLength={12} maxLength={128} autoComplete={mode === "signup" ? "new-password" : "current-password"} onChange={(event) => setPassword(event.target.value)} /><button type="button" onClick={() => setShowPassword((value) => !value)}>{showPassword ? "Hide" : "Show"}</button></div>{mode === "signup" && <span>{passwordHint(password)}</span>}</label>
@@ -110,7 +110,7 @@ export function AuthGate() {
   </form>;
 
   return (
-    <main className="c-auth-page">
+    <main className={`c-auth-page${mode === "signup" ? " c-auth-page-signup" : ""}`}>
       <section className="c-auth-welcome" aria-labelledby="community-welcome-title">
         <div className="c-auth-welcome-copy">
           <p className="c-auth-eyebrow">CIA Hyde Park family community</p>
