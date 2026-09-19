@@ -460,3 +460,39 @@
   .c-member-row { gap: 9px; }
   .c-member-role, .c-member-remove { width: 100%; }
 }
+
+/* A button that is a link was rendering its label green on green, because
+   ".cia-community a" (0,1,1) outranks ".c-btn" (0,1,0) and overwrote the white
+   text. Matching the anchor explicitly restores each variant's own colour. */
+.cia-community a.c-btn { color: #fff; }
+.cia-community a.c-btn-ghost { color: var(--c-muted); }
+.cia-community a.c-btn-ghost:hover { color: var(--c-green); }
+.cia-community a.c-btn-orange { color: #fff; }
+
+/* Campus mark, pinned to the top-left of the sign-in page. Sits above the
+   two-column grid rather than inside a column, so it stays in the corner at
+   every width. */
+.c-auth-campus {
+  grid-column: 1 / -1;
+  grid-row: 1;
+  align-self: start;
+  justify-self: start;
+  z-index: 1;
+  margin: 0;
+  padding: clamp(18px, 2.6vw, 30px) clamp(24px, 4vw, 44px);
+  color: var(--c-green);
+  font-size: .82rem;
+  font-weight: 800;
+  letter-spacing: .09em;
+  text-transform: uppercase;
+  pointer-events: none;
+}
+/* Below 960px the page collapses to one column and the welcome panel starts
+   near the top, so the overlay would land on the heading. Let the mark take its
+   own row there instead of sitting over the copy. */
+@media (max-width: 960px) {
+  .c-auth-campus {
+    grid-row: auto;
+    padding: 18px max(24px, 8vw) 0;
+  }
+}
