@@ -1,9 +1,6 @@
 "use client";
 
 import {
-  ArrowRight,
-  ChevronLeft,
-  ChevronRight,
   BedDouble,
   BookOpen,
   Boxes,
@@ -83,17 +80,6 @@ const adviceKeys: AdviceKey[] = [
   "shipping",
 ];
 
-const topicImages: Record<AdviceKey, string> = {
-  packing: "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=900&q=82",
-  storage: "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&w=900&q=82",
-  kitchen: "https://images.unsplash.com/photo-1556911220-bff31c812dba?auto=format&fit=crop&w=900&q=82",
-  cookware: "https://images.unsplash.com/photo-1556910110-a5a63dfd3935?auto=format&fit=crop&w=900&q=82",
-  mattress: "https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&w=900&q=82",
-  fridge: "https://images.unsplash.com/photo-1571175443880-49e1d25b2bc5?auto=format&fit=crop&w=900&q=82",
-  gear: "https://images.unsplash.com/photo-1496181133206-80ce9b88a853?auto=format&fit=crop&w=900&q=82",
-  shipping: "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=900&q=82",
-};
-
 const topicLabels: Record<AdviceKey, string> = {
   packing: "Packing & buying",
   storage: "Room & storage",
@@ -172,37 +158,8 @@ export default function QuickFactsPage() {
         </aside>
       </section>
 
-      <section className="quick-feature-band" aria-labelledby="quick-principle-title">
-        <div>
-          <p className="quick-kicker quick-kicker-light">The recurring staff advice</p>
-          <h2 id="quick-principle-title">Buy less. Buy later.</h2>
-          <p>
-            Pack the basics first. Wait until your student sees the actual room before buying furniture-sized
-            storage, shelving, or extras.
-          </p>
-          <div className="quick-chips" aria-label="Good items to start with">
-            {["Clothes", "Hygiene", "Laundry", "Computer", "Study supplies", "Comfort items"].map((item) => (
-              <span key={item}>{item}</span>
-            ))}
-          </div>
-        </div>
-        <div className="quick-feature-visual" aria-hidden="true">
-          <div className="quick-message-card one">
-            <small>Parent group</small>
-            <strong>Wait until they see the room.</strong>
-          </div>
-          <div className="quick-message-card two">
-            <small>CIA staff</small>
-            <strong>Practice economy when packing.</strong>
-          </div>
-          <div className="quick-message-card three">
-            <small>Room setup</small>
-            <strong>Measure first. Then buy.</strong>
-          </div>
-        </div>
-      </section>
 
-      <section className="quick-section" aria-labelledby="quick-advice-heading">
+      <section className="quick-section quick-advice-section" aria-labelledby="quick-advice-heading">
         <div className="quick-section-head">
           <div>
             <p className="quick-kicker">Start here</p>
@@ -211,17 +168,8 @@ export default function QuickFactsPage() {
           </div>
         </div>
 
-        <div className="quick-topic-carousel-wrap">
-          <button
-            type="button"
-            className="quick-carousel-arrow quick-carousel-prev"
-            aria-label="Show previous advice topics"
-            onClick={() => document.getElementById("quick-topic-carousel")?.scrollBy({ left: -640, behavior: "smooth" })}
-          >
-            <ChevronLeft aria-hidden="true" />
-          </button>
-
-          <div className="quick-topic-carousel" id="quick-topic-carousel" role="tablist" aria-label="Advice topics">
+        <div className="quick-advice-explorer">
+          <div className="quick-topic-list" role="tablist" aria-label="Advice topics">
             {adviceKeys.map((key) => {
               const Icon = topicIcon[key];
               return (
@@ -229,35 +177,15 @@ export default function QuickFactsPage() {
                   type="button"
                   role="tab"
                   aria-selected={activeAdvice === key}
-                  className={activeAdvice === key ? "quick-topic-card active" : "quick-topic-card"}
+                  className={activeAdvice === key ? "active" : ""}
                   key={key}
                   onClick={() => setActiveAdvice(key)}
-                  style={{ backgroundImage: `linear-gradient(180deg, rgba(5,25,35,.02) 22%, rgba(5,25,35,.86) 100%), url("${topicImages[key]}")` }}
                 >
-                  <span className="quick-topic-card-icon"><Icon aria-hidden="true" /></span>
-                  <span className="quick-topic-card-copy">
-                    <strong>{topicLabels[key]}</strong>
-                    <small>{factLabels[key]}</small>
-                  </span>
+                  <span><Icon aria-hidden="true" />{topicLabels[key]}</span>
                 </button>
               );
             })}
           </div>
-
-          <button
-            type="button"
-            className="quick-carousel-arrow quick-carousel-next"
-            aria-label="Show more advice topics"
-            onClick={() => document.getElementById("quick-topic-carousel")?.scrollBy({ left: 640, behavior: "smooth" })}
-          >
-            <ChevronRight aria-hidden="true" />
-          </button>
-        </div>
-
-        <div className="quick-carousel-hint" aria-hidden="true">
-          <span>Swipe or use the arrows to see more topics</span>
-          <ArrowRight />
-        </div>
 
         <article className="quick-advice-panel">
             <div className="quick-advice-panel-head">
@@ -290,6 +218,7 @@ export default function QuickFactsPage() {
               </div>
             </div>
         </article>
+        </div>
       </section>
 
       <section className="quick-section" aria-labelledby="quick-resource-heading">
@@ -302,25 +231,30 @@ export default function QuickFactsPage() {
           <strong>{visible.length} resources</strong>
         </div>
 
-        <div className="quick-resource-tools">
+        <div className="quick-resource-browser">
+          <aside className="quick-resource-filter-panel">
+            <strong className="quick-filter-title">Filter resources</strong>
+            <div className="quick-filter-list" aria-label="Resource categories">
+              {filters.map(([key, label]) => (
+                <button
+                  type="button"
+                  key={key}
+                  className={filter === key ? "active" : ""}
+                  onClick={() => setFilter(key)}
+                >
+                  <span>{label}</span>
+                  <small>{key === "all" ? grouped.length : grouped.filter((item) => item.category === key).length}</small>
+                </button>
+              ))}
+            </div>
+          </aside>
+
+          <div className="quick-resource-results">
           <label className="quick-search">
             <Search aria-hidden="true" />
             <span className="sr-only">Search family resources</span>
             <input value={query} onChange={(event) => setQuery(event.target.value)} placeholder='Search "mattress," "loan," "train"…' />
           </label>
-          <div className="quick-filter-row" aria-label="Resource categories">
-            {filters.map(([key, label]) => (
-              <button
-                type="button"
-                key={key}
-                className={filter === key ? "active" : ""}
-                onClick={() => setFilter(key)}
-              >
-                {label}
-              </button>
-            ))}
-          </div>
-        </div>
 
         <div className="quick-resource-list">
           {visible.map((item) => {
@@ -343,6 +277,8 @@ export default function QuickFactsPage() {
               <span>Try another search or category.</span>
             </div>
           )}
+        </div>
+        </div>
         </div>
       </section>
     </main>
