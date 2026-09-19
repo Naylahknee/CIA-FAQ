@@ -2,6 +2,8 @@
 
 import {
   ArrowRight,
+  ChevronLeft,
+  ChevronRight,
   BedDouble,
   BookOpen,
   Boxes,
@@ -80,6 +82,17 @@ const adviceKeys: AdviceKey[] = [
   "gear",
   "shipping",
 ];
+
+const topicImages: Record<AdviceKey, string> = {
+  packing: "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=900&q=82",
+  storage: "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&w=900&q=82",
+  kitchen: "https://images.unsplash.com/photo-1556911220-bff31c812dba?auto=format&fit=crop&w=900&q=82",
+  cookware: "https://images.unsplash.com/photo-1556910110-a5a63dfd3935?auto=format&fit=crop&w=900&q=82",
+  mattress: "https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&w=900&q=82",
+  fridge: "https://images.unsplash.com/photo-1571175443880-49e1d25b2bc5?auto=format&fit=crop&w=900&q=82",
+  gear: "https://images.unsplash.com/photo-1496181133206-80ce9b88a853?auto=format&fit=crop&w=900&q=82",
+  shipping: "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=900&q=82",
+};
 
 const topicLabels: Record<AdviceKey, string> = {
   packing: "Packing & buying",
@@ -198,8 +211,17 @@ export default function QuickFactsPage() {
           </div>
         </div>
 
-        <div className="quick-advice-explorer">
-          <div className="quick-topic-list" role="tablist" aria-label="Advice topics">
+        <div className="quick-topic-carousel-wrap">
+          <button
+            type="button"
+            className="quick-carousel-arrow quick-carousel-prev"
+            aria-label="Show previous advice topics"
+            onClick={() => document.getElementById("quick-topic-carousel")?.scrollBy({ left: -640, behavior: "smooth" })}
+          >
+            <ChevronLeft aria-hidden="true" />
+          </button>
+
+          <div className="quick-topic-carousel" id="quick-topic-carousel" role="tablist" aria-label="Advice topics">
             {adviceKeys.map((key) => {
               const Icon = topicIcon[key];
               return (
@@ -207,19 +229,37 @@ export default function QuickFactsPage() {
                   type="button"
                   role="tab"
                   aria-selected={activeAdvice === key}
-                  className={activeAdvice === key ? "active" : ""}
+                  className={activeAdvice === key ? "quick-topic-card active" : "quick-topic-card"}
                   key={key}
                   onClick={() => setActiveAdvice(key)}
-                  onMouseEnter={() => setActiveAdvice(key)}
+                  style={{ backgroundImage: `linear-gradient(180deg, rgba(5,25,35,.02) 22%, rgba(5,25,35,.86) 100%), url("${topicImages[key]}")` }}
                 >
-                  <span><Icon aria-hidden="true" />{topicLabels[key]}</span>
-                  <ArrowRight aria-hidden="true" />
+                  <span className="quick-topic-card-icon"><Icon aria-hidden="true" /></span>
+                  <span className="quick-topic-card-copy">
+                    <strong>{topicLabels[key]}</strong>
+                    <small>{factLabels[key]}</small>
+                  </span>
                 </button>
               );
             })}
           </div>
 
-          <article className="quick-advice-panel">
+          <button
+            type="button"
+            className="quick-carousel-arrow quick-carousel-next"
+            aria-label="Show more advice topics"
+            onClick={() => document.getElementById("quick-topic-carousel")?.scrollBy({ left: 640, behavior: "smooth" })}
+          >
+            <ChevronRight aria-hidden="true" />
+          </button>
+        </div>
+
+        <div className="quick-carousel-hint" aria-hidden="true">
+          <span>Swipe or use the arrows to see more topics</span>
+          <ArrowRight />
+        </div>
+
+        <article className="quick-advice-panel">
             <div className="quick-advice-panel-head">
               <div>
                 <p className="quick-kicker">{topicLabels[activeAdvice]}</p>
@@ -249,8 +289,7 @@ export default function QuickFactsPage() {
                 </div>
               </div>
             </div>
-          </article>
-        </div>
+        </article>
       </section>
 
       <section className="quick-section" aria-labelledby="quick-resource-heading">
