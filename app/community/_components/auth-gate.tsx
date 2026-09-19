@@ -111,7 +111,6 @@ export function AuthGate() {
 
   return (
     <main className={`c-auth-page${mode === "signup" ? " c-auth-page-signup" : ""}`}>
-      <p className="c-auth-campus">Hyde Park Campus</p>
       <section className="c-auth-welcome" aria-labelledby="community-welcome-title">
         <div className="c-auth-welcome-copy">
           <h1 id="community-welcome-title">Your CIA family community.</h1>
