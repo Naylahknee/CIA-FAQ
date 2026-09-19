@@ -1,6 +1,6 @@
 "use client";
 
-import { ArrowUp, CalendarDays, HeartHandshake, Home, Library, LogOut, Menu, PanelLeft, Search, ShieldCheck, ShoppingBag, UserRound, X } from "lucide-react";
+import { ArrowUp, CalendarDays, Camera, HeartHandshake, Home, Library, LogOut, Menu, PanelLeft, Search, ShieldCheck, ShoppingBag, UserRound, X } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { useEffect, useState, type ReactNode } from "react";
 import Link from "next/link";
@@ -121,6 +121,15 @@ export function GuideShell({ children }: { children: ReactNode }) {
         <nav className="desktop-nav" aria-label="Main navigation">{links.map(({ to, label, icon: Icon }) => <div key={to}>
           <Link href={to} className={active(to) ? "active" : ""}><Icon size={20} /><span>{label}</span></Link>
         </div>)}</nav>
+        {/* Sits between the main menu and the account row. The wording follows
+            the Parent/Student switch in the utility bar: a student shares their
+            own milestone, a parent shares their student's. */}
+        <div className="sidebar-milestone">
+          <Link href="/wall" className={pathname === "/wall" ? "active" : ""}>
+            <Camera size={18} />
+            <span>{audience === "student" ? "Share your milestone" : "Share your student's milestone"}</span>
+          </Link>
+        </div>
         <div className="sidebar-account">
           {signedIn
             ? <>
@@ -139,7 +148,7 @@ export function GuideShell({ children }: { children: ReactNode }) {
           <div className="radial-selector" role="radiogroup" aria-label="Academic year"><button type="button" role="radio" aria-checked={term === "fall"} className={term === "fall" ? "active" : ""} onClick={() => setTerm("fall")}>Fall 2026</button><button type="button" role="radio" aria-checked={term === "spring"} className={term === "spring" ? "active" : ""} onClick={() => setTerm("spring")}>Spring 2027</button></div>
         </div>
         {children}
-        <footer className="site-footer"><div className="site-footer-inner"><div className="site-footer-about"><strong>CIA Hyde Park Family Guide &amp; FAQ</strong><p>An independent guide built from official documents and anonymized family questions. Anyone can read the FAQs.</p><nav aria-label="Footer navigation"><Link href="/privacy">Privacy</Link><Link href="/corrections">Corrections</Link><Link href="/share">Share</Link><Link href="/support">Support the Guide</Link></nav></div></div><div className="site-footer-note">No advertising or analytics tracking. Signed-in accounts use one essential secure cookie.</div><a className="back-to-top" href="#top" aria-label="Back to top"><ArrowUp /></a></footer>
+        <footer className="site-footer"><div className="site-footer-inner"><div className="site-footer-about"><strong>CIA Hyde Park Family Guide &amp; FAQ</strong><p>An independent guide built from official documents and anonymized family questions. Anyone can read the FAQs.</p><nav aria-label="Footer navigation"><Link href="/privacy">Privacy</Link><Link href="/corrections">Corrections</Link><Link href="/wall">Celebration Wall</Link><Link href="/support">Support the Guide</Link></nav></div></div><div className="site-footer-note">No advertising or analytics tracking. Signed-in accounts use one essential secure cookie.</div><a className="back-to-top" href="#top" aria-label="Back to top"><ArrowUp /></a></footer>
       </div>
     </div>
   );

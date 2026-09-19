@@ -422,3 +422,16 @@
   .family-weekend-panel h2 { font-size: 1.4rem; }
   .family-weekend-columns, .family-weekend-schedule, .family-weekend-grid { grid-template-columns: 1fr; }
 }
+
+/* Milestone link, between the main menu and the account row. Borrows the
+   account row's shape so the foot of the sidebar reads as one group, and
+   collapses to an icon with the rest of the rail. */
+.sidebar-milestone { display: grid; margin-top: auto; padding-top: 10px; }
+.sidebar-milestone a { display: flex; align-items: center; gap: 13px; min-height: 44px; padding: 0 12px; border-radius: var(--radius); color: inherit; font-size: .92rem; font-weight: 700; text-decoration: none; }
+.sidebar-milestone a:hover, .sidebar-milestone a.active { background: var(--secondary); color: var(--destructive); }
+.sidebar-milestone svg { flex: 0 0 auto; color: var(--destructive); }
+/* The account row previously claimed the spare space; the milestone link does
+   now, so they stay adjacent instead of being pushed apart. */
+.sidebar-account { margin-top: 0; }
+:root[data-sidebar="collapsed"] .sidebar-milestone a { justify-content: center; padding-inline: 0; }
+:root[data-sidebar="collapsed"] .sidebar-milestone a span { display: none; }
