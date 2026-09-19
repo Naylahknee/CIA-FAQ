@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Student Celebration Wall - CIA Parents & Family</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Figtree:wght@400;500;600;700;800&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+
+  <style>
+    :root {
+      --c-green: #13654A;
+      --c-green-hover: #0F5540;
+      --c-green-tint: #E4F0EB;
+      --c-green-tint-border: #C6E0D6;
+      --c-orange: #FF8200;
+      --c-orange-tint: #FFE3C2;
+      --c-orange-ink: #8A4500;
+      --c-sand: #FFD9A8;
+
+      --c-page: #F0F2F5;
+      --c-card: #FFFFFF;
+      --c-control: #F0F2F5;
+      --c-card-border: #E4E6EB;
+      --c-ink: #101418;
+      --c-muted: #4B5563;
+      --c-meta: #65676B;
+      --c-divider: #E4E6EB;
+      --c-radius: 12px;
+      --c-control-radius: 8px;
+      --c-pill: 999px;
+    }
+
+    body {
+      font-family: 'Figtree', 'DM Sans', system-ui, sans-serif;
+      user-select: none;
+      -webkit-user-select: none;
+      overflow: hidden;
+      background-color: var(--c-page);
+      color: var(--c-ink);
+    }
+
+    /* Soft CIA subtle grid canvas */
+    .cia-canvas {
+      background-color: var(--c-page);
+      background-image: radial-gradient(rgba(19, 101, 74, 0.15) 1.2px, transparent 1.2px);
+      background-size: 26px 26px;
+    }
+
+    /* Authentic Polaroid Card with CIA styling */
+    .polaroid-card {
+      background: var(--c-card);
+      border: 1px solid var(--c-card-border);
+      box-shadow: 0 4px 12px -2px rgba(16, 20, 24, 0.08), 0 1px 3px rgba(16, 20, 24, 0.05);
+      cursor: grab;
+      touch-action: none;
+      transition: box-shadow 0.2s cubic-bezier(0.2, 0.9, 0.3, 1), transform 0.2s cubic-bezier(0.2, 0.9, 0.3, 1);
+      backface-visibility: hidden;
+    }
+
+    .polaroid-card:hover {
+      box-shadow: 0 14px 28px -4px rgba(19, 101, 74, 0.16), 0 4px 10px -2px rgba(16, 20, 24, 0.08);
+      filter: brightness(1.01);
+    }
+
+    .polaroid-card.is-dragging {
+      cursor: grabbing !important;
+      box-shadow: 0 22px 40px -6px rgba(19, 101, 74, 0.28), 0 8px 16px -4px rgba(16, 20, 24, 0.15) !important;
+      filter: scale(1.03);
+      z-index: 9999 !important;
+    }
+
+    .handwritten {
+      font-family: 'Caveat', cursive;
+    }
+
+    .photo-frame {
+      box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.06);
+      background-color: #EAECEF;
+    }
+
+    @keyframes dropIn {
+      0% {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(1.8) rotate(15deg);
+        filter: blur(4px);
+      }
+      70% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(0.96) rotate(-2deg);
+        filter: blur(0px);
+      }
+      100% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1) rotate(var(--rot));
+      }
+    }
+
+    .animate-drop {
+      animation: dropIn 0.45s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    @keyframes modalFadeIn {
+      from { opacity: 0; transform: scale(0.96) translateY(8px); }
+      to { opacity: 1; transform: scale(1) translateY(0); }
+    }
+    .modal-content-anim {
+      animation: modalFadeIn 0.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: var(--c-green-tint-border);
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body class="w-screen h-screen m-0 p-0 overflow-hidden select-none">
+
+  <!-- App Header styled directly to match .c-topbar -->
+  <header class="fixed top-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-md border-b border-[#E4E6EB] px-4 py-2.5 sm:px-6 flex items-center justify-between shadow-xs">
+    <div class="flex items-center gap-3">
+      <div class="w-9 h-9 rounded-[10px] bg-[#13654A] text-white flex items-center justify-center shadow-xs">
+        <i class="fa-solid fa-camera-retro text-base"></i>
+      </div>
+      <div>
+        <h1 class="text-base sm:text-lg font-extrabold tracking-tight text-[#101418] flex items-center gap-2">
+          Celebration Wall
+          <span class="text-[11px] px-2.5 py-0.5 rounded-full bg-[#E4F0EB] text-[#13654A] font-bold border border-[#C6E0D6] hidden sm:inline-block">CIA Family</span>
+        </h1>
+        <p class="text-xs text-[#65676B] hidden sm:block">Click any polaroid to see the story, drag freely to rearrange</p>
+      </div>
+    </div>
+
+    <!-- Actions -->
+    <div class="flex items-center gap-2">
+      <button id="btnOrganize" title="Reshuffle photos" class="px-3 py-1.5 rounded-[8px] bg-[#F0F2F5] hover:bg-[#E4F0EB] hover:text-[#13654A] text-[#4B5563] text-xs sm:text-sm font-bold transition flex items-center gap-1.5 border border-[#E4E6EB] active:scale-95">
+        <i class="fa-solid fa-shuffle text-[#13654A]"></i>
+        <span class="hidden md:inline">Reshuffle</span>
+      </button>
+
+      <button id="btnCenterView" title="Reset View" class="px-3 py-1.5 rounded-[8px] bg-[#F0F2F5] hover:bg-[#E4F0EB] hover:text-[#13654A] text-[#4B5563] text-xs sm:text-sm font-bold transition flex items-center gap-1.5 border border-[#E4E6EB] active:scale-95">
+        <i class="fa-solid fa-arrows-to-dot text-[#13654A]"></i>
+        <span class="hidden md:inline">Center</span>
+      </button>
+
+      <button id="btnOpenUpload" class="px-4 py-1.5 rounded-[999px] bg-[#13654A] hover:bg-[#0F5540] text-white font-extrabold text-xs sm:text-sm transition flex items-center gap-2 shadow-xs active:scale-95">
+        <i class="fa-solid fa-plus text-xs"></i>
+        <span>Pin Milestone</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Interactive Board Canvas -->
+  <main id="boardContainer" class="relative w-full h-full cia-canvas overflow-hidden cursor-default">
+    <div id="canvasSurface" class="absolute w-[3600px] h-[2400px] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-auto">
+      <!-- Polaroids dynamically added here -->
+    </div>
+
+    <!-- Bottom status bar pill -->
+    <div class="absolute bottom-4 left-4 z-30 pointer-events-none bg-white/95 backdrop-blur-md px-3.5 py-2 rounded-[12px] border border-[#E4E6EB] text-xs text-[#4B5563] flex items-center gap-3 shadow-xs">
+      <span class="flex items-center gap-1.5"><i class="fa-regular fa-hand-pointer text-[#13654A]"></i> Drag polaroids</span>
+      <span class="text-[#E4E6EB]">•</span>
+      <span class="flex items-center gap-1.5"><i class="fa-solid fa-expand text-[#13654A]"></i> Click to open</span>
+      <span class="text-[#E4E6EB]">•</span>
+      <span id="photoCount" class="font-extrabold text-[#13654A]">0 Milestones</span>
+    </div>
+
+    <!-- Mobile Action Button -->
+    <button id="fabUpload" class="sm:hidden fixed bottom-5 right-5 z-40 w-13 h-13 p-3.5 rounded-full bg-[#13654A] text-white font-bold flex items-center justify-center shadow-lg active:scale-90 border-2 border-white">
+      <i class="fa-solid fa-camera text-lg"></i>
+    </button>
+  </main>
+
+  <!-- Lightbox Modal -->
+  <div id="lightboxModal" class="fixed inset-0 z-50 bg-[#101418]/65 backdrop-blur-xs hidden items-center justify-center p-4 sm:p-8">
+    <div class="relative max-w-2xl w-full bg-white border border-[#E4E6EB] rounded-[16px] shadow-2xl overflow-hidden modal-content-anim flex flex-col md:flex-row">
+      <button id="btnCloseLightbox" class="absolute top-3 right-3 z-10 w-8 h-8 rounded-full bg-[#F0F2F5] hover:bg-[#E4F0EB] text-[#4B5563] hover:text-[#13654A] flex items-center justify-center transition">
+        <i class="fa-solid fa-xmark text-sm"></i>
+      </button>
+
+      <!-- Polaroid Preview -->
+      <div class="md:w-3/5 bg-[#F0F2F5] p-6 flex items-center justify-center border-b md:border-b-0 md:border-r border-[#E4E6EB]">
+        <div class="relative bg-white p-3 pb-8 rounded-[6px] shadow-md border border-[#E4E6EB] w-full max-w-[320px]">
+          <div class="relative aspect-square w-full overflow-hidden bg-[#EAECEF] rounded-[4px]">
+            <img id="modalImg" src="" alt="Enlarged photo" class="w-full h-full object-cover" />
+          </div>
+          <p id="modalPolaroidCaption" class="handwritten text-2xl font-bold text-[#101418] text-center mt-3 truncate px-1">Graduated!</p>
+        </div>
+      </div>
+
+      <!-- Detail Story Column -->
+      <div class="md:w-2/5 p-6 flex flex-col justify-between bg-white">
+        <div>
+          <div class="flex items-center gap-2 mb-3">
+            <span id="modalTag" class="text-[11px] uppercase tracking-wider font-extrabold px-2.5 py-0.5 rounded-full bg-[#FFE3C2] text-[#8A4500]">Culinary Arts</span>
+            <span id="modalDate" class="text-xs text-[#65676B]">June 2026</span>
+          </div>
+          <h2 id="modalTitle" class="text-xl font-extrabold text-[#101418] mb-2 tracking-tight">Milestone Note</h2>
+          <p id="modalDescription" class="text-[#4B5563] text-sm leading-relaxed mb-4">Celebrating this achievement with pride!</p>
+        </div>
+
+        <div class="border-t border-[#E4E6EB] pt-4 mt-4">
+          <div class="flex items-center gap-3">
+            <div id="modalAvatar" class="w-9 h-9 rounded-full bg-[#E4F0EB] text-[#13654A] font-extrabold flex items-center justify-center text-sm border border-[#C6E0D6]">
+              P
+            </div>
+            <div>
+              <p class="text-xs text-[#65676B]">Shared by</p>
+              <p id="modalAuthor" class="text-sm font-bold text-[#101418]">Proud Parent</p>
+            </div>
+          </div>
+          
+          <div class="mt-5 flex gap-2">
+            <button id="modalDeleteBtn" class="flex-1 px-3 py-2 rounded-[8px] bg-[#FFF5F4] hover:bg-[#FCE3E0] text-[#A8372C] border border-[#E9B7B0] text-xs font-bold flex items-center justify-center gap-1.5 transition">
+              <i class="fa-solid fa-trash-can"></i> Remove
+            </button>
+            <button id="modalCloseBtn2" class="flex-1 px-3 py-2 rounded-[8px] bg-[#F0F2F5] hover:bg-[#E4F0EB] hover:text-[#13654A] text-[#4B5563] text-xs font-bold transition">
+              Close
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Upload Modal -->
+  <div id="uploadModal" class="fixed inset-0 z-50 bg-[#101418]/65 backdrop-blur-xs hidden items-center justify-center p-4">
+    <div class="relative max-w-lg w-full bg-white border border-[#E4E6EB] rounded-[16px] shadow-2xl p-6 modal-content-anim max-h-[90vh] overflow-y-auto">
+      <div class="flex items-center justify-between pb-3 border-b border-[#E4E6EB]">
+        <h2 class="text-lg font-extrabold text-[#101418] flex items-center gap-2">
+          <i class="fa-solid fa-thumbtack text-[#FF8200]"></i> Pin a Student Milestone
+        </h2>
+        <button id="btnCloseUpload" class="w-8 h-8 rounded-full bg-[#F0F2F5] hover:bg-[#E4F0EB] text-[#4B5563] flex items-center justify-center transition">
+          <i class="fa-solid fa-xmark text-sm"></i>
+        </button>
+      </div>
+
+      <form id="uploadForm" class="mt-4 space-y-4">
+        <!-- Photo Drop Area -->
+        <div>
+          <label class="block text-xs font-extrabold uppercase tracking-wider text-[#65676B] mb-1.5">Photo</label>
+          <div class="border-2 border-dashed border-[#C6E0D6] hover:border-[#13654A] rounded-[12px] p-4 text-center cursor-pointer transition bg-[#F0F2F5]/60 relative group" id="dropZone">
+            <input type="file" id="fileInput" accept="image/*" class="absolute inset-0 opacity-0 cursor-pointer w-full h-full z-10" />
+            <div id="previewContainer" class="hidden">
+              <img id="imagePreview" src="" alt="Upload Preview" class="h-36 mx-auto object-contain rounded-[8px] border border-[#E4E6EB]" />
+              <p class="text-xs text-[#13654A] mt-2 font-bold">Click or drag another image to replace</p>
+            </div>
+            <div id="uploadPrompt" class="py-4">
+              <div class="w-11 h-11 mx-auto rounded-full bg-[#E4F0EB] text-[#13654A] flex items-center justify-center transition mb-2">
+                <i class="fa-solid fa-cloud-arrow-up text-lg"></i>
+              </div>
+              <p class="text-sm font-bold text-[#101418]">Click to browse or drop student photo</p>
+              <p class="text-xs text-[#65676B] mt-0.5">JPG, PNG, WebP supported</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Quick Samples -->
+        <div>
+          <span class="text-xs text-[#65676B] block mb-1.5 font-bold">Or pick a culinary celebration sample:</span>
+          <div class="flex gap-2 overflow-x-auto pb-1" id="sampleThumbnails"></div>
+        </div>
+
+        <!-- Caption -->
+        <div>
+          <label for="captionInput" class="block text-xs font-extrabold uppercase tracking-wider text-[#65676B] mb-1">Polaroid Caption</label>
+          <input type="text" id="captionInput" required maxlength="30" placeholder="e.g., Chef Whites Day!, Practical Exam Passed!, Dean's List!" class="w-full px-3 py-2.5 bg-[#F0F2F5] border border-[#E4E6EB] rounded-[8px] text-[#101418] font-semibold placeholder-[#65676B] focus:outline-none focus:border-[#13654A] transition text-sm" />
+        </div>
+
+        <!-- Category & Author -->
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label for="categorySelect" class="block text-xs font-extrabold uppercase tracking-wider text-[#65676B] mb-1">Category</label>
+            <select id="categorySelect" class="w-full px-3 py-2.5 bg-[#F0F2F5] border border-[#E4E6EB] rounded-[8px] text-[#101418] text-sm font-semibold focus:outline-none focus:border-[#13654A]">
+              <option value="Culinary Arts">Culinary Arts</option>
+              <option value="Baking & Pastry">Baking & Pastry</option>
+              <option value="Graduation">Graduation</option>
+              <option value="Academics">Academics</option>
+              <option value="Campus Life">Campus Life</option>
+            </select>
+          </div>
+          <div>
+            <label for="authorInput" class="block text-xs font-extrabold uppercase tracking-wider text-[#65676B] mb-1">Shared By</label>
+            <input type="text" id="authorInput" maxlength="25" placeholder="Mom Beth, Chef Marco..." class="w-full px-3 py-2.5 bg-[#F0F2F5] border border-[#E4E6EB] rounded-[8px] text-[#101418] text-sm font-semibold placeholder-[#65676B] focus:outline-none focus:border-[#13654A]" />
+          </div>
+        </div>
+
+        <!-- Story/Notes -->
+        <div>
+          <label for="notesInput" class="block text-xs font-extrabold uppercase tracking-wider text-[#65676B] mb-1">Congratulatory Note (optional)</label>
+          <textarea id="notesInput" rows="2" placeholder="Tell the family story behind this moment..." class="w-full px-3 py-2 bg-[#F0F2F5] border border-[#E4E6EB] rounded-[8px] text-[#101418] text-sm placeholder-[#65676B] focus:outline-none focus:border-[#13654A] resize-none"></textarea>
+        </div>
+
+        <div class="pt-2 flex justify-end gap-2.5">
+          <button type="button" id="btnCancelUpload" class="px-4 py-2 rounded-[8px] bg-[#F0F2F5] hover:bg-[#E4F0EB] text-[#4B5563] text-sm font-bold transition">Cancel</button>
+          <button type="submit" id="btnSubmitUpload" class="px-5 py-2 rounded-[999px] bg-[#13654A] hover:bg-[#0F5540] text-white text-sm font-extrabold shadow-xs transition active:scale-95">Post to Wall</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    const INITIAL_MEMORIES = [
+      {
+        id: 'pol-1',
+        caption: 'Chef Whites!',
+        image: 'https://images.unsplash.com/photo-1577219491135-ce391730fb2c?w=600&auto=format&fit=crop&q=80',
+        author: 'Mom Beth',
+        tag: 'Culinary Arts',
+        note: 'First official day wearing the chef coat at the Hyde Park campus!',
+        date: 'June 2026',
+        x: -280, y: -200, rot: -6
+      },
+      {
+        id: 'pol-2',
+        caption: 'Pastry Practical A+',
+        image: 'https://images.unsplash.com/photo-1509440159596-0249088772ff?w=600&auto=format&fit=crop&q=80',
+        author: 'The Collins Family',
+        tag: 'Baking & Pastry',
+        note: 'Aced the laminated dough and croissant examination with top honors!',
+        date: 'May 2026',
+        x: 180, y: -220, rot: 5
+      },
+      {
+        id: 'pol-3',
+        caption: 'Dean’s List!',
+        image: 'https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=600&auto=format&fit=crop&q=80',
+        author: 'Sarah M.',
+        tag: 'Academics',
+        note: 'Highest academic honors this semester in culinary business management.',
+        date: 'May 2026',
+        x: -80, y: -240, rot: 4
+      },
+      {
+        id: 'pol-4',
+        caption: 'Graduated!',
+        image: 'https://images.unsplash.com/photo-1544717305-2782549b5136?w=600&auto=format&fit=crop&q=80',
+        author: 'Proud Dad',
+        tag: 'Graduation',
+        note: 'Degree in Culinary Arts completed! Ready for the next restaurant kitchen.',
+        date: 'June 2026',
+        x: -320, y: 30, rot: -4
+      },
+      {
+        id: 'pol-5',
+        caption: 'Plating Masterpiece',
+        image: 'https://images.unsplash.com/photo-1555244162-803834f70033?w=600&auto=format&fit=crop&q=80',
+        author: 'Chef Dave',
+        tag: 'Culinary Arts',
+        note: 'Flawless execution during banquet service practicals.',
+        date: 'April 2026',
+        x: 270, y: -90, rot: -7
+      },
+      {
+        id: 'pol-6',
+        caption: 'Sourdough Success!',
+        image: 'https://images.unsplash.com/photo-1586444248902-2f64eddc13df?w=600&auto=format&fit=crop&q=80',
+        author: 'Maya & Leo',
+        tag: 'Baking & Pastry',
+        note: 'Perfect aeration and blistered crust after wild yeast levain bake.',
+        date: 'April 2026',
+        x: 210, y: 150, rot: 8
+      },
+      {
+        id: 'pol-7',
+        caption: 'Sommelier Day',
+        image: 'https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?w=600&auto=format&fit=crop&q=80',
+        author: 'Carlos Ramos',
+        tag: 'Campus Life',
+        note: 'Passed the wine tasting and food pairing practicals with distinction!',
+        date: 'June 2026',
+        x: -50, y: 200, rot: -5
+      },
+      {
+        id: 'pol-8',
+        caption: 'Knife Skills Champ',
+        image: 'https://images.unsplash.com/photo-1556910103-1c02745aae4d?w=600&auto=format&fit=crop&q=80',
+        author: 'Elena Vance',
+        tag: 'Culinary Arts',
+        note: 'Cleanest julienne and brunoise cuts in the kitchen cohort!',
+        date: 'March 2026',
+        x: -220, y: 180, rot: 7
+      }
+    ];
+
+    const PRESET_PHOTOS = [
+      { url: 'https://images.unsplash.com/photo-1556910103-1c02745aae4d?w=600&auto=format&fit=crop&q=80', label: 'Prep' },
+      { url: 'https://images.unsplash.com/photo-1509440159596-0249088772ff?w=600&auto=format&fit=crop&q=80', label: 'Baking' },
+      { url: 'https://images.unsplash.com/photo-1555244162-803834f70033?w=600&auto=format&fit=crop&q=80', label: 'Plating' },
+      { url: 'https://images.unsplash.com/photo-1577219491135-ce391730fb2c?w=600&auto=format&fit=crop&q=80', label: 'Chef Coat' }
+    ];
+
+    let polaroids = [];
+    let highestZIndex = 100;
+    let activeCardId = null;
+    let selectedUploadImg = '';
+
+    const canvasSurface = document.getElementById('canvasSurface');
+    const boardContainer = document.getElementById('boardContainer');
+    const photoCountEl = document.getElementById('photoCount');
+
+    const lightboxModal = document.getElementById('lightboxModal');
+    const modalImg = document.getElementById('modalImg');
+    const modalPolaroidCaption = document.getElementById('modalPolaroidCaption');
+    const modalTitle = document.getElementById('modalTitle');
+    const modalDescription = document.getElementById('modalDescription');
+    const modalAuthor = document.getElementById('modalAuthor');
+    const modalAvatar = document.getElementById('modalAvatar');
+    const modalDate = document.getElementById('modalDate');
+    const modalTag = document.getElementById('modalTag');
+    const btnCloseLightbox = document.getElementById('btnCloseLightbox');
+    const modalCloseBtn2 = document.getElementById('modalCloseBtn2');
+    const modalDeleteBtn = document.getElementById('modalDeleteBtn');
+
+    const uploadModal = document.getElementById('uploadModal');
+    const btnOpenUpload = document.getElementById('btnOpenUpload');
+    const fabUpload = document.getElementById('fabUpload');
+    const btnCloseUpload = document.getElementById('btnCloseUpload');
+    const btnCancelUpload = document.getElementById('btnCancelUpload');
+    const uploadForm = document.getElementById('uploadForm');
+    const fileInput = document.getElementById('fileInput');
+    const dropZone = document.getElementById('dropZone');
+    const imagePreview = document.getElementById('imagePreview');
+    const previewContainer = document.getElementById('previewContainer');
+    const uploadPrompt = document.getElementById('uploadPrompt');
+    const sampleThumbnails = document.getElementById('sampleThumbnails');
+    const btnOrganize = document.getElementById('btnOrganize');
+    const btnCenterView = document.getElementById('btnCenterView');
+
+    function renderPolaroid(item, isNew = false) {
+      const card = document.createElement('div');
+      card.id = item.id;
+      card.className = `polaroid-card absolute w-[145px] sm:w-[175px] md:w-[195px] p-2.5 pb-5 sm:pb-6 rounded-[8px] ${isNew ? 'animate-drop' : ''}`;
+      
+      const centerX = canvasSurface.offsetWidth / 2;
+      const centerY = canvasSurface.offsetHeight / 2;
+      card.style.left = `${centerX + item.x}px`;
+      card.style.top = `${centerY + item.y}px`;
+      card.style.transform = `translate(-50%, -50%) rotate(${item.rot}deg)`;
+      card.style.setProperty('--rot', `${item.rot}deg`);
+      card.style.zIndex = item.zIndex || ++highestZIndex;
+
+      card.innerHTML = `
+        <div class="relative w-full aspect-square overflow-hidden rounded-[4px] bg-[#EAECEF] photo-frame mb-2 pointer-events-none">
+          <img src="${item.image}" alt="${item.caption}" class="w-full h-full object-cover select-none" loading="lazy" />
+        </div>
+        <div class="text-center px-1 overflow-hidden pointer-events-none">
+          <p class="handwritten text-lg sm:text-xl md:text-2xl font-bold text-[#101418] truncate leading-tight">${item.caption}</p>
+        </div>
+        <div class="absolute -top-2 left-1/2 -translate-x-1/2 w-8 h-2.5 bg-[#E4F0EB]/90 border border-[#C6E0D6] rounded-[2px] shadow-xs transform -rotate-1 pointer-events-none"></div>
+      `;
+
+      attachInteractions(card, item);
+      canvasSurface.appendChild(card);
+      updateCount();
+    }
+
+    function attachInteractions(card, item) {
+      let isDragging = false;
+      let startX = 0, startY = 0;
+      let initialLeft = 0, initialTop = 0;
+      let hasMoved = false;
+
+      const onPointerDown = (e) => {
+        if (e.button !== undefined && e.button !== 0) return;
+        isDragging = true;
+        hasMoved = false;
+        startX = e.clientX || (e.touches && e.touches[0].clientX);
+        startY = e.clientY || (e.touches && e.touches[0].clientY);
+        initialLeft = parseFloat(card.style.left);
+        initialTop = parseFloat(card.style.top);
+
+        highestZIndex++;
+        card.style.zIndex = highestZIndex;
+        item.zIndex = highestZIndex;
+        card.classList.add('is-dragging');
+
+        window.addEventListener('pointermove', onPointerMove, { passive: false });
+        window.addEventListener('pointerup', onPointerUp);
+        window.addEventListener('pointercancel', onPointerUp);
+      };
+
+      const onPointerMove = (e) => {
+        if (!isDragging) return;
+        e.preventDefault();
+        const currentX = e.clientX || (e.touches && e.touches[0].clientX);
+        const currentY = e.clientY || (e.touches && e.touches[0].clientY);
+        const deltaX = currentX - startX;
+        const deltaY = currentY - startY;
+
+        if (Math.abs(deltaX) > 4 || Math.abs(deltaY) > 4) {
+          hasMoved = true;
+        }
+
+        card.style.left = `${initialLeft + deltaX}px`;
+        card.style.top = `${initialTop + deltaY}px`;
+      };
+
+      const onPointerUp = () => {
+        if (!isDragging) return;
+        isDragging = false;
+        card.classList.remove('is-dragging');
+        window.removeEventListener('pointermove', onPointerMove);
+        window.removeEventListener('pointerup', onPointerUp);
+        window.removeEventListener('pointercancel', onPointerUp);
+
+        if (hasMoved) {
+          const centerX = canvasSurface.offsetWidth / 2;
+          const centerY = canvasSurface.offsetHeight / 2;
+          item.x = parseFloat(card.style.left) - centerX;
+          item.y = parseFloat(card.style.top) - centerY;
+        } else {
+          openLightbox(item);
+        }
+      };
+
+      card.addEventListener('pointerdown', onPointerDown);
+    }
+
+    function openLightbox(item) {
+      activeCardId = item.id;
+      modalImg.src = item.image;
+      modalPolaroidCaption.innerText = item.caption;
+      modalTitle.innerText = item.caption;
+      modalDescription.innerText = item.note || 'A captured culinary milestone pinned to celebrate student achievement!';
+      modalAuthor.innerText = item.author || 'Proud Parent';
+      modalAvatar.innerText = (item.author || 'P').charAt(0).toUpperCase();
+      modalDate.innerText = item.date || 'Recent';
+      modalTag.innerText = item.tag || 'Culinary';
+
+      lightboxModal.classList.remove('hidden');
+      lightboxModal.classList.add('flex');
+    }
+
+    function closeLightbox() {
+      lightboxModal.classList.add('hidden');
+      lightboxModal.classList.remove('flex');
+      activeCardId = null;
+    }
+
+    btnCloseLightbox.addEventListener('click', closeLightbox);
+    modalCloseBtn2.addEventListener('click', closeLightbox);
+    lightboxModal.addEventListener('click', (e) => {
+      if (e.target === lightboxModal) closeLightbox();
+    });
+
+    modalDeleteBtn.addEventListener('click', () => {
+      if (!activeCardId) return;
+      const el = document.getElementById(activeCardId);
+      if (el) el.remove();
+      polaroids = polaroids.filter(p => p.id !== activeCardId);
+      updateCount();
+      closeLightbox();
+    });
+
+    function openUploadModal() {
+      uploadForm.reset();
+      selectedUploadImg = '';
+      previewContainer.classList.add('hidden');
+      uploadPrompt.classList.remove('hidden');
+      imagePreview.src = '';
+      uploadModal.classList.remove('hidden');
+      uploadModal.classList.add('flex');
+    }
+
+    function closeUploadModal() {
+      uploadModal.classList.add('hidden');
+      uploadModal.classList.remove('flex');
+    }
+
+    btnOpenUpload.addEventListener('click', openUploadModal);
+    fabUpload.addEventListener('click', openUploadModal);
+    btnCloseUpload.addEventListener('click', closeUploadModal);
+    btnCancelUpload.addEventListener('click', closeUploadModal);
+    uploadModal.addEventListener('click', (e) => {
+      if (e.target === uploadModal) closeUploadModal();
+    });
+
+    fileInput.addEventListener('change', function (e) {
+      const file = e.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = (event) => setChosenImage(event.target.result);
+        reader.readAsDataURL(file);
+      }
+    });
+
+    dropZone.addEventListener('dragover', (e) => {
+      e.preventDefault();
+      dropZone.classList.add('border-[#13654A]');
+    });
+    dropZone.addEventListener('dragleave', () => dropZone.classList.remove('border-[#13654A]'));
+    dropZone.addEventListener('drop', (e) => {
+      e.preventDefault();
+      dropZone.classList.remove('border-[#13654A]');
+      if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+        const reader = new FileReader();
+        reader.onload = (event) => setChosenImage(event.target.result);
+        reader.readAsDataURL(e.dataTransfer.files[0]);
+      }
+    });
+
+    function setChosenImage(url) {
+      selectedUploadImg = url;
+      imagePreview.src = url;
+      previewContainer.classList.remove('hidden');
+      uploadPrompt.classList.add('hidden');
+    }
+
+    PRESET_PHOTOS.forEach(sample => {
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'flex-shrink-0 w-14 h-14 rounded-[8px] overflow-hidden border-2 border-[#E4E6EB] hover:border-[#13654A] transition';
+      btn.innerHTML = `<img src="${sample.url}" alt="${sample.label}" class="w-full h-full object-cover"/>`;
+      btn.addEventListener('click', () => setChosenImage(sample.url));
+      sampleThumbnails.appendChild(btn);
+    });
+
+    uploadForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const caption = document.getElementById('captionInput').value.trim();
+      const tag = document.getElementById('categorySelect').value;
+      const author = document.getElementById('authorInput').value.trim() || 'Proud Parent';
+      const notes = document.getElementById('notesInput').value.trim() || caption;
+      const image = selectedUploadImg || PRESET_PHOTOS[Math.floor(Math.random() * PRESET_PHOTOS.length)].url;
+
+      const randomRot = Math.floor(Math.random() * 16) - 8;
+      const offsetX = Math.floor(Math.random() * 160) - 80;
+      const offsetY = Math.floor(Math.random() * 160) - 80;
+
+      const newMemory = {
+        id: 'pol-' + Date.now(),
+        caption: caption,
+        image: image,
+        author: author,
+        tag: tag,
+        note: notes,
+        date: 'Today',
+        x: offsetX,
+        y: offsetY,
+        rot: randomRot,
+        zIndex: ++highestZIndex
+      };
+
+      polaroids.push(newMemory);
+      renderPolaroid(newMemory, true);
+      closeUploadModal();
+    });
+
+    btnOrganize.addEventListener('click', () => {
+      const total = polaroids.length;
+      polaroids.forEach((item, index) => {
+        const angle = (index / total) * Math.PI * 2;
+        const radius = 110 + (index % 3) * 110;
+        item.x = Math.cos(angle) * radius;
+        item.y = Math.sin(angle) * (radius * 0.75);
+        item.rot = Math.floor(Math.random() * 16) - 8;
+
+        const el = document.getElementById(item.id);
+        if (el) {
+          const centerX = canvasSurface.offsetWidth / 2;
+          const centerY = canvasSurface.offsetHeight / 2;
+          el.style.transition = 'left 0.5s cubic-bezier(0.2, 0.9, 0.3, 1), top 0.5s cubic-bezier(0.2, 0.9, 0.3, 1)';
+          el.style.left = `${centerX + item.x}px`;
+          el.style.top = `${centerY + item.y}px`;
+          el.style.transform = `translate(-50%, -50%) rotate(${item.rot}deg)`;
+          el.style.setProperty('--rot', `${item.rot}deg`);
+          setTimeout(() => { el.style.transition = ''; }, 550);
+        }
+      });
+    });
+
+    btnCenterView.addEventListener('click', () => {
+      boardContainer.scrollTo({
+        left: (canvasSurface.offsetWidth - boardContainer.clientWidth) / 2,
+        top: (canvasSurface.offsetHeight - boardContainer.clientHeight) / 2,
+        behavior: 'smooth'
+      });
+    });
+
+    function updateCount() {
+      photoCountEl.innerText = `${polaroids.length} Milestones`;
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      polaroids = [...INITIAL_MEMORIES];
+      polaroids.forEach(item => renderPolaroid(item, false));
+      setTimeout(() => {
+        boardContainer.scrollLeft = (canvasSurface.offsetWidth - boardContainer.clientWidth) / 2;
+        boardContainer.scrollTop = (canvasSurface.offsetHeight - boardContainer.clientHeight) / 2;
+      }, 50);
+    });
+
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        closeLightbox();
+        closeUploadModal();
+      }
+    });
+  </script>
+</body>
+</html>
