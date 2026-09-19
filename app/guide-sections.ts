@@ -286,3 +286,127 @@ export const familyWeekend = {
     ["Hyatt Place Poughkeepsie", "845-632-3100", "9.5 miles"],
   ],
 } as const;
+
+/** Links CIA families shared with each other in the Fall 2026 parent group, plus
+ *  the guidance CIA staff gave alongside them.
+ *
+ *  Only the canonical URL is carried over from the source: every query string and
+ *  fragment is stripped, because the shared links contained click-tracking and, in
+ *  one case, a marketing-platform subscriber ID tied to an individual parent. No
+ *  message text is reused either -- descriptions here are written for this guide,
+ *  so no member or student name can travel with a link. Nothing is an endorsement
+ *  by the CIA or by this guide, and retail links go stale, so treat them as a
+ *  starting point rather than a shopping list.
+ */
+export const staffGuidance = [
+  {
+    topic: "Buy less, and buy it later",
+    guidance: "CIA staff advise students to practice economy when packing, and to wait until your student has seen the room before buying furniture-sized items, so you know what actually fits. Clothes, hygiene and laundry supplies, study materials, a computer, snacks and quick meals, books, and a few comfort items were described as more than enough.",
+  },
+  {
+    topic: "Storage is limited",
+    guidance: "Each student has a closet or wardrobe, plus roughly 33 inches of clearance under the bed. Totes fit that space well. There is not much storage beyond it.",
+  },
+  {
+    topic: "Residence-hall kitchens",
+    guidance: "The dorm kitchens provide appliances, prep areas, and a dining area. No cookware or ingredients are provided outside the classroom, so students bring a small set or coordinate with others on the floor. Cooking utensils already come in the student tool kit.",
+  },
+  {
+    topic: "What cookware to buy",
+    guidance: "Staff recommend stainless steel with riveted handles, a heavy clad bottom, and tempered glass lids, rather than aluminium nonstick or ceramic-coated sets. A small set is enough, and thrift shops were suggested for buying pieces individually instead of a large boxed set.",
+  },
+  {
+    topic: "Mattresses",
+    guidance: "Residence-hall mattresses were described as functional and easy to clean, but not comfortable. A mattress pad is recommended, and gel foam was called the best option.",
+  },
+  {
+    topic: "Refrigerators",
+    guidance: "A single or double room may have only one refrigerator. Families relayed the micro-fridge unit as roughly 18-11/16 in. wide, 44 in. high, and 19-11/16 in. deep when sizing shelving to sit above it -- confirm before buying.",
+  },
+  {
+    topic: "Shoes and laptops",
+    guidance: "Kitchen shoes must be black, non-skid, and closed-toe; no brand is specified. For laptops, staff said a refurbished machine is fine and recommended a Windows platform over Apple.",
+  },
+  {
+    topic: "Shipping ahead of move-in",
+    guidance: "If you ship belongings to campus, arrange delivery no earlier than two weeks before the semester starts -- it is a storage constraint. The receiving team tries to route cartons to the building the student is living in.",
+  },
+] as const;
+
+export const familyResources = [
+  {
+    category: "Official CIA pages",
+    note: "The pages families linked most often when answering each other.",
+    links: [
+      { title: "What to Bring", href: "https://www.ciachef.edu/what-to-bring", description: "The college's own packing guidance, including a list of what not to bring. The single most-shared link in the group." },
+      { title: "Where to Stay near the New York campus", href: "https://www.ciachef.edu/new-york-where-to-stay", description: "Hotels near Hyde Park, shared repeatedly around move-in and Family Weekend." },
+      { title: "Residence halls", href: "https://www.ciachef.edu/new-york-residence-halls", description: "What the rooms and buildings are actually like." },
+      { title: "Housing 3D floor plans", href: "https://www.ciachef.edu/new-york-housing-3d-floor-plans", description: "Walk-through plans, useful for judging what furniture will fit." },
+      { title: "Campus health services", href: "https://www.ciachef.edu/cia-new-york-campus-health-services", description: "What the campus health office covers and how to reach it." },
+      { title: "New York medical form (PDF)", href: "https://www.ciachef.edu/wp-content/uploads/2024/07/medical-form-ny.pdf", description: "The health form new students must submit." },
+      { title: "Uniform and hygiene policy", href: "https://catalog.ciachef.edu/professionalism-uniform-and-hygieneundergraduate", description: "The official standard for uniform, grooming and kitchen readiness." },
+      { title: "Family Weekend", href: "https://www.ciachef.edu/cia-family-weekend", description: "Registration and schedule for the October family weekend." },
+      { title: "Tuition", href: "https://www.ciachef.edu/cia-tuition", description: "Published costs, for planning beyond the deposit." },
+      { title: "Scholarship opportunities", href: "https://ciachef.academicworks.com/opportunities", description: "The CIA scholarship portal." },
+      { title: "Additional financial aid options", href: "https://www.ciachef.edu/additional-financial-aid-options", description: "Aid routes beyond federal loans and CIA scholarships." },
+    ],
+  },
+  {
+    category: "Uniform, tools and books",
+    note: "Vendors students are pointed to. Order windows matter -- uniforms ship in waves.",
+    links: [
+      { title: "CIA student uniform portal", href: "https://schools.theultimateimage.com/cia_student/index.php", description: "The CIA-specific ordering portal at the college's uniform vendor." },
+      { title: "Uniform vendor contact", href: "https://www.theultimateimage.com/contact-us.html", description: "Where to check on an order's status, since shipments go out in batches." },
+      { title: "Chef coat sizing guide", href: "https://cia.islandguide.com/sizing-chef-coats", description: "Sizing help before ordering." },
+      { title: "Course material finder", href: "https://ciachef.bncollege.com/course-material/course-finder", description: "The bookstore's textbook lookup by course." },
+      { title: "Campus store", href: "https://ciachef.spirit.bncollege.com", description: "CIA branded apparel and general supplies." },
+    ],
+  },
+  {
+    category: "Dorm room and storage",
+    note: "Specific items families bought. Measure first -- see the guidance above about waiting until your student sees the room.",
+    links: [
+      { title: "Under-bed storage bin, 60qt", href: "https://www.target.com/p/60qt-underbed-storage-bin-with-latches-brightroom-8482/-/A-93286400", description: "Latching bin sized for the roughly 33 inches of under-bed clearance." },
+      { title: "3-drawer wide cart", href: "https://www.target.com/p/3-drawer-wide-cart-white-brightroom-8482/-/A-84242464", description: "The rolling drawer cart families settled on most often." },
+      { title: "3-drawer wide tower", href: "https://www.target.com/p/3-drawer-wide-tower-light-gray-brightroom-8482/-/A-83359715", description: "Taller alternative to the rolling cart." },
+      { title: "Adjustable wire shelving unit", href: "https://www.dormco.com/Dorm_Room_Furniture_Adjustable_Wire_Shelving_Unit_p/adjs-blk.htm", description: "Shared for building shelving above the micro-fridge. Check the fridge dimensions first." },
+      { title: "Laundry hamper with liner and lid", href: "https://www.target.com/p/laundry-hamper-with-lift-liner-and-lid-gray-brightroom-8482/-/A-89700576", description: "A hamper with a lift-out liner, for carrying laundry down the hall." },
+      { title: "Waterproof mattress protector", href: "https://www.bedbathandbeyond.com/Bedding-Bath/Sleep-Philosophy-Harmony-Waterproof-3M-Scotchgard-Moisture-Treatment-Mattress-Protector-Pad-White/7518573/product.html", description: "A quilted protector, in line with the staff advice to add a pad." },
+      { title: "UL-approved power strips", href: "https://www.target.com/s/ul+approved+power+strip", description: "Residence halls require UL-approved strips. This is a search, not one product." },
+    ],
+  },
+  {
+    category: "Cookware for the residence-hall kitchen",
+    note: "Staff recommend stainless steel with riveted handles over nonstick. A small set is enough.",
+    links: [
+      { title: "10pc stainless steel cookware set", href: "https://www.bedbathandbeyond.com/Home-Garden/Denmark-10pc-Stainless-Steel-Cookware-Set/38975536/product.html", description: "Shared by CIA staff as the right material and construction, while noting it is more than most students need." },
+      { title: "7pc stainless steel cookware set", href: "https://www.target.com/p/7pc-stainless-steel-cookware-set-silver-figmint-8482/-/A-87713746", description: "A smaller stainless set." },
+      { title: "12pc stainless steel cookware set", href: "https://www.target.com/p/t-fal-simply-cook-12pc-stainless-steel-cookware-set/-/A-94662942", description: "A larger stainless option families compared." },
+      { title: "10pc stainless steel cook set", href: "https://www.walmart.com/ip/MS-SS-10PC-COOK-SET/12285457289", description: "A lower-cost stainless set." },
+    ],
+  },
+  {
+    category: "Money and insurance",
+    note: "Confirm every figure and deadline with Student Financial Services.",
+    links: [
+      { title: "Parent PLUS loan", href: "https://studentaid.gov/understand-aid/types/loans/plus/parent", description: "Federal parent loan basics." },
+      { title: "Federal vs. private loans", href: "https://studentaid.gov/understand-aid/types/loans/federal-vs-private", description: "The comparison families were pointed to before borrowing privately." },
+      { title: "FAFSA", href: "https://studentaid.gov/h/apply-for-aid/fafsa", description: "Federal aid application." },
+      { title: "Master promissory note", href: "https://studentaid.gov/mpn", description: "Required before federal loan funds disburse." },
+      { title: "Private loan comparison (ElmSelect)", href: "https://www.elmselect.com/v4", description: "The private-loan research tool CIA staff named when asked." },
+      { title: "CIA student health insurance", href: "https://haylor.com/college/the-culinary-institute-of-america", description: "The plan administrator for CIA student health coverage." },
+    ],
+  },
+  {
+    category: "Getting around Hyde Park",
+    note: "There is no guarantee of a campus shuttle to any given destination or date.",
+    links: [
+      { title: "Dutchess County public transit routes", href: "https://www.dutchessny.gov/Departments/Public-Transit/Routes-Schedules.htm", description: "Local bus routes and schedules." },
+      { title: "MTA TrainTime", href: "https://www.mta.info/traintime", description: "Metro-North times, for the Poughkeepsie station run." },
+      { title: "Transit app", href: "https://transitapp.com", description: "Live transit times on a phone." },
+      { title: "CIA area guide", href: "https://cia.islandguide.com", description: "Local businesses and services around the Hyde Park campus." },
+      { title: "USPS Hold for Pickup", href: "https://faq.usps.com/s/article/Hold-for-Pickup-Service", description: "How hold-for-pickup works, for packages timed around move-in." },
+      { title: "Campus card account", href: "https://get.cbord.com/culinary/full/prelogin.php", description: "Where meal-plan and campus-card balances are managed." },
+    ],
+  },
+] as const;

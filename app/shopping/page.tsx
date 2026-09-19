@@ -1,9 +1,9 @@
 "use client";
 
-import { ExternalLink, Gift, MapPin, Maximize2, PackageCheck, Search, Truck, X } from "lucide-react";
+import { ExternalLink, Gift, Info, MapPin, Maximize2, PackageCheck, Search, Truck, X } from "lucide-react";
 import { useMemo, useState } from "react";
 import { PageHeader } from "../components/page-header";
-import { shoppingStores } from "../guide-sections";
+import { shoppingStores, familyResources, staffGuidance } from "../guide-sections";
 import Link from "next/link";
 
 export default function ShoppingPage() {
@@ -30,6 +30,30 @@ export default function ShoppingPage() {
       <iframe title={`${preview.name} website`} src={preview.website} loading="lazy" referrerPolicy="no-referrer" />
       <p>Some retailers block in-page viewing. If the store does not load, open it in a new window.</p>
     </section>}
+    <section className="family-resources" aria-labelledby="family-resources-heading">
+      <div className="family-resources-intro">
+        <p className="eyebrow">Shared by families</p>
+        <h2 id="family-resources-heading">What other CIA families used.</h2>
+        <p>Links families passed around in a CIA parent group, with the guidance CIA staff gave alongside them. Nothing here is endorsed by the CIA or by this guide, retail links go out of date, and residence-hall rules change &mdash; confirm before you buy.</p>
+      </div>
+
+      <div className="staff-guidance">
+        <h3><Info aria-hidden="true" />What CIA staff advised</h3>
+        <dl>{staffGuidance.map((item) => <div key={item.topic}>
+          <dt>{item.topic}</dt><dd>{item.guidance}</dd>
+        </div>)}</dl>
+      </div>
+
+      {familyResources.map((group) => <div className="resource-group" key={group.category}>
+        <div className="resource-group-head"><h3>{group.category}</h3><p>{group.note}</p></div>
+        <ul>{group.links.map((link) => <li key={link.href}>
+          <a href={link.href} target="_blank" rel="noreferrer nofollow">
+            <strong>{link.title}<ExternalLink aria-hidden="true" /></strong>
+            <span>{link.description}</span>
+          </a>
+        </li>)}</ul>
+      </div>)}
+    </section>
     <aside className="shopping-note"><PackageCheck aria-hidden="true" /><div><strong>Before you order</strong><p>Confirm current residence-hall rules, delivery access, availability, and return policies.</p></div></aside>
     <Link className="back-link" href="/faq/living">Read campus-life shopping guidance</Link>
   </main></>;
