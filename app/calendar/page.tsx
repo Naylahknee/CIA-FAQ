@@ -1,48 +1,309 @@
 "use client";
-/* eslint-disable @next/next/no-img-element */
 
-import { AlertTriangle, CalendarDays, ChevronDown, ListFilter, Search, SlidersHorizontal } from "lucide-react";
-import { useMemo, useState } from "react";
+import { AlertTriangle, CalendarDays, CalendarPlus, ChevronLeft, ChevronRight, Download, Search, SlidersHorizontal, Target } from "lucide-react";
+import { useMemo, useState, type CSSProperties } from "react";
 import { GuideShell } from "../components/guide-shell";
 import { PageHeader } from "../components/page-header";
-import { fullDates, academicEventAlt, academicEventDate, academicEventImage } from "../guide-sections";
+import { EVENT_TYPES, fullDates, academicEventDate, academicEventType, type EventType } from "../guide-sections";
 
 const cutoff = new Date(2026, 8, 18);
+const TODAY = new Date(2026, 8, 18);
+const WEEKDAYS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+const MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
+const TYPE_COLORS: Record<EventType, { bg: string; fg: string }> = {
+  Deadline: { bg: "var(--destructive)", fg: "var(--destructive-foreground)" },
+  Academic: { bg: "var(--primary)", fg: "var(--primary-foreground)" },
+  "No classes": { bg: "var(--accent)", fg: "var(--accent-foreground)" },
+  Campus: { bg: "var(--chart-2)", fg: "var(--primary-foreground)" },
+};
+
+function isoDate(date: Date) {
+  return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")}`;
+}
+
+function icsEscape(value: string) {
+  return value.replace(/\\/g, "\\\\").replace(/,/g, "\\,").replace(/;/g, "\\;").replace(/\n/g, "\\n");
+}
+
+function buildICS(events: { id: string; date: Date; title: string; note: string }[]) {
+  const stamp = `${isoDate(new Date()).replace(/-/g, "")}T000000Z`;
+  const lines = ["BEGIN:VCALENDAR", "VERSION:2.0", "PRODID:-//CIA Hyde Park Family Guide//Calendar//EN"];
+  events.forEach((event) => {
+    const start = isoDate(event.date).replace(/-/g, "");
+    const end = new Date(event.date);
+    end.setDate(end.getDate() + 1);
+    lines.push("BEGIN:VEVENT", `UID:${event.id}@cia-family-guide`, `DTSTAMP:${stamp}`, `DTSTART;VALUE=DATE:${start}`, `DTEND;VALUE=DATE:${isoDate(end).replace(/-/g, "")}`, `SUMMARY:${icsEscape(event.title)}`, `DESCRIPTION:${icsEscape(event.note)}`, "END:VEVENT");
+  });
+  lines.push("END:VCALENDAR");
+  return lines.join("\r\n");
+}
+
+function downloadICS(filename: string, content: string) {
+  const blob = new Blob([content], { type: "text/calendar;charset=utf-8" });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = filename;
+  link.click();
+  URL.revokeObjectURL(url);
+}
+
+function dotStyle(color: string, size = 8): CSSProperties {
+  return { width: size, height: size, borderRadius: "50%", background: color, flex: "none" };
+}
 
 export default function CalendarPage() {
+  const allEvents = useMemo(
+    () =>
+      fullDates
+        .map((event) => ({
+          id: `academic-${event.term}-${event.month}-${event.day}-${event.title}`,
+          date: academicEventDate(event),
+          title: event.title,
+          note: event.note,
+          term: event.term,
+          type: academicEventType(event.title),
+        }))
+        .filter((event) => event.date >= cutoff),
+    [],
+  );
+
+  const [year, setYear] = useState(TODAY.getFullYear());
+  const [month, setMonth] = useState(TODAY.getMonth());
+  const [selected, setSelected] = useState(isoDate(allEvents[0]?.date ?? TODAY));
   const [term, setTerm] = useState<"all" | "Fall 2026" | "Spring 2027">("all");
-  const [sort, setSort] = useState<"soonest" | "latest">("soonest");
   const [query, setQuery] = useState("");
   const [filtersOpen, setFiltersOpen] = useState(false);
+  const [activeTypes, setActiveTypes] = useState<EventType[]>([]);
 
-  const events = useMemo(() => fullDates
-    .map((event) => ({ id: `academic-${event.term}-${event.month}-${event.day}-${event.title}`, date: academicEventDate(event), title: event.title, description: event.note, term: event.term, day: event.day, image: academicEventImage(event.title), alt: academicEventAlt(event.title) }))
-    .filter((event) => event.date >= cutoff)
-    .filter((event) => term === "all" || event.term === term)
-    .filter((event) => `${event.title} ${event.description ?? ""} ${event.term}`.toLowerCase().includes(query.toLowerCase()))
-    .sort((a, b) => (a.date.getTime() - b.date.getTime()) * (sort === "soonest" ? 1 : -1)), [query, sort, term]);
+  const visible = useMemo(() => {
+    const q = query.trim().toLowerCase();
+    return allEvents.filter((event) => {
+      if (term !== "all" && event.term !== term) return false;
+      if (activeTypes.length && !activeTypes.includes(event.type)) return false;
+      if (q && !`${event.title} ${event.note} ${event.term}`.toLowerCase().includes(q)) return false;
+      return true;
+    });
+  }, [allEvents, term, activeTypes, query]);
 
-  return <GuideShell><main className="calendar-page page-wrap">
-    <PageHeader eyebrow="Family calendar" title="Upcoming dates" description="Events and deadlines from September 18, 2026 forward." action={<button type="button" className="calendar-filter-toggle" onClick={() => setFiltersOpen((value) => !value)} aria-expanded={filtersOpen}><SlidersHorizontal aria-hidden="true" />Filters</button>}>
-      <label className="page-search"><Search aria-hidden="true" /><span className="sr-only">Search calendar</span><input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Search events, dates, or locations…" /></label>
-    </PageHeader>
-    <section className="calendar-browser" aria-label="Upcoming calendar entries">
-      <div className="calendar-toolbar">
-        <div className="calendar-tabs" role="group" aria-label="Academic term">
-          {(["all", "Fall 2026", "Spring 2027"] as const).map((value) => <button key={value} type="button" className={term === value ? "active" : ""} onClick={() => setTerm(value)}>{value === "all" ? "All upcoming" : value}</button>)}
+  const byDate = useMemo(() => {
+    const map = new Map<string, typeof visible>();
+    visible.forEach((event) => {
+      const key = isoDate(event.date);
+      map.set(key, [...(map.get(key) ?? []), event]);
+    });
+    return map;
+  }, [visible]);
+
+  const sorted = useMemo(() => visible.slice().sort((a, b) => a.date.getTime() - b.date.getTime()), [visible]);
+
+  const first = new Date(year, month, 1);
+  const lead = first.getDay();
+  const daysInMonth = new Date(year, month + 1, 0).getDate();
+  const monthPrefix = `${year}-${String(month + 1).padStart(2, "0")}`;
+  const monthKey = monthPrefix;
+  const todayKey = isoDate(TODAY);
+
+  function shiftMonth(delta: number) {
+    let m = month + delta;
+    let y = year;
+    if (m < 0) { m = 11; y -= 1; }
+    if (m > 11) { m = 0; y += 1; }
+    setMonth(m);
+    setYear(y);
+  }
+
+  const selectedEvents = byDate.get(selected) ?? [];
+  const nextAfter = sorted.find((event) => isoDate(event.date) > selected) ?? sorted[0];
+  const selectedDate = new Date(`${selected}T12:00:00`);
+
+  const upNext = sorted.filter((event) => isoDate(event.date).startsWith(monthPrefix)).slice(0, 4);
+
+  return (
+    <GuideShell>
+      <main className="calendar-page page-wrap">
+        <PageHeader
+          eyebrow="Family calendar"
+          title="Upcoming dates"
+          description="Pick a date to see what is happening. Deadlines, breaks, and campus events for the 2026–27 academic year."
+          action={
+            <div style={{ display: "flex", gap: 10 }}>
+              <button type="button" className="calendar-filter-toggle" onClick={() => setFiltersOpen((value) => !value)} aria-expanded={filtersOpen}>
+                <SlidersHorizontal aria-hidden="true" />Filters
+              </button>
+              <button
+                type="button"
+                className="calendar-filter-toggle"
+                onClick={() => downloadICS("cia-hyde-park-calendar.ics", buildICS(visible))}
+              >
+                <Download aria-hidden="true" />Export
+              </button>
+            </div>
+          }
+        >
+          <div className="calendar-browser">
+            <div className="calendar-toolbar">
+              <label className="calendar-search">
+                <Search aria-hidden="true" />
+                <span className="sr-only">Search calendar</span>
+                <input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Search events, dates, or terms…" />
+              </label>
+              <div className="calendar-tabs" role="group" aria-label="Academic term">
+                {(["all", "Fall 2026", "Spring 2027"] as const).map((value) => (
+                  <button key={value} type="button" className={term === value ? "active" : ""} onClick={() => setTerm(value)}>
+                    {value === "all" ? "All upcoming" : value}
+                  </button>
+                ))}
+              </div>
+              <button
+                type="button"
+                className="calendar-today"
+                onClick={() => { setYear(TODAY.getFullYear()); setMonth(TODAY.getMonth()); setSelected(todayKey); }}
+              >
+                <Target aria-hidden="true" />Today
+              </button>
+            </div>
+            {filtersOpen && (
+              <div className="calendar-filter-panel">
+                <p>Filter by type</p>
+                <div className="calendar-type-filters">
+                  {EVENT_TYPES.map((t) => {
+                    const on = activeTypes.includes(t);
+                    const colors = TYPE_COLORS[t];
+                    return (
+                      <button
+                        key={t}
+                        type="button"
+                        className="calendar-type-chip"
+                        style={on ? { background: colors.bg, color: colors.fg, borderColor: colors.bg } : undefined}
+                        onClick={() => setActiveTypes((current) => (on ? current.filter((x) => x !== t) : [...current, t]))}
+                      >
+                        <span style={dotStyle(on ? colors.fg : colors.bg)} />{t}
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
+          </div>
+        </PageHeader>
+
+        <div className="calendar-layout">
+          <section>
+            <div className="calendar-month-nav">
+              <h2>{MONTHS[month]} {year}</h2>
+              <div>
+                <button type="button" className="calendar-nav-btn" aria-label="Previous month" onClick={() => shiftMonth(-1)}><ChevronLeft aria-hidden="true" /></button>
+                <button type="button" className="calendar-nav-btn" aria-label="Next month" onClick={() => shiftMonth(1)}><ChevronRight aria-hidden="true" /></button>
+              </div>
+            </div>
+
+            <div className="calendar-weekdays">
+              {WEEKDAYS.map((day) => <div key={day}>{day}</div>)}
+            </div>
+
+            <div className="calendar-grid" key={monthKey}>
+              {Array.from({ length: lead }, (_, i) => <div key={`lead-${i}`} className="calendar-cell-empty" />)}
+              {Array.from({ length: daysInMonth }, (_, i) => {
+                const day = i + 1;
+                const key = isoDate(new Date(year, month, day));
+                const dayEvents = byDate.get(key) ?? [];
+                const isSelected = key === selected;
+                const isToday = key === todayKey;
+                const hasEvents = dayEvents.length > 0;
+                const classes = ["calendar-cell", hasEvents && "has-events", isToday && "today", isSelected && "selected"].filter(Boolean).join(" ");
+                return (
+                  <button key={key} type="button" className={classes} onClick={() => setSelected(key)}>
+                    <span className="calendar-cell-num">{day}</span>
+                    <span className="calendar-cell-dots">
+                      {dayEvents.slice(0, 3).map((event, idx) => (
+                        <span key={idx} style={dotStyle(isSelected ? "var(--primary-foreground)" : TYPE_COLORS[event.type].bg, 5)} />
+                      ))}
+                    </span>
+                  </button>
+                );
+              })}
+            </div>
+
+            <div className="calendar-legend">
+              {EVENT_TYPES.map((t) => (
+                <div key={t}><span style={dotStyle(TYPE_COLORS[t].bg)} />{t}</div>
+              ))}
+            </div>
+          </section>
+
+          <aside className="calendar-rail">
+            <div className="calendar-rail-card" key={selected}>
+              <div className="calendar-rail-date">
+                <div className="calendar-rail-daynum">{selectedDate.getDate()}</div>
+                <div>
+                  <strong>{selectedDate.toLocaleDateString("en-US", { weekday: "long" })}</strong>
+                  <span>{selectedDate.toLocaleDateString("en-US", { month: "long", year: "numeric" })}</span>
+                </div>
+                <div className="calendar-rail-count">{selectedEvents.length === 0 ? "Open day" : `${selectedEvents.length} ${selectedEvents.length === 1 ? "item" : "items"}`}</div>
+              </div>
+
+              {selectedEvents.length > 0 ? (
+                <div className="calendar-rail-events">
+                  {selectedEvents.map((event) => {
+                    const colors = TYPE_COLORS[event.type];
+                    return (
+                      <article className="calendar-rail-event" key={event.id}>
+                        <div>
+                          <span className="calendar-type-tag" style={{ background: colors.bg, color: colors.fg }}>{event.type}</span>
+                          <span className="calendar-event-term">{event.term}</span>
+                        </div>
+                        <h3>{event.title}</h3>
+                        <p>{event.note}</p>
+                        <footer>
+                          <button type="button" className="calendar-ics-btn" onClick={() => downloadICS(`${event.id}.ics`, buildICS([event]))}>
+                            <CalendarPlus aria-hidden="true" />Add to calendar
+                          </button>
+                        </footer>
+                      </article>
+                    );
+                  })}
+                </div>
+              ) : (
+                <div className="calendar-empty">
+                  <CalendarDays aria-hidden="true" />
+                  <p style={{ margin: "12px 0 4px", fontWeight: 700 }}>Nothing scheduled</p>
+                  <p style={{ margin: 0 }}>
+                    {nextAfter ? `The next date with something on it is ${nextAfter.date.toLocaleDateString("en-US", { month: "long", day: "numeric" })}.` : "No matching dates on the calendar."}
+                  </p>
+                  {nextAfter && (
+                    <button type="button" className="calendar-ics-btn" style={{ marginTop: 14 }} onClick={() => { setYear(nextAfter.date.getFullYear()); setMonth(nextAfter.date.getMonth()); setSelected(isoDate(nextAfter.date)); }}>
+                      Jump to it
+                    </button>
+                  )}
+                </div>
+              )}
+            </div>
+
+            {upNext.length > 0 && (
+              <div className="calendar-upnext">
+                <p>Next up this month</p>
+                {upNext.map((event) => (
+                  <button key={event.id} type="button" onClick={() => setSelected(isoDate(event.date))}>
+                    <span className="calendar-upnext-date">{event.date.toLocaleDateString("en-US", { month: "short", day: "numeric" })}</span>
+                    <span className="calendar-upnext-title">{event.title}</span>
+                    <span style={dotStyle(TYPE_COLORS[event.type].bg)} />
+                  </button>
+                ))}
+              </div>
+            )}
+          </aside>
         </div>
-      </div>
-      {filtersOpen && <div className="calendar-filter-panel">
-        <label><span>Sort by</span><span className="calendar-select"><ListFilter aria-hidden="true" /><select value={sort} onChange={(event) => setSort(event.target.value as "soonest" | "latest")}><option value="soonest">Soonest date</option><option value="latest">Latest date</option></select><ChevronDown aria-hidden="true" /></span></label>
-      </div>}
-      <div className="calendar-results-meta"><strong>{events.length} upcoming dates</strong><span>Beginning September 18, 2026</span></div>
-      {events.length ? <div className="calendar-event-grid">
-        {events.map((event) => <article className="calendar-event" key={event.id}>
-          <div className="calendar-event-image"><img src={event.image} alt={event.alt} width={1200} height={800} loading="lazy" /><div className="calendar-event-date"><strong>{event.date.toLocaleDateString("en-US", { month: "short" }).toUpperCase()}</strong><span>{event.day}</span></div></div>
-          <div className="calendar-event-body"><span className="calendar-event-term">{event.term}</span><h2>{event.title}</h2><p className="calendar-event-time">{event.date.toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" })}</p><p>{event.description}</p></div>
-        </article>)}
-      </div> : <div className="calendar-empty"><CalendarDays aria-hidden="true" /><h2>No matching dates</h2><p>Try another term or search.</p></div>}
-    </section>
-    <aside className="calendar-caution"><AlertTriangle aria-hidden="true" /><div><strong>Confirm before booking travel.</strong><p>The student&rsquo;s current portal and assigned schedule control.</p></div></aside>
-  </main></GuideShell>;
+
+        <aside className="calendar-caution">
+          <AlertTriangle aria-hidden="true" />
+          <div>
+            <strong>Confirm before booking travel.</strong>
+            <p>The student&rsquo;s current portal and assigned schedule control.</p>
+          </div>
+        </aside>
+      </main>
+    </GuideShell>
+  );
 }
