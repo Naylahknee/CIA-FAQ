@@ -106,3 +106,22 @@
 .system-page p:not(.eyebrow){font-size:1.08rem;line-height:1.6;max-width:54ch}
 
 .system-page .primary-button{display:inline-flex;margin-top:1.2rem}
+
+/* 404: the illustration sits beside the copy on desktop and above it on a
+   phone. The page keeps its 680px measure for the text, so the wrapper widens
+   only when there is an image to place next to it. */
+.not-found-page{max-width:960px;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,340px);gap:clamp(24px,5vw,56px);align-items:center}
+.not-found-copy{min-width:0}
+/* The illustration has no alpha channel -- its background is baked-in white,
+   which would sit as a hard white rectangle on the cream page. Multiply blends
+   that white into whatever is behind it while leaving the artwork's own colours
+   alone. It only works over a light backdrop, so the dark theme (defined but
+   not currently applied anywhere) gets an explicit white panel instead. */
+.not-found-art{width:100%;height:auto;justify-self:center;mix-blend-mode:multiply}
+.dark .not-found-art{mix-blend-mode:normal;background:#fff;border-radius:var(--radius)}
+@media (max-width:760px){
+  .not-found-page{grid-template-columns:1fr;gap:20px}
+  /* Copy first: the message matters more than the picture on a small screen. */
+  .not-found-art{order:2;width:min(62vw,300px)}
+  .not-found-copy{order:1}
+}
