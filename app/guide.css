@@ -453,3 +453,9 @@
 .help-search-empty p{margin:0 0 4px;font-weight:700}
 .help-search-empty small{color:var(--muted-foreground)}
 .help-search-empty a{display:inline;padding:0;border:0;color:var(--primary);font-weight:700;text-decoration:underline}
+
+/* Route comparisons on the Family Weekend panel. The grid itself is styled
+   by .travel-grid; this only spaces the block inside the panel. */
+.family-weekend-travel{margin-top:18px}
+.family-weekend-travel h3{margin:0 0 .3rem}
+.family-weekend-travel .travel-grid{margin-top:12px}

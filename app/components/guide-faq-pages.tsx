@@ -3,8 +3,9 @@
 import { ArrowLeft, ArrowRight, ExternalLink, HeartHandshake } from "lucide-react";
 import { useEffect, useState } from "react";
 import { facts, topics, type TopicKey } from "../guide-data";
-import { arrivalLanes, contacts, costs, resourceLibrary, travelRegions } from "../guide-sections";
+import { arrivalLanes, contacts, costs, resourceLibrary } from "../guide-sections";
 import { PageHeader } from "./page-header";
+import { TravelMatrix } from "./travel-matrix";
 import { HelpSearch } from "./help-search";
 import { FaqExplorer } from "./faq-explorer";
 import { GuideRail } from "./guide-rail";
@@ -85,7 +86,7 @@ export function TopicPage({ topic }: { topic: string }) {
         {key === "money" && <section className="detail-panel"><h2>Fall 2026 planning rates</h2><p>Use the student&rsquo;s actual bill as the final authority.</p><div className="cost-table">{costs.map(([charge, timing, amount]) => <div key={charge}><strong>{charge}</strong><span>{timing}</span><b>{amount}</b></div>)}</div></section>}
         {key === "arrival" && <>
           <section className="detail-panel"><h2>Your arrival-day game plan</h2><div className="lane-grid">{arrivalLanes.map((lane) => <article key={lane.title}><h3>{lane.title}</h3><p>{lane.subtitle}</p><ol>{lane.steps.map((step) => <li key={step}>{step}</li>)}</ol></article>)}</div></section>
-          <section className="detail-panel"><h2>Getting to campus</h2><div className="travel-grid">{travelRegions.map((region) => <article key={region.title}><h3>{region.title}</h3><p>{region.summary}</p>{region.options.map((option) => <span key={option}>{option}</span>)}</article>)}</div></section>
+          <section className="detail-panel"><h2>Getting to campus</h2><TravelMatrix /></section>
         </>}
         {key === "living" && <section className="detail-panel"><h2>The first-month reset</h2><div className="lane-grid">
           <article><h3>For students</h3><p>Build your operating system.</p><ul><li>Check CIA email every day.</li><li>Protect one clean uniform.</li><li>Learn the point system.</li><li>Save the right contacts.</li><li>Ask early.</li></ul></article>

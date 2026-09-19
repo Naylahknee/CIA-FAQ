@@ -3,6 +3,7 @@
 import { AlertTriangle, CalendarDays, CalendarPlus, ChevronLeft, ChevronRight, Download, ExternalLink, Search, SlidersHorizontal, Target } from "lucide-react";
 import { useEffect, useMemo, useState, type CSSProperties } from "react";
 import { PageHeader } from "../components/page-header";
+import { TravelMatrix } from "../components/travel-matrix";
 import { useGuidePreferences } from "../components/guide-shell";
 import { EVENT_TYPES, familyWeekend, fullDates, academicEventDate, academicEventType, type EventType } from "../guide-sections";
 
@@ -447,6 +448,14 @@ export default function CalendarPage() {
               <p className="fw-note">{familyWeekend.address}</p>
               <p className="fw-note">Questions for CIA: <a href={`mailto:${familyWeekend.contactEmail}`}>{familyWeekend.contactEmail}</a></p>
             </section>
+          </div>
+
+          {/* Route comparisons used to be reachable only from the arrival FAQ.
+              Families planning a visit are on this page, not that one. */}
+          <div className="family-weekend-travel">
+            <h3>Comparing routes to campus</h3>
+            <p className="fw-note">Rough planning comparisons, not quotes. Check current fares and traffic before booking.</p>
+            <TravelMatrix />
           </div>
 
           <div className="family-weekend-links">
