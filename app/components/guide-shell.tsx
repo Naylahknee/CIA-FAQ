@@ -10,7 +10,7 @@ type Term = "fall" | "spring";
 
 const links = [
   { to: "/", label: "Home", icon: Home },
-  { to: "/community", label: "Community", icon: MessageCircle },
+  { to: "/community", label: "CIA Parents and Family", icon: MessageCircle },
   { to: "/faq", label: "FAQs & Help", icon: Search },
   { to: "/resources", label: "Resource Library", icon: Library },
   { to: "/calendar", label: "Calendar", icon: CalendarDays },
@@ -27,6 +27,12 @@ const communityViews = [
 ] as const;
 
 const SIDEBAR_KEY = "guide-sidebar";
+
+/** The community runs on its own subdomain when NEXT_PUBLIC_COMMUNITY_URL is
+ *  set, and falls back to the in-app route otherwise. Either way it opens in a
+ *  new window, so the guide keeps its place behind it. */
+export const COMMUNITY_URL = process.env.NEXT_PUBLIC_COMMUNITY_URL || "/community";
+const communityLinkProps = { href: COMMUNITY_URL, target: "_blank", rel: "noreferrer" } as const;
 
 export function revealSidebar() {
   try { window.sessionStorage.setItem(SIDEBAR_KEY, "open"); } catch { /* storage unavailable */ }
@@ -113,6 +119,10 @@ export function GuideShell({ children }: { children: ReactNode }) {
     window.location.href = "/";
   }
 
+  // The community is a standalone space with its own chrome (and its own
+  // subdomain), so the guide shell steps aside there entirely.
+  if (pathname.startsWith("/community")) return <>{children}</>;
+
   const active = (to: string) => pathname === to || (to === "/faq" && pathname.startsWith("/faq/"));
 
   return (
@@ -120,7 +130,7 @@ export function GuideShell({ children }: { children: ReactNode }) {
       <aside className="site-sidebar">
         <Link href="/" className="site-brand" aria-label="CIA Hyde Park Family Guide home"><span className="brand-seal">CIA</span><span>CIA Hyde Park<br />Family Help Center</span></Link>
         <nav className="desktop-nav" aria-label="Main navigation">{links.map(({ to, label, icon: Icon }) => <div key={to}>
-          <a href={to} className={active(to) ? "active" : ""}><Icon size={20} /><span>{label}</span>{to === "/community" && signedIn && <button type="button" className={`nav-caret${communityOpen ? " open" : ""}`} aria-label={communityOpen ? "Collapse community menu" : "Expand community menu"} aria-expanded={communityOpen} onClick={(event) => { event.preventDefault(); setCommunityOpen((value) => !value); }}><ChevronDown size={15} /></button>}</a>
+          <a {...(to === "/community" ? communityLinkProps : { href: to })} className={active(to) ? "active" : ""}><Icon size={20} /><span>{label}</span>{to === "/community" && signedIn && <button type="button" className={`nav-caret${communityOpen ? " open" : ""}`} aria-label={communityOpen ? "Collapse community menu" : "Expand community menu"} aria-expanded={communityOpen} onClick={(event) => { event.preventDefault(); setCommunityOpen((value) => !value); }}><ChevronDown size={15} /></button>}</a>
           {to === "/community" && signedIn && communityOpen && <div className="sidebar-subnav">
             {communityViews.map(({ view, label: viewLabel, icon: ViewIcon }) => <Link key={view} href={`/community?view=${view}`}><ViewIcon size={15} />{viewLabel}</Link>)}
             <Link href="/account"><UserRound size={15} />Your profile</Link>
@@ -138,7 +148,7 @@ export function GuideShell({ children }: { children: ReactNode }) {
           <nav aria-label="Primary navigation">
             <Link href="/" className={pathname === "/" ? "active" : ""}>Guide home</Link>
             <Link href="/faq" className={pathname.startsWith("/faq") ? "active" : ""}>FAQs &amp; Help</Link>
-            <Link href="/community" className={pathname.startsWith("/community") ? "active" : ""}>Parent community</Link>
+            <a {...communityLinkProps} className={pathname.startsWith("/community") ? "active" : ""}>CIA Parents and Family</a>
             <a href={signedIn ? "/account" : "/community"}>{signedIn ? "Your profile" : "Sign in or join"}</a>
           </nav>
         </header>}
@@ -147,7 +157,7 @@ export function GuideShell({ children }: { children: ReactNode }) {
           <div className="radial-selector" role="radiogroup" aria-label="Academic year"><button type="button" role="radio" aria-checked={term === "fall"} className={term === "fall" ? "active" : ""} onClick={() => setTerm("fall")}>Fall 2026</button><button type="button" role="radio" aria-checked={term === "spring"} className={term === "spring" ? "active" : ""} onClick={() => setTerm("spring")}>Spring 2027</button></div>
         </div>
         {children}
-        <footer className="site-footer"><div className="site-footer-inner"><div className="site-footer-about"><strong>CIA Hyde Park Family Guide &amp; FAQ</strong><p>An independent guide built from official documents and anonymized family questions. Anyone can read the FAQs.</p><nav aria-label="Footer navigation"><Link href="/privacy">Privacy</Link><Link href="/corrections">Corrections</Link><Link href="/share">Share</Link><Link href="/support">Support the Guide</Link></nav></div><Link className="footer-community" href="/community"><small>Parent &amp; student community</small><strong>{signedIn ? "Open the community" : "Sign in or create an account"} →</strong><span>No Facebook account required.</span></Link></div><div className="site-footer-note">No advertising or analytics tracking. Signed-in accounts use one essential secure cookie.</div><a className="back-to-top" href="#top" aria-label="Back to top"><ArrowUp /></a></footer>
+        <footer className="site-footer"><div className="site-footer-inner"><div className="site-footer-about"><strong>CIA Hyde Park Family Guide &amp; FAQ</strong><p>An independent guide built from official documents and anonymized family questions. Anyone can read the FAQs.</p><nav aria-label="Footer navigation"><Link href="/privacy">Privacy</Link><Link href="/corrections">Corrections</Link><Link href="/share">Share</Link><Link href="/support">Support the Guide</Link></nav></div><a className="footer-community" {...communityLinkProps}><small>Parent &amp; student community</small><strong>{signedIn ? "Open the community" : "Sign in or create an account"} →</strong><span>No Facebook account required.</span></a></div><div className="site-footer-note">No advertising or analytics tracking. Signed-in accounts use one essential secure cookie.</div><a className="back-to-top" href="#top" aria-label="Back to top"><ArrowUp /></a></footer>
       </div>
     </div>
   );
