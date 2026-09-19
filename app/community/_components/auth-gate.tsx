@@ -108,5 +108,48 @@ export function AuthGate() {
     <div className="c-auth-actions"><button className="c-btn" disabled={busy}>{busy ? "Saving…" : "Enter the community"}</button><button type="button" className="c-btn c-btn-ghost" disabled={busy} onClick={() => { if (onboardingRef.current) void finishOnboarding(onboardingRef.current, true); }}>Skip optional questions and enter</button></div>
   </form>;
 
-  return <div className="c-wrap"><div className="c-columns"><section className="c-center"><div className="c-card c-auth-card">{step === "onboarding" ? onboardingForm : <><h1>{mode === "signup" ? "Join the CIA family community" : "CIA Parents and Family"}</h1><p className="c-muted">{mode === "signup" ? "Read the Guide & FAQ without an account. Create one only if you want to ask questions, share resources, or connect with other families." : "A private space for CIA Hyde Park families."}</p><div className="c-pill-row c-auth-tabs"><button type="button" className="c-pill" aria-pressed={mode === "signin"} onClick={() => chooseMode("signin")}>Sign in</button><button type="button" className="c-pill" aria-pressed={mode === "signup"} onClick={() => chooseMode("signup")}>Create an account</button></div>{accountForm}<div className="c-auth-divider"><span>or</span></div><div ref={googleRef} />{mode === "signup" ? <p className="c-muted">Already have an account? <button type="button" className="c-auth-link" onClick={() => chooseMode("signin")}>Sign in</button></p> : <p className="c-muted">Need to join? <button type="button" className="c-auth-link" onClick={() => chooseMode("signup")}>Create an account</button></p>}</>} {notice && <p className="c-notice" role="status" aria-live="polite">{notice}</p>}</div></section><aside className="c-rail"><div className="c-card c-card-green"><h2>Community care</h2><ul><li>Be helpful; do not harass, shame, discriminate, or target another family.</li><li>Do not share student credentials, IDs, room numbers, schedules, or private records.</li><li>Report harmful posts, scams, impersonation, or safety concerns.</li></ul></div><div className="c-card"><img src="/community-login-collage.webp" alt="Families at the CIA Hyde Park campus." style={{ width: "100%", borderRadius: 14 }} /></div></aside></div></div>;
+  return (
+    <main className="c-auth-page">
+      <section className="c-auth-welcome" aria-labelledby="community-welcome-title">
+        <div className="c-auth-welcome-copy">
+          <p className="c-auth-eyebrow">CIA Hyde Park family community</p>
+          <h1 id="community-welcome-title">A place for the questions you cannot ask in the group chat.</h1>
+          <p className="c-auth-lead">Connect with other CIA parents and family members who understand the move-in nerves, the chef whites, and the “wait, where do I find that?” texts.</p>
+          <div className="c-auth-community-note">
+            <h2>Community care</h2>
+            <ul>
+              <li>Share your experience with kindness and respect.</li>
+              <li>Protect student privacy: no IDs, rooms, schedules, or private records.</li>
+              <li>Use the Guide for official, time-sensitive school information.</li>
+            </ul>
+          </div>
+        </div>
+        <figure className="c-auth-visual">
+          <img src="/community-login-collage.webp" alt="Families at the CIA Hyde Park campus." />
+          <figcaption><strong>For CIA Hyde Park families.</strong><span>Private conversations, practical help, and a little less guesswork.</span></figcaption>
+        </figure>
+      </section>
+
+      <section className="c-auth-access" aria-label="Community account access">
+        <div className="c-card c-auth-card">
+          {step === "onboarding" ? onboardingForm : <>
+            <h2>{mode === "signup" ? "Join the CIA family community" : "Welcome back"}</h2>
+            <p className="c-auth-intro">{mode === "signup" ? "Read the Guide & FAQ without an account. Create one only if you want to ask questions, share resources, or connect with other families." : "Sign in to return to your family community."}</p>
+            <div className="c-pill-row c-auth-tabs">
+              <button type="button" className="c-pill" aria-pressed={mode === "signin"} onClick={() => chooseMode("signin")}>Sign in</button>
+              <button type="button" className="c-pill" aria-pressed={mode === "signup"} onClick={() => chooseMode("signup")}>Create an account</button>
+            </div>
+            {accountForm}
+            <div className="c-auth-divider"><span>or</span></div>
+            <div className="c-auth-google" ref={googleRef} />
+            {mode === "signup"
+              ? <p className="c-auth-switch">Already have an account? <button type="button" className="c-auth-link" onClick={() => chooseMode("signin")}>Sign in</button></p>
+              : <p className="c-auth-switch">Need to join? <button type="button" className="c-auth-link" onClick={() => chooseMode("signup")}>Create an account</button></p>}
+          </>}
+          {notice && <p className="c-notice" role="status" aria-live="polite">{notice}</p>}
+        </div>
+        {step !== "onboarding" && <p className="c-auth-footnote">The Family Guide & FAQ is always available without an account.</p>}
+      </section>
+    </main>
+  );
 }
