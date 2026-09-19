@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { GuideShell } from "../components/guide-shell";
 
 export const metadata: Metadata = {
   title: "CIA Hyde Park Scholarship Information",
@@ -7,4 +8,4 @@ export const metadata: Metadata = {
   openGraph: { title: "CIA Hyde Park Scholarship Information", description: "Scholarship and financial aid information for Culinary Institute of America Hyde Park students and families.", url: "/scholarship", type: "website" },
 };
 
-export default function Layout({ children }: { children: React.ReactNode }) { return children; }
+export default function Layout({ children }: { children: React.ReactNode }) { return <GuideShell>{children}</GuideShell>; }
