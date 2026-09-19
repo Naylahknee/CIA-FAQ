@@ -446,3 +446,10 @@
 .published-faq-list p { margin: 0; color: var(--muted-foreground); line-height: 1.6; }
 .published-faq-list a { display: inline-flex; align-items: center; gap: 6px; margin-top: 12px; color: var(--destructive); font-size: .84rem; font-weight: 700; }
 .published-faq-list a svg { width: 14px; height: 14px; }
+
+/* Search: the "nothing matched" panel shares the dropdown chrome but holds
+   copy rather than links, so it needs its own padding and type. */
+.help-search-empty{padding:16px 18px}
+.help-search-empty p{margin:0 0 4px;font-weight:700}
+.help-search-empty small{color:var(--muted-foreground)}
+.help-search-empty a{display:inline;padding:0;border:0;color:var(--primary);font-weight:700;text-decoration:underline}

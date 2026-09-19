@@ -145,3 +145,40 @@ export const faqSuggestions = sqliteTable("faq_suggestions", {
   uniqueIndex("idx_faq_suggestions_groupme_message").on(table.groupmeMessageId),
   index("idx_faq_suggestions_status_created").on(table.status, table.createdAt),
 ]);
+
+/** The searchable corpus, flattened into one shape so a single FTS5 index can
+ *  cover both halves of the site's content:
+ *
+ *  - `guide`     — the authored FAQs in app/guide-data.ts, which ship with the
+ *                  build rather than living in D1. They are synced in by
+ *                  app/search-corpus.ts whenever the content version changes.
+ *  - `community` — rows published from the admin FAQ form, projected in here by
+ *                  database triggers so publishing an answer makes it findable
+ *                  with no extra application code.
+ *
+ *  Nothing reads this table directly for display: `ref_id` points back at the
+ *  original record, which is where the icons, per-audience wording and links
+ *  live. This exists to be indexed. */
+export const searchDocuments = sqliteTable("search_documents", {
+  id: text("id").primaryKey(),
+  source: text("source", { enum: ["guide", "community"] }).notNull(),
+  refId: text("ref_id").notNull(),
+  category: text("category").notNull().default("living"),
+  /** Empty means "applies to every term"; otherwise a comma-separated list such
+   *  as "fall" so Fall-only dates stay out of a Spring search. */
+  terms: text("terms").notNull().default(""),
+  href: text("href").notNull().default("/faq"),
+  title: text("title").notNull(),
+  altTitle: text("alt_title").notNull().default(""),
+  body: text("body").notNull().default(""),
+  tags: text("tags").notNull().default(""),
+  updatedAt: integer("updated_at", { mode: "timestamp_ms" }).notNull(),
+}, (table) => [index("idx_search_documents_source").on(table.source)]);
+
+/** Small key/value side table. Currently holds one row: the version stamp of
+ *  the guide corpus that was last synced, so a deploy that changes an answer
+ *  re-syncs and a deploy that does not costs nothing. */
+export const searchMeta = sqliteTable("search_meta", {
+  key: text("key").primaryKey(),
+  value: text("value").notNull(),
+});
