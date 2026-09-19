@@ -1,7 +1,7 @@
 "use client";
 /* eslint-disable @next/next/no-img-element */
 
-import { BellRing, ExternalLink, HeartPulse, MapPin, Search, ShieldCheck, Smartphone } from "lucide-react";
+import { BellRing, ExternalLink, HeartPulse, MapPin, Search, ShieldCheck, Smartphone, X } from "lucide-react";
 import { useMemo, useState } from "react";
 import { PageHeader } from "../components/page-header";
 import { useGuidePreferences } from "../components/guide-shell";
@@ -16,10 +16,13 @@ export default function SafetyPage() {
   const groups = useMemo(() => careDirectory
     .map((group) => ({ ...group, items: group.items.filter(([name, address, phone]) => `${group.kind} ${name} ${address} ${phone}`.toLowerCase().includes(query.toLowerCase())) }))
     .filter((group) => group.items.length), [query]);
+  const resultCount = groups.reduce((total, group) => total + group.items.length, 0);
+  const hasSearch = query.trim().length > 0;
 
-  return <><main className="page-wrap page-main">
+  return <><main className="safety-page page-wrap page-main">
     <PageHeader eyebrow="Safety &amp; Support" title="How CIA protects student safety and well-being" description={<>For immediate danger or a life-threatening emergency, call <a href="tel:911">911</a> first, then CIA Campus Safety at <a href="tel:8454511268">845-451-1268</a>.</>}>
-      <label className="page-search"><Search aria-hidden="true" /><span className="sr-only">Search safety and support</span><input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Search pharmacies, urgent care, or hospitals…" /></label>
+      <label className="page-search"><Search aria-hidden="true" /><span className="sr-only">Search local care providers</span><input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Search pharmacies, urgent care, or hospitals…" />{hasSearch && <button type="button" className="page-search-clear" aria-label="Clear care search" onClick={() => setQuery("")}><X aria-hidden="true" /></button>}</label>
+      <p className="care-search-status" aria-live="polite">{hasSearch ? `${resultCount} ${resultCount === 1 ? "local care provider" : "local care providers"} found below.` : "Search filters the local care directory below."}</p>
     </PageHeader>
     <section className="detail-panel">
       <p className="eyebrow">Campus safety</p>
@@ -65,7 +68,7 @@ export default function SafetyPage() {
       </div>
       <a className="everbridge-faq-link" href={everbridge.link} target="_blank" rel="noreferrer">Read the setup FAQ <ExternalLink aria-hidden="true" /></a>
     </div></section>}
-    <section className="detail-panel"><h2>Local care directory</h2>
+    <section id="care-directory" className="detail-panel"><h2>Local care directory</h2>
       {groups.length ? <div className="care-grid">{groups.map((group) => <article key={group.kind}><h3>{group.kind}</h3>{group.items.map(([name, address, phone]) => <div className="care-row" key={name + address}>
         {providerLogos[name] && <img className="provider-logo" src={providerLogos[name].src} alt={providerLogos[name].alt} loading="lazy" />}
         <strong>{name}</strong>

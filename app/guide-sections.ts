@@ -123,8 +123,13 @@ export const resourceLibrary: ResourceItem[] = [
 
 export const providerLogos: Record<string, { src: string; alt: string }> = {
   "CVS Pharmacy": { src: "/providers/cvs.svg", alt: "CVS Pharmacy" },
+  "Molloy Medical Arts Pharmacy": { src: "/providers/molloy_logo.jpg", alt: "Molloy Medical Arts Pharmacy" },
+  "Walgreens": { src: "/providers/walgreens.svg", alt: "Walgreens" },
   "Emergency One": { src: "/providers/emergency-one.png", alt: "Emergency One Urgent Care" },
+  "Caremount Medical Group Urgent Care": { src: "/providers/optum-logo-ora-rgb1.svg", alt: "Optum" },
+  "Ortho Express": { src: "/providers/ortho_logo.jpg", alt: "Ortho Express" },
   "Vassar Brothers Medical Center": { src: "/providers/northwell.png", alt: "Northwell Health, Vassar Brothers Medical Center's health system" },
+  "Mid-Hudson Regional Hospital": { src: "/providers/westchester-logo.svg", alt: "Westchester Medical Center Health Network" },
 };
 
 const monthNumbers: Record<string, number> = { JAN: 0, FEB: 1, MAR: 2, APR: 3, MAY: 4, JUN: 5, JUL: 6, AUG: 7, SEP: 8, OCT: 9, NOV: 10, DEC: 11 };
