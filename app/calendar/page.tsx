@@ -338,7 +338,28 @@ export default function CalendarPage() {
           </aside>
         </div>
 
-        <section className="family-weekend-panel" aria-labelledby="family-weekend-heading">
+        <section className="calendar-selected-summary" aria-live="polite" aria-labelledby="selected-date-heading">
+          <p className="eyebrow">Selected date</p>
+          <h2 id="selected-date-heading">{selectedDate.toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric", year: "numeric" })}</h2>
+          {selectedEvents.length > 0 ? (
+            <div className="calendar-selected-events">
+              {selectedEvents.map((event) => (
+                <article key={`selected-${event.id}`}>
+                  {event.title.toLowerCase().includes("family weekend") && <img src="/calendar/family-weekend-2026.png" alt="CIA Family Weekend 2026" />}
+                  <div>
+                    <span className="calendar-event-term">{event.term}</span>
+                    <h3>{event.title}</h3>
+                    <p>{audienceDetails(event.title, event.note, audience)}</p>
+                  </div>
+                </article>
+              ))}
+            </div>
+          ) : (
+            <p className="calendar-selected-empty">There is no matching calendar item on this date for {selectedTerm}. Use the month controls or the search field to explore another date.</p>
+          )}
+        </section>
+
+        {selectedTerm === "Fall 2026" && <section className="family-weekend-panel" aria-labelledby="family-weekend-heading">
           <header>
             <img className="family-weekend-art" src="/calendar/family-weekend-2026.png" alt="CIA Family Weekend 2026" />
             <div>
@@ -429,7 +450,7 @@ export default function CalendarPage() {
             </a>
           </div>
           <p className="fw-source">Condensed from CIA&rsquo;s Family Weekend page. Times and details can change &mdash; confirm on the official page before you travel.</p>
-        </section>
+        </section>}
         <aside className="calendar-caution">
           <AlertTriangle aria-hidden="true" />
           <div>
