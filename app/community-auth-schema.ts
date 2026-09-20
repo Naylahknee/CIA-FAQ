@@ -9,6 +9,8 @@ const schemaColumns = {
     ["mfa_secret", "TEXT"],
     ["mfa_pending", "TEXT"],
     ["mfa_last_step", "INTEGER NOT NULL DEFAULT -1"],
+    ["avatar_key", "TEXT"],
+    ["avatar_type", "TEXT"],
   ]),
   community_posts: new Map([
     ["topic_id", "TEXT"],
@@ -39,6 +41,8 @@ async function prepareSchema() {
   await addMissingColumn("community_users", "mfa_secret");
   await addMissingColumn("community_users", "mfa_pending");
   await addMissingColumn("community_users", "mfa_last_step");
+  await addMissingColumn("community_users", "avatar_key");
+  await addMissingColumn("community_users", "avatar_type");
   await addMissingColumn("community_posts", "topic_id");
   await addMissingColumn("community_posts", "is_anonymous");
   await env.DB.batch([
