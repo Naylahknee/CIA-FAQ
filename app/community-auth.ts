@@ -114,7 +114,7 @@ export async function getCommunityUser() {
   const rows = await getDb().select({ id: communityUsers.id, email: communityUsers.email, displayName: communityUsers.displayName, avatarKey: communityUsers.avatarKey, role: communityUsers.role, emailVerified: communityUsers.emailVerified })
     .from(communitySessions).innerJoin(communityUsers, eq(communitySessions.userId, communityUsers.id))
     .where(and(eq(communitySessions.tokenHash, tokenHash(token)), gt(communitySessions.expiresAt, new Date()))).limit(1);
-  return rows[0] ? { id: rows[0].id, email: rows[0].email, displayName: rows[0].displayName, avatarUrl: rows[0].avatarKey ? "/api/community/profile/avatar" : null, role: effectiveRole(rows[0].email, rows[0].role), verificationRequired: emailVerificationConfigured() } : null;
+  return rows[0] ? { id: rows[0].id, email: rows[0].email, displayName: rows[0].displayName, avatarUrl: rows[0].avatarKey ? "/api/community/profile/avatar" : null, role: effectiveRole(rows[0].email, rows[0].role), emailVerified: Boolean(rows[0].emailVerified), verificationRequired: emailVerificationConfigured() } : null;
 }
 
 export async function requireCommunityUser() {
