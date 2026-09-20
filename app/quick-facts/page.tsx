@@ -82,7 +82,19 @@ const adviceByCategory: Record<FamilyCategoryKey, number[]> = {
 };
 
 const dormResourceImages: Record<string, string> = {
-  "Under-bed storage bin, 60qt": "/quick-facts/resources/underbed-storage.webp",
+  "Residence halls": "/quick-facts/resources/ny-hudson-double-lg.jpg",
+  "Housing 3D floor plans": "/quick-facts/resources/ny-townhouse-first-floor.jpg",
+  "Under-bed storage bin, 60qt": "/quick-facts/resources/underbed-storage.png",
+  "3-drawer wide cart": "/quick-facts/resources/3-drawer-cart.png",
+  "3-drawer wide tower": "/quick-facts/resources/3-drawer-tower.png",
+  "Adjustable wire shelving unit": "/quick-facts/resources/wire-shelving.png",
+  "Laundry hamper with liner and lid": "/quick-facts/resources/Laundry-hamper.png",
+  "Waterproof mattress protector": "/quick-facts/resources/mattress-protector.png",
+  "UL-approved power strips": "/quick-facts/resources/power-strips.png",
+  "10pc stainless steel cookware set": "/quick-facts/resources/cookware-10pc.png",
+  "7pc stainless steel cookware set": "/quick-facts/resources/cookware-7pc.png",
+  "12pc stainless steel cookware set": "/quick-facts/resources/cookware-12pc.png",
+  "10pc stainless steel cookware set — lower-cost option": "/quick-facts/resources/cookware-budget-10pc.png",
 };
 
 export default function QuickFactsPage() {
