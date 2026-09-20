@@ -716,3 +716,26 @@
 @media(max-width:900px){
   .quick-dorm-resource-n{display:flex;justify-content:center}
 }
+
+
+/* Deterministic desktop centering: 7 resources on row one, 5 centered on row two. */
+@media(min-width:901px){
+  .quick-dorm-resource-n{
+    display:grid;
+    grid-template-columns:repeat(14,minmax(0,1fr));
+    grid-template-rows:repeat(2,145px);
+    column-gap:0;
+    row-gap:22px;
+    justify-content:stretch;
+    align-items:start;
+  }
+  .quick-dorm-resource-circle:nth-child(n){
+    grid-column:span 2;
+    justify-self:center;
+  }
+  .quick-dorm-resource-circle:nth-child(8){grid-column:3 / span 2}
+  .quick-dorm-resource-circle:nth-child(9){grid-column:5 / span 2}
+  .quick-dorm-resource-circle:nth-child(10){grid-column:7 / span 2}
+  .quick-dorm-resource-circle:nth-child(11){grid-column:9 / span 2}
+  .quick-dorm-resource-circle:nth-child(12){grid-column:11 / span 2}
+}
