@@ -35,7 +35,7 @@ import {
   Store,
   TrainFront,
 } from "lucide-react";
-import { useMemo, useState } from "react";
+import { useMemo, useState, type ReactNode } from "react";
 import { PageHeader } from "../components/page-header";
 import { familyResources, staffGuidance } from "../guide-sections";
 
@@ -217,7 +217,7 @@ export default function QuickFactsPage() {
 }
 
 function familyResourceIcon(title: string, category: FamilyCategoryKey) {
-  const icons: Record<string, React.ReactNode> = {
+  const icons: Record<string, ReactNode> = {
     "Uniform and hygiene policy": <Footprints aria-hidden="true" />,
     "CIA student uniform portal": <Shirt aria-hidden="true" />,
     "Uniform vendor contact": <ContactRound aria-hidden="true" />,
