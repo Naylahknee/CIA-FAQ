@@ -764,3 +764,28 @@
   .quick-dorm-resource-circle:nth-child(11){grid-column:9 / span 2;grid-row:2}
   .quick-dorm-resource-circle:nth-child(12){grid-column:11 / span 2;grid-row:2}
 }
+
+
+/* Full-width announcement strip above the utility/header controls. */
+.site-announcement-banner{
+  width:100%;
+  max-width:none;
+  margin:0;
+  border-width:0 0 1px;
+  border-radius:0;
+  padding:9px 24px;
+  min-height:40px;
+  justify-content:center;
+  text-align:center;
+  box-sizing:border-box;
+}
+.site-announcement-banner p{margin:0}
+@media(max-width:700px){
+  .site-announcement-banner{
+    width:100%;
+    margin:0;
+    padding:9px 14px;
+    justify-content:flex-start;
+    text-align:left;
+  }
+}
