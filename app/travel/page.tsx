@@ -27,6 +27,46 @@ export default function TravelPage() {
         <div className="travel-section-heading"><p className="eyebrow">Compare your options</p><h2>Getting to Hyde Park</h2><p>These regional times are rough planning comparisons, not live quotes. Use the planner for your route and current costs.</p></div>
         <TravelMatrix />
       </section>
+
+      <section className="travel-ny-train">
+        <div className="travel-section-heading">
+          <p className="eyebrow">New York train options</p>
+          <h2>NYC and Hudson Valley → Poughkeepsie</h2>
+          <p>If you are traveling from within New York, Poughkeepsie is the rail stop to use for CIA Hyde Park. Metro-North serves the Hudson Line from Grand Central, and Amtrak serves Poughkeepsie from Moynihan Train Hall at Penn Station.</p>
+        </div>
+
+        <div className="travel-ny-train-grid">
+          <article>
+            <div className="travel-ny-train-head"><TrainFront aria-hidden="true" /><div><small>Metro-North Hudson Line</small><h3>Grand Central → Poughkeepsie</h3></div></div>
+            <p className="travel-ny-train-note">Not every train stops at every station. Use MTA TrainTime for the current departure and stopping pattern.</p>
+            <div className="travel-station-list">
+              {[
+                "Grand Central Terminal","Harlem–125th Street","Yankees–E. 153rd Street","Morris Heights","University Heights","Marble Hill","Spuyten Duyvil","Riverdale",
+                "Ludlow","Yonkers","Glenwood","Greystone","Hastings-on-Hudson","Dobbs Ferry","Ardsley-on-Hudson","Irvington","Tarrytown","Philipse Manor","Scarborough","Ossining",
+                "Croton-Harmon","Cortlandt","Peekskill","Manitou","Garrison","Cold Spring","Breakneck Ridge","Beacon","New Hamburg","Poughkeepsie"
+              ].map((station, index, stations) => <span key={station} className={index === 0 || index === stations.length - 1 ? "major" : ""}>{station}</span>)}
+            </div>
+            <a href="https://www.mta.info/schedules/metro-north/hudson" target="_blank" rel="noreferrer">View Hudson Line schedule <ExternalLink aria-hidden="true" /></a>
+          </article>
+
+          <article>
+            <div className="travel-ny-train-head"><TrainFront aria-hidden="true" /><div><small>Amtrak</small><h3>Moynihan Train Hall / Penn Station → Poughkeepsie</h3></div></div>
+            <p>For visitors already near Penn Station, Amtrak can be a simpler Manhattan departure point than crossing town to Grand Central.</p>
+            <div className="travel-amtrak-route">
+              <span><strong>Moynihan Train Hall</strong><small>New York Penn Station</small></span>
+              <b aria-hidden="true">→</b>
+              <span><strong>Poughkeepsie</strong><small>Transfer to ground transportation for CIA</small></span>
+            </div>
+            <a href="https://www.amtrak.com/nyp" target="_blank" rel="noreferrer">View Amtrak station information <ExternalLink aria-hidden="true" /></a>
+          </article>
+        </div>
+
+        <aside className="travel-final-leg">
+          <MapPinned aria-hidden="true" />
+          <div><strong>Poughkeepsie Station is not the CIA campus.</strong><p>After arriving by train, visitors still need ground transportation to CIA Hyde Park. Use the trip planner above for the final leg to 1946 Campus Drive.</p></div>
+        </aside>
+      </section>
+
       <section className="travel-page-resources">
         <div className="travel-section-heading"><p className="eyebrow">Travel resources</p><h2>Useful before you leave</h2></div>
         <div className="travel-resource-grid">
