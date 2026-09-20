@@ -850,3 +850,32 @@
 .site-announcement-global{
   background:#f1f2f6;
 }
+
+
+/* Sitewide independence disclaimer above the footer. */
+.site-independence-disclaimer{
+  display:flex;
+  align-items:flex-start;
+  gap:9px;
+  width:min(1180px,calc(100% - 48px));
+  margin:28px auto 18px;
+  padding:14px 16px;
+  border-top:1px solid var(--border);
+  color:var(--muted-foreground);
+  font-size:.76rem;
+  line-height:1.55;
+}
+.site-independence-disclaimer svg{
+  flex:0 0 auto;
+  margin-top:2px;
+  color:var(--destructive);
+}
+.site-independence-disclaimer p{margin:0}
+.site-independence-disclaimer strong{color:var(--foreground)}
+@media(max-width:700px){
+  .site-independence-disclaimer{
+    width:calc(100% - 28px);
+    margin-top:22px;
+    padding:12px 0;
+  }
+}
