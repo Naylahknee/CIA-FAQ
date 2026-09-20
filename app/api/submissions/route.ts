@@ -38,7 +38,11 @@ export async function POST(request: Request) {
     await env.BUCKET.put(imageKey, stripImageMetadata(new Uint8Array(await image.arrayBuffer()), image.type), { httpMetadata: { contentType: image.type } });
     await getDb().insert(wallSubmissions).values({ id, kind: kind as "memory" | "resource", title: title.slice(0, 120), caption: caption.slice(0, 600), studentName: studentName.slice(0, 80) || null, submitterEmail: submitterEmail.slice(0, 200), consentName: consentName.slice(0, 120), imageKey, imageType: image.type, createdAt: new Date() });
     return Response.json({ ok: true, message: "Submitted for review. Nothing is published automatically." }, { status: 201 });
-  } catch {
-    return Response.json({ error: "The submission could not be saved. Please try again." }, { status: 500 });
+  } catch (error) {
+    console.error("Wall submission failed", error);
+    const message = error instanceof Error ? error.message : String(error);
+    if (/BUCKET|R2|binding/i.test(message)) return Response.json({ error: "Photo storage is not configured correctly yet. Please contact the site administrator." }, { status: 503 });
+    if (/wall_submissions|no such table|D1|database/i.test(message)) return Response.json({ error: "The Celebration Wall database is not ready yet. Please contact the site administrator." }, { status: 503 });
+    return Response.json({ error: "The milestone could not be submitted. Please try again." }, { status: 500 });
   }
 }
