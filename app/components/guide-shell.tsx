@@ -1,6 +1,6 @@
 "use client";
 
-import { ArrowUp, CalendarDays, Camera, HeartHandshake, Home, Info, Library, LogOut, MapPinned, Menu, MessageSquareWarning, PanelLeft, Search, ShieldCheck, ShoppingBag, UserRound, X } from "lucide-react";
+import { ArrowUp, CalendarDays, Camera, CakeSlice, HeartHandshake, Home, Info, Library, LogOut, MapPinned, Menu, MessageSquareWarning, PanelLeft, Search, ShieldCheck, ShoppingBag, UserRound, X } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { useEffect, useState, type ReactNode } from "react";
 import Link from "next/link";
@@ -121,7 +121,7 @@ export function GuideShell({ children }: { children: ReactNode }) {
       </aside>
       <aside className="site-sidebar">
         <div className="sidebar-top">
-          <Link href="/" className="site-brand" aria-label="CIA Hyde Park Family Guide home"><span className="brand-seal">CIA</span><span>CIA Parent and<br />Student FAQs</span></Link>
+          <Link href="/" className="site-brand" aria-label="CIA Questions independent family guide home"><span className="brand-seal" aria-hidden="true"><CakeSlice /></span><span>CIA Questions<br /><small>Independent family guide</small></span></Link>
           <button type="button" className="sidebar-toggle" aria-label={collapsed ? "Expand menu" : "Collapse menu"} aria-expanded={!collapsed} title={collapsed ? "Expand menu" : "Collapse menu"} onClick={() => { const next = !collapsed; setCollapsed(next); applyCollapsed(next); }}><PanelLeft size={18} /></button>
         </div>
         <nav className="desktop-nav" aria-label="Main navigation">{links.map(({ to, label, icon: Icon }) => <div key={to}>
@@ -162,7 +162,7 @@ export function GuideShell({ children }: { children: ReactNode }) {
           <Info size={16} aria-hidden="true" />
           <p><strong>Independent family resource.</strong> This site is not affiliated with, endorsed by, or operated by The Culinary Institute of America (CIA). It is created and maintained independently by CIA student families to share practical information and family-to-family resources. For official policies, requirements, dates, and decisions, please refer to CIA's official communications and website.</p>
         </aside>
-        <footer className="site-footer"><div className="site-footer-inner"><div className="site-footer-about"><strong>CIA Parent and Student FAQs</strong><p>An independent guide built from official documents and anonymized family questions. Anyone can read the FAQs.</p><nav aria-label="Footer navigation"><Link href="/privacy">Privacy</Link><Link href="/corrections">Corrections</Link><Link href="/wall">Celebration Wall</Link><a href="https://buymeacoffee.com/tq4yIJli7f" target="_blank" rel="noreferrer">Buy me a coffee</a></nav></div></div><div className="site-footer-note">No advertising or analytics tracking. Signed-in accounts use one essential secure cookie.</div><a className="back-to-top" href="#top" aria-label="Back to top"><ArrowUp /></a></footer>
+        <footer className="site-footer"><div className="site-footer-inner"><div className="site-footer-about"><strong>CIA Questions</strong><p>An independent family guide about The Culinary Institute of America, built from official sources and anonymized family questions. Anyone can read the FAQs.</p><nav aria-label="Footer navigation"><Link href="/privacy">Privacy</Link><Link href="/corrections">Corrections</Link><Link href="/wall">Celebration Wall</Link><a href="https://buymeacoffee.com/tq4yIJli7f" target="_blank" rel="noreferrer">Buy me a coffee</a></nav></div></div><div className="site-footer-note">No advertising or analytics tracking. Signed-in accounts use one essential secure cookie.</div><a className="back-to-top" href="#top" aria-label="Back to top"><ArrowUp /></a></footer>
       </div>
     </div>
   );
