@@ -133,7 +133,7 @@ export function AuthGate() {
               : <button type="button" className="c-btn c-btn-ghost c-auth-create-account" onClick={() => chooseMode("signup")}>Create an account</button>}
           </>}
           {notice && <p className="c-notice" role="status" aria-live="polite">{notice}</p>}
-          {step !== "onboarding" && <p className="c-auth-footnote">The Family Guide & FAQ is always available without an account.</p>}
+          {step !== "onboarding" && <p className="c-auth-footnote">The <a href="/">Family Guide &amp; FAQ</a> is always available without an account.</p>}
         </div>
       </section>
 
