@@ -1,6 +1,6 @@
 "use client";
 
-import { ArrowLeft, ArrowRight, ExternalLink, HeartHandshake } from "lucide-react";
+import { Accessibility, ArrowLeft, ArrowRight, ExternalLink, HeartHandshake, Landmark, MapPin } from "lucide-react";
 import { useEffect, useState } from "react";
 import { facts, topics, type TopicKey } from "../guide-data";
 import { arrivalLanes, contacts, costs, resourceLibrary } from "../guide-sections";
@@ -83,7 +83,32 @@ export function TopicPage({ topic }: { topic: string }) {
     <div className="topic-workspace">
       <div className="topic-content">
         <FaqExplorer initialTopic={key} embedded showSearch={false} />
-        {key === "money" && <section className="detail-panel"><h2>Fall 2026 planning rates</h2><p>Use the student&rsquo;s actual bill as the final authority.</p><div className="cost-table">{costs.map(([charge, timing, amount]) => <div key={charge}><strong>{charge}</strong><span>{timing}</span><b>{amount}</b></div>)}</div></section>}
+        {key === "money" && <>
+          <section className="detail-panel"><h2>Fall 2026 planning rates</h2><p>Use the student&rsquo;s actual bill as the final authority.</p><div className="cost-table">{costs.map(([charge, timing, amount]) => <div key={charge}><strong>{charge}</strong><span>{timing}</span><b>{amount}</b></div>)}</div></section>
+          <section className="detail-panel disability-funding-panel">
+            <p className="eyebrow">Often missed funding source</p>
+            <h2>State vocational rehabilitation funding</h2>
+            <p>Students with disabilities may have another funding path beyond traditional financial aid. State vocational rehabilitation (VR) agencies can sometimes support college or career training when the education is necessary for an approved employment goal. Eligibility, financial-need rules, available services, and out-of-state school funding vary by state and by the student&rsquo;s individualized employment plan.</p>
+            <div className="disability-funding-grid">
+              <article>
+                <span className="disability-funding-icon"><MapPin aria-hidden="true" /></span>
+                <div><small>California residents</small><h3>California Department of Rehabilitation (DOR)</h3><p>DOR employment, education and training services may include college or career training, required schoolbooks, tools and supplies, assistive devices, transportation and other supports when included in the student&rsquo;s rehabilitation plan.</p>
+                <a href="https://www.dor.ca.gov/Home/GettingStarted" target="_blank" rel="noreferrer">Explore California DOR <ExternalLink aria-hidden="true" /></a></div>
+              </article>
+              <article>
+                <span className="disability-funding-icon"><Landmark aria-hidden="true" /></span>
+                <div><small>New York residents</small><h3>New York ACCES-VR</h3><p>When college training is required by an Individualized Plan for Employment (IPE), ACCES-VR may contribute toward tuition, required fees, books and materials, a required computer or software, assistive technology, transportation, internet access, and in some cases room and board. Financial need and comparable-benefit rules apply.</p>
+                <a href="https://www.acces.nysed.gov/vr/college-higher-education" target="_blank" rel="noreferrer">Explore New York ACCES-VR <ExternalLink aria-hidden="true" /></a></div>
+              </article>
+              <article className="disability-funding-other">
+                <span className="disability-funding-icon"><Accessibility aria-hidden="true" /></span>
+                <div><small>Other states</small><h3>Check your home state&rsquo;s VR agency</h3><p>Every state has a vocational rehabilitation program. Ask specifically whether postsecondary training at CIA can be included in an employment plan and which costs the agency can authorize. Students attending school outside their home state should ask how that agency handles out-of-state education before committing to costs.</p>
+                <a href="https://rsa.ed.gov/about/states" target="_blank" rel="noreferrer">Find a state VR agency <ExternalLink aria-hidden="true" /></a></div>
+              </article>
+            </div>
+            <aside className="disability-funding-note"><strong>Start early.</strong> VR funding is not automatic and should not be treated like a scholarship. Students generally need to apply, establish eligibility, work with a counselor, and have the education or support approved as part of an employment plan. Continue completing FAFSA and other available financial-aid applications.</aside>
+          </section>
+        </>}
         {key === "arrival" && <>
           <section className="detail-panel"><h2>Your arrival-day game plan</h2><div className="lane-grid">{arrivalLanes.map((lane) => <article key={lane.title}><h3>{lane.title}</h3><p>{lane.subtitle}</p><ol>{lane.steps.map((step) => <li key={step}>{step}</li>)}</ol></article>)}</div></section>
           <section className="detail-panel"><h2>Travel matrix: getting to campus</h2><p>Compare rough drive, train, and flight times by region before planning a campus visit.</p><TravelMatrix /></section>
