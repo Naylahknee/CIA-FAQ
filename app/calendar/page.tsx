@@ -1,9 +1,9 @@
 "use client";
 
-import { AlertTriangle, CalendarDays, CalendarPlus, ChevronLeft, ChevronRight, Download, ExternalLink, Search, SlidersHorizontal, Target } from "lucide-react";
+import { AlertTriangle, ArrowRight, CalendarDays, CalendarPlus, ChevronLeft, ChevronRight, Download, ExternalLink, MapPinned, Search, SlidersHorizontal, Target } from "lucide-react";
 import { useEffect, useMemo, useState, type CSSProperties } from "react";
+import Link from "next/link";
 import { PageHeader } from "../components/page-header";
-import { TravelMatrix } from "../components/travel-matrix";
 import { useGuidePreferences } from "../components/guide-shell";
 import { EVENT_TYPES, familyWeekend, fullDates, academicEventDate, academicEventType, type EventType } from "../guide-sections";
 
@@ -461,10 +461,9 @@ export default function CalendarPage() {
           </div>
           <p className="fw-source">Condensed from CIA&rsquo;s Family Weekend page. Times and details can change &mdash; confirm on the official page before you travel.</p>
         </section>}
-        <section className="travel-panel" aria-labelledby="travel-panel-heading">
-          <h2 id="travel-panel-heading">Comparing routes to campus</h2>
-          <p className="travel-panel-note">Rough planning comparisons, not quotes, and they apply to any visit &mdash; move-in, Family Weekend, a break, or a weekend trip. Check current fares and traffic before booking.</p>
-          <TravelMatrix />
+        <section className="calendar-travel-cta">
+          <div><MapPinned aria-hidden="true" /><span><strong>Traveling to campus?</strong><small>Compare driving, train and flight options, then estimate gas, food, lodging and fares.</small></span></div>
+          <Link href="/travel">Plan your trip <ArrowRight aria-hidden="true" /></Link>
         </section>
         <aside className="calendar-caution">
           <AlertTriangle aria-hidden="true" />
