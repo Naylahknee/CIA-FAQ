@@ -1,7 +1,10 @@
 import assert from "node:assert/strict";
+import { readFile } from "node:fs/promises";
 import test, { after } from "node:test";
 import { fileURLToPath } from "node:url";
 import { createServer } from "vite";
+import React from "react";
+import { renderToStaticMarkup } from "react-dom/server";
 
 const root = fileURLToPath(new URL("..", import.meta.url));
 const vite = await createServer({ appType: "custom", configFile: false, root, server: { middlewareMode: true } });
@@ -67,4 +70,34 @@ test("spring caveats are scoped to spring", () => {
 test("term labels are the single source of the year shown to families", () => {
   assert.equal(termLabels.fall, "Fall 2026");
   assert.equal(termLabels.spring, "Spring 2027");
+});
+
+/** The travel matrix was once nested inside the Family Weekend panel, which
+ *  only renders for Fall 2026. It built, it rendered, the component was fine --
+ *  and it was invisible to anyone with Spring 2027 selected, because the
+ *  container never rendered. Checking a component works is not the same as
+ *  checking it is reachable. */
+test("the travel matrix is not trapped inside a term-gated section", async () => {
+  const source = await readFile(new URL("../app/calendar/page.tsx", import.meta.url), "utf8");
+
+  const gateStart = source.indexOf('selectedTerm === "Fall 2026" &&');
+  assert.ok(gateStart > -1, "fixture gone: the Fall-only panel condition is no longer there");
+  const gateEnd = source.indexOf("</section>}", gateStart);
+  assert.ok(gateEnd > gateStart, "could not find the end of the Fall-only section");
+
+  const used = source.indexOf("<TravelMatrix");
+  assert.ok(used > -1, "the calendar no longer renders the travel matrix at all");
+  assert.ok(
+    used < gateStart || used > gateEnd,
+    "the travel matrix sits inside the Fall 2026-only panel, so Spring visitors cannot see it",
+  );
+});
+
+test("the travel matrix renders the route comparisons it is supposed to", async () => {
+  const { TravelMatrix } = await vite.ssrLoadModule("/app/components/travel-matrix.tsx");
+  const html = renderToStaticMarkup(React.createElement(TravelMatrix));
+  for (const region of ["West Coast", "Midwest", "East Coast"]) {
+    assert.ok(html.includes(region), `${region} missing from the travel matrix`);
+  }
+  assert.match(html, /Drive/, "the drive comparison is missing");
 });
