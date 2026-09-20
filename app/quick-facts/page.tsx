@@ -83,7 +83,6 @@ const adviceByCategory: Record<FamilyCategoryKey, number[]> = {
 
 const dormResourceImages: Record<string, string> = {
   "Under-bed storage bin, 60qt": "/quick-facts/resources/underbed-storage.webp",
-  "Adjustable wire shelving unit": "/quick-facts/resources/wire-shelving.webp",
 };
 
 export default function QuickFactsPage() {
