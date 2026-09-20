@@ -1,4 +1,3 @@
-import { stripImageMetadata } from "../../image-metadata";
 import { desc, eq } from "drizzle-orm";
 import { env } from "cloudflare:workers";
 import { getDb } from "../../../db";
@@ -35,8 +34,18 @@ export async function POST(request: Request) {
     const id = crypto.randomUUID();
     const extension = image.type === "image/png" ? "png" : image.type === "image/webp" ? "webp" : "jpg";
     const imageKey = `wall-submissions/${id}.${extension}`;
-    await env.BUCKET.put(imageKey, stripImageMetadata(new Uint8Array(await image.arrayBuffer()), image.type), { httpMetadata: { contentType: image.type } });
-    await getDb().insert(wallSubmissions).values({ id, kind: kind as "memory" | "resource", title: title.slice(0, 120), caption: caption.slice(0, 600), studentName: studentName.slice(0, 80) || null, submitterEmail: submitterEmail.slice(0, 200), consentName: consentName.slice(0, 120), imageKey, imageType: image.type, createdAt: new Date() });
+    // The file has already passed MIME, size, and magic-byte validation above.
+    // Store the validated bytes directly. The previous metadata rewriter was
+    // stricter than normal browser/iPhone image encoders and threw on otherwise
+    // valid JPEG/PNG/WebP files, turning uploads into a generic 500.
+    await env.BUCKET.put(imageKey, await image.arrayBuffer(), { httpMetadata: { contentType: image.type } });
+    try {
+      await getDb().insert(wallSubmissions).values({ id, kind: kind as "memory" | "resource", title: title.slice(0, 120), caption: caption.slice(0, 600), studentName: studentName.slice(0, 80) || null, submitterEmail: submitterEmail.slice(0, 200), consentName: consentName.slice(0, 120), imageKey, imageType: image.type, createdAt: new Date() });
+    } catch (error) {
+      // Do not orphan an object in R2 when the D1 insert fails.
+      await env.BUCKET.delete(imageKey).catch(() => undefined);
+      throw error;
+    }
     return Response.json({ ok: true, message: "Submitted for review. Nothing is published automatically." }, { status: 201 });
   } catch (error) {
     console.error("Wall submission failed", error);
