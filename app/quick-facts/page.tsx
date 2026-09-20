@@ -3,32 +3,37 @@
 // Quick Facts family-link panel styles live in guide.css; keep page and styles deployed together.
 
 import {
-  BedDouble,
-  BookOpen,
+  Award,
+  BookMarked,
   Boxes,
   BusFront,
-  ChefHat,
+  CalendarDays,
   CircleDollarSign,
-  CookingPot,
+  ClipboardPlus,
+  ContactRound,
+  CreditCard,
   ExternalLink,
-  FileText,
+  FileHeart,
+  FileSignature,
   Footprints,
   GraduationCap,
   HandCoins,
   HeartPulse,
   Hotel,
-  Info,
-  Luggage,
   Landmark,
   Laptop,
+  Luggage,
+  MapPinned,
+  Monitor,
+  Navigation,
   PackageCheck,
-  ClipboardPlus,
-  Refrigerator,
-  ShieldCheck,
+  ReceiptText,
+  Ruler,
+  SearchCheck,
+  ShieldPlus,
   Shirt,
+  Store,
   TrainFront,
-  Truck,
-  WashingMachine,
 } from "lucide-react";
 import { useMemo, useState } from "react";
 import { PageHeader } from "../components/page-header";
@@ -74,6 +79,11 @@ const adviceByCategory: Record<FamilyCategoryKey, number[]> = {
   health: [],
   money: [],
   travel: [0, 7],
+};
+
+const dormResourceImages: Record<string, string> = {
+  "Under-bed storage bin, 60qt": "/quick-facts/resources/underbed-storage.webp",
+  "Adjustable wire shelving unit": "/quick-facts/resources/wire-shelving.webp",
 };
 
 export default function QuickFactsPage() {
@@ -143,7 +153,7 @@ export default function QuickFactsPage() {
                 {activeStaffAdvice.length > 0 ? (
                   <>
                     <h4>What staff said</h4>
-                    <div className="quick-staff-guidance-list">
+                    <div className="quick-staff-guidance-list quick-staff-guidance-horizontal">
                       {activeStaffAdvice.map((advice) => (
                         <section key={advice.topic}>
                           <strong>{advice.topic}</strong>
@@ -166,19 +176,37 @@ export default function QuickFactsPage() {
 
               <div className="quick-family-related">
                 <h4>Related resources</h4>
-                <div className="quick-family-related-list">
-                  {visible.map((item) => (
-                    <a href={item.href} target="_blank" rel="noreferrer nofollow" key={item.href}>
-                      {familyCategory === "essentials" ? (
-                        <span className="quick-family-thumb" aria-hidden="true"><span>Image</span></span>
-                      ) : (
+                {familyCategory === "essentials" ? (
+                  <div className="quick-dorm-resource-n" aria-label="Dorm Essentials resources">
+                    {visible.map((item, index) => {
+                      const image = dormResourceImages[item.title];
+                      return (
+                        <a
+                          href={item.href}
+                          target="_blank"
+                          rel="noreferrer nofollow"
+                          className={`quick-dorm-resource-circle n-pos-${index + 1}`}
+                          key={item.href}
+                          aria-label={item.title}
+                          title={item.title}
+                        >
+                          {image ? <img src={image} alt="" /> : <span className="quick-dorm-image-pending">Image</span>}
+                          <span className="quick-dorm-resource-label">{item.title}</span>
+                        </a>
+                      );
+                    })}
+                  </div>
+                ) : (
+                  <div className="quick-family-related-list">
+                    {visible.map((item) => (
+                      <a href={item.href} target="_blank" rel="noreferrer nofollow" key={item.href}>
                         <span className="quick-family-resource-icon" aria-hidden="true">{familyResourceIcon(item.title, familyCategory)}</span>
-                      )}
-                      <span className="quick-family-resource-copy"><strong>{item.title}</strong><small>{item.description}</small></span>
-                      <ExternalLink aria-hidden="true" />
-                    </a>
-                  ))}
-                </div>
+                        <span className="quick-family-resource-copy"><strong>{item.title}</strong><small>{item.description}</small></span>
+                        <ExternalLink aria-hidden="true" />
+                      </a>
+                    ))}
+                  </div>
+                )}
               </div>
             </div>
           </article>
@@ -189,16 +217,33 @@ export default function QuickFactsPage() {
 }
 
 function familyResourceIcon(title: string, category: FamilyCategoryKey) {
-  if (category === "uniforms") return <Shirt aria-hidden="true" />;
-  if (category === "health") return title.includes("medical form") ? <ClipboardPlus aria-hidden="true" /> : <HeartPulse aria-hidden="true" />;
-  if (category === "money") return title.includes("Scholarship") ? <GraduationCap aria-hidden="true" /> : <HandCoins aria-hidden="true" />;
-  if (category === "travel") {
-    if (title.includes("Stay")) return <Hotel aria-hidden="true" />;
-    if (title.includes("Train")) return <TrainFront aria-hidden="true" />;
-    if (title.includes("transit") || title.includes("Transit")) return <BusFront aria-hidden="true" />;
-    if (title.includes("USPS")) return <PackageCheck aria-hidden="true" />;
-    return <Luggage aria-hidden="true" />;
-  }
-  return <FileText aria-hidden="true" />;
+  const icons: Record<string, React.ReactNode> = {
+    "Uniform and hygiene policy": <Footprints aria-hidden="true" />,
+    "CIA student uniform portal": <Shirt aria-hidden="true" />,
+    "Uniform vendor contact": <ContactRound aria-hidden="true" />,
+    "Chef coat sizing guide": <Ruler aria-hidden="true" />,
+    "Course material finder": <BookMarked aria-hidden="true" />,
+    "Campus store": <Store aria-hidden="true" />,
+    "Campus health services": <HeartPulse aria-hidden="true" />,
+    "New York medical form (PDF)": <ClipboardPlus aria-hidden="true" />,
+    "CIA student health insurance": <ShieldPlus aria-hidden="true" />,
+    "Tuition": <ReceiptText aria-hidden="true" />,
+    "Scholarship opportunities": <Award aria-hidden="true" />,
+    "Additional financial aid options": <HandCoins aria-hidden="true" />,
+    "Parent PLUS loan": <Landmark aria-hidden="true" />,
+    "Federal vs. private loans": <CircleDollarSign aria-hidden="true" />,
+    "FAFSA": <GraduationCap aria-hidden="true" />,
+    "Master promissory note": <FileSignature aria-hidden="true" />,
+    "Private loan comparison (ElmSelect)": <SearchCheck aria-hidden="true" />,
+    "What to Bring": <Luggage aria-hidden="true" />,
+    "Where to Stay near the New York campus": <Hotel aria-hidden="true" />,
+    "Family Weekend": <CalendarDays aria-hidden="true" />,
+    "Dutchess County public transit routes": <BusFront aria-hidden="true" />,
+    "MTA TrainTime": <TrainFront aria-hidden="true" />,
+    "Transit app": <Navigation aria-hidden="true" />,
+    "CIA area guide": <MapPinned aria-hidden="true" />,
+    "USPS Hold for Pickup": <PackageCheck aria-hidden="true" />,
+    "Campus card account": <CreditCard aria-hidden="true" />,
+  };
+  return icons[title] ?? (category === "health" ? <FileHeart aria-hidden="true" /> : <Monitor aria-hidden="true" />);
 }
-
