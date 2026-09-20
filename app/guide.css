@@ -879,3 +879,34 @@
     padding:12px 0;
   }
 }
+
+
+/* Community purpose / access disclaimer. */
+.c-community-purpose{
+  display:flex;
+  align-items:flex-start;
+  gap:10px;
+  width:min(1480px,calc(100% - 40px));
+  margin:16px auto 0;
+  padding:13px 16px;
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  background:#f1f2f6;
+  color:var(--muted-foreground);
+  font-size:.82rem;
+  line-height:1.5;
+}
+.c-community-purpose svg{
+  flex:0 0 auto;
+  margin-top:2px;
+  color:var(--destructive);
+}
+.c-community-purpose p{margin:0}
+.c-community-purpose strong{color:var(--foreground)}
+@media(max-width:700px){
+  .c-community-purpose{
+    width:calc(100% - 24px);
+    margin-top:12px;
+    padding:12px 13px;
+  }
+}
