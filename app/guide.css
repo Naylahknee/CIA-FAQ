@@ -933,3 +933,12 @@
 .sidebar-independent-note p{margin:0}
 .sidebar-independent-note strong{color:var(--foreground)}
 html[data-sidebar="collapsed"] .sidebar-independent-note{display:none}
+
+
+/* Home calendar carousel: slightly narrower image column with breathing room between columns. */
+@media(min-width:901px){
+  .home-event-carousel{
+    grid-template-columns:minmax(0,1.08fr) minmax(500px,1fr);
+    column-gap:24px;
+  }
+}
