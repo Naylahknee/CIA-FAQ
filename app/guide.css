@@ -1347,3 +1347,12 @@ html[data-sidebar="collapsed"] .sidebar-independent-note{display:none}
 .mobile-nav-account{display:grid;margin-top:8px;padding-top:8px;border-top:1px solid var(--border)}
 .mobile-nav-account button{display:flex;align-items:center;gap:10px;width:100%;min-height:44px;padding:8px 10px;border:0;border-radius:10px;background:transparent;color:var(--foreground);font:inherit;font-weight:inherit;text-align:left;cursor:pointer}
 .mobile-nav-account button:hover,.mobile-nav-account a:hover{background:var(--secondary)}
+
+
+/* Keep the full desktop guide sidebar reachable, including profile/sign-in controls. */
+@media(min-width:761px){
+  .site-sidebar{overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin}
+  .site-sidebar .sidebar-top{flex:0 0 auto}
+  .site-sidebar .desktop-nav{flex:0 0 auto}
+  .sidebar-account{flex:0 0 auto}
+}
