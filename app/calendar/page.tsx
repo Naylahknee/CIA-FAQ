@@ -8,7 +8,8 @@ import { useGuidePreferences } from "../components/guide-shell";
 import { EVENT_TYPES, familyWeekend, fullDates, academicEventDate, academicEventType, type EventType } from "../guide-sections";
 
 const cutoff = new Date(2026, 8, 18);
-const TODAY = new Date(2026, 8, 18);
+const TODAY = new Date();
+const FAMILY_WEEKEND_HIDE_AFTER = new Date(2026, 9, 11, 23, 59, 59, 999);
 const WEEKDAYS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 const MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
@@ -97,6 +98,7 @@ export default function CalendarPage() {
   const [activeTypes, setActiveTypes] = useState<EventType[]>([]);
 
   const selectedTerm = guideTerm === "fall" ? "Fall 2026" : "Spring 2027";
+  const showFamilyWeekendDetails = TODAY <= FAMILY_WEEKEND_HIDE_AFTER;
 
   useEffect(() => {
     const selectedYear = new Date(`${selected}T12:00:00`).getFullYear();
@@ -367,7 +369,7 @@ export default function CalendarPage() {
           </section>
         )}
 
-        {selectedTerm === "Fall 2026" && <section className="family-weekend-panel" aria-labelledby="family-weekend-heading">
+        {selectedTerm === "Fall 2026" && showFamilyWeekendDetails && <section className="family-weekend-panel" aria-labelledby="family-weekend-heading">
           <header>
             <img className="family-weekend-art" src="/calendar/family-weekend-2026.png" alt="CIA Family Weekend 2026" />
             <div>
