@@ -1,6 +1,6 @@
 "use client";
 
-import { Car, ExternalLink, MapPinned, Plane, TrainFront, X } from "lucide-react";
+import { BedDouble, Car, ExternalLink, Fuel, MapPinned, Plane, Sandwich, TrainFront, X } from "lucide-react";
 import { useMemo, useState, type FormEvent } from "react";
 import { travelRegions } from "../guide-sections";
 
@@ -34,9 +34,27 @@ export function TravelMatrix() {
   const [mapOpen, setMapOpen] = useState(false);
   const [origin, setOrigin] = useState("");
   const [plannedOrigin, setPlannedOrigin] = useState("");
+  const [tripMode, setTripMode] = useState<"drive" | "train" | "fly">("drive");
+  const [travelers, setTravelers] = useState(2);
+  const [miles, setMiles] = useState(300);
+  const [mpg, setMpg] = useState(25);
+  const [gasPrice, setGasPrice] = useState(3.5);
+  const [driveDays, setDriveDays] = useState(1);
+  const [lodgingNight, setLodgingNight] = useState(160);
+  const [foodPersonDay, setFoodPersonDay] = useState(45);
+  const [trainFare, setTrainFare] = useState(90);
+  const [flightFare, setFlightFare] = useState(250);
+  const [flightClass, setFlightClass] = useState<"Economy" | "Business" | "First">("Economy");
 
   const embedUrl = useMemo(() => mapsUrl(plannedOrigin, true), [plannedOrigin]);
   const externalUrl = useMemo(() => mapsUrl(plannedOrigin, false), [plannedOrigin]);
+  const safeTravelers = Math.max(1, travelers || 1);
+  const gasEstimate = Math.max(0, miles) / Math.max(1, mpg) * Math.max(0, gasPrice);
+  const lodgingEstimate = Math.max(0, driveDays - 1) * Math.max(0, lodgingNight);
+  const driveFoodEstimate = safeTravelers * Math.max(1, driveDays) * Math.max(0, foodPersonDay);
+  const driveEstimate = gasEstimate + lodgingEstimate + driveFoodEstimate;
+  const trainEstimate = safeTravelers * Math.max(0, trainFare);
+  const flightEstimate = safeTravelers * Math.max(0, flightFare);
 
   function planTrip(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -112,6 +130,52 @@ export function TravelMatrix() {
               <button type="submit">Show route</button>
             </div>
           </form>
+
+          <section className="travel-budget-planner" aria-label="Trip cost planner">
+            <div className="travel-budget-head">
+              <div>
+                <h3>Estimate the trip</h3>
+                <p>Use your own current prices for a planning estimate. These are not live fares or quotes.</p>
+              </div>
+              <div className="travel-mode-tabs" role="group" aria-label="Travel mode">
+                <button type="button" className={tripMode === "drive" ? "active" : ""} onClick={() => setTripMode("drive")}><Car aria-hidden="true" /> Drive</button>
+                <button type="button" className={tripMode === "train" ? "active" : ""} onClick={() => setTripMode("train")}><TrainFront aria-hidden="true" /> Train</button>
+                <button type="button" className={tripMode === "fly" ? "active" : ""} onClick={() => setTripMode("fly")}><Plane aria-hidden="true" /> Fly</button>
+              </div>
+            </div>
+
+            <label className="travel-budget-travelers">Travelers <input type="number" min="1" max="12" value={travelers} onChange={(e) => setTravelers(Number(e.target.value))} /></label>
+
+            {tripMode === "drive" && <div className="travel-budget-grid">
+              <label><Fuel aria-hidden="true" /> One-way miles<input type="number" min="0" value={miles} onChange={(e) => setMiles(Number(e.target.value))} /></label>
+              <label><Car aria-hidden="true" /> Vehicle MPG<input type="number" min="1" value={mpg} onChange={(e) => setMpg(Number(e.target.value))} /></label>
+              <label><Fuel aria-hidden="true" /> Gas $ / gallon<input type="number" min="0" step=".01" value={gasPrice} onChange={(e) => setGasPrice(Number(e.target.value))} /></label>
+              <label><MapPinned aria-hidden="true" /> Travel days<input type="number" min="1" value={driveDays} onChange={(e) => setDriveDays(Number(e.target.value))} /></label>
+              <label><BedDouble aria-hidden="true" /> Hotel $ / night<input type="number" min="0" value={lodgingNight} onChange={(e) => setLodgingNight(Number(e.target.value))} /></label>
+              <label><Sandwich aria-hidden="true" /> Food $ / person / day<input type="number" min="0" value={foodPersonDay} onChange={(e) => setFoodPersonDay(Number(e.target.value))} /></label>
+              <div className="travel-estimate-summary">
+                <span><Fuel aria-hidden="true" /> Gas <strong>${gasEstimate.toFixed(0)}</strong></span>
+                <span><BedDouble aria-hidden="true" /> Lodging <strong>${lodgingEstimate.toFixed(0)}</strong></span>
+                <span><Sandwich aria-hidden="true" /> Food <strong>${driveFoodEstimate.toFixed(0)}</strong></span>
+                <b>Estimated one-way trip <strong>${driveEstimate.toFixed(0)}</strong></b>
+              </div>
+            </div>}
+
+            {tripMode === "train" && <div className="travel-fare-planner">
+              <label>Estimated fare per traveler <span>$ <input type="number" min="0" value={trainFare} onChange={(e) => setTrainFare(Number(e.target.value))} /></span></label>
+              <div className="travel-estimate-total"><TrainFront aria-hidden="true" /><span>Estimated train total<small>{safeTravelers} traveler{safeTravelers === 1 ? "" : "s"} × ${Math.max(0, trainFare).toFixed(0)}</small></span><strong>${trainEstimate.toFixed(0)}</strong></div>
+              <p>Enter the current fare you find for your route; rail pricing changes by origin, date, train, and ticket type.</p>
+            </div>}
+
+            {tripMode === "fly" && <div className="travel-fare-planner">
+              <div className="travel-class-tabs" role="group" aria-label="Flight class">
+                {(["Economy", "Business", "First"] as const).map((c) => <button type="button" key={c} className={flightClass === c ? "active" : ""} onClick={() => setFlightClass(c)}>{c}</button>)}
+              </div>
+              <label>Estimated {flightClass.toLowerCase()} fare per traveler <span>$ <input type="number" min="0" value={flightFare} onChange={(e) => setFlightFare(Number(e.target.value))} /></span></label>
+              <div className="travel-estimate-total"><Plane aria-hidden="true" /><span>Estimated {flightClass.toLowerCase()} total<small>{safeTravelers} traveler{safeTravelers === 1 ? "" : "s"} × ${Math.max(0, flightFare).toFixed(0)}</small></span><strong>${flightEstimate.toFixed(0)}</strong></div>
+              <p>Enter a current fare for the class you are comparing. Airline prices vary substantially by airport, date, baggage, and booking conditions.</p>
+            </div>}
+          </section>
 
           <div className="travel-map-frame">
             <iframe
