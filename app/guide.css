@@ -607,3 +607,15 @@
 .quick-guidance-short>.quick-family-good-to-know{width:100%;max-width:520px;justify-self:end}
 .quick-guidance-short .quick-staff-guidance-divided p{font-size:.9rem;line-height:1.65}
 @media(max-width:800px){.quick-guidance-short{grid-template-columns:1fr}.quick-guidance-short>.quick-family-good-to-know{max-width:none;justify-self:stretch}}
+
+
+/* Short-guidance width fix: explicitly size the advice columns instead of inheriting the 5-column rule. */
+.quick-guidance-short{grid-template-columns:minmax(0,1fr) 390px;column-gap:48px}
+.quick-guidance-short>.quick-staff-guidance-divided{display:grid;width:100%}
+.quick-guidance-short>.quick-staff-guidance-divided.staff-count-1{grid-template-columns:minmax(0,620px)}
+.quick-guidance-short>.quick-staff-guidance-divided.staff-count-2{grid-template-columns:repeat(2,minmax(0,360px));column-gap:0}
+.quick-guidance-short>.quick-staff-guidance-divided p{width:auto;max-width:none;padding:4px 28px;font-size:.9rem;line-height:1.65}
+.quick-guidance-short>.quick-staff-guidance-divided p:first-child{padding-left:0}
+.quick-guidance-short>.quick-staff-guidance-divided p:last-child{padding-right:0}
+.quick-guidance-short>.quick-family-good-to-know{width:390px;max-width:390px;justify-self:end}
+@media(max-width:800px){.quick-guidance-short{grid-template-columns:1fr}.quick-guidance-short>.quick-staff-guidance-divided.staff-count-1,.quick-guidance-short>.quick-staff-guidance-divided.staff-count-2{display:block}.quick-guidance-short>.quick-family-good-to-know{width:100%;max-width:none}}
