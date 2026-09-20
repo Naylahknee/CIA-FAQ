@@ -29,6 +29,8 @@ export const communityUsers = sqliteTable("community_users", {
   id: text("id").primaryKey(),
   email: text("email").notNull(),
   displayName: text("display_name").notNull(),
+  avatarKey: text("avatar_key"),
+  avatarType: text("avatar_type"),
   passwordHash: text("password_hash").notNull(),
   passwordSalt: text("password_salt").notNull(),
   emailVerified: integer("email_verified", { mode: "boolean" }).notNull().default(false),
