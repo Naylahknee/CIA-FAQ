@@ -700,3 +700,19 @@
 @media(max-width:700px){
   .site-correction-banner{width:calc(100% - 24px);align-items:flex-start;margin-top:12px;padding:10px 12px}
 }
+
+
+/* Center an incomplete final row of Dorm Essentials resource circles. */
+.quick-dorm-resource-n{
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:center;
+  align-items:flex-start;
+  gap:22px 24px;
+}
+.quick-dorm-resource-circle{
+  flex:0 0 92px;
+}
+@media(max-width:900px){
+  .quick-dorm-resource-n{display:flex;justify-content:center}
+}
