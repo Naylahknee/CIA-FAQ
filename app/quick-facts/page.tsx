@@ -26,6 +26,7 @@ import {
   WashingMachine,
 } from "lucide-react";
 import { useMemo, useState } from "react";
+import { PageHeader } from "../components/page-header";
 import { familyResources, staffGuidance } from "../guide-sections";
 
 type AdviceKey =
@@ -139,13 +140,17 @@ export default function QuickFactsPage() {
   });
 
   return (
-    <main className="quick-facts-page">
-      <section className="quick-guidance-suite" aria-labelledby="quick-guidance-heading">
-        <div className="quick-guidance-heading">
-          <h2 id="quick-guidance-heading">Move-In Guidance &amp; Resources</h2>
-          <p>A carefully structured coordination suite designed to simplify your residency transition.<br className="quick-guidance-break" /> Synchronizing university administrative actions with verified veteran peer knowledge.</p>
-        </div>
+    <main className="help-page">
+      <div className="page-wrap">
+        <PageHeader
+          eyebrow="Quick Facts"
+          title="Move-In Guidance & Resources"
+          description={<>A carefully structured coordination suite designed to simplify your residency transition. Synchronizing university administrative actions with verified veteran peer knowledge.</>}
+        />
+      </div>
 
+      <section className="page-wrap quick-guidance-suite" aria-labelledby="quick-guidance-heading">
+        <h2 id="quick-guidance-heading" className="sr-only">Move-In Guidance &amp; Resources</h2>
         <div className="quick-view-tabs" role="tablist" aria-label="Move-in guidance and resources">
           <button type="button" role="tab" aria-selected={quickView === "advice"} className={quickView === "advice" ? "active" : ""} onClick={() => setQuickView("advice")}>Official Staff Advice</button>
           <button type="button" role="tab" aria-selected={quickView === "resources"} className={quickView === "resources" ? "active" : ""} onClick={() => setQuickView("resources")}>Crowdsourced Family Links</button>
