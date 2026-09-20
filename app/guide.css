@@ -579,3 +579,16 @@
 @media(max-width:1100px){.quick-dorm-resource-n{grid-template-columns:repeat(5,minmax(92px,1fr))}}
 @media(max-width:800px){.quick-dorm-resource-n{grid-template-columns:repeat(3,minmax(92px,1fr));overflow:visible;gap:42px 18px}.quick-dorm-resource-circle{flex:none}}
 @media(max-width:520px){.quick-dorm-resource-n{grid-template-columns:repeat(2,minmax(92px,1fr))}}
+
+
+/* Quick Facts correction: staff advice reads as columns separated only by vertical rules. */
+.quick-staff-guidance-divided{display:grid;grid-template-columns:repeat(var(--staff-columns,5),minmax(0,1fr));border:0}
+.quick-staff-guidance-divided p{margin:0;padding:4px 22px;color:var(--muted-foreground);font-size:.88rem;line-height:1.65;border:0;border-right:1px solid var(--border)}
+.quick-staff-guidance-divided p:first-child{padding-left:0}
+.quick-staff-guidance-divided p:last-child{padding-right:0;border-right:0}
+
+/* Dorm Essentials resources: exactly two evenly spaced rows on desktop. */
+.quick-dorm-resource-n{display:grid;grid-template-columns:repeat(7,minmax(92px,1fr));grid-template-rows:repeat(2,145px);grid-auto-flow:row;gap:22px 24px;align-items:start;justify-items:center;min-height:0;padding:14px 8px 20px}
+.quick-dorm-resource-circle:nth-child(n){grid-column:auto;grid-row:auto}
+@media(max-width:900px){.quick-staff-guidance-divided{display:flex;overflow-x:auto}.quick-staff-guidance-divided p{flex:0 0 250px}.quick-dorm-resource-n{display:grid;grid-template-columns:repeat(4,minmax(92px,1fr));grid-template-rows:auto;overflow:visible}}
+@media(max-width:600px){.quick-dorm-resource-n{grid-template-columns:repeat(2,minmax(92px,1fr))}}
