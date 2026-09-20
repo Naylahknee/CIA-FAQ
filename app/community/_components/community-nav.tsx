@@ -83,7 +83,7 @@ export function CommunityNav() {
               ))}
             </nav>
             <Link className="c-signout" href="/" title="Back to the Guide and FAQ"><BookOpen size={16} aria-hidden="true" />Guide</Link>
-            {user.role === "admin" && <Link className="c-signout" href="/community/admin"><ShieldCheck size={16} aria-hidden="true" />Members &amp; roles</Link>}
+            {user.role === "admin" && <Link className="c-signout" href="/community/admin"><ShieldCheck size={16} aria-hidden="true" />Admin tools</Link>}
             <button type="button" className="c-signout" onClick={signOut}><LogOut size={16} aria-hidden="true" />Sign out</button>
           </>
         )}
