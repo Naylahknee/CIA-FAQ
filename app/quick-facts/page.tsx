@@ -148,11 +148,27 @@ export default function QuickFactsPage() {
             </div>
 
             <div className="quick-unified-body">
-              <div className={`quick-unified-guidance ${activeStaffAdvice.length > 0 && activeStaffAdvice.length <= 2 ? "quick-guidance-short" : ""}`}>
+              <div
+                className={`quick-unified-guidance ${activeStaffAdvice.length > 0 && activeStaffAdvice.length <= 2 ? "quick-guidance-short" : ""}`}
+                style={activeStaffAdvice.length > 0 && activeStaffAdvice.length <= 2 ? {
+                  display: "grid",
+                  gridTemplateColumns: "minmax(0, 1fr) 360px",
+                  columnGap: "48px",
+                  alignItems: "start",
+                } : undefined}
+              >
                 {activeStaffAdvice.length > 0 ? (
                   <>
                     <h4>What staff said</h4>
-                    <div className={`quick-staff-guidance-list quick-staff-guidance-divided staff-count-${activeStaffAdvice.length}`}>
+                    <div
+                      className={`quick-staff-guidance-list quick-staff-guidance-divided staff-count-${activeStaffAdvice.length}`}
+                      style={activeStaffAdvice.length <= 2 ? {
+                        display: "grid",
+                        gridTemplateColumns: activeStaffAdvice.length === 1 ? "minmax(0, 760px)" : "repeat(2, minmax(320px, 440px))",
+                        width: "100%",
+                        maxWidth: activeStaffAdvice.length === 1 ? "760px" : "880px",
+                      } : undefined}
+                    >
                       {activeStaffAdvice.map((advice) => (
                         <p key={advice.topic}>{advice.guidance}</p>
                       ))}
@@ -164,7 +180,17 @@ export default function QuickFactsPage() {
                     <p className="quick-category-note">{activeFamilyNote}</p>
                   </>
                 )}
-                <div className="quick-family-good-to-know">
+                <div
+                  className="quick-family-good-to-know"
+                  style={activeStaffAdvice.length > 0 && activeStaffAdvice.length <= 2 ? {
+                    gridColumn: 2,
+                    gridRow: "1 / span 2",
+                    width: "360px",
+                    maxWidth: "360px",
+                    justifySelf: "end",
+                    marginTop: 0,
+                  } : undefined}
+                >
                   <span className="quick-family-tip-icon">i</span>
                   <div><strong>Good to know</strong><small>{activeFamilyNote} Retail links can change, so confirm current prices, dimensions, policies, and deadlines.</small></div>
                 </div>
