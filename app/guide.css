@@ -844,3 +844,9 @@
   grid-column:2;
   grid-row:2;
 }
+
+
+/* Announcement banner color. */
+.site-announcement-global{
+  background:#f1f2f6;
+}
