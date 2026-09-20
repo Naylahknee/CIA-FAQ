@@ -942,3 +942,63 @@ html[data-sidebar="collapsed"] .sidebar-independent-note{display:none}
     column-gap:24px;
   }
 }
+
+
+/* Mobile integrity pass — preserve desktop design, reflow only below tablet widths. */
+@media(max-width:760px){
+  html,body{max-width:100%;overflow-x:hidden}
+  .app-frame{display:block;min-height:100vh}
+  .site-announcement-global{display:flex;position:relative;width:100%;min-height:0;padding:9px 14px;font-size:.76rem;line-height:1.35;text-align:left}
+  .site-sidebar{display:none}
+  .mobile-header{display:flex;position:sticky;top:0;z-index:45;align-items:center;justify-content:space-between;min-height:62px;padding:9px 14px;background:var(--card);border-bottom:1px solid var(--border)}
+  .mobile-header .site-brand{min-width:0;font-size:.78rem}
+  .mobile-nav{display:grid;position:sticky;top:62px;z-index:44;padding:8px 12px;background:var(--card);border-bottom:1px solid var(--border);box-shadow:0 8px 20px color-mix(in oklch,var(--primary) 8%,transparent)}
+  .mobile-nav a{display:flex;align-items:center;gap:10px;min-height:44px;padding:8px 10px;color:var(--foreground);text-decoration:none;border-radius:10px}
+  .app-content{display:block;width:100%;min-width:0}
+  .utility-bar{min-height:0;padding:8px 12px;gap:8px;overflow-x:auto;justify-content:flex-start;scrollbar-width:none}
+  .utility-bar::-webkit-scrollbar{display:none}
+  .utility-bar>div{flex:0 0 auto}
+  .page-wrap{width:min(100% - 28px,1180px)}
+  .page-heading,.home-intro,.topic-page,.calendar-page{padding-left:0;padding-right:0}
+  .page-heading h1,.home-intro h1,.topic-page>.topic-heading h1{overflow-wrap:anywhere}
+  .dashboard-grid,.topic-workspace,.calendar-layout,.topic-feature-grid,.split-section{grid-template-columns:1fr;gap:18px}
+  .context-rail,.topic-aside,.calendar-rail{position:static}
+  .feature-link-grid,.care-grid,.lane-grid,.travel-grid,.contact-grid,.related-files{grid-template-columns:1fr}
+  .cost-table>div{grid-template-columns:1fr;gap:4px}
+  .cost-table b{text-align:left}
+  .home-event-carousel{grid-template-columns:1fr;column-gap:0;min-height:0}
+  .home-event-focus{min-height:0;padding:30px 22px}
+  .home-event-focus h3{font-size:clamp(2.15rem,11vw,3rem)}
+  .home-event-slides{grid-row:2;padding:10px}
+  .home-event-slide{height:260px}
+  .home-event-carousel-controls{gap:10px}
+  .home-event-dots{overflow-x:auto;padding-bottom:2px}
+  .calendar-toolbar{align-items:stretch}
+  .calendar-search{flex-basis:100%;min-width:0}
+  .calendar-filter-panel{position:static;width:100%}
+  .calendar-weekdays,.calendar-grid{gap:3px}
+  .calendar-cell,.calendar-cell-empty{height:52px}
+  .calendar-cell{border-radius:9px}
+  .calendar-legend{gap:10px}
+  .calendar-rail-card{padding:18px}
+  .calendar-upnext button{gap:10px}
+  .quick-unified-guidance.quick-guidance-short{display:grid!important;grid-template-columns:1fr!important;column-gap:0!important}
+  .quick-unified-guidance.quick-guidance-short>.quick-staff-guidance-divided,
+  .quick-unified-guidance.quick-guidance-short>.quick-family-good-to-know{grid-column:1!important;grid-row:auto!important;width:100%!important;max-width:none!important}
+  .quick-staff-guidance-divided{display:block!important;overflow:visible}
+  .quick-staff-guidance-divided p{width:100%!important;max-width:none!important;padding:12px 0!important;border-right:0!important;border-bottom:1px solid var(--border)!important}
+  .quick-dorm-resource-n{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;grid-template-rows:auto!important;gap:46px 18px!important;padding-inline:0}
+  .quick-dorm-resource-circle:nth-child(n){grid-column:auto!important;grid-row:auto!important}
+  .quick-family-related-list{overflow:visible!important}
+  .site-footer{padding:22px 18px}
+  .site-footer-inner,.site-footer-about{min-width:0}
+  .site-footer nav{display:flex;flex-wrap:wrap;gap:10px 16px}
+  .site-independence-disclaimer{width:calc(100% - 28px);box-sizing:border-box}
+}
+@media(max-width:420px){
+  .page-wrap{width:min(100% - 22px,1180px)}
+  .quick-dorm-resource-circle{width:86px;height:86px}
+  .quick-dorm-resource-label{width:116px;font-size:.68rem}
+  .calendar-cell-num{font-size:.84rem}
+  .home-event-slide{height:225px}
+}
