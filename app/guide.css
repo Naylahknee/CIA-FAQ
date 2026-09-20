@@ -1315,3 +1315,15 @@ html[data-sidebar="collapsed"] .sidebar-independent-note{display:none}
 .travel-final-leg p{margin:3px 0 0;color:var(--muted-foreground);font-size:.76rem;line-height:1.5}
 @media(max-width:850px){.travel-ny-train-grid{grid-template-columns:1fr}}
 @media(max-width:520px){.travel-amtrak-route{grid-template-columns:1fr}.travel-amtrak-route b{transform:rotate(90deg);width:max-content}}
+
+.quick-disability-funding{margin:0 0 18px;padding:16px;border:1px solid var(--border);border-radius:15px;background:#f1f2f6}
+.quick-disability-funding-head{display:flex;align-items:center;gap:10px}
+.quick-disability-funding-head>svg{width:22px;color:var(--destructive)}
+.quick-disability-funding-head strong,.quick-disability-funding-head small{display:block}
+.quick-disability-funding-head small{margin-top:2px;color:var(--muted-foreground)}
+.quick-disability-funding>p{margin:10px 0;color:var(--muted-foreground);font-size:.78rem;line-height:1.5}
+.quick-disability-funding-links{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.quick-disability-funding-links>a{display:grid;grid-template-columns:1fr 16px;gap:2px 7px;padding:10px 11px;border:1px solid var(--border);border-radius:11px;background:var(--card);color:var(--foreground);text-decoration:none}
+.quick-disability-funding-links a strong{font-size:.78rem}.quick-disability-funding-links a small{color:var(--muted-foreground);font-size:.68rem}.quick-disability-funding-links a svg{grid-column:2;grid-row:1/span 2;width:14px;color:var(--destructive)}
+.quick-disability-funding .quick-disability-funding-note{margin-bottom:0;padding-top:9px;border-top:1px solid var(--border)}
+@media(max-width:700px){.quick-disability-funding-links{grid-template-columns:1fr}}
