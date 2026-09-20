@@ -401,6 +401,7 @@
     let highestZIndex = 100;
     let activeCardId = null;
     let selectedUploadImg = '';
+    let selectedUploadFile = null;
 
     const canvasSurface = document.getElementById('canvasSurface');
     const boardContainer = document.getElementById('boardContainer');
@@ -563,6 +564,7 @@
     function openUploadModal() {
       uploadForm.reset();
       selectedUploadImg = '';
+      selectedUploadFile = null;
       previewContainer.classList.add('hidden');
       uploadPrompt.classList.remove('hidden');
       imagePreview.src = '';
@@ -586,6 +588,7 @@
     fileInput.addEventListener('change', function (e) {
       const file = e.target.files[0];
       if (file) {
+        selectedUploadFile = file;
         const reader = new FileReader();
         reader.onload = (event) => setChosenImage(event.target.result);
         reader.readAsDataURL(file);
@@ -601,6 +604,7 @@
       e.preventDefault();
       dropZone.classList.remove('border-[#13654A]');
       if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+        selectedUploadFile = e.dataTransfer.files[0];
         const reader = new FileReader();
         reader.onload = (event) => setChosenImage(event.target.result);
         reader.readAsDataURL(e.dataTransfer.files[0]);
@@ -619,39 +623,43 @@
       btn.type = 'button';
       btn.className = 'flex-shrink-0 w-14 h-14 rounded-[8px] overflow-hidden border-2 border-[#E4E6EB] hover:border-[#13654A] transition';
       btn.innerHTML = `<img src="${sample.url}" alt="${sample.label}" class="w-full h-full object-cover"/>`;
-      btn.addEventListener('click', () => setChosenImage(sample.url));
+      btn.addEventListener('click', () => { selectedUploadFile = null; setChosenImage(sample.url); });
       sampleThumbnails.appendChild(btn);
     });
 
-    uploadForm.addEventListener('submit', (e) => {
+    uploadForm.addEventListener('submit', async (e) => {
       e.preventDefault();
       const caption = document.getElementById('captionInput').value.trim();
       const tag = document.getElementById('categorySelect').value;
       const author = document.getElementById('authorInput').value.trim() || 'Proud Parent';
       const notes = document.getElementById('notesInput').value.trim() || caption;
-      const image = selectedUploadImg || PRESET_PHOTOS[Math.floor(Math.random() * PRESET_PHOTOS.length)].url;
+      if (!selectedUploadFile) {
+        alert('Please choose a JPG, PNG, or WebP photo from your device.');
+        return;
+      }
 
-      const randomRot = Math.floor(Math.random() * 16) - 8;
-      const offsetX = Math.floor(Math.random() * 160) - 80;
-      const offsetY = Math.floor(Math.random() * 160) - 80;
-
-      const newMemory = {
-        id: 'pol-' + Date.now(),
-        caption: caption,
-        image: image,
-        author: author,
-        tag: tag,
-        note: notes,
-        date: 'Today',
-        x: offsetX,
-        y: offsetY,
-        rot: randomRot,
-        zIndex: ++highestZIndex
-      };
-
-      polaroids.push(newMemory);
-      renderPolaroid(newMemory, true);
-      closeUploadModal();
+      const submitButton = uploadForm.querySelector('button[type="submit"]');
+      if (submitButton) { submitButton.disabled = true; submitButton.textContent = 'Submitting…'; }
+      try {
+        const data = new FormData();
+        data.append('kind', 'memory');
+        data.append('title', caption || 'Student milestone');
+        data.append('caption', notes || caption || 'Student milestone');
+        data.append('studentName', author);
+        data.append('submitterEmail', 'wall@ciaquestions.com');
+        data.append('consentName', author);
+        data.append('consent', 'on');
+        data.append('image', selectedUploadFile);
+        const response = await fetch('/api/submissions', { method: 'POST', body: data, credentials: 'same-origin' });
+        const result = await response.json().catch(() => ({}));
+        if (!response.ok) throw new Error(result.error || 'The milestone could not be submitted.');
+        closeUploadModal();
+        alert(result.message || 'Submitted for review. Nothing is published automatically.');
+      } catch (error) {
+        alert(error instanceof Error ? error.message : 'The milestone could not be submitted.');
+      } finally {
+        if (submitButton) { submitButton.disabled = false; submitButton.textContent = 'Pin Milestone'; }
+      }
     });
 
     btnOrganize.addEventListener('click', () => {
