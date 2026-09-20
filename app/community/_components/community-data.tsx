@@ -2,7 +2,7 @@
 
 import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from "react";
 
-export type User = { id: string; email: string; displayName: string; role: string; emailVerified: boolean; verificationRequired: boolean };
+export type User = { id: string; email: string; displayName: string; avatarUrl?: string | null; role: string; emailVerified: boolean; verificationRequired: boolean };
 export type Comment = { id: string; body: string; createdAt: number; userId: string; displayName: string };
 export type Topic = { id: string; name: string };
 export type Post = {
