@@ -1,4 +1,7 @@
 import { env } from "cloudflare:workers";
+import { desc } from "drizzle-orm";
+import { getDb } from "../../../db";
+import { wallSubmissions } from "../../../db/schema";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { MemberManagement } from "../../admin/member-management";
@@ -40,8 +43,41 @@ export default async function CommunityAdminPage() {
     );
   }
 
+  const submissions = await getDb().select().from(wallSubmissions).orderBy(desc(wallSubmissions.createdAt)).limit(100);
+  const pendingCount = submissions.filter((item) => item.status === "pending").length;
+
   return (
     <main className="c-wrap c-community-admin-page">
+      <section className="c-member-admin" aria-labelledby="wall-review-title">
+        <div className="c-member-admin-head">
+          <div>
+            <p className="c-auth-eyebrow">Celebration Wall moderation</p>
+            <h1 id="wall-review-title">Review milestone photos</h1>
+            <p>Photos stay private until an admin approves them. Approved photos appear on the Celebration Wall automatically.</p>
+          </div>
+          <strong className="c-member-count">{pendingCount} pending</strong>
+        </div>
+        <div className="c-wall-review-grid">
+          {submissions.length ? submissions.map((item) => (
+            <article className="c-wall-review-card" key={item.id}>
+              <img src={`/api/media/${item.id}`} alt="" />
+              <div className="c-wall-review-body">
+                <small>{item.status}</small>
+                <h2>{item.title}</h2>
+                <p>{item.caption}</p>
+                <p className="c-muted"><strong>Shared by:</strong> {item.studentName || "Proud Parent"}<br/><strong>Consent:</strong> {item.consentName}</p>
+                <form action="/api/admin/submissions" method="post" className="c-wall-review-actions">
+                  <input type="hidden" name="type" value="submission"/>
+                  <input type="hidden" name="id" value={item.id}/>
+                  <input type="hidden" name="returnTo" value="/community/admin"/>
+                  {item.status !== "approved" && <button className="c-btn" name="action" value="approved">Approve</button>}
+                  {item.status !== "rejected" && <button className="c-btn c-btn-ghost" name="action" value="rejected">{item.status === "approved" ? "Remove from wall" : "Reject"}</button>}
+                </form>
+              </div>
+            </article>
+          )) : <div className="c-empty"><h2>No Celebration Wall submissions yet</h2><p>New milestone photos will appear here for review.</p></div>}
+        </div>
+      </section>
       <MemberManagement />
     </main>
   );
