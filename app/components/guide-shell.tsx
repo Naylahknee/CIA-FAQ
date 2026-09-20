@@ -129,16 +129,16 @@ export function GuideShell({ children }: { children: ReactNode }) {
         {/* Sits between the main menu and the account row. The wording follows
             the Parent/Student switch in the utility bar: a student shares their
             own milestone, a parent shares their student's. */}
+        <aside className="sidebar-independent-note" aria-label="Independent site notice">
+          <Info size={15} aria-hidden="true" />
+          <p><strong>Independent family site.</strong> This is not an official CIA-maintained page. Please verify important information through CIA&apos;s official website and communications.</p>
+        </aside>
         <div className="sidebar-milestone">
           <Link href="/wall" className={pathname === "/wall" ? "active" : ""}>
             <Camera size={18} />
             <span>{audience === "student" ? "Share your milestone" : "Share your student's milestone"}</span>
           </Link>
         </div>
-        <aside className="sidebar-independent-note" aria-label="Independent site notice">
-          <Info size={15} aria-hidden="true" />
-          <p><strong>Independent family site.</strong> This is not an official CIA-maintained page. Please verify important information through CIA&apos;s official website and communications.</p>
-        </aside>
         <div className="sidebar-account">
           {signedIn
             ? <>
