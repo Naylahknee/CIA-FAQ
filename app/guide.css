@@ -1276,3 +1276,18 @@ html[data-sidebar="collapsed"] .sidebar-independent-note{display:none}
 .quick-travel-planner-link strong,.quick-travel-planner-link small{display:block}
 .quick-travel-planner-link small{margin-top:2px;color:var(--muted-foreground)}
 .quick-travel-planner-link>svg:last-child{width:15px;color:var(--muted-foreground)}
+
+.disability-funding-panel>p:not(.eyebrow){max-width:900px;color:var(--muted-foreground)}
+.disability-funding-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:18px}
+.disability-funding-grid>article{display:grid;grid-template-columns:44px minmax(0,1fr);gap:12px;padding:17px;border:1px solid var(--border);border-radius:15px;background:var(--card)}
+.disability-funding-grid>article.disability-funding-other{grid-column:1/-1}
+.disability-funding-icon{width:42px;height:42px;display:grid;place-items:center;border-radius:50%;background:var(--secondary);color:var(--destructive)}
+.disability-funding-icon svg{width:19px}
+.disability-funding-grid small{color:var(--muted-foreground);font-size:.7rem;font-weight:800;text-transform:uppercase;letter-spacing:.04em}
+.disability-funding-grid h3{margin:3px 0 7px;font-size:1rem}
+.disability-funding-grid p{margin:0 0 10px;color:var(--muted-foreground);font-size:.8rem;line-height:1.55}
+.disability-funding-grid a{display:inline-flex;align-items:center;gap:5px;color:var(--destructive);font-size:.78rem;font-weight:800;text-decoration:none}
+.disability-funding-grid a svg{width:14px}
+.disability-funding-note{margin-top:12px;padding:13px 15px;border-radius:12px;background:#f1f2f6;color:var(--muted-foreground);font-size:.78rem;line-height:1.5}
+.disability-funding-note strong{color:var(--foreground)}
+@media(max-width:760px){.disability-funding-grid{grid-template-columns:1fr}.disability-funding-grid>article.disability-funding-other{grid-column:auto}}
