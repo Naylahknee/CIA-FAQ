@@ -48,9 +48,9 @@ export async function POST(request:Request, context:{params:Promise<{action:stri
   }
   const session=await getCommunityUser(); if (!session) return fail('Sign in first.',401);
   const user=await accountRow(session.id); if (!user) return fail('Sign in first.',401);
-  if (action==='status') return noStoreJson({email:user.email,emailVerified:Boolean(user.email_verified),emailVerificationRequired:emailVerificationConfigured(),twoFactorEnabled:Boolean(user.mfa_secret)});
+  if (action==='status') return noStoreJson({email:user.email,emailVerified:Boolean(user.email_verified),emailVerificationRequired:emailVerificationConfigured(),twoFactorEnabled:Boolean(user.mfa_secret),avatarUrl:session.avatarUrl||null});
   if (action==='delete') {
-   const media=await env.DB.prepare('SELECT media_key AS key FROM community_posts WHERE user_id=? AND media_key IS NOT NULL UNION SELECT image_key AS key FROM wall_submissions WHERE submitter_email=? COLLATE NOCASE').bind(user.id,user.email).all<{key:string}>();
+   const media=await env.DB.prepare('SELECT media_key AS key FROM community_posts WHERE user_id=? AND media_key IS NOT NULL UNION SELECT image_key AS key FROM wall_submissions WHERE submitter_email=? COLLATE NOCASE UNION SELECT avatar_key AS key FROM community_users WHERE id=? AND avatar_key IS NOT NULL').bind(user.id,user.email,user.id).all<{key:string}>();
    for (const row of media.results) if(row.key) await env.BUCKET.delete(row.key);
    await ensureD1AuthSchema();
    await env.DB.batch([env.DB.prepare('DELETE FROM wall_submissions WHERE submitter_email=? COLLATE NOCASE').bind(user.email),env.DB.prepare('DELETE FROM corrections WHERE submitter_email=? COLLATE NOCASE').bind(user.email),env.DB.prepare('DELETE FROM community_users WHERE id=?').bind(user.id)]);
