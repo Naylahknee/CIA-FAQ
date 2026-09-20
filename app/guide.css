@@ -454,11 +454,14 @@
 .help-search-empty small{color:var(--muted-foreground)}
 .help-search-empty a{display:inline;padding:0;border:0;color:var(--primary);font-weight:700;text-decoration:underline}
 
-/* Route comparisons on the Family Weekend panel. The grid itself is styled
-   by .travel-grid; this only spaces the block inside the panel. */
-.family-weekend-travel{margin-top:18px}
-.family-weekend-travel h3{margin:0 0 .3rem}
-.family-weekend-travel .travel-grid{margin-top:12px}
+/* Route comparisons on the calendar. Its own panel rather than part of the
+   Family Weekend block, which only renders for Fall 2026 -- families compare
+   routes for both terms. The grid itself is styled by .travel-grid. */
+.travel-panel{margin-top:22px;padding:clamp(18px,3vw,26px);background:var(--card);border:1px solid var(--border);border-radius:var(--radius)}
+.travel-panel h2{margin:0 0 .35rem;font-size:clamp(1.5rem,3vw,2.1rem)}
+.travel-panel-note{margin:0;color:var(--muted-foreground);font-size:.9rem;line-height:1.55}
+.travel-panel .travel-grid{margin-top:14px}
+@media (max-width:640px){.travel-panel .travel-grid{grid-template-columns:1fr}}
 
 
 /* Quick Facts page — spacious editorial treatment inspired by modern consumer-product sites.

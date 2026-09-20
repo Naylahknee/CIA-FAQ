@@ -451,14 +451,6 @@ export default function CalendarPage() {
             </section>
           </div>
 
-          {/* Route comparisons used to be reachable only from the arrival FAQ.
-              Families planning a visit are on this page, not that one. */}
-          <div className="family-weekend-travel">
-            <h3>Comparing routes to campus</h3>
-            <p className="fw-note">Rough planning comparisons, not quotes. Check current fares and traffic before booking.</p>
-            <TravelMatrix />
-          </div>
-
           <div className="family-weekend-links">
             <a href={familyWeekend.officialUrl} target="_blank" rel="noreferrer">
               <span><strong>Register and read the full CIA page</strong><small>Registration, FAQs, printable schedule and campus map</small></span>
@@ -467,6 +459,11 @@ export default function CalendarPage() {
           </div>
           <p className="fw-source">Condensed from CIA&rsquo;s Family Weekend page. Times and details can change &mdash; confirm on the official page before you travel.</p>
         </section>}
+        <section className="travel-panel" aria-labelledby="travel-panel-heading">
+          <h2 id="travel-panel-heading">Comparing routes to campus</h2>
+          <p className="travel-panel-note">Rough planning comparisons, not quotes, and they apply to any visit &mdash; move-in, Family Weekend, a break, or a weekend trip. Check current fares and traffic before booking.</p>
+          <TravelMatrix />
+        </section>
         <aside className="calendar-caution">
           <AlertTriangle aria-hidden="true" />
           <div>
