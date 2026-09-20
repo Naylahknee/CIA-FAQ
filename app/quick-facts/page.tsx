@@ -224,7 +224,20 @@ export default function QuickFactsPage() {
                           aria-label={item.title}
                           title={item.title}
                         >
-                          {image ? <img src={image} alt="" /> : <span className="quick-dorm-image-pending">Image</span>}
+                          {image ? (
+                            <img
+                              src={image}
+                              alt=""
+                              loading="eager"
+                              onError={(event) => {
+                                const target = event.currentTarget;
+                                target.style.display = "none";
+                                const fallback = target.nextElementSibling as HTMLElement | null;
+                                if (fallback) fallback.hidden = false;
+                              }}
+                            />
+                          ) : null}
+                          <span className="quick-dorm-image-pending" hidden={Boolean(image)}>Image</span>
                           <span className="quick-dorm-resource-label">{item.title}</span>
                         </a>
                       );
