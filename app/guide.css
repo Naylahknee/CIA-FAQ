@@ -815,3 +815,32 @@
 .app-frame:has(.site-announcement-global){
   padding-top:0;
 }
+
+
+/* Global shell geometry: announcement occupies its own full-width first row. */
+.app-frame{
+  display:grid;
+  grid-template-columns:228px minmax(0,1fr);
+  grid-template-rows:auto minmax(0,1fr);
+  min-height:100vh;
+}
+.site-announcement-global{
+  grid-column:1 / -1;
+  grid-row:1;
+  width:100%;
+  max-width:none;
+  margin:0;
+  border-radius:0;
+}
+.site-sidebar{
+  grid-column:1;
+  grid-row:2;
+  top:0;
+  height:100vh;
+}
+.mobile-header,
+.mobile-nav,
+.app-content{
+  grid-column:2;
+  grid-row:2;
+}
