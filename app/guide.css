@@ -665,3 +665,10 @@
   .quick-unified-guidance.quick-guidance-short>.quick-staff-guidance-divided.staff-count-2{display:block;max-width:none}
   .quick-unified-guidance.quick-guidance-short>.quick-family-good-to-know{grid-column:1;width:100%;max-width:none}
 }
+
+
+/* Quick Facts: let the white guidance panel grow with its resource list; no nested scrollbar. */
+.quick-unified-panel{height:auto;max-height:none;overflow:visible}
+.quick-unified-panel .quick-unified-body{height:auto;max-height:none;overflow:visible}
+.quick-unified-panel .quick-family-related{height:auto;max-height:none;overflow:visible}
+.quick-unified-panel .quick-family-related-list{height:auto;max-height:none;overflow:visible}
