@@ -469,3 +469,27 @@
 .cia-community a.c-btn-ghost:hover { color: var(--c-green); }
 .cia-community a.c-btn-orange { color: #fff; }
 
+
+
+/* Facebook-reference alignment: enlarge the collage and move the entire left-side composition upward. */
+@media (min-width: 961px) {
+  .c-auth-welcome {
+    grid-template-columns: minmax(250px, .72fr) minmax(420px, 1.28fr);
+    align-items: start;
+    padding-top: clamp(42px, 5vh, 70px);
+    padding-bottom: 28px;
+  }
+  .c-auth-welcome-copy {
+    align-self: end;
+    margin-bottom: clamp(22px, 5vh, 70px);
+    max-width: 360px;
+  }
+  .c-auth-visual {
+    width: min(100%, 700px);
+    justify-self: center;
+    align-self: start;
+    margin-top: clamp(22px, 4vh, 52px);
+    transform: scale(1.72);
+    transform-origin: 58% 18%;
+  }
+}
