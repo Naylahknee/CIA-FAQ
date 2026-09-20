@@ -5,7 +5,7 @@ import "./guide.css";
 import "./forms.css";
 
 export const SITE_URL = "https://ciaquestions.com";
-const SITE_NAME = "CIA Hyde Park Family Guide & FAQ";
+const SITE_NAME = "CIA Questions — Independent Family Guide";
 const SITE_DESCRIPTION = "Practical answers for Culinary Institute of America Hyde Park students and families: meal plans, move-in, tuition and costs, kits and textbooks, campus life, health and safety.";
 
 export const metadata: Metadata = {
