@@ -1,5 +1,7 @@
 "use client";
 
+// Quick Facts family-link panel styles live in guide.css; keep page and styles deployed together.
+
 import {
   BedDouble,
   BookOpen,
