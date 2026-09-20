@@ -800,3 +800,18 @@
   box-sizing:border-box;
   align-self:stretch;
 }
+
+
+/* Global announcement: spans the viewport above both sidebar and main content. */
+.site-announcement-global{
+  position:relative;
+  z-index:50;
+  grid-column:1 / -1;
+  width:100%;
+  max-width:none;
+  margin:0;
+  border-radius:0;
+}
+.app-frame:has(.site-announcement-global){
+  padding-top:0;
+}
