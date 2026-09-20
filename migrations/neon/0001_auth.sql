@@ -8,6 +8,8 @@ CREATE TABLE IF NOT EXISTS auth_users (
   email text NOT NULL,
   email_normalized text NOT NULL UNIQUE,
   display_name varchar(60) NOT NULL CHECK (char_length(display_name) BETWEEN 2 AND 60),
+  avatar_key text,
+  avatar_type varchar(32),
   email_verified_at timestamptz,
   role varchar(20) NOT NULL DEFAULT 'member' CHECK (role IN ('member', 'moderator')),
   mfa_secret text,
@@ -75,5 +77,8 @@ CREATE TABLE IF NOT EXISTS auth_community_onboarding (
   privacy_accepted_at timestamptz NOT NULL,
   created_at timestamptz NOT NULL DEFAULT now()
 );
+
+ALTER TABLE auth_users ADD COLUMN IF NOT EXISTS avatar_key text;
+ALTER TABLE auth_users ADD COLUMN IF NOT EXISTS avatar_type varchar(32);
 
 COMMIT;
