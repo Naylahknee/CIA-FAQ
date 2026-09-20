@@ -24,7 +24,7 @@ function localRows(query: string, term: Term, audience: "student" | "parent"): R
   return factsForTerm(term)
     .filter((fact) => `${fact.parentQ} ${fact.studentQ} ${fact.parentA} ${fact.studentA}`.toLowerCase().includes(needle))
     .slice(0, 6)
-    .map((fact) => ({ key: fact.id, href: `/faq/${fact.category}`, label: audience === "parent" ? fact.parentQ : fact.studentQ, topic: topicName(fact.category), iconId: fact.id }));
+    .map((fact) => ({ key: fact.id, href: `/faq/${fact.category}?answer=${encodeURIComponent(fact.id)}#faq-${encodeURIComponent(fact.id)}`, label: audience === "parent" ? fact.parentQ : fact.studentQ, topic: topicName(fact.category), iconId: fact.id }));
 }
 
 /** Map ranked index hits back onto the records that hold the display data.
@@ -36,7 +36,7 @@ function rowsFromHits(hits: Hit[], term: Term, audience: "student" | "parent"): 
     if (fact) {
       // The index stores the parent phrasing; show whichever the reader chose.
       const resolved = factsForTerm(term).find((entry) => entry.id === fact.id) ?? fact;
-      return { key: hit.id, href: `/faq/${resolved.category}`, label: audience === "parent" ? resolved.parentQ : resolved.studentQ, topic: topicName(resolved.category), iconId: resolved.id };
+      return { key: hit.id, href: `/faq/${resolved.category}?answer=${encodeURIComponent(resolved.id)}#faq-${encodeURIComponent(resolved.id)}`, label: audience === "parent" ? resolved.parentQ : resolved.studentQ, topic: topicName(resolved.category), iconId: resolved.id };
     }
     return { key: hit.id, href: hit.href, label: hit.title, topic: hit.source === "community" ? "Added by the guide team" : topicName(hit.category), iconId: hit.refId };
   });
