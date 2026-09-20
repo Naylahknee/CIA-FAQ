@@ -69,7 +69,7 @@ export function GuideShell({ children }: { children: ReactNode }) {
   const [open, setOpen] = useState(false);
   const [collapsed, setCollapsed] = useState(false);
   const [signedIn, setSignedIn] = useState(false);
-  const [moderator, setModerator] = useState(false);
+  const [communityRole, setCommunityRole] = useState("");
   const { audience, term, setAudience, setTerm } = useGuidePreferences();
   const pathname = usePathname() ?? "/";
 
@@ -91,16 +91,16 @@ export function GuideShell({ children }: { children: ReactNode }) {
       .then((data) => {
         if (!active) return;
         setSignedIn(Boolean(data?.user));
-        setModerator(data?.user?.role === "moderator");
+        setCommunityRole(String(data?.user?.role ?? ""));
       })
-      .catch(() => { if (active) setSignedIn(false); });
+      .catch(() => { if (active) { setSignedIn(false); setCommunityRole(""); } });
     return () => { active = false; };
   }, []);
 
   async function signOut() {
     try { await fetch("/api/community/auth/signout", { method: "POST", headers: { "Content-Type": "application/json" }, body: "{}" }); } catch { /* offline */ }
     setSignedIn(false);
-    setModerator(false);
+    setCommunityRole("");
     window.location.href = "/";
   }
 
@@ -144,14 +144,27 @@ export function GuideShell({ children }: { children: ReactNode }) {
           {signedIn
             ? <>
                 <Link href="/account" className={pathname === "/account" ? "active" : ""}><UserRound size={18} /><span>Your profile</span></Link>
-                {moderator && <Link href="/admin" className={pathname === "/admin" ? "active" : ""}><ShieldCheck size={18} /><span>Moderation</span></Link>}
+                {(communityRole === "moderator" || communityRole === "admin") && <Link href={communityRole === "admin" ? "/community/admin" : "/admin"} className={pathname.startsWith("/community/admin") || pathname === "/admin" ? "active" : ""}><ShieldCheck size={18} /><span>Moderation</span></Link>}
                 <button type="button" onClick={signOut}><LogOut size={18} /><span>Sign out</span></button>
               </>
             : <a href="/community?mode=signup" target="_blank" rel="noreferrer"><UserRound size={18} /><span>Sign in or join</span></a>}
         </div>
       </aside>
       <header className="mobile-header"><Link href="/" className="site-brand"><span className="brand-seal">CIA</span><span>Family Guide</span></Link><button type="button" aria-label={open ? "Close menu" : "Open menu"} onClick={() => setOpen(!open)}>{open ? <X /> : <Menu />}</button></header>
-      {open && <nav className="mobile-nav" aria-label="Mobile navigation">{links.map(({ to, label, icon: Icon }) => <Link key={to} href={to} onClick={() => setOpen(false)}><Icon size={18} />{label}</Link>)}<a href={COMMUNITY_URL} onClick={() => setOpen(false)}><UserRound size={18} />Family Community</a></nav>}
+      {open && <nav className="mobile-nav" aria-label="Mobile navigation">
+        {links.map(({ to, label, icon: Icon }) => <Link key={to} href={to} onClick={() => setOpen(false)}><Icon size={18} />{label}</Link>)}
+        <div className="mobile-nav-account" aria-label="Community and account">
+          <a href={COMMUNITY_URL} onClick={() => setOpen(false)}><UserRound size={18} />Family Community</a>
+          {signedIn ? <>
+            <Link href="/account?from=community" onClick={() => setOpen(false)}><UserRound size={18} />Your profile</Link>
+            {communityRole === "admin" && <Link href="/community/admin" onClick={() => setOpen(false)}><ShieldCheck size={18} />Admin tools</Link>}
+            <button type="button" onClick={() => { setOpen(false); void signOut(); }}><LogOut size={18} />Sign out</button>
+          </> : <>
+            <Link href="/community" onClick={() => setOpen(false)}><UserRound size={18} />Sign in</Link>
+            <Link href="/community?mode=signup" onClick={() => setOpen(false)}><UserRound size={18} />Create account</Link>
+          </>}
+        </div>
+      </nav>}
       <div id="top" className={`app-content audience-${audience}`}>
         <div className="utility-bar">
           <div className="radial-selector" role="radiogroup" aria-label="Who is using this guide"><button type="button" role="radio" aria-checked={audience === "parent"} className={audience === "parent" ? "active" : ""} onClick={() => setAudience("parent")}>Parent</button><button type="button" role="radio" aria-checked={audience === "student"} className={audience === "student" ? "active" : ""} onClick={() => setAudience("student")}>Student</button></div>
