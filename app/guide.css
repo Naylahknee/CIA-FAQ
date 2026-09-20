@@ -600,3 +600,10 @@
 .quick-guidance-short>.quick-staff-guidance-divided{grid-column:1}
 .quick-guidance-short>.quick-family-good-to-know{grid-column:2;grid-row:1 / span 2;margin-top:0;align-self:start}
 @media(max-width:800px){.quick-guidance-short{grid-template-columns:1fr}.quick-guidance-short>h4,.quick-guidance-short>.quick-staff-guidance-divided,.quick-guidance-short>.quick-family-good-to-know{grid-column:1;grid-row:auto}.quick-guidance-short>.quick-family-good-to-know{margin-top:20px}}
+
+
+/* Short guidance proportions: give staff copy more reading width and keep the note compact. */
+.quick-guidance-short{grid-template-columns:minmax(0,1.65fr) minmax(300px,.65fr);column-gap:40px}
+.quick-guidance-short>.quick-family-good-to-know{width:100%;max-width:520px;justify-self:end}
+.quick-guidance-short .quick-staff-guidance-divided p{font-size:.9rem;line-height:1.65}
+@media(max-width:800px){.quick-guidance-short{grid-template-columns:1fr}.quick-guidance-short>.quick-family-good-to-know{max-width:none;justify-self:stretch}}
