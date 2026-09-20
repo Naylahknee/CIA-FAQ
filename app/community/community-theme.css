@@ -526,3 +526,13 @@
   .c-member-count{justify-self:start}
   .c-member-role,.c-member-remove{width:100%}
 }
+
+/* Signed-out community access stays visible on phones instead of disappearing with the member nav. */
+.c-guest-actions { margin-left: auto; display: flex; align-items: center; gap: 8px; }
+.c-guest-actions .c-btn { text-decoration: none; white-space: nowrap; }
+@media (max-width: 720px) {
+  .c-topbar-guest .c-topbar-inner { padding-bottom: 8px; }
+  .c-topbar-guest .c-brand { min-width: 0; flex: 1 1 100%; }
+  .c-topbar-guest .c-guest-actions { width: 100%; margin-left: 0; display: grid; grid-template-columns: 1fr 1fr; }
+  .c-topbar-guest .c-guest-actions .c-btn { width: 100%; min-height: 44px; box-sizing: border-box; }
+}
