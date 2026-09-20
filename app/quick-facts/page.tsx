@@ -180,6 +180,8 @@ export default function QuickFactsPage() {
                   className={activeAdvice === key ? "active" : ""}
                   key={key}
                   onClick={() => setActiveAdvice(key)}
+                  onMouseEnter={() => setActiveAdvice(key)}
+                  onFocus={() => setActiveAdvice(key)}
                 >
                   <span><Icon aria-hidden="true" />{topicLabels[key]}</span>
                 </button>
