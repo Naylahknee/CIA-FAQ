@@ -1270,3 +1270,9 @@ html[data-sidebar="collapsed"] .sidebar-independent-note{display:none}
  .travel-resource-grid{grid-template-columns:1fr}
  .calendar-travel-cta>a{min-height:44px;align-items:center}
 }
+
+.quick-travel-planner-link{display:grid;grid-template-columns:40px minmax(0,1fr) 18px;align-items:center;gap:10px;margin:0 0 16px;padding:12px 13px;border:1px solid var(--border);border-radius:13px;background:#f1f2f6;color:var(--foreground);text-decoration:none}
+.quick-travel-planner-link>svg:first-child{width:20px;color:var(--destructive)}
+.quick-travel-planner-link strong,.quick-travel-planner-link small{display:block}
+.quick-travel-planner-link small{margin-top:2px;color:var(--muted-foreground)}
+.quick-travel-planner-link>svg:last-child{width:15px;color:var(--muted-foreground)}
