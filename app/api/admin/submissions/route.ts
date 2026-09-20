@@ -15,6 +15,7 @@ export async function POST(request: Request) {
   const type = String(data.get("type") ?? "");
   const id = String(data.get("id") ?? "");
   const action = String(data.get("action") ?? "");
+  const returnTo = String(data.get("returnTo") ?? "") === "/community/admin" ? "/community/admin" : "/admin";
   if (!/^[0-9a-f-]{36}$/i.test(id)) return new Response("Invalid request", { status: 400 });
   if (type === "submission" && ["approved", "rejected"].includes(action)) {
     await getDb().update(wallSubmissions).set({ status: action as "approved" | "rejected", reviewedAt: new Date() }).where(eq(wallSubmissions.id, id));
@@ -23,5 +24,5 @@ export async function POST(request: Request) {
   } else {
     return new Response("Invalid request", { status: 400 });
   }
-  redirect("/admin");
+  redirect(returnTo);
 }
