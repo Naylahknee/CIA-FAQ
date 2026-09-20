@@ -528,3 +528,11 @@
 .quick-view-panel{padding-bottom:8px}
 .quick-advice-panel,.quick-family-panel{margin-bottom:12px}
 @media(max-width:700px){.quick-guidance-suite{padding-bottom:48px}}
+
+
+/* Quick Facts consolidated resource shelf */
+.quick-family-explorer{margin-top:34px}
+.quick-family-topics-consolidated{grid-template-columns:repeat(5,minmax(0,1fr))}
+.quick-family-resource-icon{display:grid;place-items:center;width:70px;height:54px;border-radius:10px;background:#eaf5fb;color:var(--destructive)}
+.quick-family-resource-icon svg{width:22px;height:22px;stroke-width:2}
+@media(max-width:1050px){.quick-family-topics-consolidated{display:flex}}
