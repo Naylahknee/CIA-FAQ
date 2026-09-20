@@ -2,7 +2,7 @@ import { facts, topics, type TopicKey } from "../guide-data";
 import { resourceLibrary } from "../guide-sections";
 
 const SITE_URL = "https://ciaquestions.com";
-const SITE_NAME = "CIA Hyde Park Family Guide & FAQ";
+const SITE_NAME = "CIA Questions — Independent Family Guide";
 
 function Ld({ data }: { data: unknown }) {
   return <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }} />;
