@@ -1,6 +1,6 @@
 "use client";
 
-import { ArrowUp, CalendarDays, Camera, HeartHandshake, Home, Info, Library, LogOut, Menu, PanelLeft, Search, ShieldCheck, ShoppingBag, UserRound, X } from "lucide-react";
+import { ArrowUp, CalendarDays, Camera, HeartHandshake, Home, Info, Library, LogOut, Menu, MessageSquareWarning, PanelLeft, Search, ShieldCheck, ShoppingBag, UserRound, X } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { useEffect, useState, type ReactNode } from "react";
 import Link from "next/link";
@@ -148,6 +148,10 @@ export function GuideShell({ children }: { children: ReactNode }) {
           <div className="radial-selector" role="radiogroup" aria-label="Who is using this guide"><button type="button" role="radio" aria-checked={audience === "parent"} className={audience === "parent" ? "active" : ""} onClick={() => setAudience("parent")}>Parent</button><button type="button" role="radio" aria-checked={audience === "student"} className={audience === "student" ? "active" : ""} onClick={() => setAudience("student")}>Student</button></div>
           <div className="radial-selector" role="radiogroup" aria-label="Academic year"><button type="button" role="radio" aria-checked={term === "fall"} className={term === "fall" ? "active" : ""} onClick={() => setTerm("fall")}>Fall 2026</button><button type="button" role="radio" aria-checked={term === "spring"} className={term === "spring" ? "active" : ""} onClick={() => setTerm("spring")}>Spring 2027</button></div>
         </div>
+        <aside className="site-correction-banner" aria-label="Corrections and updates">
+          <MessageSquareWarning size={20} aria-hidden="true" />
+          <p><strong>Spot something that needs updating?</strong> Please send corrections, outdated information, or suggested updates through the <Link href="/corrections">Corrections</Link> link in the page footer.</p>
+        </aside>
         {children}
         <footer className="site-footer"><div className="site-footer-inner"><div className="site-footer-about"><strong>CIA Hyde Park Family Guide &amp; FAQ</strong><p>An independent guide built from official documents and anonymized family questions. Anyone can read the FAQs.</p><nav aria-label="Footer navigation"><Link href="/privacy">Privacy</Link><Link href="/corrections">Corrections</Link><Link href="/wall">Celebration Wall</Link><a href="https://buymeacoffee.com/tq4yIJli7f" target="_blank" rel="noreferrer">Buy me a coffee</a></nav></div></div><div className="site-footer-note">No advertising or analytics tracking. Signed-in accounts use one essential secure cookie.</div><a className="back-to-top" href="#top" aria-label="Back to top"><ArrowUp /></a></footer>
       </div>
