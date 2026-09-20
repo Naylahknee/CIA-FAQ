@@ -43,6 +43,10 @@ import { familyResources, staffGuidance } from "../guide-sections";
 
 type FamilyCategoryKey = "essentials" | "uniforms" | "health" | "money" | "travel";
 
+const vrStates = [
+  "Alabama","Alaska","Arizona","Arkansas","California","Colorado","Connecticut","Delaware","District of Columbia","Florida","Georgia","Hawaii","Idaho","Illinois","Indiana","Iowa","Kansas","Kentucky","Louisiana","Maine","Maryland","Massachusetts","Michigan","Minnesota","Mississippi","Missouri","Montana","Nebraska","Nevada","New Hampshire","New Jersey","New Mexico","New York","North Carolina","North Dakota","Ohio","Oklahoma","Oregon","Pennsylvania","Rhode Island","South Carolina","South Dakota","Tennessee","Texas","Utah","Vermont","Virginia","Washington","West Virginia","Wisconsin","Wyoming"
+] as const;
+
 const familyCategories = [
   ["essentials", "Dorm Essentials", Boxes],
   ["uniforms", "Uniforms & Gear", Shirt],
@@ -101,6 +105,7 @@ const dormResourceImages: Record<string, string> = {
 
 export default function QuickFactsPage() {
   const [familyCategory, setFamilyCategory] = useState<FamilyCategoryKey>("essentials");
+  const [vrState, setVrState] = useState<string>("");
 
   const grouped = useMemo(
     () =>
@@ -213,16 +218,29 @@ export default function QuickFactsPage() {
               <div className="quick-family-related">
                 {familyCategory === "travel" && <Link href="/travel" className="quick-travel-planner-link"><MapPinned aria-hidden="true" /><span><strong>Plan your trip to Hyde Park</strong><small>Compare driving, train and flight options and estimate trip costs.</small></span><ExternalLink aria-hidden="true" /></Link>}
                 {familyCategory === "money" && <div className="quick-disability-funding">
-                  <div className="quick-disability-funding-head"><Accessibility aria-hidden="true" /><div><strong>State disability funding</strong><small>Vocational rehabilitation may be another source of college funding.</small></div></div>
-                  <p>Students with disabilities may qualify for education and training support through their home state&rsquo;s vocational rehabilitation agency when college is part of an approved employment plan.</p>
-                  <div className="quick-disability-funding-links">
-                    <a href="https://www.dor.ca.gov/Home/GettingStarted" target="_blank" rel="noreferrer"><strong>California DOR</strong><small>California residents</small><ExternalLink aria-hidden="true" /></a>
-                    <a href="https://www.acces.nysed.gov/vr/college-higher-education" target="_blank" rel="noreferrer"><strong>New York ACCES-VR</strong><small>New York residents</small><ExternalLink aria-hidden="true" /></a>
-                    <a href="https://rsa.ed.gov/about/states" target="_blank" rel="noreferrer"><strong>Other states</strong><small>Find your state VR agency</small><ExternalLink aria-hidden="true" /></a>
+                  <div className="quick-disability-funding-head"><Accessibility aria-hidden="true" /><div><strong>Find disability education funding in your home state</strong><small>Every state has a federally supported Vocational Rehabilitation (VR) program.</small></div></div>
+                  <p>VR agencies can support employment-related education and training for eligible people with disabilities. Depending on the student&rsquo;s individualized employment plan and state rules, that can include postsecondary education and related supports.</p>
+                  <label className="quick-vr-state-picker">
+                    <span>Student&rsquo;s home state</span>
+                    <select value={vrState} onChange={(event) => setVrState(event.target.value)}>
+                      <option value="">Choose a state</option>
+                      {vrStates.map((state) => <option key={state} value={state}>{state}</option>)}
+                    </select>
+                  </label>
+                  {vrState && <div className="quick-vr-result">
+                    <div><MapPinned aria-hidden="true" /><span><small>Start with the home-state VR program</small><strong>{vrState}</strong></span></div>
+                    <p>Ask whether attending CIA can be included in the student&rsquo;s Individualized Plan for Employment (IPE), and which tuition, books, tools, uniforms, technology, transportation, housing, or other education-related costs may be authorized.</p>
+                    {vrState === "California" ? <a href="https://www.dor.ca.gov/Home/GettingStarted" target="_blank" rel="noreferrer">California Department of Rehabilitation (DOR) <ExternalLink aria-hidden="true" /></a>
+                    : vrState === "New York" ? <a href="https://www.acces.nysed.gov/vr/college-higher-education" target="_blank" rel="noreferrer">New York ACCES-VR college guidance <ExternalLink aria-hidden="true" /></a>
+                    : <a href="https://rsa.ed.gov/about/states" target="_blank" rel="noreferrer">Find the official {vrState} VR agency in the federal directory <ExternalLink aria-hidden="true" /></a>}
+                  </div>}
+                  <div className="quick-vr-explain">
+                    <strong>Going to CIA out of state?</strong>
+                    <p>Start with the VR agency in the student&rsquo;s <em>home state</em>, not New York simply because CIA is located there. Ask how that agency handles out-of-state postsecondary education before committing to costs.</p>
                   </div>
-                  <p className="quick-disability-funding-note"><strong>Start early:</strong> eligibility and covered costs vary. Ask whether CIA attendance and related expenses can be included in the student&rsquo;s individualized employment plan.</p>
+                  <p className="quick-disability-funding-note"><strong>Start early:</strong> VR is not an automatic scholarship. Eligibility, services, financial participation, comparable-benefit rules, and approval processes vary. Continue completing FAFSA and other available financial-aid applications.</p>
                 </div>}
-                <h4>Related & Shared Resources</h4>
+                                <h4>Related & Shared Resources</h4>
                 {familyCategory === "essentials" ? (
                   <div className="quick-dorm-resource-n" aria-label="Dorm Essentials resources">
                     {visible.map((item, index) => {
