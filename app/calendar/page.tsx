@@ -329,20 +329,21 @@ export default function CalendarPage() {
               )}
             </div>
 
-            {upNext.length > 0 && (
-              <div className="calendar-upnext">
-                <p>Next up this month</p>
-                {upNext.map((event) => (
-                  <button key={event.id} type="button" onClick={() => setSelected(isoDate(event.date))}>
-                    <span className="calendar-upnext-date">{event.date.toLocaleDateString("en-US", { month: "short", day: "numeric" })}</span>
-                    <span className="calendar-upnext-title">{event.title}</span>
-                    <span style={dotStyle(TYPE_COLORS[event.type].bg)} />
-                  </button>
-                ))}
-              </div>
-            )}
           </aside>
         </div>
+
+        {upNext.length > 0 && (
+          <section className="calendar-upnext calendar-upnext-below" aria-label="Next up this month">
+            <p>Next up this month</p>
+            {upNext.map((event) => (
+              <button key={event.id} type="button" onClick={() => setSelected(isoDate(event.date))}>
+                <span className="calendar-upnext-date">{event.date.toLocaleDateString("en-US", { month: "short", day: "numeric" })}</span>
+                <span className="calendar-upnext-title">{event.title}</span>
+                <span style={dotStyle(TYPE_COLORS[event.type].bg)} />
+              </button>
+            ))}
+          </section>
+        )}
 
         {needsExpandedSelectedDetails && (
           <section className="calendar-selected-summary" aria-live="polite" aria-labelledby="selected-date-heading">
