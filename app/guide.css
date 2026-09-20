@@ -592,3 +592,11 @@
 .quick-dorm-resource-circle:nth-child(n){grid-column:auto;grid-row:auto}
 @media(max-width:900px){.quick-staff-guidance-divided{display:flex;overflow-x:auto}.quick-staff-guidance-divided p{flex:0 0 250px}.quick-dorm-resource-n{display:grid;grid-template-columns:repeat(4,minmax(92px,1fr));grid-template-rows:auto;overflow:visible}}
 @media(max-width:600px){.quick-dorm-resource-n{grid-template-columns:repeat(2,minmax(92px,1fr))}}
+
+
+/* Short staff-advice groups: use the open right side for Good to know. */
+.quick-guidance-short{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(320px,.85fr);column-gap:34px;align-items:start}
+.quick-guidance-short>h4{grid-column:1}
+.quick-guidance-short>.quick-staff-guidance-divided{grid-column:1}
+.quick-guidance-short>.quick-family-good-to-know{grid-column:2;grid-row:1 / span 2;margin-top:0;align-self:start}
+@media(max-width:800px){.quick-guidance-short{grid-template-columns:1fr}.quick-guidance-short>h4,.quick-guidance-short>.quick-staff-guidance-divided,.quick-guidance-short>.quick-family-good-to-know{grid-column:1;grid-row:auto}.quick-guidance-short>.quick-family-good-to-know{margin-top:20px}}
