@@ -148,7 +148,7 @@ export default function QuickFactsPage() {
             </div>
 
             <div className="quick-unified-body">
-              <div className="quick-unified-guidance">
+              <div className={`quick-unified-guidance ${activeStaffAdvice.length > 0 && activeStaffAdvice.length <= 2 ? "quick-guidance-short" : ""}`}>
                 {activeStaffAdvice.length > 0 ? (
                   <>
                     <h4>What staff said</h4>
