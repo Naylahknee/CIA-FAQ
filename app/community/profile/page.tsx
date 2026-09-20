@@ -25,13 +25,13 @@ export default function CommunityProfile() {
   return (
     <div className="c-wrap">
       <section className="c-banner">
-        <span className="c-avatar" aria-hidden="true">{initials(user.displayName)}</span>
+        <span className="c-avatar" aria-hidden="true">{user.avatarUrl ? <img src={user.avatarUrl} alt="" /> : initials(user.displayName)}</span>
         <div>
           <h1>{user.displayName}</h1>
           <p>{roleLabel} · {user.email}</p>
         </div>
         <div className="c-banner-actions">
-          <Link className="c-btn c-btn-orange" href="/account">Edit profile</Link>
+          <Link className="c-btn c-btn-orange" href="/account?from=community">Edit profile</Link>
         </div>
       </section>
 
@@ -91,7 +91,7 @@ export default function CommunityProfile() {
           <div className="c-card" style={{ background: "var(--c-green-tint)", borderColor: "var(--c-green-tint-border)" }}>
             <h2>Notification settings</h2>
             <p className="c-muted">Email and alert preferences arrive with Alerts.</p>
-            <Link className="c-btn c-btn-ghost" href="/account" style={{ marginTop: 12 }}>Account &amp; privacy</Link>
+            <Link className="c-btn c-btn-ghost" href="/account?from=community" style={{ marginTop: 12 }}>Account &amp; privacy</Link>
           </div>
         </aside>
       </div>
