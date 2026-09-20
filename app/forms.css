@@ -162,3 +162,27 @@
   .system-page{padding:56px 18px}
   .lost-page{width:calc(100% - 28px)}
 }
+
+
+/* Account belongs to the standalone Family Community, not the public Guide shell. */
+.c-account-page{
+  --c-green:#13654A;--c-green-hover:#0F5540;--c-page:#F0F2F5;--c-card:#FFFFFF;
+  --c-control:#F0F2F5;--c-card-border:#E4E6EB;--c-ink:#101418;--c-muted:#4B5563;
+  --c-meta:#65676B;--c-radius:12px;--c-control-radius:8px;
+  min-height:100vh;padding:32px 20px 64px;box-sizing:border-box;background:var(--c-page);
+  color:var(--c-ink);font-family:"Figtree","DM Sans",system-ui,sans-serif;
+}
+.c-account-shell{width:min(960px,100%);margin:0 auto}
+.c-account-back{display:inline-flex;margin:0 0 18px;color:var(--c-green);font-weight:700;text-decoration:none}
+.c-account-card{padding:clamp(22px,4vw,38px);border:1px solid var(--c-card-border);border-radius:var(--c-radius);background:var(--c-card);box-shadow:0 1px 2px rgb(16 24 40 / 10%)}
+.c-account-card h1,.c-account-card h2{font-family:inherit;color:var(--c-ink);letter-spacing:-.02em}
+.c-account-card h1{margin-top:0;font-size:clamp(2rem,4vw,2.5rem)}
+.c-account-card h2{margin-top:28px;font-size:1.15rem}
+.c-account-card form{display:grid;gap:12px;margin-top:18px;padding-top:18px;border-top:1px solid var(--c-card-border)}
+.c-account-card label{display:grid;gap:6px;font-weight:700}
+.c-account-card input:not([type="checkbox"]),.c-account-card select{width:100%;min-height:46px;box-sizing:border-box;padding:0 13px;border:1px solid var(--c-card-border);border-radius:var(--c-control-radius);background:var(--c-control);color:var(--c-ink);font:inherit}
+.c-account-card button{justify-self:start;min-height:42px;padding:0 16px;border:0;border-radius:var(--c-control-radius);background:var(--c-green);color:#fff;font:inherit;font-weight:800;cursor:pointer}
+.c-account-card button:hover{background:var(--c-green-hover)}
+.c-account-card a{color:var(--c-green)}
+.c-account-card fieldset{display:grid;gap:8px;margin:0;padding:14px;border:1px solid var(--c-card-border);border-radius:var(--c-control-radius)}
+@media(max-width:640px){.c-account-page{padding:20px 12px 40px}.c-account-card{padding:20px 16px}}
