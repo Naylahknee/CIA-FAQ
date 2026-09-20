@@ -152,12 +152,9 @@ export default function QuickFactsPage() {
                 {activeStaffAdvice.length > 0 ? (
                   <>
                     <h4>What staff said</h4>
-                    <div className="quick-staff-guidance-list quick-staff-guidance-horizontal">
+                    <div className="quick-staff-guidance-list quick-staff-guidance-divided">
                       {activeStaffAdvice.map((advice) => (
-                        <section key={advice.topic}>
-                          <strong>{advice.topic}</strong>
-                          <p>{advice.guidance}</p>
-                        </section>
+                        <p key={advice.topic}>{advice.guidance}</p>
                       ))}
                     </div>
                   </>
