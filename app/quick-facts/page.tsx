@@ -209,7 +209,7 @@ export default function QuickFactsPage() {
               </div>
 
               <div className="quick-family-related">
-                <h4>Related resources</h4>
+                <h4>Related & Shared Resources</h4>
                 {familyCategory === "essentials" ? (
                   <div className="quick-dorm-resource-n" aria-label="Dorm Essentials resources">
                     {visible.map((item, index) => {
