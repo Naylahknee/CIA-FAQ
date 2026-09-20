@@ -116,6 +116,7 @@ export default function QuickFactsPage() {
   const [activeAdvice, setActiveAdvice] = useState<AdviceKey>("packing");
   const [filter, setFilter] = useState<(typeof filters)[number][0]>("all");
   const [query, setQuery] = useState("");
+  const [quickView, setQuickView] = useState<"advice" | "resources">("advice");
 
   const grouped = useMemo(
     () =>
@@ -159,15 +160,19 @@ export default function QuickFactsPage() {
       </section>
 
 
-      <section className="quick-section quick-advice-section" aria-labelledby="quick-advice-heading">
-        <div className="quick-section-head">
-          <div>
-            <p className="quick-kicker">Start here</p>
-            <h2 id="quick-advice-heading">What CIA staff advised</h2>
-            <p>Pick a topic. The guidance and the useful resources stay together.</p>
-          </div>
+      <section className="quick-guidance-suite" aria-labelledby="quick-guidance-heading">
+        <div className="quick-guidance-heading">
+          <h2 id="quick-guidance-heading">Move-In Guidance &amp; Resources</h2>
+          <p>A carefully structured coordination suite designed to simplify your residency transition.<br className="quick-guidance-break" /> Synchronizing university administrative actions with verified veteran peer knowledge.</p>
         </div>
 
+        <div className="quick-view-tabs" role="tablist" aria-label="Move-in guidance and resources">
+          <button type="button" role="tab" aria-selected={quickView === "advice"} className={quickView === "advice" ? "active" : ""} onClick={() => setQuickView("advice")}>Official Staff Advice</button>
+          <button type="button" role="tab" aria-selected={quickView === "resources"} className={quickView === "resources" ? "active" : ""} onClick={() => setQuickView("resources")}>Crowdsourced Family Links</button>
+        </div>
+
+        {quickView === "advice" ? (
+          <div className="quick-view-panel" role="tabpanel">
         <div className="quick-advice-explorer">
           <div className="quick-topic-list" role="tablist" aria-label="Advice topics">
             {adviceKeys.map((key) => {
@@ -221,18 +226,13 @@ export default function QuickFactsPage() {
             </div>
         </article>
         </div>
-      </section>
-
-      <section className="quick-section" aria-labelledby="quick-resource-heading">
-        <div className="quick-section-head quick-resource-heading">
-          <div>
-            <p className="quick-kicker">Family resource shelf</p>
-            <h2 id="quick-resource-heading">Already know what you need?</h2>
-            <p>Search everything families shared without wading through one giant accordion.</p>
           </div>
-          <strong>{visible.length} resources</strong>
-        </div>
-
+        ) : (
+          <div className="quick-view-panel" role="tabpanel">
+            <div className="quick-resource-tab-head">
+              <span>Family resource shelf</span>
+              <strong>{visible.length} resources</strong>
+            </div>
         <div className="quick-resource-browser">
           <aside className="quick-resource-filter-panel">
             <strong className="quick-filter-title">Filter resources</strong>
@@ -282,6 +282,8 @@ export default function QuickFactsPage() {
         </div>
         </div>
         </div>
+          </div>
+        )}
       </section>
     </main>
   );
