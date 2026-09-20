@@ -546,3 +546,11 @@
 .c-wall-review-body h2 { margin:5px 0 6px; font-size:1.1rem; }
 .c-wall-review-body p { margin:0 0 12px; }
 .c-wall-review-actions { display:flex; gap:8px; flex-wrap:wrap; }
+
+/* Keep Guide/Admin/Sign out reachable below the horizontally scrolling community tabs. */
+.c-topbar-actions{display:flex;align-items:center;gap:8px}
+@media (max-width:720px){
+  .c-topbar-actions{width:100%;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;padding-bottom:8px}
+  .c-topbar-actions .c-signout{width:100%;min-height:44px;justify-content:center;box-sizing:border-box;white-space:nowrap}
+  .c-topbar-actions .c-signout:only-child{grid-column:1/-1}
+}
