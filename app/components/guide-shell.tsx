@@ -135,6 +135,10 @@ export function GuideShell({ children }: { children: ReactNode }) {
             <span>{audience === "student" ? "Share your milestone" : "Share your student's milestone"}</span>
           </Link>
         </div>
+        <aside className="sidebar-independent-note" aria-label="Independent site notice">
+          <Info size={15} aria-hidden="true" />
+          <p><strong>Independent family site.</strong> This is not an official CIA-maintained page. Please verify important information through CIA&apos;s official website and communications.</p>
+        </aside>
         <div className="sidebar-account">
           {signedIn
             ? <>
