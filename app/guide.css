@@ -675,3 +675,28 @@
 .quick-unified-panel .quick-unified-body{height:auto;max-height:none;overflow:visible}
 .quick-unified-panel .quick-family-related{height:auto;max-height:none;overflow:visible}
 .quick-unified-panel .quick-family-related-list{height:auto;max-height:none;overflow:visible}
+
+
+/* Sitewide correction/update announcement */
+.site-correction-banner{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  width:min(1180px,calc(100% - 40px));
+  box-sizing:border-box;
+  margin:18px auto 0;
+  padding:11px 16px;
+  border:1px solid #d8e7ef;
+  border-radius:12px;
+  background:#eef7fb;
+  color:var(--foreground);
+  font-size:.88rem;
+  line-height:1.45;
+}
+.site-correction-banner svg{flex:0 0 auto;color:var(--destructive)}
+.site-correction-banner p{margin:0}
+.site-correction-banner strong{font-weight:800}
+.site-correction-banner a{color:inherit;font-weight:800;text-decoration:underline;text-underline-offset:2px}
+@media(max-width:700px){
+  .site-correction-banner{width:calc(100% - 24px);align-items:flex-start;margin-top:12px;padding:10px 12px}
+}
