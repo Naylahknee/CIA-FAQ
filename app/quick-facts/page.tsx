@@ -36,6 +36,7 @@ import {
   TrainFront,
 } from "lucide-react";
 import { useMemo, useState, type ReactNode } from "react";
+import Link from "next/link";
 import { PageHeader } from "../components/page-header";
 import { familyResources, staffGuidance } from "../guide-sections";
 
@@ -209,6 +210,7 @@ export default function QuickFactsPage() {
               </div>
 
               <div className="quick-family-related">
+                {familyCategory === "travel" && <Link href="/travel" className="quick-travel-planner-link"><MapPinned aria-hidden="true" /><span><strong>Plan your trip to Hyde Park</strong><small>Compare driving, train and flight options and estimate trip costs.</small></span><ExternalLink aria-hidden="true" /></Link>}
                 <h4>Related & Shared Resources</h4>
                 {familyCategory === "essentials" ? (
                   <div className="quick-dorm-resource-n" aria-label="Dorm Essentials resources">
