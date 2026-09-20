@@ -6,6 +6,8 @@ export type NeonUser = {
   id: string;
   email: string;
   displayName: string;
+  avatarKey: string | null;
+  avatarType: string | null;
   role: "member" | "moderator" | "admin";
   emailVerified: boolean;
   passwordHash: string | null;
@@ -54,6 +56,8 @@ function mapUser(row: Record<string, unknown> | undefined): NeonUser | null {
     id: String(row.id),
     email: String(row.email),
     displayName: String(row.display_name),
+    avatarKey: row.avatar_key == null ? null : String(row.avatar_key),
+    avatarType: row.avatar_type == null ? null : String(row.avatar_type),
     role: row.role === "admin" ? "admin" : row.role === "moderator" ? "moderator" : "member",
     emailVerified: Boolean(row.email_verified_at),
     passwordHash: row.password_hash == null ? null : String(row.password_hash),
@@ -62,7 +66,7 @@ function mapUser(row: Record<string, unknown> | undefined): NeonUser | null {
   };
 }
 
-const userSelect = `SELECT u.id, u.email, u.display_name, u.role, u.email_verified_at,
+const userSelect = `SELECT u.id, u.email, u.display_name, u.avatar_key, u.avatar_type, u.role, u.email_verified_at,
   c.password_hash, c.password_salt, c.password_iterations
   FROM auth_users u LEFT JOIN auth_credentials c ON c.user_id = u.id`;
 
@@ -152,7 +156,7 @@ export async function createNeonPasswordUser(input: {
 
 export async function findOrCreateGoogleUser(input: { subject: string; email: string; displayName: string }) {
   const sql = getNeonAuthDb();
-  const account = await sql.query(`SELECT u.id, u.email, u.display_name, u.role, u.email_verified_at,
+  const account = await sql.query(`SELECT u.id, u.email, u.display_name, u.avatar_key, u.avatar_type, u.role, u.email_verified_at,
       c.password_hash, c.password_salt, c.password_iterations
     FROM auth_oauth_accounts o JOIN auth_users u ON u.id = o.user_id
     LEFT JOIN auth_credentials c ON c.user_id = u.id
@@ -165,7 +169,7 @@ export async function findOrCreateGoogleUser(input: { subject: string; email: st
     VALUES ($1, $2, $3, $4, now())
     ON CONFLICT (email_normalized) DO UPDATE SET
       email_verified_at = COALESCE(auth_users.email_verified_at, now()), updated_at = now()
-    RETURNING id, email, display_name, role, email_verified_at`, [id, input.email, input.email, input.displayName]);
+    RETURNING id, email, display_name, avatar_key, avatar_type, role, email_verified_at`, [id, input.email, input.email, input.displayName]);
   const userId = String((users[0] as Record<string, unknown>).id);
   await sql.query(`INSERT INTO auth_oauth_accounts (provider, provider_subject, user_id)
     VALUES ('google', $1, $2)
