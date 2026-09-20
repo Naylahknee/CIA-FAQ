@@ -789,3 +789,14 @@
     text-align:left;
   }
 }
+
+
+/* Announcement strip spans the entire page content width, edge to edge. */
+.site-announcement-banner{
+  width:100%;
+  max-width:none;
+  margin:0;
+  border-radius:0;
+  box-sizing:border-box;
+  align-self:stretch;
+}
