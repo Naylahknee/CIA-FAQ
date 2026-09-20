@@ -18,6 +18,14 @@ export function FaqExplorer({ initialTopic, compact = false, embedded = false, s
   const [open, setOpen] = useState<string | null>(null);
 
   useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const requestedAnswer = params.get("answer");
+    if (requestedAnswer) {
+      setOpen(requestedAnswer);
+      window.requestAnimationFrame(() => {
+        document.getElementById(`faq-${requestedAnswer}`)?.scrollIntoView({ behavior: "smooth", block: "center" });
+      });
+    }
     const storedAudience = window.localStorage.getItem("guide-audience");
     const storedTerm = window.localStorage.getItem("guide-term");
     if (storedAudience === "student" || storedAudience === "parent") setAudience(storedAudience);
@@ -47,7 +55,7 @@ export function FaqExplorer({ initialTopic, compact = false, embedded = false, s
     {!compact && <p className="result-count" aria-live="polite">{results.length} {results.length === 1 ? "answer" : "answers"}</p>}
     <div className="faq-list">{results.map((fact) => {
       const expanded = open === fact.id;
-      return <article className="faq-item" key={fact.id}>
+      return <article className="faq-item" id={`faq-${fact.id}`} key={fact.id}>
         <button type="button" className="faq-question" aria-expanded={expanded} onClick={() => setOpen(expanded ? null : fact.id)}><GuideIcon id={fact.id} /><strong>{audience === "parent" ? fact.parentQ : fact.studentQ}</strong><ChevronDown className={expanded ? "rotate-180" : ""} /></button>
         <div className="faq-answer" hidden={!expanded}><p dangerouslySetInnerHTML={{ __html: audience === "parent" ? fact.parentA : fact.studentA }} /><aside><strong>Next step</strong><p>{audience === "parent" ? fact.stepParent : fact.stepStudent}</p></aside>{termNotice(fact, term) && <p className="term-notice">{termNotice(fact, term)}</p>}<span className={`source-badge ${fact.sourceType}`}>{fact.source}</span><a href={fact.link} target="_blank" rel="noreferrer">{fact.linkLabel} ↗</a></div>
       </article>;
