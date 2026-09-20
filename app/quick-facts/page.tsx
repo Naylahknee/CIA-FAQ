@@ -3,6 +3,7 @@
 // Quick Facts family-link panel styles live in guide.css; keep page and styles deployed together.
 
 import {
+  Accessibility,
   Award,
   BookMarked,
   Boxes,
@@ -211,6 +212,16 @@ export default function QuickFactsPage() {
 
               <div className="quick-family-related">
                 {familyCategory === "travel" && <Link href="/travel" className="quick-travel-planner-link"><MapPinned aria-hidden="true" /><span><strong>Plan your trip to Hyde Park</strong><small>Compare driving, train and flight options and estimate trip costs.</small></span><ExternalLink aria-hidden="true" /></Link>}
+                {familyCategory === "money" && <div className="quick-disability-funding">
+                  <div className="quick-disability-funding-head"><Accessibility aria-hidden="true" /><div><strong>State disability funding</strong><small>Vocational rehabilitation may be another source of college funding.</small></div></div>
+                  <p>Students with disabilities may qualify for education and training support through their home state&rsquo;s vocational rehabilitation agency when college is part of an approved employment plan.</p>
+                  <div className="quick-disability-funding-links">
+                    <a href="https://www.dor.ca.gov/Home/GettingStarted" target="_blank" rel="noreferrer"><strong>California DOR</strong><small>California residents</small><ExternalLink aria-hidden="true" /></a>
+                    <a href="https://www.acces.nysed.gov/vr/college-higher-education" target="_blank" rel="noreferrer"><strong>New York ACCES-VR</strong><small>New York residents</small><ExternalLink aria-hidden="true" /></a>
+                    <a href="https://rsa.ed.gov/about/states" target="_blank" rel="noreferrer"><strong>Other states</strong><small>Find your state VR agency</small><ExternalLink aria-hidden="true" /></a>
+                  </div>
+                  <p className="quick-disability-funding-note"><strong>Start early:</strong> eligibility and covered costs vary. Ask whether CIA attendance and related expenses can be included in the student&rsquo;s individualized employment plan.</p>
+                </div>}
                 <h4>Related & Shared Resources</h4>
                 {familyCategory === "essentials" ? (
                   <div className="quick-dorm-resource-n" aria-label="Dorm Essentials resources">
