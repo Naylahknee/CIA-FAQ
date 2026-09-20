@@ -108,13 +108,13 @@ export async function getCommunityUser() {
   if (!token || !/^[0-9a-f]{64}$/.test(token)) return null;
   if (neonAuthConfigured()) {
     const user = await neonSessionUser(sha256(token));
-    return user ? { id: user.id, email: user.email, displayName: user.displayName, role: effectiveRole(user.email, user.role), emailVerified: user.emailVerified, verificationRequired: emailVerificationConfigured() } : null;
+    return user ? { id: user.id, email: user.email, displayName: user.displayName, avatarUrl: user.avatarKey ? "/api/community/profile/avatar" : null, role: effectiveRole(user.email, user.role), emailVerified: user.emailVerified, verificationRequired: emailVerificationConfigured() } : null;
   }
   await ensureD1AuthSchema();
-  const rows = await getDb().select({ id: communityUsers.id, email: communityUsers.email, displayName: communityUsers.displayName, role: communityUsers.role, emailVerified: communityUsers.emailVerified })
+  const rows = await getDb().select({ id: communityUsers.id, email: communityUsers.email, displayName: communityUsers.displayName, avatarKey: communityUsers.avatarKey, role: communityUsers.role, emailVerified: communityUsers.emailVerified })
     .from(communitySessions).innerJoin(communityUsers, eq(communitySessions.userId, communityUsers.id))
     .where(and(eq(communitySessions.tokenHash, tokenHash(token)), gt(communitySessions.expiresAt, new Date()))).limit(1);
-  return rows[0] ? { ...rows[0], role: effectiveRole(rows[0].email, rows[0].role), verificationRequired: emailVerificationConfigured() } : null;
+  return rows[0] ? { id: rows[0].id, email: rows[0].email, displayName: rows[0].displayName, avatarUrl: rows[0].avatarKey ? "/api/community/profile/avatar" : null, role: effectiveRole(rows[0].email, rows[0].role), verificationRequired: emailVerificationConfigured() } : null;
 }
 
 export async function requireCommunityUser() {
