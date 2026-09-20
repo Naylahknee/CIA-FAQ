@@ -569,3 +569,13 @@
 .quick-dorm-resource-circle:nth-child(5){grid-column:2}.quick-dorm-resource-circle:nth-child(6){grid-column:3}.quick-dorm-resource-circle:nth-child(7){grid-column:4}.quick-dorm-resource-circle:nth-child(8){grid-column:5}.quick-dorm-resource-circle:nth-child(9){grid-column:6}
 .quick-dorm-resource-circle:nth-child(10){grid-column:1}.quick-dorm-resource-circle:nth-child(11){grid-column:3}.quick-dorm-resource-circle:nth-child(12){grid-column:5}.quick-dorm-resource-circle:nth-child(13){grid-column:7}
 @media(max-width:900px){.quick-dorm-resource-n{display:flex;overflow-x:auto;min-height:145px;gap:18px;padding:12px 4px 32px;scroll-snap-type:x proximity}.quick-dorm-resource-circle{flex:0 0 92px;scroll-snap-align:start}}
+
+
+/* Quick Facts refinement: staff copy is plain divided prose; Dorm Essentials circles use an even grid. */
+.quick-staff-guidance-divided{display:block;border-top:1px solid var(--border)}
+.quick-staff-guidance-divided p{margin:0;padding:15px 0;color:var(--muted-foreground);font-size:.88rem;line-height:1.65;border-bottom:1px solid var(--border)}
+.quick-dorm-resource-n{display:grid;grid-template-columns:repeat(7,minmax(92px,1fr));grid-template-rows:auto;gap:42px 24px;align-items:start;justify-items:center;min-height:0;padding:14px 8px 30px}
+.quick-dorm-resource-circle:nth-child(n){grid-column:auto;grid-row:auto}
+@media(max-width:1100px){.quick-dorm-resource-n{grid-template-columns:repeat(5,minmax(92px,1fr))}}
+@media(max-width:800px){.quick-dorm-resource-n{grid-template-columns:repeat(3,minmax(92px,1fr));overflow:visible;gap:42px 18px}.quick-dorm-resource-circle{flex:none}}
+@media(max-width:520px){.quick-dorm-resource-n{grid-template-columns:repeat(2,minmax(92px,1fr))}}
