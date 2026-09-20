@@ -73,8 +73,24 @@ export function CommunityProvider({ children }: { children: ReactNode }) {
   }, [loadFeed]);
 
   const signOut = useCallback(async () => {
-    try { await fetch("/api/community/auth/signout", { method: "POST" }); } catch { /* offline */ }
-    setUser(null); setPosts([]);
+    setNotice("");
+    try {
+      const response = await fetch("/api/community/auth/signout", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: "{}",
+        credentials: "same-origin",
+      });
+      if (!response.ok) {
+        const data = await response.json().catch(() => ({}));
+        setNotice(data.error ?? "Sign out could not be completed.");
+        return;
+      }
+      setUser(null); setPosts([]);
+      window.location.href = "/community";
+    } catch {
+      setNotice("Sign out could not be completed. Check your connection and try again.");
+    }
   }, []);
 
   const toggleFollow = useCallback((name: string) => {
