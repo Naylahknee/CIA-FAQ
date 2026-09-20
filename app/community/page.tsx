@@ -85,6 +85,10 @@ export default function CommunityFeed() {
 
   return (
     <div className="c-wrap">
+      <aside className="c-community-purpose" aria-label="Community access note">
+        <Users size={18} aria-hidden="true" />
+        <p><strong>An alternative space for CIA families.</strong> This community is for families who prefer not to join the Facebook group and for families who no longer have access to their semester/year GroupMe. It provides an independent place to stay connected, ask questions, and share family-to-family information.</p>
+      </aside>
       <div className="c-columns">
         {/* left rail */}
         <aside className="c-rail">
