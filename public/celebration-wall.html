@@ -617,8 +617,32 @@
       photoCountEl.innerText = `${polaroids.length} Milestones`;
     }
 
-    window.addEventListener('DOMContentLoaded', () => {
-      polaroids = [...INITIAL_MEMORIES];
+    window.addEventListener('DOMContentLoaded', async () => {
+      polaroids = [];
+      try {
+        const response = await fetch('/api/submissions', { cache: 'no-store' });
+        const result = await response.json();
+        if (response.ok && Array.isArray(result.submissions)) {
+          polaroids = result.submissions.map((item, index) => {
+            const angle = (index / Math.max(result.submissions.length, 1)) * Math.PI * 2;
+            const radius = 120 + (index % 3) * 110;
+            return {
+              id: item.id,
+              caption: item.title || 'Student milestone',
+              image: item.imageUrl,
+              author: item.studentName || 'Proud Parent',
+              tag: item.kind === 'resource' ? 'Family Resource' : 'Milestone',
+              note: item.caption || '',
+              date: item.createdAt ? new Date(item.createdAt).toLocaleDateString(undefined, { month: 'long', year: 'numeric' }) : '',
+              x: Math.cos(angle) * radius,
+              y: Math.sin(angle) * (radius * .75),
+              rot: ((index * 7) % 15) - 7
+            };
+          });
+        }
+      } catch (error) {
+        console.error('Could not load Celebration Wall submissions', error);
+      }
       polaroids.forEach(item => renderPolaroid(item, false));
       setTimeout(() => {
         boardContainer.scrollLeft = (canvasSurface.offsetWidth - boardContainer.clientWidth) / 2;
