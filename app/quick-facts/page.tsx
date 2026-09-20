@@ -18,7 +18,6 @@ import {
   Laptop,
   PackageCheck,
   Refrigerator,
-  Search,
   ShieldCheck,
   Shirt,
   TrainFront,
@@ -116,7 +115,6 @@ const filters = [
 export default function QuickFactsPage() {
   const [activeAdvice, setActiveAdvice] = useState<AdviceKey>("packing");
   const [filter, setFilter] = useState<(typeof filters)[number][0]>("all");
-  const [query, setQuery] = useState("");
   const [quickView, setQuickView] = useState<"advice" | "resources">("advice");
 
   const grouped = useMemo(
@@ -133,11 +131,16 @@ export default function QuickFactsPage() {
     .map((title) => grouped.find((item) => item.title === title))
     .filter(Boolean) as (typeof grouped)[number][];
 
-  const visible = grouped.filter((item) => {
-    const matchesFilter = filter === "all" || item.category === filter;
-    const haystack = `${item.title} ${item.description} ${item.category} ${item.note}`.toLowerCase();
-    return matchesFilter && haystack.includes(query.toLowerCase());
-  });
+  const deduped = grouped.filter(
+    (item, index, items) =>
+      items.findIndex((candidate) => candidate.href === item.href || candidate.title === item.title) === index,
+  );
+  const visible = filter === "all" ? deduped : deduped.filter((item) => item.category === filter);
+  const activeFamilyLabel = filters.find(([key]) => key === filter)?.[1] ?? "All resources";
+  const activeFamilyNote =
+    filter === "all"
+      ? "Everything families shared, grouped here in one place. Choose a category above to narrow the shelf."
+      : familyResources.find((group) => group.category === filter)?.note ?? "";
 
   return (
     <main className="help-page">
@@ -214,59 +217,74 @@ export default function QuickFactsPage() {
           </div>
         ) : (
           <div className="quick-view-panel" role="tabpanel">
-            <div className="quick-resource-tab-head">
-              <span>Family resource shelf</span>
-              <strong>{visible.length} resources</strong>
-            </div>
-        <div className="quick-resource-browser">
-          <aside className="quick-resource-filter-panel">
-            <strong className="quick-filter-title">Filter resources</strong>
-            <div className="quick-filter-list" aria-label="Resource categories">
-              {filters.map(([key, label]) => (
-                <button
-                  type="button"
-                  key={key}
-                  className={filter === key ? "active" : ""}
-                  onClick={() => setFilter(key)}
-                >
-                  <span>{label}</span>
-                  <small>{key === "all" ? grouped.length : grouped.filter((item) => item.category === key).length}</small>
-                </button>
-              ))}
-            </div>
-          </aside>
+            <div className="quick-family-explorer">
+              <div className="quick-family-topics" role="tablist" aria-label="Family resource categories">
+                {filters.map(([key, label]) => {
+                  const count = key === "all" ? deduped.length : deduped.filter((item) => item.category === key).length;
+                  const Icon = key === "all" ? FileText : resourceIcons[key] ?? FileText;
+                  return (
+                    <button
+                      type="button"
+                      role="tab"
+                      aria-selected={filter === key}
+                      className={filter === key ? "active" : ""}
+                      key={key}
+                      onClick={() => setFilter(key)}
+                      onMouseEnter={() => setFilter(key)}
+                      onFocus={() => setFilter(key)}
+                    >
+                      <span className="quick-family-topic-icon"><Icon aria-hidden="true" /></span>
+                      <span className="quick-family-topic-copy">
+                        <strong>{label}</strong>
+                        <small>{count} {count === 1 ? "resource" : "resources"}</small>
+                      </span>
+                    </button>
+                  );
+                })}
+              </div>
 
-          <div className="quick-resource-results">
-          <label className="quick-search">
-            <Search aria-hidden="true" />
-            <span className="sr-only">Search family resources</span>
-            <input value={query} onChange={(event) => setQuery(event.target.value)} placeholder='Search "mattress," "loan," "train"…' />
-          </label>
+              <article className="quick-family-panel">
+                <div className="quick-family-panel-head">
+                  <div>
+                    <p className="quick-kicker">Family resource shelf</p>
+                    <h3>{activeFamilyLabel}</h3>
+                  </div>
+                  <span className="quick-fact">{visible.length} {visible.length === 1 ? "resource" : "resources"}</span>
+                </div>
 
-        <div className="quick-resource-list">
-          {visible.map((item) => {
-            const Icon = resourceIcons[item.category] ?? FileText;
-            return (
-              <a href={item.href} target="_blank" rel="noreferrer nofollow" className="quick-resource-row" key={item.href}>
-                <span className="quick-resource-icon"><Icon aria-hidden="true" /></span>
-                <span>
-                  <strong>{item.title}</strong>
-                  <small>{item.description}</small>
-                </span>
-                <ExternalLink aria-hidden="true" />
-              </a>
-            );
-          })}
-          {!visible.length && (
-            <div className="quick-empty">
-              <Search aria-hidden="true" />
-              <strong>No matching resources</strong>
-              <span>Try another search or category.</span>
+                <div className="quick-family-panel-body">
+                  <div className="quick-family-summary">
+                    <h4>What families shared</h4>
+                    <p>{activeFamilyNote}</p>
+                    <div className="quick-family-good-to-know">
+                      <span className="quick-family-tip-icon">i</span>
+                      <div>
+                        <strong>Good to know</strong>
+                        <small>Retail links can change. Confirm current prices, dimensions, policies, and deadlines before relying on a shared resource.</small>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="quick-family-related">
+                    <h4>Related resources</h4>
+                    <div className="quick-family-related-list">
+                      {visible.map((item) => (
+                        <a href={item.href} target="_blank" rel="noreferrer nofollow" key={item.href}>
+                          <span className="quick-family-thumb" aria-hidden="true">
+                            <span>Image</span>
+                          </span>
+                          <span className="quick-family-resource-copy">
+                            <strong>{item.title}</strong>
+                            <small>{item.description}</small>
+                          </span>
+                          <ExternalLink aria-hidden="true" />
+                        </a>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </article>
             </div>
-          )}
-        </div>
-        </div>
-        </div>
           </div>
         )}
       </section>
