@@ -48,7 +48,20 @@ export function CommunityNav() {
 
   const isActive = (href: string, exact?: boolean) => (exact ? pathname === href : pathname.startsWith(href));
 
-  if (!user) return null;
+  if (!user) return (
+    <header className="c-topbar c-topbar-guest">
+      <div className="c-topbar-inner">
+        <Link className="c-brand" href="/community">
+          <span className="c-brand-icon" aria-hidden="true"><span>CIA</span></span>
+          <span>CIA Parents and Family<small>A private space for CIA Hyde Park families</small></span>
+        </Link>
+        <div className="c-guest-actions" aria-label="Community account access">
+          <Link className="c-btn c-btn-ghost" href="/community">Sign in</Link>
+          <Link className="c-btn c-btn-orange" href="/community?mode=signup">Create account</Link>
+        </div>
+      </div>
+    </header>
+  );
 
   return (
     <header className="c-topbar">
