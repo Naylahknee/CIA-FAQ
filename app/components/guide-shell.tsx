@@ -144,11 +144,11 @@ export function GuideShell({ children }: { children: ReactNode }) {
       <header className="mobile-header"><Link href="/" className="site-brand"><span className="brand-seal">CIA</span><span>Family Guide</span></Link><button type="button" aria-label={open ? "Close menu" : "Open menu"} onClick={() => setOpen(!open)}>{open ? <X /> : <Menu />}</button></header>
       {open && <nav className="mobile-nav" aria-label="Mobile navigation">{links.map(({ to, label, icon: Icon }) => <Link key={to} href={to} onClick={() => setOpen(false)}><Icon size={18} />{label}</Link>)}</nav>}
       <div id="top" className={`app-content audience-${audience}`}>
+        <aside className="site-correction-banner site-announcement-banner" aria-label="Corrections and updates">
+          <MessageSquareWarning size={20} aria-hidden="true" />
+          <p><strong>Spot something that needs updating?</strong> Please send corrections, outdated information, or suggested updates through the <Link href="/corrections">Corrections</Link> link in the page footer.</p>
+        </aside>
         <div className="utility-bar">
-          <aside className="site-correction-banner site-correction-banner-header" aria-label="Corrections and updates">
-            <MessageSquareWarning size={20} aria-hidden="true" />
-            <p><strong>Spot something that needs updating?</strong> Please send corrections, outdated information, or suggested updates through the <Link href="/corrections">Corrections</Link> link in the page footer.</p>
-          </aside>
           <div className="radial-selector" role="radiogroup" aria-label="Who is using this guide"><button type="button" role="radio" aria-checked={audience === "parent"} className={audience === "parent" ? "active" : ""} onClick={() => setAudience("parent")}>Parent</button><button type="button" role="radio" aria-checked={audience === "student"} className={audience === "student" ? "active" : ""} onClick={() => setAudience("student")}>Student</button></div>
           <div className="radial-selector" role="radiogroup" aria-label="Academic year"><button type="button" role="radio" aria-checked={term === "fall"} className={term === "fall" ? "active" : ""} onClick={() => setTerm("fall")}>Fall 2026</button><button type="button" role="radio" aria-checked={term === "spring"} className={term === "spring" ? "active" : ""} onClick={() => setTerm("spring")}>Spring 2027</button></div>
         </div>
