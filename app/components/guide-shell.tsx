@@ -1,6 +1,6 @@
 "use client";
 
-import { ArrowUp, CalendarDays, Camera, HeartHandshake, Home, Info, Library, LogOut, Menu, MessageSquareWarning, PanelLeft, Search, ShieldCheck, ShoppingBag, UserRound, X } from "lucide-react";
+import { ArrowUp, CalendarDays, Camera, HeartHandshake, Home, Info, Library, LogOut, MapPinned, Menu, MessageSquareWarning, PanelLeft, Search, ShieldCheck, ShoppingBag, UserRound, X } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { useEffect, useState, type ReactNode } from "react";
 import Link from "next/link";
@@ -14,6 +14,7 @@ const links = [
   { to: "/resources", label: "Resource Library", icon: Library },
   { to: "/quick-facts", label: "Quick Facts", icon: Info },
   { to: "/calendar", label: "Calendar", icon: CalendarDays },
+  { to: "/travel", label: "Travel & Visits", icon: MapPinned },
   { to: "/support", label: "Support", icon: ShoppingBag },
   { to: "/safety", label: "Safety & Support", icon: HeartHandshake },
 ] as const;
