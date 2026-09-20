@@ -140,26 +140,6 @@ export default function QuickFactsPage() {
 
   return (
     <main className="quick-facts-page">
-      <section className="quick-facts-hero">
-        <div className="quick-facts-hero-copy">
-          <p className="quick-kicker">Move-in & preparation</p>
-          <h1>What other CIA families used.</h1>
-          <p className="quick-lede">
-            Links families passed around in a CIA parent group, with the guidance CIA staff gave alongside them.
-            Nothing here is endorsed by the CIA or by this guide, retail links go out of date, and residence-hall
-            rules change—confirm before you buy.
-          </p>
-        </div>
-        <aside className="quick-facts-hero-note">
-          <Info aria-hidden="true" />
-          <div>
-            <strong>Before you buy</strong>
-            <span>Confirm room measurements, residence-hall rules, prices, return policies, and deadlines.</span>
-          </div>
-        </aside>
-      </section>
-
-
       <section className="quick-guidance-suite" aria-labelledby="quick-guidance-heading">
         <div className="quick-guidance-heading">
           <h2 id="quick-guidance-heading">Move-In Guidance &amp; Resources</h2>
