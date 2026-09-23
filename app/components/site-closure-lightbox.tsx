@@ -42,11 +42,18 @@ export function SiteClosureLightbox() {
     html.style.overflow = "hidden";
     body.style.overflow = "hidden";
 
+    // Escape does nothing and Tab cycles through the dialog's own links, so
+    // focus can never reach the page behind it.
     const keepFocus = (event: KeyboardEvent) => {
-      if (event.key === "Tab" || event.key === "Escape") {
-        event.preventDefault();
-        dialogRef.current?.focus();
-      }
+      const dialog = dialogRef.current;
+      if (!dialog || (event.key !== "Tab" && event.key !== "Escape")) return;
+      event.preventDefault();
+      if (event.key === "Escape") return;
+      const links = Array.from(dialog.querySelectorAll<HTMLElement>("a[href]"));
+      if (!links.length) return dialog.focus();
+      const current = links.indexOf(document.activeElement as HTMLElement);
+      const next = current === -1 ? (event.shiftKey ? links.length - 1 : 0) : (current + (event.shiftKey ? -1 : 1) + links.length) % links.length;
+      links[next].focus();
     };
     document.addEventListener("keydown", keepFocus, true);
     dialogRef.current?.focus();
@@ -73,12 +80,15 @@ export function SiteClosureLightbox() {
         role="dialog"
         aria-modal="true"
         aria-labelledby="site-closure-title"
-        aria-describedby="site-closure-message"
+        aria-describedby="site-closure-message site-closure-parents"
         tabIndex={-1}
       >
         <p className="site-closure-emoji" aria-hidden="true">🙂</p>
         <h2 id="site-closure-title">This site is no longer available.</h2>
         <p id="site-closure-message">Please check the GroupMe group or Facebook group for updates and community support.</p>
+        <p id="site-closure-parents" className="site-closure-parents">
+          Parents: join the <a href="https://www.facebook.com/groups/CIANYParents/" target="_blank" rel="noopener noreferrer">CIA NY Parents Facebook group</a>. For GroupMe access, contact CIA or Stephen J Sobierajski.
+        </p>
       </div>
     </div>
   );
