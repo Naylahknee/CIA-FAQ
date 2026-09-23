@@ -1356,3 +1356,35 @@ html[data-sidebar="collapsed"] .sidebar-independent-note{display:none}
   .site-sidebar .desktop-nav{flex:0 0 auto}
   .sidebar-account{flex:0 0 auto}
 }
+
+/* Homepage closure notice. Opaque, full-viewport and not dismissible; the page
+   behind it is blurred, inert and cannot scroll. Reuses the trip planner
+   lightbox's layer, spacing and card treatment. */
+html:has(.site-closure-lightbox),
+html:has(.site-closure-lightbox) body{overflow:hidden}
+body:has(>.site-closure-lightbox)>:not(.site-closure-lightbox){filter:blur(6px)}
+.site-closure-lightbox{
+  position:fixed;
+  inset:0;
+  z-index:1000;
+  display:grid;
+  place-items:center;
+  padding:24px;
+  background:var(--background);
+  backdrop-filter:blur(6px);
+  overscroll-behavior:contain;
+  touch-action:none;
+}
+.site-closure-dialog{
+  width:min(560px,100%);
+  box-sizing:border-box;
+  padding:20px 22px;
+  border-radius:20px;
+  background:var(--card);
+  border:1px solid var(--border);
+  box-shadow:var(--shadow);
+  color:var(--foreground);
+}
+.site-closure-dialog:focus{outline:none}
+.site-closure-dialog h2{margin:.15rem 0 .3rem;font-size:1.6rem;color:var(--primary)}
+.site-closure-dialog p{margin:0;color:var(--muted-foreground)}
