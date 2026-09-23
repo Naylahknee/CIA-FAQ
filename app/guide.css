@@ -1386,5 +1386,8 @@ body:has(>.site-closure-lightbox)>:not(.site-closure-lightbox){filter:blur(6px)}
   color:var(--foreground);
 }
 .site-closure-dialog:focus{outline:none}
+.site-closure-dialog .site-closure-emoji{margin:0;font-size:2rem;line-height:1;color:inherit}
 .site-closure-dialog h2{margin:.15rem 0 .3rem;font-size:1.6rem;color:var(--primary)}
 .site-closure-dialog p{margin:0;color:var(--muted-foreground)}
+.site-closure-dialog .site-closure-parents{margin-top:12px;color:var(--foreground)}
+.site-closure-dialog .site-closure-parents a{color:var(--primary);font-weight:700;text-decoration:underline}
