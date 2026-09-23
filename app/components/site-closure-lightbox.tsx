@@ -76,6 +76,7 @@ export function SiteClosureLightbox() {
         aria-describedby="site-closure-message"
         tabIndex={-1}
       >
+        <p className="site-closure-emoji" aria-hidden="true">🙂</p>
         <h2 id="site-closure-title">This site is no longer available.</h2>
         <p id="site-closure-message">Please check the GroupMe group or Facebook group for updates and community support.</p>
       </div>
