@@ -1,0 +1,2694 @@
+{
+  "version": 1,
+  "generatedAt": "2026-10-10T00:47:42.698Z",
+  "manifestVersion": 1,
+  "application": {
+    "name": "CIA-FAQ",
+    "root": "."
+  },
+  "files": {
+    ".env.example": {
+      "hash": "d33952aec2b1d8c9",
+      "size": 534,
+      "lineCount": 14,
+      "tags": []
+    },
+    ".gitignore": {
+      "hash": "35d940f5e608b2a4",
+      "size": 498,
+      "lineCount": 43,
+      "tags": []
+    },
+    ".npmrc": {
+      "hash": "494e64a8818b6158",
+      "size": 76,
+      "lineCount": 5,
+      "tags": []
+    },
+    ".sld/settings.mjs": {
+      "hash": "c59a7f272f2b3680",
+      "size": 2604,
+      "lineCount": 73,
+      "tags": []
+    },
+    ".sld/vendor/.core-hashes.json": {
+      "hash": "76d86414da48563b",
+      "size": 3618,
+      "lineCount": 37,
+      "tags": []
+    },
+    ".sld/vendor/.core-version": {
+      "hash": "6d5538a87446d7c7",
+      "size": 41,
+      "lineCount": 2,
+      "tags": []
+    },
+    ".sld/vendor/VENDOR.md": {
+      "hash": "77ac593be7a08a95",
+      "size": 775,
+      "lineCount": 18,
+      "tags": []
+    },
+    ".sld/vendor/cli/sld.js": {
+      "hash": "0410d6e0df5b5fb5",
+      "size": 16754,
+      "lineCount": 416,
+      "tags": []
+    },
+    ".sld/vendor/src/core/__tests__/engine.test.mjs": {
+      "hash": "92a4d300951d7e63",
+      "size": 15898,
+      "lineCount": 376,
+      "tags": []
+    },
+    ".sld/vendor/src/core/__tests__/fixture.manifest.js": {
+      "hash": "420232e1b27b8b8e",
+      "size": 3912,
+      "lineCount": 111,
+      "tags": []
+    },
+    ".sld/vendor/src/core/__tests__/governance-paths.test.mjs": {
+      "hash": "2456195934bacfe9",
+      "size": 5788,
+      "lineCount": 137,
+      "tags": []
+    },
+    ".sld/vendor/src/core/__tests__/impact-audit.test.mjs": {
+      "hash": "9f937cb14223f107",
+      "size": 3150,
+      "lineCount": 69,
+      "tags": []
+    },
+    ".sld/vendor/src/core/__tests__/inspector.test.mjs": {
+      "hash": "9d4c2a13d7218eaf",
+      "size": 7564,
+      "lineCount": 242,
+      "tags": []
+    },
+    ".sld/vendor/src/core/__tests__/jubilee.test.mjs": {
+      "hash": "097d12afb0c4854a",
+      "size": 10642,
+      "lineCount": 268,
+      "tags": []
+    },
+    ".sld/vendor/src/core/__tests__/scanner.test.mjs": {
+      "hash": "762263321e2066bf",
+      "size": 1191,
+      "lineCount": 27,
+      "tags": []
+    },
+    ".sld/vendor/src/core/__tests__/scope.test.mjs": {
+      "hash": "43bb571e0b6cb29f",
+      "size": 19778,
+      "lineCount": 493,
+      "tags": []
+    },
+    ".sld/vendor/src/core/audit/audit.js": {
+      "hash": "04bddba2d0780dbb",
+      "size": 1624,
+      "lineCount": 50,
+      "tags": []
+    },
+    ".sld/vendor/src/core/engine/decision-engine.js": {
+      "hash": "713db4d7ce4468b7",
+      "size": 7554,
+      "lineCount": 200,
+      "tags": []
+    },
+    ".sld/vendor/src/core/engine/match.js": {
+      "hash": "5d1cef94321c540b",
+      "size": 6534,
+      "lineCount": 195,
+      "tags": []
+    },
+    ".sld/vendor/src/core/graph/impact.js": {
+      "hash": "6329154310cfe368",
+      "size": 2676,
+      "lineCount": 86,
+      "tags": []
+    },
+    ".sld/vendor/src/core/index.d.ts": {
+      "hash": "b44b7614c0245c25",
+      "size": 12345,
+      "lineCount": 396,
+      "tags": []
+    },
+    ".sld/vendor/src/core/index.js": {
+      "hash": "e88facb71893bf5e",
+      "size": 2095,
+      "lineCount": 50,
+      "tags": []
+    },
+    ".sld/vendor/src/core/layers/canonical.js": {
+      "hash": "e4e0c5d0b795f55f",
+      "size": 528,
+      "lineCount": 24,
+      "tags": []
+    },
+    ".sld/vendor/src/core/layers/layer-1-identity.js": {
+      "hash": "0a91553efd0bd49d",
+      "size": 1540,
+      "lineCount": 47,
+      "tags": []
+    },
+    ".sld/vendor/src/core/layers/layer-2-architecture.js": {
+      "hash": "d2bcf21e1cbf709e",
+      "size": 3064,
+      "lineCount": 75,
+      "tags": []
+    },
+    ".sld/vendor/src/core/layers/layer-3-dependencies.js": {
+      "hash": "72218c3a0847fddb",
+      "size": 2714,
+      "lineCount": 74,
+      "tags": []
+    },
+    ".sld/vendor/src/core/layers/layer-4-behavior.js": {
+      "hash": "4f12f946c09f93cd",
+      "size": 1615,
+      "lineCount": 47,
+      "tags": []
+    },
+    ".sld/vendor/src/core/layers/layer-5-data.js": {
+      "hash": "73ef3123c7c0f8de",
+      "size": 2098,
+      "lineCount": 56,
+      "tags": []
+    },
+    ".sld/vendor/src/core/layers/layer-6-interface.js": {
+      "hash": "91eb6ae4e7fbff9b",
+      "size": 1986,
+      "lineCount": 60,
+      "tags": []
+    },
+    ".sld/vendor/src/core/layers/layer-7-execution.js": {
+      "hash": "5357f5de53e839b6",
+      "size": 6744,
+      "lineCount": 156,
+      "tags": []
+    },
+    ".sld/vendor/src/core/layers/layer-7-intent.js": {
+      "hash": "17c559a7d62fca1b",
+      "size": 2953,
+      "lineCount": 78,
+      "tags": []
+    },
+    ".sld/vendor/src/core/manifest/README.md": {
+      "hash": "969479963d48a9ff",
+      "size": 2456,
+      "lineCount": 36,
+      "tags": []
+    },
+    ".sld/vendor/src/core/manifest/example.manifest.js": {
+      "hash": "d9c2f6bbbceb8406",
+      "size": 6567,
+      "lineCount": 156,
+      "tags": []
+    },
+    ".sld/vendor/src/core/node/scan.mjs": {
+      "hash": "6383fe2d65437954",
+      "size": 11450,
+      "lineCount": 349,
+      "tags": []
+    },
+    ".sld/vendor/src/core/report/inspector.mjs": {
+      "hash": "cdae2555469b4938",
+      "size": 19475,
+      "lineCount": 518,
+      "tags": []
+    },
+    ".sld/vendor/src/core/scope/scope-gate.js": {
+      "hash": "58533de5ae940534",
+      "size": 11904,
+      "lineCount": 294,
+      "tags": []
+    },
+    ".sld/vendor/src/core/scope/task-compiler.js": {
+      "hash": "ce354205c5203b8a",
+      "size": 3249,
+      "lineCount": 95,
+      "tags": []
+    },
+    ".sld/vendor/src/core/scope/task-contract.js": {
+      "hash": "cbe1bf92bb58e4d7",
+      "size": 8518,
+      "lineCount": 198,
+      "tags": []
+    },
+    ".sld/verify-vendor.mjs": {
+      "hash": "a4b136b28aaf476a",
+      "size": 2980,
+      "lineCount": 90,
+      "tags": []
+    },
+    "CLOUDFLARE_DEPLOYMENT.md": {
+      "hash": "8b971476c27a7ef9",
+      "size": 10507,
+      "lineCount": 193,
+      "tags": []
+    },
+    "HANDOFF.md": {
+      "hash": "20cba05778756b04",
+      "size": 13234,
+      "lineCount": 200,
+      "tags": []
+    },
+    "README.md": {
+      "hash": "21ea78f1b664b598",
+      "size": 5929,
+      "lineCount": 100,
+      "tags": []
+    },
+    "SECURITY_AUDIT.md": {
+      "hash": "a690a20018708c45",
+      "size": 11462,
+      "lineCount": 75,
+      "tags": []
+    },
+    "app/account-security.ts": {
+      "hash": "22111ce7b050a14c",
+      "size": 5718,
+      "lineCount": 92,
+      "tags": []
+    },
+    "app/account/layout.tsx": {
+      "hash": "3fc38937f2ae3f3e",
+      "size": 249,
+      "lineCount": 9,
+      "tags": []
+    },
+    "app/account/page.tsx": {
+      "hash": "d537ce1f4d13158f",
+      "size": 9779,
+      "lineCount": 32,
+      "tags": []
+    },
+    "app/admin/layout.tsx": {
+      "hash": "11932b0c9ec35160",
+      "size": 247,
+      "lineCount": 9,
+      "tags": []
+    },
+    "app/admin/member-management.tsx": {
+      "hash": "f4cdd7bc30dcdea1",
+      "size": 5301,
+      "lineCount": 126,
+      "tags": []
+    },
+    "app/admin/page.tsx": {
+      "hash": "a09d153f154cbc49",
+      "size": 6323,
+      "lineCount": 53,
+      "tags": []
+    },
+    "app/api/admin/faq-suggestions/route.ts": {
+      "hash": "c81b7ac246ec7401",
+      "size": 3739,
+      "lineCount": 78,
+      "tags": []
+    },
+    "app/api/admin/submissions/route.ts": {
+      "hash": "904081181cf2384d",
+      "size": 1646,
+      "lineCount": 29,
+      "tags": []
+    },
+    "app/api/community/account/[action]/route.ts": {
+      "hash": "5be2cd43671d2b73",
+      "size": 12444,
+      "lineCount": 123,
+      "tags": []
+    },
+    "app/api/community/account/onboarding/route.ts": {
+      "hash": "bc181a4b14160a86",
+      "size": 2738,
+      "lineCount": 44,
+      "tags": []
+    },
+    "app/api/community/admin/members/route.ts": {
+      "hash": "7674227f91739471",
+      "size": 5897,
+      "lineCount": 151,
+      "tags": []
+    },
+    "app/api/community/auth/google/route.ts": {
+      "hash": "9f9e3fb9ad3165ba",
+      "size": 2574,
+      "lineCount": 41,
+      "tags": []
+    },
+    "app/api/community/auth/me/route.ts": {
+      "hash": "f9688b9985c9b345",
+      "size": 223,
+      "lineCount": 7,
+      "tags": []
+    },
+    "app/api/community/auth/providers/route.ts": {
+      "hash": "af6dd45d63dda0ad",
+      "size": 385,
+      "lineCount": 9,
+      "tags": []
+    },
+    "app/api/community/auth/signin/route.ts": {
+      "hash": "ea3c3e9ebeb17d09",
+      "size": 3442,
+      "lineCount": 57,
+      "tags": []
+    },
+    "app/api/community/auth/signout/route.ts": {
+      "hash": "fd975960c179d034",
+      "size": 320,
+      "lineCount": 8,
+      "tags": []
+    },
+    "app/api/community/auth/signup/route.ts": {
+      "hash": "6e8f34d458ca777c",
+      "size": 4463,
+      "lineCount": 69,
+      "tags": []
+    },
+    "app/api/community/media/[id]/route.ts": {
+      "hash": "d9d9250a528bcb64",
+      "size": 1188,
+      "lineCount": 18,
+      "tags": []
+    },
+    "app/api/community/posts/[id]/comments/route.ts": {
+      "hash": "18c30a0ddfabb31c",
+      "size": 1748,
+      "lineCount": 22,
+      "tags": []
+    },
+    "app/api/community/posts/[id]/reactions/route.ts": {
+      "hash": "3d83958942629007",
+      "size": 2009,
+      "lineCount": 22,
+      "tags": []
+    },
+    "app/api/community/posts/[id]/report/route.ts": {
+      "hash": "3a80d7faafa009dc",
+      "size": 1685,
+      "lineCount": 20,
+      "tags": []
+    },
+    "app/api/community/posts/[id]/route.ts": {
+      "hash": "916efcaa619206cc",
+      "size": 1165,
+      "lineCount": 18,
+      "tags": []
+    },
+    "app/api/community/posts/route.ts": {
+      "hash": "a7b0f68703a3beb2",
+      "size": 6192,
+      "lineCount": 61,
+      "tags": []
+    },
+    "app/api/community/profile/avatar/route.ts": {
+      "hash": "b605b018e48bcfde",
+      "size": 3300,
+      "lineCount": 48,
+      "tags": []
+    },
+    "app/api/community/topics/route.ts": {
+      "hash": "6647ef08481699f2",
+      "size": 2445,
+      "lineCount": 43,
+      "tags": []
+    },
+    "app/api/corrections/route.ts": {
+      "hash": "904e694a4ca55cb6",
+      "size": 1163,
+      "lineCount": 18,
+      "tags": []
+    },
+    "app/api/faqs/community/route.ts": {
+      "hash": "8a7cdd98c48d94e5",
+      "size": 711,
+      "lineCount": 18,
+      "tags": []
+    },
+    "app/api/media/[id]/route.ts": {
+      "hash": "20599c894eb7d428",
+      "size": 1187,
+      "lineCount": 23,
+      "tags": []
+    },
+    "app/api/search/route.ts": {
+      "hash": "e7e9d50c0d204fcd",
+      "size": 2415,
+      "lineCount": 57,
+      "tags": []
+    },
+    "app/api/submissions/route.ts": {
+      "hash": "4a2167c426672474",
+      "size": 4061,
+      "lineCount": 58,
+      "tags": []
+    },
+    "app/calendar/layout.tsx": {
+      "hash": "9961dfaae7936a20",
+      "size": 796,
+      "lineCount": 11,
+      "tags": []
+    },
+    "app/calendar/page.tsx": {
+      "hash": "d64e3497f58ff6b5",
+      "size": 24115,
+      "lineCount": 479,
+      "tags": []
+    },
+    "app/chatgpt-auth.ts": {
+      "hash": "17a965f8948b2151",
+      "size": 2404,
+      "lineCount": 87,
+      "tags": []
+    },
+    "app/community-auth-schema.ts": {
+      "hash": "f7c5fc8ada6c079c",
+      "size": 3778,
+      "lineCount": 69,
+      "tags": []
+    },
+    "app/community-auth.ts": {
+      "hash": "6f15b6713b303781",
+      "size": 7248,
+      "lineCount": 133,
+      "tags": []
+    },
+    "app/community-guidelines/page.tsx": {
+      "hash": "8f2c84120ec5a2c0",
+      "size": 1002,
+      "lineCount": 13,
+      "tags": []
+    },
+    "app/community-onboarding-d1.ts": {
+      "hash": "4c95b805d0e76b1d",
+      "size": 917,
+      "lineCount": 14,
+      "tags": []
+    },
+    "app/community-onboarding.ts": {
+      "hash": "c69ec1e9ccda4171",
+      "size": 1945,
+      "lineCount": 19,
+      "tags": []
+    },
+    "app/community/_components/auth-gate.tsx": {
+      "hash": "bf1b1dde6c72673d",
+      "size": 12821,
+      "lineCount": 150,
+      "tags": []
+    },
+    "app/community/_components/community-data.tsx": {
+      "hash": "3504cf4426ea1253",
+      "size": 5813,
+      "lineCount": 135,
+      "tags": []
+    },
+    "app/community/_components/community-gate.tsx": {
+      "hash": "1f13adcb3db3a678",
+      "size": 1376,
+      "lineCount": 32,
+      "tags": []
+    },
+    "app/community/_components/community-nav.tsx": {
+      "hash": "a94b447c7ba320db",
+      "size": 3493,
+      "lineCount": 83,
+      "tags": []
+    },
+    "app/community/_components/village-icon-view.tsx": {
+      "hash": "305a469637d734e4",
+      "size": 1293,
+      "lineCount": 40,
+      "tags": []
+    },
+    "app/community/_components/village-icons.d.ts": {
+      "hash": "ce98f7fbc99e07f9",
+      "size": 421,
+      "lineCount": 14,
+      "tags": []
+    },
+    "app/community/_components/village-icons.js": {
+      "hash": "0f2f9b4435a9e03e",
+      "size": 14439,
+      "lineCount": 113,
+      "tags": []
+    },
+    "app/community/admin/page.tsx": {
+      "hash": "6c25dde4a7ea8b2d",
+      "size": 4334,
+      "lineCount": 85,
+      "tags": []
+    },
+    "app/community/alerts/page.tsx": {
+      "hash": "2d6ed389b3a9dc24",
+      "size": 815,
+      "lineCount": 23,
+      "tags": []
+    },
+    "app/community/community-theme.css": {
+      "hash": "f24d8a26a328521c",
+      "size": 30192,
+      "lineCount": 557,
+      "tags": []
+    },
+    "app/community/layout.tsx": {
+      "hash": "e43232e617446dfd",
+      "size": 1017,
+      "lineCount": 24,
+      "tags": []
+    },
+    "app/community/messages/page.tsx": {
+      "hash": "23560b182fcb890f",
+      "size": 851,
+      "lineCount": 23,
+      "tags": []
+    },
+    "app/community/page.tsx": {
+      "hash": "5f450c90b7236c33",
+      "size": 16396,
+      "lineCount": 278,
+      "tags": []
+    },
+    "app/community/profile/page.tsx": {
+      "hash": "4e95697616812118",
+      "size": 5125,
+      "lineCount": 101,
+      "tags": []
+    },
+    "app/community/topics/page.tsx": {
+      "hash": "6a38578756ca0dd0",
+      "size": 3542,
+      "lineCount": 79,
+      "tags": []
+    },
+    "app/components/faq-explorer.tsx": {
+      "hash": "a056c3e78b5d8108",
+      "size": 4679,
+      "lineCount": 67,
+      "tags": []
+    },
+    "app/components/guide-faq-pages.tsx": {
+      "hash": "00e589ec16a90f33",
+      "size": 11023,
+      "lineCount": 131,
+      "tags": []
+    },
+    "app/components/guide-home.tsx": {
+      "hash": "e7d79fca33bddd7c",
+      "size": 11577,
+      "lineCount": 155,
+      "tags": []
+    },
+    "app/components/guide-icon.tsx": {
+      "hash": "eeb6567a26d7e2ae",
+      "size": 1091,
+      "lineCount": 18,
+      "tags": []
+    },
+    "app/components/guide-rail.tsx": {
+      "hash": "6c99b3be832b2910",
+      "size": 1464,
+      "lineCount": 13,
+      "tags": []
+    },
+    "app/components/guide-shell.tsx": {
+      "hash": "fd0a53fa90089b0d",
+      "size": 12139,
+      "lineCount": 183,
+      "tags": []
+    },
+    "app/components/help-search.tsx": {
+      "hash": "583fee3168ee933a",
+      "size": 6589,
+      "lineCount": 108,
+      "tags": []
+    },
+    "app/components/page-header.tsx": {
+      "hash": "613a79e500c00371",
+      "size": 430,
+      "lineCount": 6,
+      "tags": []
+    },
+    "app/components/site-closure-lightbox.tsx": {
+      "hash": "cc0822ce097c678d",
+      "size": 4379,
+      "lineCount": 98,
+      "tags": []
+    },
+    "app/components/structured-data.tsx": {
+      "hash": "6de19b8a6810e81c",
+      "size": 3012,
+      "lineCount": 76,
+      "tags": []
+    },
+    "app/components/travel-matrix.tsx": {
+      "hash": "d07bb6c1a09e4755",
+      "size": 10983,
+      "lineCount": 201,
+      "tags": []
+    },
+    "app/corrections/layout.tsx": {
+      "hash": "9ad675da14ada3d1",
+      "size": 620,
+      "lineCount": 11,
+      "tags": []
+    },
+    "app/corrections/page.tsx": {
+      "hash": "88c71c4378fd17d1",
+      "size": 1579,
+      "lineCount": 20,
+      "tags": []
+    },
+    "app/donate/layout.tsx": {
+      "hash": "0a7ef587e3ea3bf2",
+      "size": 554,
+      "lineCount": 11,
+      "tags": []
+    },
+    "app/donate/page.tsx": {
+      "hash": "b77b23a3b47891a7",
+      "size": 2799,
+      "lineCount": 41,
+      "tags": []
+    },
+    "app/error.tsx": {
+      "hash": "194b1f10fca379e9",
+      "size": 426,
+      "lineCount": 6,
+      "tags": []
+    },
+    "app/faq/[topic]/page.tsx": {
+      "hash": "5fa19acd10e5ad3d",
+      "size": 1381,
+      "lineCount": 32,
+      "tags": []
+    },
+    "app/faq/page.tsx": {
+      "hash": "e492b2e742958dc9",
+      "size": 729,
+      "lineCount": 17,
+      "tags": []
+    },
+    "app/forbidden.tsx": {
+      "hash": "27bb1857ecc0778b",
+      "size": 358,
+      "lineCount": 6,
+      "tags": []
+    },
+    "app/forms.css": {
+      "hash": "f50d861ae6fa8c72",
+      "size": 9174,
+      "lineCount": 189,
+      "tags": []
+    },
+    "app/globals.css": {
+      "hash": "2768b7388a49de05",
+      "size": 6155,
+      "lineCount": 166,
+      "tags": []
+    },
+    "app/guide-data.ts": {
+      "hash": "df80a84243d9e04c",
+      "size": 51142,
+      "lineCount": 706,
+      "tags": []
+    },
+    "app/guide-sections.ts": {
+      "hash": "8e0eb63abb9f02d1",
+      "size": 37756,
+      "lineCount": 413,
+      "tags": []
+    },
+    "app/guide.css": {
+      "hash": "448a3a87b909c60a",
+      "size": 151221,
+      "lineCount": 1394,
+      "tags": []
+    },
+    "app/image-metadata.ts": {
+      "hash": "f4f6ee32cd034362",
+      "size": 3947,
+      "lineCount": 60,
+      "tags": []
+    },
+    "app/image-security.ts": {
+      "hash": "6d3603ccb9c7bebf",
+      "size": 814,
+      "lineCount": 13,
+      "tags": []
+    },
+    "app/layout.tsx": {
+      "hash": "a65201fd2c9d0d7f",
+      "size": 1982,
+      "lineCount": 50,
+      "tags": []
+    },
+    "app/lost-auntie-art.ts": {
+      "hash": "9684ff561154e031",
+      "size": 38578,
+      "lineCount": 2,
+      "tags": []
+    },
+    "app/neon-auth.ts": {
+      "hash": "0640a237e68cd4a5",
+      "size": 13863,
+      "lineCount": 265,
+      "tags": []
+    },
+    "app/not-found.tsx": {
+      "hash": "3732d63e2fd3136a",
+      "size": 720,
+      "lineCount": 20,
+      "tags": []
+    },
+    "app/page.tsx": {
+      "hash": "7737b09d79f4257e",
+      "size": 304,
+      "lineCount": 8,
+      "tags": []
+    },
+    "app/password-security.ts": {
+      "hash": "ad8a6abb2af833c8",
+      "size": 2256,
+      "lineCount": 56,
+      "tags": []
+    },
+    "app/privacy/layout.tsx": {
+      "hash": "eb26c4895a254c1e",
+      "size": 630,
+      "lineCount": 11,
+      "tags": []
+    },
+    "app/privacy/page.tsx": {
+      "hash": "2af08bfcf61f8c3c",
+      "size": 2450,
+      "lineCount": 26,
+      "tags": []
+    },
+    "app/quick-facts/page.tsx": {
+      "hash": "c4cb47c2d826a925",
+      "size": 18644,
+      "lineCount": 328,
+      "tags": []
+    },
+    "app/resources/layout.tsx": {
+      "hash": "da05e8596c0e8a29",
+      "size": 935,
+      "lineCount": 12,
+      "tags": []
+    },
+    "app/resources/page.tsx": {
+      "hash": "f36dda895a07b03a",
+      "size": 3794,
+      "lineCount": 46,
+      "tags": []
+    },
+    "app/safety/layout.tsx": {
+      "hash": "42c9ac93fbc3c359",
+      "size": 856,
+      "lineCount": 11,
+      "tags": []
+    },
+    "app/safety/page.tsx": {
+      "hash": "129a22040170c2cd",
+      "size": 8098,
+      "lineCount": 83,
+      "tags": []
+    },
+    "app/scholarship/layout.tsx": {
+      "hash": "4cd152e406088027",
+      "size": 626,
+      "lineCount": 11,
+      "tags": []
+    },
+    "app/scholarship/page.tsx": {
+      "hash": "6fa3d2e95d9df5e9",
+      "size": 122,
+      "lineCount": 6,
+      "tags": []
+    },
+    "app/scholarship/scholarship.css": {
+      "hash": "28106c559af7c470",
+      "size": 902,
+      "lineCount": 10,
+      "tags": []
+    },
+    "app/search-corpus.ts": {
+      "hash": "166f35dd897f282c",
+      "size": 3796,
+      "lineCount": 85,
+      "tags": []
+    },
+    "app/search-query.ts": {
+      "hash": "8be555bdd02f7887",
+      "size": 1525,
+      "lineCount": 36,
+      "tags": []
+    },
+    "app/search-sync.ts": {
+      "hash": "bc5fb8a26dbefb23",
+      "size": 2346,
+      "lineCount": 53,
+      "tags": []
+    },
+    "app/security-crypto.ts": {
+      "hash": "8da5495c5e5bd5ea",
+      "size": 2151,
+      "lineCount": 38,
+      "tags": []
+    },
+    "app/share/layout.tsx": {
+      "hash": "e2f072d896f4f45a",
+      "size": 608,
+      "lineCount": 11,
+      "tags": []
+    },
+    "app/share/page.tsx": {
+      "hash": "ef672173fa330c7d",
+      "size": 2165,
+      "lineCount": 27,
+      "tags": []
+    },
+    "app/shopping/page.tsx": {
+      "hash": "9d5f7a72ff95890f",
+      "size": 345,
+      "lineCount": 9,
+      "tags": []
+    },
+    "app/support/layout.tsx": {
+      "hash": "e7cf95e0be327c02",
+      "size": 850,
+      "lineCount": 11,
+      "tags": []
+    },
+    "app/support/page.tsx": {
+      "hash": "560c56a987610a1d",
+      "size": 3159,
+      "lineCount": 31,
+      "tags": []
+    },
+    "app/travel/page.tsx": {
+      "hash": "0d2254edd926d730",
+      "size": 6025,
+      "lineCount": 80,
+      "tags": []
+    },
+    "app/wall/page.tsx": {
+      "hash": "51c67462eb9116a6",
+      "size": 1021,
+      "lineCount": 31,
+      "tags": []
+    },
+    "components.json": {
+      "hash": "31f4ca67a4a62572",
+      "size": 420,
+      "lineCount": 22,
+      "tags": []
+    },
+    "components/ui/accordion.tsx": {
+      "hash": "a4f153089ba886df",
+      "size": 2048,
+      "lineCount": 67,
+      "tags": []
+    },
+    "components/ui/alert-dialog.tsx": {
+      "hash": "9a8d950f2b9b4352",
+      "size": 5439,
+      "lineCount": 197,
+      "tags": []
+    },
+    "components/ui/alert.tsx": {
+      "hash": "2cc59b5f7bda91c1",
+      "size": 1614,
+      "lineCount": 67,
+      "tags": []
+    },
+    "components/ui/aspect-ratio.tsx": {
+      "hash": "b1c157886236782c",
+      "size": 274,
+      "lineCount": 12,
+      "tags": []
+    },
+    "components/ui/attachment.tsx": {
+      "hash": "ae8a25dd1a896d39",
+      "size": 6002,
+      "lineCount": 205,
+      "tags": []
+    },
+    "components/ui/avatar.tsx": {
+      "hash": "58a846bf1617b94b",
+      "size": 2916,
+      "lineCount": 110,
+      "tags": []
+    },
+    "components/ui/badge.tsx": {
+      "hash": "46a0de5224f6a5d5",
+      "size": 1776,
+      "lineCount": 49,
+      "tags": []
+    },
+    "components/ui/breadcrumb.tsx": {
+      "hash": "d4c0831bba2212e7",
+      "size": 2350,
+      "lineCount": 110,
+      "tags": []
+    },
+    "components/ui/bubble.tsx": {
+      "hash": "870cc0c5cfc8a515",
+      "size": 4699,
+      "lineCount": 126,
+      "tags": []
+    },
+    "components/ui/button-group.tsx": {
+      "hash": "784c89d8ee683e1b",
+      "size": 2202,
+      "lineCount": 84,
+      "tags": []
+    },
+    "components/ui/button.tsx": {
+      "hash": "cc36af0f8b5019c3",
+      "size": 2392,
+      "lineCount": 65,
+      "tags": []
+    },
+    "components/ui/calendar.tsx": {
+      "hash": "3855fbe0d3f8ad3a",
+      "size": 7832,
+      "lineCount": 221,
+      "tags": []
+    },
+    "components/ui/card.tsx": {
+      "hash": "c48dd3b96be90a70",
+      "size": 1987,
+      "lineCount": 93,
+      "tags": []
+    },
+    "components/ui/carousel.tsx": {
+      "hash": "b7ea0dda3903d972",
+      "size": 5556,
+      "lineCount": 242,
+      "tags": []
+    },
+    "components/ui/chart.tsx": {
+      "hash": "45aa5ea4a386f4fb",
+      "size": 10614,
+      "lineCount": 378,
+      "tags": []
+    },
+    "components/ui/checkbox.tsx": {
+      "hash": "b23ab9d4deeedf2a",
+      "size": 1214,
+      "lineCount": 33,
+      "tags": []
+    },
+    "components/ui/collapsible.tsx": {
+      "hash": "c6598e5584f4258b",
+      "size": 795,
+      "lineCount": 34,
+      "tags": []
+    },
+    "components/ui/combobox.tsx": {
+      "hash": "2d68e78b2dc7e38a",
+      "size": 9158,
+      "lineCount": 311,
+      "tags": []
+    },
+    "components/ui/command.tsx": {
+      "hash": "361193df1e3d64a9",
+      "size": 4818,
+      "lineCount": 185,
+      "tags": []
+    },
+    "components/ui/context-menu.tsx": {
+      "hash": "2cf1fcf59df0649a",
+      "size": 8268,
+      "lineCount": 253,
+      "tags": []
+    },
+    "components/ui/dialog.tsx": {
+      "hash": "dce39c6adc47d997",
+      "size": 4303,
+      "lineCount": 159,
+      "tags": []
+    },
+    "components/ui/direction.tsx": {
+      "hash": "84ae2ad658207f0e",
+      "size": 506,
+      "lineCount": 23,
+      "tags": []
+    },
+    "components/ui/drawer.tsx": {
+      "hash": "cb6eaf58eb0757ca",
+      "size": 4255,
+      "lineCount": 136,
+      "tags": []
+    },
+    "components/ui/dropdown-menu.tsx": {
+      "hash": "98f0dcdae38225b7",
+      "size": 8418,
+      "lineCount": 258,
+      "tags": []
+    },
+    "components/ui/empty.tsx": {
+      "hash": "ae95bdcf367a076a",
+      "size": 2396,
+      "lineCount": 105,
+      "tags": []
+    },
+    "components/ui/field.tsx": {
+      "hash": "ba67d76f017ac059",
+      "size": 6159,
+      "lineCount": 249,
+      "tags": []
+    },
+    "components/ui/form.tsx": {
+      "hash": "315b46bb75ab7d1c",
+      "size": 3757,
+      "lineCount": 168,
+      "tags": []
+    },
+    "components/ui/hover-card.tsx": {
+      "hash": "f5d8df42c59370ec",
+      "size": 1526,
+      "lineCount": 45,
+      "tags": []
+    },
+    "components/ui/input-group.tsx": {
+      "hash": "6afbd58fea4c438e",
+      "size": 5065,
+      "lineCount": 171,
+      "tags": []
+    },
+    "components/ui/input-otp.tsx": {
+      "hash": "161946daa89f0eda",
+      "size": 2254,
+      "lineCount": 78,
+      "tags": []
+    },
+    "components/ui/input.tsx": {
+      "hash": "8c4612a7c41319ac",
+      "size": 962,
+      "lineCount": 22,
+      "tags": []
+    },
+    "components/ui/item.tsx": {
+      "hash": "6e2144d6d87142db",
+      "size": 4486,
+      "lineCount": 194,
+      "tags": []
+    },
+    "components/ui/kbd.tsx": {
+      "hash": "6088c3a5432338b1",
+      "size": 862,
+      "lineCount": 29,
+      "tags": []
+    },
+    "components/ui/label.tsx": {
+      "hash": "a476e41f08b9de5b",
+      "size": 606,
+      "lineCount": 25,
+      "tags": []
+    },
+    "components/ui/marker.tsx": {
+      "hash": "3d798763f094b2bb",
+      "size": 1864,
+      "lineCount": 70,
+      "tags": []
+    },
+    "components/ui/menubar.tsx": {
+      "hash": "9243af8afcea0370",
+      "size": 8389,
+      "lineCount": 277,
+      "tags": []
+    },
+    "components/ui/message-scroller.tsx": {
+      "hash": "bb7660a248e4e958",
+      "size": 3992,
+      "lineCount": 131,
+      "tags": []
+    },
+    "components/ui/message.tsx": {
+      "hash": "9d2952bf3b641081",
+      "size": 2232,
+      "lineCount": 93,
+      "tags": []
+    },
+    "components/ui/native-select.tsx": {
+      "hash": "007516b111fca8c9",
+      "size": 1995,
+      "lineCount": 63,
+      "tags": []
+    },
+    "components/ui/navigation-menu.tsx": {
+      "hash": "889d358a77de88e9",
+      "size": 6658,
+      "lineCount": 169,
+      "tags": []
+    },
+    "components/ui/pagination.tsx": {
+      "hash": "374ad135c3d4ff3e",
+      "size": 2717,
+      "lineCount": 128,
+      "tags": []
+    },
+    "components/ui/popover.tsx": {
+      "hash": "31c350309ff5d303",
+      "size": 2357,
+      "lineCount": 90,
+      "tags": []
+    },
+    "components/ui/progress.tsx": {
+      "hash": "c8c26e8f5f041c3c",
+      "size": 755,
+      "lineCount": 33,
+      "tags": []
+    },
+    "components/ui/radio-group.tsx": {
+      "hash": "fe5ce39636d0818c",
+      "size": 1460,
+      "lineCount": 46,
+      "tags": []
+    },
+    "components/ui/resizable.tsx": {
+      "hash": "bc63958467aa0055",
+      "size": 1815,
+      "lineCount": 54,
+      "tags": []
+    },
+    "components/ui/scroll-area.tsx": {
+      "hash": "8bd9d986b2844c9a",
+      "size": 1639,
+      "lineCount": 59,
+      "tags": []
+    },
+    "components/ui/select.tsx": {
+      "hash": "0b796a108a4eb5ba",
+      "size": 6353,
+      "lineCount": 191,
+      "tags": []
+    },
+    "components/ui/separator.tsx": {
+      "hash": "6da346505c8629a4",
+      "size": 694,
+      "lineCount": 29,
+      "tags": []
+    },
+    "components/ui/sheet.tsx": {
+      "hash": "63863cf2df8f8973",
+      "size": 4188,
+      "lineCount": 144,
+      "tags": []
+    },
+    "components/ui/sidebar.tsx": {
+      "hash": "4a8d73e7730a2b1f",
+      "size": 21526,
+      "lineCount": 724,
+      "tags": []
+    },
+    "components/ui/skeleton.tsx": {
+      "hash": "ba48dd5be5a6a137",
+      "size": 276,
+      "lineCount": 14,
+      "tags": []
+    },
+    "components/ui/slider.tsx": {
+      "hash": "0e37484f4b416e79",
+      "size": 1991,
+      "lineCount": 64,
+      "tags": []
+    },
+    "components/ui/sonner.tsx": {
+      "hash": "13ccc9b0fe4248e6",
+      "size": 1034,
+      "lineCount": 41,
+      "tags": []
+    },
+    "components/ui/spinner.tsx": {
+      "hash": "3e6e6e8d37fb4069",
+      "size": 331,
+      "lineCount": 17,
+      "tags": []
+    },
+    "components/ui/switch.tsx": {
+      "hash": "386d4d4deb39f341",
+      "size": 1408,
+      "lineCount": 36,
+      "tags": []
+    },
+    "components/ui/table.tsx": {
+      "hash": "20e5a7f224959c6b",
+      "size": 2478,
+      "lineCount": 117,
+      "tags": []
+    },
+    "components/ui/tabs.tsx": {
+      "hash": "865d0194331b9b2b",
+      "size": 3782,
+      "lineCount": 92,
+      "tags": []
+    },
+    "components/ui/textarea.tsx": {
+      "hash": "253cdeb487c73bea",
+      "size": 759,
+      "lineCount": 19,
+      "tags": []
+    },
+    "components/ui/toggle-group.tsx": {
+      "hash": "69f643e889e933f0",
+      "size": 2308,
+      "lineCount": 84,
+      "tags": []
+    },
+    "components/ui/toggle.tsx": {
+      "hash": "ba4d0b0a2b2fee75",
+      "size": 1565,
+      "lineCount": 48,
+      "tags": []
+    },
+    "components/ui/tooltip.tsx": {
+      "hash": "a0784eb77831a799",
+      "size": 1830,
+      "lineCount": 58,
+      "tags": []
+    },
+    "db/index.ts": {
+      "hash": "dc7610b00b918e0f",
+      "size": 423,
+      "lineCount": 14,
+      "tags": [
+        "data"
+      ]
+    },
+    "db/schema.ts": {
+      "hash": "fd5a7a045289727f",
+      "size": 10147,
+      "lineCount": 187,
+      "tags": [
+        "data"
+      ]
+    },
+    "docs/UPDATING-FAQS.md": {
+      "hash": "40fed69cf8082c8a",
+      "size": 6140,
+      "lineCount": 100,
+      "tags": []
+    },
+    "drizzle.config.ts": {
+      "hash": "af081f7384aaeb00",
+      "size": 148,
+      "lineCount": 8,
+      "tags": []
+    },
+    "drizzle/0000_salty_changeling.sql": {
+      "hash": "7de1cf4dd91e518e",
+      "size": 875,
+      "lineCount": 27,
+      "tags": [
+        "data"
+      ]
+    },
+    "drizzle/0001_young_nico_minoru.sql": {
+      "hash": "0f19d8407e63e6bb",
+      "size": 3061,
+      "lineCount": 70,
+      "tags": [
+        "data"
+      ]
+    },
+    "drizzle/0002_secure_community_auth.sql": {
+      "hash": "fa6029a349de2664",
+      "size": 261,
+      "lineCount": 8,
+      "tags": [
+        "data"
+      ]
+    },
+    "drizzle/0003_account_security.sql": {
+      "hash": "9257e50cbf632432",
+      "size": 1231,
+      "lineCount": 18,
+      "tags": [
+        "data"
+      ]
+    },
+    "drizzle/0004_groupme_faq_intake.sql": {
+      "hash": "2fb55f26dd232675",
+      "size": 723,
+      "lineCount": 17,
+      "tags": [
+        "data"
+      ]
+    },
+    "drizzle/0005_reset_auth_rate_limits.sql": {
+      "hash": "da8076e003dac0cc",
+      "size": 180,
+      "lineCount": 4,
+      "tags": [
+        "data"
+      ]
+    },
+    "drizzle/0006_faq_fulltext_search.sql": {
+      "hash": "e852f57999793221",
+      "size": 4974,
+      "lineCount": 104,
+      "tags": [
+        "data"
+      ]
+    },
+    "drizzle/meta/0000_snapshot.json": {
+      "hash": "8a6a0f78420e5fde",
+      "size": 4727,
+      "lineCount": 191,
+      "tags": []
+    },
+    "drizzle/meta/0001_snapshot.json": {
+      "hash": "7b935f4385b32193",
+      "size": 17691,
+      "lineCount": 682,
+      "tags": []
+    },
+    "drizzle/meta/_journal.json": {
+      "hash": "846d55ea4f683e87",
+      "size": 351,
+      "lineCount": 20,
+      "tags": []
+    },
+    "eslint.config.mjs": {
+      "hash": "f22a254df7d934bb",
+      "size": 846,
+      "lineCount": 29,
+      "tags": []
+    },
+    "examples/d1/app/api/notes/route.ts": {
+      "hash": "a3d4a74fd53b7bf5",
+      "size": 1700,
+      "lineCount": 59,
+      "tags": []
+    },
+    "examples/d1/db/schema.ts": {
+      "hash": "d89eabd95716ce40",
+      "size": 370,
+      "lineCount": 10,
+      "tags": []
+    },
+    "hooks/use-mobile.ts": {
+      "hash": "ad0936f84f1df79d",
+      "size": 565,
+      "lineCount": 20,
+      "tags": []
+    },
+    "legacy/index.html": {
+      "hash": "5afaf0ed94164752",
+      "size": 48270,
+      "lineCount": 596,
+      "tags": []
+    },
+    "lib/utils.ts": {
+      "hash": "53f3d3d070f0a908",
+      "size": 177,
+      "lineCount": 7,
+      "tags": []
+    },
+    "migrations/neon/0001_auth.sql": {
+      "hash": "2974aae6a1b6e6a6",
+      "size": 3149,
+      "lineCount": 85,
+      "tags": [
+        "data"
+      ]
+    },
+    "migrations/neon/0002_community_roles.sql": {
+      "hash": "10f306e61fb6deb4",
+      "size": 413,
+      "lineCount": 11,
+      "tags": [
+        "data"
+      ]
+    },
+    "next.config.ts": {
+      "hash": "614bce25b089c3f1",
+      "size": 133,
+      "lineCount": 8,
+      "tags": []
+    },
+    "package-lock.json": {
+      "hash": "41fddeb2cbd84f6d",
+      "size": 358680,
+      "lineCount": 12963,
+      "tags": []
+    },
+    "package.json": {
+      "hash": "736d4f1e2122dc8e",
+      "size": 2163,
+      "lineCount": 66,
+      "tags": []
+    },
+    "postcss.config.mjs": {
+      "hash": "dfac7ac2d86d326a",
+      "size": 94,
+      "lineCount": 8,
+      "tags": []
+    },
+    "public/calendar/career-fair.jpg": {
+      "hash": "4f2810822a7125e3",
+      "size": 110372,
+      "lineCount": 406,
+      "tags": []
+    },
+    "public/calendar/classes.jpg": {
+      "hash": "ee16132d3240e4fd",
+      "size": 172406,
+      "lineCount": 513,
+      "tags": []
+    },
+    "public/calendar/commencement.jpg": {
+      "hash": "b00e1ea7c60a25ec",
+      "size": 164728,
+      "lineCount": 555,
+      "tags": []
+    },
+    "public/calendar/community-day.jpg": {
+      "hash": "4172d85f9df3c27f",
+      "size": 177546,
+      "lineCount": 616,
+      "tags": []
+    },
+    "public/calendar/departure.jpg": {
+      "hash": "22c861f740cf93c6",
+      "size": 155460,
+      "lineCount": 502,
+      "tags": []
+    },
+    "public/calendar/fallback.jpg": {
+      "hash": "cec4c64e1768b4bb",
+      "size": 209677,
+      "lineCount": 660,
+      "tags": []
+    },
+    "public/calendar/family-weekend-2026.png": {
+      "hash": "733a26e86b24b11a",
+      "size": 480061,
+      "lineCount": 2044,
+      "tags": []
+    },
+    "public/calendar/grades.jpg": {
+      "hash": "c410120af5e5db28",
+      "size": 146259,
+      "lineCount": 582,
+      "tags": []
+    },
+    "public/calendar/health-insurance.jpg": {
+      "hash": "2b0d2c0f42b478e1",
+      "size": 109859,
+      "lineCount": 412,
+      "tags": []
+    },
+    "public/calendar/orientation.jpg": {
+      "hash": "d376c44df62fccad",
+      "size": 141776,
+      "lineCount": 519,
+      "tags": []
+    },
+    "public/calendar/recess-travel.jpg": {
+      "hash": "7e4d315ac6e529ef",
+      "size": 149269,
+      "lineCount": 511,
+      "tags": []
+    },
+    "public/calendar/restaurants.jpg": {
+      "hash": "de9ec56e895bbe93",
+      "size": 171533,
+      "lineCount": 593,
+      "tags": []
+    },
+    "public/calendar/tuition-refund.jpg": {
+      "hash": "12684fd9844d69d5",
+      "size": 115700,
+      "lineCount": 427,
+      "tags": []
+    },
+    "public/celebration-wall.css": {
+      "hash": "51b1a8cbc3f8c81a",
+      "size": 139658,
+      "lineCount": 5376,
+      "tags": []
+    },
+    "public/celebration-wall.html": {
+      "hash": "035d39266e13fbc7",
+      "size": 34215,
+      "lineCount": 662,
+      "tags": []
+    },
+    "public/community-campus-building.webp": {
+      "hash": "b9964bddca206a6b",
+      "size": 63110,
+      "lineCount": 215,
+      "tags": []
+    },
+    "public/community-campus-group.webp": {
+      "hash": "316d0faf96848b5a",
+      "size": 132638,
+      "lineCount": 532,
+      "tags": []
+    },
+    "public/community-login-collage.webp": {
+      "hash": "7533adefd3352cd8",
+      "size": 76044,
+      "lineCount": 319,
+      "tags": []
+    },
+    "public/documents/README.md": {
+      "hash": "dc139cf5a4b56865",
+      "size": 1056,
+      "lineCount": 23,
+      "tags": []
+    },
+    "public/documents/academic-calendar.jpg": {
+      "hash": "c153eb97988aa599",
+      "size": 74411,
+      "lineCount": 430,
+      "tags": []
+    },
+    "public/documents/academic-calendar.pdf": {
+      "hash": "0c11deab355eae56",
+      "size": 60604,
+      "lineCount": 303,
+      "tags": []
+    },
+    "public/documents/allergies.jpg": {
+      "hash": "470578009b44f65e",
+      "size": 47417,
+      "lineCount": 205,
+      "tags": []
+    },
+    "public/documents/allergies.pdf": {
+      "hash": "945c23064339a996",
+      "size": 732060,
+      "lineCount": 3631,
+      "tags": []
+    },
+    "public/documents/baking-kit.jpg": {
+      "hash": "2245a294a50df9f0",
+      "size": 47400,
+      "lineCount": 294,
+      "tags": []
+    },
+    "public/documents/baking-kit.pdf": {
+      "hash": "6b572589c7184915",
+      "size": 1238625,
+      "lineCount": 10695,
+      "tags": []
+    },
+    "public/documents/culinary-arts.jpg": {
+      "hash": "4599a7a5b9945c70",
+      "size": 29033,
+      "lineCount": 227,
+      "tags": []
+    },
+    "public/documents/culinary-arts.pdf": {
+      "hash": "d59b216c04a1d2fc",
+      "size": 17051,
+      "lineCount": 377,
+      "tags": []
+    },
+    "public/documents/culinary-kit.jpg": {
+      "hash": "dcf5db80d893be0a",
+      "size": 48752,
+      "lineCount": 274,
+      "tags": []
+    },
+    "public/documents/culinary-kit.pdf": {
+      "hash": "8cd9687aef269b17",
+      "size": 1064751,
+      "lineCount": 9888,
+      "tags": []
+    },
+    "public/documents/food-business.jpg": {
+      "hash": "c04f59e5272d1800",
+      "size": 40079,
+      "lineCount": 207,
+      "tags": []
+    },
+    "public/documents/food-business.pdf": {
+      "hash": "2e478e86d582bf0f",
+      "size": 57660,
+      "lineCount": 809,
+      "tags": []
+    },
+    "public/documents/meal-plan.jpg": {
+      "hash": "c24db08f6b5fd722",
+      "size": 40886,
+      "lineCount": 199,
+      "tags": []
+    },
+    "public/documents/meal-plan.pdf": {
+      "hash": "1dab0368fb74f8d8",
+      "size": 1221144,
+      "lineCount": 5225,
+      "tags": []
+    },
+    "public/documents/medical-care.jpg": {
+      "hash": "b17f0ab8bdd5bcd7",
+      "size": 96853,
+      "lineCount": 448,
+      "tags": []
+    },
+    "public/documents/medical-care.pdf": {
+      "hash": "871109cc5277b017",
+      "size": 31221,
+      "lineCount": 450,
+      "tags": []
+    },
+    "public/documents/restaurants.jpg": {
+      "hash": "eab757e492a43a73",
+      "size": 60570,
+      "lineCount": 291,
+      "tags": []
+    },
+    "public/documents/restaurants.pdf": {
+      "hash": "0f4f5af3b1f3d95d",
+      "size": 1576116,
+      "lineCount": 6778,
+      "tags": []
+    },
+    "public/documents/textbooks.jpg": {
+      "hash": "a7fe20395c0d7d9d",
+      "size": 37151,
+      "lineCount": 303,
+      "tags": []
+    },
+    "public/documents/textbooks.pdf": {
+      "hash": "a5b4fa5680411aad",
+      "size": 621024,
+      "lineCount": 2656,
+      "tags": []
+    },
+    "public/everbridge-android.svg": {
+      "hash": "4f3cf28cb0811527",
+      "size": 1020,
+      "lineCount": 12,
+      "tags": []
+    },
+    "public/everbridge-ios.svg": {
+      "hash": "6089e649fa9eb664",
+      "size": 1034,
+      "lineCount": 12,
+      "tags": []
+    },
+    "public/family-collage.png": {
+      "hash": "b0b7145a3c74b84b",
+      "size": 3212943,
+      "lineCount": 11545,
+      "tags": []
+    },
+    "public/favicon.svg": {
+      "hash": "c552b1bd39ae4a8a",
+      "size": 680,
+      "lineCount": 12,
+      "tags": []
+    },
+    "public/file.svg": {
+      "hash": "1e0ae4d1a1ddfa36",
+      "size": 392,
+      "lineCount": 2,
+      "tags": []
+    },
+    "public/globe.svg": {
+      "hash": "d051a8c47936990a",
+      "size": 1036,
+      "lineCount": 2,
+      "tags": []
+    },
+    "public/guide.js": {
+      "hash": "4965d00e02fb0184",
+      "size": 50694,
+      "lineCount": 612,
+      "tags": []
+    },
+    "public/llms.txt": {
+      "hash": "84cd9dae871d7410",
+      "size": 2926,
+      "lineCount": 44,
+      "tags": []
+    },
+    "public/lost-with-map.webp": {
+      "hash": "47cdcc261396ecf5",
+      "size": 206910,
+      "lineCount": 883,
+      "tags": []
+    },
+    "public/providers/README.md": {
+      "hash": "59acb9708e61fd3a",
+      "size": 355,
+      "lineCount": 10,
+      "tags": []
+    },
+    "public/providers/cvs.svg": {
+      "hash": "6a013d5f0f733068",
+      "size": 1688,
+      "lineCount": 4,
+      "tags": []
+    },
+    "public/providers/emergency-one.png": {
+      "hash": "b3fc8cac7e659852",
+      "size": 92405,
+      "lineCount": 453,
+      "tags": []
+    },
+    "public/providers/molloy_logo.jpg": {
+      "hash": "ac7e79d8dd64c59d",
+      "size": 38592,
+      "lineCount": 124,
+      "tags": []
+    },
+    "public/providers/northwell.png": {
+      "hash": "7dc17f9cc4bf839a",
+      "size": 68835,
+      "lineCount": 230,
+      "tags": []
+    },
+    "public/providers/optum-logo-ora-rgb1.svg": {
+      "hash": "b6eb7620ef055e56",
+      "size": 1460,
+      "lineCount": 18,
+      "tags": []
+    },
+    "public/providers/ortho_logo.jpg": {
+      "hash": "4aeb4900b377e476",
+      "size": 706130,
+      "lineCount": 1987,
+      "tags": []
+    },
+    "public/providers/walgreens.svg": {
+      "hash": "e7e5fd62bae382d4",
+      "size": 1057,
+      "lineCount": 4,
+      "tags": []
+    },
+    "public/providers/westchester-logo.svg": {
+      "hash": "8d94d3d18d5cdf33",
+      "size": 18682,
+      "lineCount": 215,
+      "tags": []
+    },
+    "public/quick-facts/resources/3-drawer-cart.png": {
+      "hash": "de4be39240bbb661",
+      "size": 19491,
+      "lineCount": 81,
+      "tags": []
+    },
+    "public/quick-facts/resources/3-drawer-tower.png": {
+      "hash": "bf46774cf080d6f6",
+      "size": 35119,
+      "lineCount": 136,
+      "tags": []
+    },
+    "public/quick-facts/resources/Laundry-hamper.png": {
+      "hash": "8062307dcd229855",
+      "size": 67660,
+      "lineCount": 261,
+      "tags": []
+    },
+    "public/quick-facts/resources/cookware-10pc.png": {
+      "hash": "f5a3a56f49bfd721",
+      "size": 46258,
+      "lineCount": 179,
+      "tags": []
+    },
+    "public/quick-facts/resources/cookware-12pc.png": {
+      "hash": "db043e917ecc2470",
+      "size": 90552,
+      "lineCount": 405,
+      "tags": []
+    },
+    "public/quick-facts/resources/cookware-7pc.png": {
+      "hash": "3ff82e6d16dfb1f3",
+      "size": 49030,
+      "lineCount": 210,
+      "tags": []
+    },
+    "public/quick-facts/resources/cookware-budget-10pc.png": {
+      "hash": "a1d58e3dbb37be01",
+      "size": 17071,
+      "lineCount": 67,
+      "tags": []
+    },
+    "public/quick-facts/resources/mattress-protector.png": {
+      "hash": "5027ca749c334289",
+      "size": 21882,
+      "lineCount": 88,
+      "tags": []
+    },
+    "public/quick-facts/resources/ny-hudson-double-lg.jpg": {
+      "hash": "04e1e75950fd2691",
+      "size": 34914,
+      "lineCount": 141,
+      "tags": []
+    },
+    "public/quick-facts/resources/ny-hudson-quad-lg.jpg": {
+      "hash": "e96b1e2fc5ff60ae",
+      "size": 59168,
+      "lineCount": 241,
+      "tags": []
+    },
+    "public/quick-facts/resources/ny-lodge-four-bedroom-suite-lg.jpg": {
+      "hash": "91e2e4a2e929fc5e",
+      "size": 56899,
+      "lineCount": 252,
+      "tags": []
+    },
+    "public/quick-facts/resources/ny-lodge-three-bedroom-suite-lg-e1718645367436.jpg": {
+      "hash": "acf10e6deb746d73",
+      "size": 75541,
+      "lineCount": 268,
+      "tags": []
+    },
+    "public/quick-facts/resources/ny-lodge-two-bedroom-suite-double-lg-e1718645243732.jpg": {
+      "hash": "64127278b633730a",
+      "size": 60256,
+      "lineCount": 233,
+      "tags": []
+    },
+    "public/quick-facts/resources/ny-lodge-two-bedroom-suite-triple.jpg": {
+      "hash": "9993f8e9ad6cdea7",
+      "size": 16043,
+      "lineCount": 62,
+      "tags": []
+    },
+    "public/quick-facts/resources/ny-townhouse-first-floor.jpg": {
+      "hash": "b447058cfcd3ca21",
+      "size": 12030,
+      "lineCount": 60,
+      "tags": []
+    },
+    "public/quick-facts/resources/ny-townhouse-second-floor.jpg": {
+      "hash": "5b548f82c3e33ad5",
+      "size": 15402,
+      "lineCount": 64,
+      "tags": []
+    },
+    "public/quick-facts/resources/ny-townhouse-third-floor.jpg": {
+      "hash": "ead57d4d1c9299cc",
+      "size": 15298,
+      "lineCount": 54,
+      "tags": []
+    },
+    "public/quick-facts/resources/power-strips.png": {
+      "hash": "8e571301ea09095c",
+      "size": 20882,
+      "lineCount": 84,
+      "tags": []
+    },
+    "public/quick-facts/resources/underbed-storage.png": {
+      "hash": "5244e02cfd85b476",
+      "size": 7532,
+      "lineCount": 55,
+      "tags": []
+    },
+    "public/quick-facts/resources/underbed-storage.webp": {
+      "hash": "ccf942aaeacc4977",
+      "size": 1206,
+      "lineCount": 4,
+      "tags": []
+    },
+    "public/quick-facts/resources/uniform-store.jpg": {
+      "hash": "cc47dbd544d20ca6",
+      "size": 11677,
+      "lineCount": 39,
+      "tags": []
+    },
+    "public/quick-facts/resources/wire-shelving.png": {
+      "hash": "2e1963323543ea16",
+      "size": 221630,
+      "lineCount": 857,
+      "tags": []
+    },
+    "public/robots.txt": {
+      "hash": "88b045a4c39e7b6a",
+      "size": 122,
+      "lineCount": 8,
+      "tags": []
+    },
+    "public/sitemap.xml": {
+      "hash": "924967855351675e",
+      "size": 2583,
+      "lineCount": 94,
+      "tags": []
+    },
+    "public/window.svg": {
+      "hash": "decf1cf7bb22b5c9",
+      "size": 386,
+      "lineCount": 2,
+      "tags": []
+    },
+    "scripts/build-celebration-wall-css.mjs": {
+      "hash": "25a91ed3226eec3a",
+      "size": 1458,
+      "lineCount": 30,
+      "tags": []
+    },
+    "scripts/build-verified.sh": {
+      "hash": "6f3147efbaac23a0",
+      "size": 683,
+      "lineCount": 27,
+      "tags": []
+    },
+    "scripts/generate-sitemap.mjs": {
+      "hash": "b077cbf0d5772ac0",
+      "size": 1905,
+      "lineCount": 29,
+      "tags": []
+    },
+    "scripts/install-ci.sh": {
+      "hash": "d927ee0a36bf044a",
+      "size": 7299,
+      "lineCount": 212,
+      "tags": []
+    },
+    "scripts/sites-env.sh": {
+      "hash": "df86ebfc27d2f008",
+      "size": 1530,
+      "lineCount": 53,
+      "tags": []
+    },
+    "scripts/snapshot-visible-text.mjs": {
+      "hash": "5971aec1cc8ca455",
+      "size": 831,
+      "lineCount": 18,
+      "tags": []
+    },
+    "tests/faq-search.test.mjs": {
+      "hash": "b7c3cef82c367df5",
+      "size": 6561,
+      "lineCount": 123,
+      "tags": []
+    },
+    "tests/security/crypto-images.test.mjs": {
+      "hash": "1bfb5a5801318855",
+      "size": 3840,
+      "lineCount": 48,
+      "tags": []
+    },
+    "tests/term-content.test.mjs": {
+      "hash": "744909e80751eef5",
+      "size": 5170,
+      "lineCount": 104,
+      "tags": []
+    },
+    "tests/ui-components.test.mjs": {
+      "hash": "08e681a25fe202a0",
+      "size": 2840,
+      "lineCount": 86,
+      "tags": []
+    },
+    "tsconfig.json": {
+      "hash": "be18523b23b78b6e",
+      "size": 666,
+      "lineCount": 35,
+      "tags": []
+    },
+    "types.d.ts": {
+      "hash": "5f5cc716e7ee0ea4",
+      "size": 83,
+      "lineCount": 5,
+      "tags": []
+    },
+    "vendor/shadcn-tailwind-4.13.0.LICENSE.md": {
+      "hash": "1564074e13439397",
+      "size": 1063,
+      "lineCount": 22,
+      "tags": []
+    },
+    "vendor/shadcn-tailwind-4.13.0.css": {
+      "hash": "bc7d83425702955b",
+      "size": 16041,
+      "lineCount": 630,
+      "tags": []
+    },
+    "vite.config.ts": {
+      "hash": "c82b9f7d0af4180d",
+      "size": 2119,
+      "lineCount": 74,
+      "tags": []
+    },
+    "worker/index.ts": {
+      "hash": "d89cf69b3f945970",
+      "size": 4068,
+      "lineCount": 95,
+      "tags": []
+    }
+  },
+  "appRoots": [
+    "."
+  ],
+  "edges": {
+    ".sld/vendor/cli/sld.js": [
+      "../src/core/index.js",
+      "../src/core/node/scan.mjs",
+      "../src/core/report/inspector.mjs"
+    ],
+    ".sld/vendor/src/core/__tests__/engine.test.mjs": [
+      "../index.js",
+      "./fixture.manifest.js",
+      "@/lib/db",
+      "@/lib/command-center"
+    ],
+    ".sld/vendor/src/core/__tests__/fixture.manifest.js": [
+      "../index.js"
+    ],
+    ".sld/vendor/src/core/__tests__/governance-paths.test.mjs": [
+      "../index.js",
+      "../scope/task-contract.js",
+      "../engine/match.js",
+      "./fixture.manifest.js"
+    ],
+    ".sld/vendor/src/core/__tests__/impact-audit.test.mjs": [
+      "../index.js",
+      "./fixture.manifest.js"
+    ],
+    ".sld/vendor/src/core/__tests__/inspector.test.mjs": [
+      "../report/inspector.mjs"
+    ],
+    ".sld/vendor/src/core/__tests__/jubilee.test.mjs": [
+      "../index.js",
+      "../manifest/example.manifest.js",
+      "@/lib/db"
+    ],
+    ".sld/vendor/src/core/__tests__/scanner.test.mjs": [
+      "../node/scan.mjs"
+    ],
+    ".sld/vendor/src/core/__tests__/scope.test.mjs": [
+      "../index.js",
+      "./fixture.manifest.js"
+    ],
+    ".sld/vendor/src/core/audit/audit.js": [
+      "../index.js"
+    ],
+    ".sld/vendor/src/core/engine/decision-engine.js": [
+      "../layers/layer-1-identity.js",
+      "../layers/layer-2-architecture.js",
+      "../layers/layer-3-dependencies.js",
+      "../layers/layer-4-behavior.js",
+      "../layers/layer-5-data.js",
+      "../layers/layer-6-interface.js",
+      "../layers/layer-7-intent.js",
+      "../layers/layer-7-execution.js",
+      "../scope/scope-gate.js",
+      "../layers/canonical.js",
+      "../index.js"
+    ],
+    ".sld/vendor/src/core/graph/impact.js": [
+      "../engine/match.js",
+      "../index.js"
+    ],
+    ".sld/vendor/src/core/index.js": [
+      "./engine/decision-engine.js",
+      "./graph/impact.js",
+      "./audit/audit.js",
+      "./scope/scope-gate.js",
+      "./scope/task-contract.js",
+      "./scope/task-compiler.js",
+      "./layers/canonical.js",
+      "./report/inspector.mjs"
+    ],
+    ".sld/vendor/src/core/layers/layer-1-identity.js": [
+      "../engine/match.js",
+      "../index.js"
+    ],
+    ".sld/vendor/src/core/layers/layer-2-architecture.js": [
+      "../index.js"
+    ],
+    ".sld/vendor/src/core/layers/layer-3-dependencies.js": [
+      "../engine/match.js",
+      "../index.js"
+    ],
+    ".sld/vendor/src/core/layers/layer-4-behavior.js": [
+      "../engine/match.js",
+      "../index.js"
+    ],
+    ".sld/vendor/src/core/layers/layer-5-data.js": [
+      "../engine/match.js",
+      "../index.js"
+    ],
+    ".sld/vendor/src/core/layers/layer-6-interface.js": [
+      "../index.js"
+    ],
+    ".sld/vendor/src/core/layers/layer-7-execution.js": [
+      "../engine/match.js",
+      "../index.js"
+    ],
+    ".sld/vendor/src/core/layers/layer-7-intent.js": [
+      "../engine/match.js",
+      "../index.js"
+    ],
+    ".sld/vendor/src/core/manifest/example.manifest.js": [
+      "../index.js"
+    ],
+    ".sld/vendor/src/core/node/scan.mjs": [
+      "../index.js"
+    ],
+    ".sld/vendor/src/core/scope/scope-gate.js": [
+      "./task-compiler.js",
+      "./task-contract.js",
+      "../engine/match.js",
+      "../index.js"
+    ],
+    ".sld/vendor/src/core/scope/task-compiler.js": [
+      "../engine/match.js",
+      "../index.js"
+    ],
+    ".sld/vendor/src/core/scope/task-contract.js": [
+      "../engine/match.js",
+      "../index.js"
+    ],
+    "app/account-security.ts": [
+      "./security-crypto",
+      "./neon-auth",
+      "./community-auth-schema"
+    ],
+    "app/account/page.tsx": [
+      "../community-onboarding"
+    ],
+    "app/admin/page.tsx": [
+      "../../db",
+      "../../db/schema",
+      "../community-auth",
+      "./member-management"
+    ],
+    "app/api/admin/faq-suggestions/route.ts": [
+      "../../../../db",
+      "../../../../db/schema",
+      "../../../community-auth"
+    ],
+    "app/api/admin/submissions/route.ts": [
+      "../../../../db",
+      "../../../../db/schema",
+      "../../../community-auth"
+    ],
+    "app/api/community/account/[action]/route.ts": [
+      "../../../../account-security",
+      "../../../../community-auth",
+      "../../../../password-security",
+      "../../../../security-crypto",
+      "../../../../neon-auth",
+      "../../../../community-auth-schema"
+    ],
+    "app/api/community/account/onboarding/route.ts": [
+      "../../../../community-auth",
+      "../../../../community-auth-schema",
+      "../../../../community-onboarding",
+      "../../../../community-onboarding-d1",
+      "../../../../neon-auth"
+    ],
+    "app/api/community/admin/members/route.ts": [
+      "../../../../../db",
+      "../../../../../db/schema",
+      "../../../../community-auth",
+      "../../../../community-auth-schema",
+      "../../../../neon-auth"
+    ],
+    "app/api/community/auth/google/route.ts": [
+      "../../../../community-auth",
+      "../../../../neon-auth"
+    ],
+    "app/api/community/auth/me/route.ts": [
+      "../../../../community-auth"
+    ],
+    "app/api/community/auth/providers/route.ts": [
+      "../../../../community-auth",
+      "../../../../neon-auth"
+    ],
+    "app/api/community/auth/signin/route.ts": [
+      "../../../../account-security",
+      "../../../../community-auth",
+      "../../../../password-security",
+      "../../../../../db",
+      "../../../../../db/schema",
+      "../../../../neon-auth",
+      "../../../../community-auth-schema"
+    ],
+    "app/api/community/auth/signout/route.ts": [
+      "../../../../community-auth"
+    ],
+    "app/api/community/auth/signup/route.ts": [
+      "../../../../community-auth",
+      "../../../../password-security",
+      "../../../../account-security",
+      "../../../../../db",
+      "../../../../../db/schema",
+      "../../../../neon-auth",
+      "../../../../community-auth-schema"
+    ],
+    "app/api/community/media/[id]/route.ts": [
+      "../../../../community-auth",
+      "../../../../../db",
+      "../../../../../db/schema"
+    ],
+    "app/api/community/posts/[id]/comments/route.ts": [
+      "../../../../../community-auth",
+      "../../../../../../db",
+      "../../../../../community-auth-schema",
+      "../../../../../../db/schema"
+    ],
+    "app/api/community/posts/[id]/reactions/route.ts": [
+      "../../../../../community-auth",
+      "../../../../../../db",
+      "../../../../../../db/schema"
+    ],
+    "app/api/community/posts/[id]/report/route.ts": [
+      "../../../../../community-auth",
+      "../../../../../../db",
+      "../../../../../../db/schema"
+    ],
+    "app/api/community/posts/[id]/route.ts": [
+      "../../../../community-auth",
+      "../../../../../db",
+      "../../../../../db/schema"
+    ],
+    "app/api/community/posts/route.ts": [
+      "../../../image-metadata",
+      "../../../community-auth",
+      "../../../../db",
+      "../../../../db/schema",
+      "../../../image-security",
+      "../../../community-auth-schema"
+    ],
+    "app/api/community/profile/avatar/route.ts": [
+      "../../../../community-auth",
+      "../../../../community-auth-schema",
+      "../../../../neon-auth",
+      "../../../../image-security"
+    ],
+    "app/api/community/topics/route.ts": [
+      "../../../community-auth",
+      "../../../community-auth-schema",
+      "../../../../db",
+      "../../../../db/schema"
+    ],
+    "app/api/corrections/route.ts": [
+      "../../../db",
+      "../../../db/schema",
+      "../../community-auth"
+    ],
+    "app/api/faqs/community/route.ts": [
+      "../../../../db",
+      "../../../../db/schema"
+    ],
+    "app/api/media/[id]/route.ts": [
+      "../../../../db",
+      "../../../../db/schema",
+      "../../../community-auth"
+    ],
+    "app/api/search/route.ts": [
+      "../../../db",
+      "../../search-query",
+      "../../search-sync"
+    ],
+    "app/api/submissions/route.ts": [
+      "../../../db",
+      "../../../db/schema",
+      "../../community-auth",
+      "../../image-security"
+    ],
+    "app/calendar/page.tsx": [
+      "../components/page-header",
+      "../components/guide-shell",
+      "../guide-sections"
+    ],
+    "app/community-auth.ts": [
+      "../db",
+      "../db/schema",
+      "./community-auth-schema",
+      "./neon-auth",
+      "./password-security"
+    ],
+    "app/community-onboarding-d1.ts": [
+      "./community-onboarding"
+    ],
+    "app/community/_components/auth-gate.tsx": [
+      "../../community-onboarding",
+      "./community-data"
+    ],
+    "app/community/_components/community-gate.tsx": [
+      "./community-data",
+      "./auth-gate"
+    ],
+    "app/community/_components/community-nav.tsx": [
+      "./community-data",
+      "./village-icon-view"
+    ],
+    "app/community/_components/village-icon-view.tsx": [
+      "./village-icons"
+    ],
+    "app/community/admin/page.tsx": [
+      "../../../db",
+      "../../../db/schema",
+      "../../admin/member-management",
+      "../../community-auth"
+    ],
+    "app/community/layout.tsx": [
+      "./community-theme.css",
+      "./_components/community-data",
+      "./_components/community-nav",
+      "./_components/community-gate"
+    ],
+    "app/community/page.tsx": [
+      "../guide-sections",
+      "./_components/community-data"
+    ],
+    "app/community/profile/page.tsx": [
+      "../_components/community-data"
+    ],
+    "app/community/topics/page.tsx": [
+      "../_components/community-data"
+    ],
+    "app/components/faq-explorer.tsx": [
+      "../guide-data",
+      "./guide-icon",
+      "./help-search"
+    ],
+    "app/components/guide-faq-pages.tsx": [
+      "../guide-data",
+      "../guide-sections",
+      "./page-header",
+      "./travel-matrix",
+      "./help-search",
+      "./faq-explorer",
+      "./guide-rail"
+    ],
+    "app/components/guide-home.tsx": [
+      "../guide-data",
+      "../guide-sections",
+      "./guide-shell",
+      "./guide-icon",
+      "./help-search"
+    ],
+    "app/components/guide-rail.tsx": [
+      "../guide-sections"
+    ],
+    "app/components/help-search.tsx": [
+      "../guide-data",
+      "./guide-shell",
+      "./guide-icon"
+    ],
+    "app/components/structured-data.tsx": [
+      "../guide-data",
+      "../guide-sections"
+    ],
+    "app/components/travel-matrix.tsx": [
+      "../guide-sections"
+    ],
+    "app/donate/page.tsx": [
+      "../scholarship/scholarship.css"
+    ],
+    "app/faq/[topic]/page.tsx": [
+      "../../components/guide-faq-pages",
+      "../../components/structured-data",
+      "../../guide-data"
+    ],
+    "app/faq/page.tsx": [
+      "../components/guide-faq-pages",
+      "../components/structured-data"
+    ],
+    "app/globals.css": [
+      "../vendor/shadcn-tailwind-4.13.0.css"
+    ],
+    "app/layout.tsx": [
+      "./components/guide-shell",
+      "./globals.css",
+      "./guide.css",
+      "./forms.css"
+    ],
+    "app/neon-auth.ts": [
+      "./community-auth-schema"
+    ],
+    "app/not-found.tsx": [
+      "./lost-auntie-art"
+    ],
+    "app/page.tsx": [
+      "./components/guide-home",
+      "./components/site-closure-lightbox",
+      "./components/structured-data"
+    ],
+    "app/quick-facts/page.tsx": [
+      "../components/page-header",
+      "../guide-sections"
+    ],
+    "app/resources/layout.tsx": [
+      "../components/structured-data"
+    ],
+    "app/resources/page.tsx": [
+      "../components/page-header",
+      "../guide-sections"
+    ],
+    "app/safety/page.tsx": [
+      "../components/page-header",
+      "../components/guide-shell",
+      "../guide-data",
+      "../guide-sections"
+    ],
+    "app/search-corpus.ts": [
+      "./guide-data",
+      "./guide-sections"
+    ],
+    "app/search-sync.ts": [
+      "./search-corpus"
+    ],
+    "app/support/page.tsx": [
+      "../components/page-header",
+      "../guide-sections"
+    ],
+    "app/travel/page.tsx": [
+      "../components/page-header",
+      "../components/travel-matrix",
+      "../guide-sections"
+    ],
+    "components/ui/accordion.tsx": [
+      "@/lib/utils"
+    ],
+    "components/ui/alert-dialog.tsx": [
+      "@/lib/utils",
+      "@/components/ui/button"
+    ],
+    "components/ui/alert.tsx": [
+      "@/lib/utils"
+    ],
+    "components/ui/attachment.tsx": [
+      "@/lib/utils",
+      "@/components/ui/button"
+    ],
+    "components/ui/avatar.tsx": [
+      "@/lib/utils"
+    ],
+    "components/ui/badge.tsx": [
+      "@/lib/utils"
+    ],
+    "components/ui/breadcrumb.tsx": [
+      "@/lib/utils"
+    ],
+    "components/ui/bubble.tsx": [
+      "@/lib/utils"
+    ],
+    "components/ui/button-group.tsx": [
+      "@/lib/utils",
+      "@/components/ui/separator"
+    ],
+    "components/ui/button.tsx": [
+      "@/lib/utils"
+    ],
+    "components/ui/calendar.tsx": [
+      "@/lib/utils",
+      "@/components/ui/button"
+    ],
+    "components/ui/card.tsx": [
+      "@/lib/utils"
+    ],
+    "components/ui/carousel.tsx": [
+      "@/lib/utils",
+      "@/components/ui/button"
+    ],
+    "components/ui/chart.tsx": [
+      "@/lib/utils"
+    ],
+    "components/ui/checkbox.tsx": [
+      "@/lib/utils"
+    ],
+    "components/ui/combobox.tsx": [
+      "@/lib/utils",
+      "@/components/ui/button",
+      "@/components/ui/input-group"
+    ],
+    "components/ui/command.tsx": [
+      "@/lib/utils",
+      "@/components/ui/dialog"
+    ],
+    "components/ui/context-menu.tsx": [
+      "@/lib/utils"
+    ],
+    "components/ui/dialog.tsx": [
+      "@/lib/utils",
+      "@/components/ui/button"
+    ],
+    "components/ui/drawer.tsx": [
+      "@/lib/utils"
+    ],
+    "components/ui/dropdown-menu.tsx": [
+      "@/lib/utils"
+    ],
+    "components/ui/empty.tsx": [
+      "@/lib/utils"
+    ],
+    "components/ui/field.tsx": [
+      "@/lib/utils",
+      "@/components/ui/label",
+      "@/components/ui/separator"
+    ],
+    "components/ui/form.tsx": [
+      "@/lib/utils",
+      "@/components/ui/label"
+    ],
+    "components/ui/hover-card.tsx": [
+      "@/lib/utils"
+    ],
+    "components/ui/input-group.tsx": [
+      "@/lib/utils",
+      "@/components/ui/button",
+      "@/components/ui/input",
+      "@/components/ui/textarea"
+    ],
+    "components/ui/input-otp.tsx": [
+      "@/lib/utils"
+    ],
+    "components/ui/input.tsx": [
+      "@/lib/utils"
+    ],
+    "components/ui/item.tsx": [
+      "@/lib/utils",
+      "@/components/ui/separator"
+    ],
+    "components/ui/kbd.tsx": [
+      "@/lib/utils"
+    ],
+    "components/ui/label.tsx": [
+      "@/lib/utils"
+    ],
+    "components/ui/marker.tsx": [
+      "@/lib/utils"
+    ],
+    "components/ui/menubar.tsx": [
+      "@/lib/utils"
+    ],
+    "components/ui/message-scroller.tsx": [
+      "@/lib/utils",
+      "@/components/ui/button"
+    ],
+    "components/ui/message.tsx": [
+      "@/lib/utils"
+    ],
+    "components/ui/native-select.tsx": [
+      "@/lib/utils"
+    ],
+    "components/ui/navigation-menu.tsx": [
+      "@/lib/utils"
+    ],
+    "components/ui/pagination.tsx": [
+      "@/lib/utils",
+      "@/components/ui/button"
+    ],
+    "components/ui/popover.tsx": [
+      "@/lib/utils"
+    ],
+    "components/ui/progress.tsx": [
+      "@/lib/utils"
+    ],
+    "components/ui/radio-group.tsx": [
+      "@/lib/utils"
+    ],
+    "components/ui/resizable.tsx": [
+      "@/lib/utils"
+    ],
+    "components/ui/scroll-area.tsx": [
+      "@/lib/utils"
+    ],
+    "components/ui/select.tsx": [
+      "@/lib/utils"
+    ],
+    "components/ui/separator.tsx": [
+      "@/lib/utils"
+    ],
+    "components/ui/sheet.tsx": [
+      "@/lib/utils"
+    ],
+    "components/ui/sidebar.tsx": [
+      "@/hooks/use-mobile",
+      "@/lib/utils",
+      "@/components/ui/button",
+      "@/components/ui/input",
+      "@/components/ui/separator",
+      "@/components/ui/sheet",
+      "@/components/ui/skeleton",
+      "@/components/ui/tooltip"
+    ],
+    "components/ui/skeleton.tsx": [
+      "@/lib/utils"
+    ],
+    "components/ui/slider.tsx": [
+      "@/lib/utils"
+    ],
+    "components/ui/spinner.tsx": [
+      "@/lib/utils"
+    ],
+    "components/ui/switch.tsx": [
+      "@/lib/utils"
+    ],
+    "components/ui/table.tsx": [
+      "@/lib/utils"
+    ],
+    "components/ui/tabs.tsx": [
+      "@/lib/utils"
+    ],
+    "components/ui/textarea.tsx": [
+      "@/lib/utils"
+    ],
+    "components/ui/toggle-group.tsx": [
+      "@/lib/utils",
+      "@/components/ui/toggle"
+    ],
+    "components/ui/toggle.tsx": [
+      "@/lib/utils"
+    ],
+    "components/ui/tooltip.tsx": [
+      "@/lib/utils"
+    ],
+    "db/index.ts": [
+      "./schema"
+    ],
+    "examples/d1/app/api/notes/route.ts": [
+      "../../../../../db",
+      "../../../db/schema"
+    ],
+    "tests/security/crypto-images.test.mjs": [
+      "../../app/security-crypto.ts",
+      "../../app/image-metadata.ts",
+      "../../app/password-security.ts"
+    ],
+    "vite.config.ts": [
+      "./.openai/hosting.json",
+      "./build/sites-vite-plugin"
+    ]
+  },
+  "envNames": [
+    "CLOUDFLARE_D1_DATABASE_ID",
+    "CLOUDFLARE_D1_DATABASE_NAME",
+    "CLOUDFLARE_R2_BUCKET_NAME",
+    "CODEX_SANDBOX",
+    "MINIFLARE_REGISTRY_PATH",
+    "NEXT_PUBLIC_COMMUNITY_URL",
+    "SLD_MANIFEST",
+    "WRANGLER_LOG_PATH",
+    "WRANGLER_WRITE_LOGS",
+    "X"
+  ]
+}
