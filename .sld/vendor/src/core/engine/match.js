@@ -166,6 +166,45 @@ export function isTestSurface(path) {
 }
 
 /**
+ * Record the manifest's own file as a specimen surface.
+ *
+ * The settings file is part of the rulebook: it quotes the very patterns it
+ * defines (destructivePatterns, forbiddenTerms), so content-scanning it would
+ * flag its own definitions — installing SLD would BLOCK on its own settings
+ * file. Call with the manifest's repo-relative path after loading it; the
+ * path is added to the manifest's protection.sourcePaths (or governance.
+ * sourcePaths when the manifest uses the older key; a fresh protection
+ * section is created when neither exists). Idempotent: calling twice
+ * records the path once.
+ *
+ * @param {object} manifest
+ * @param {string} relPath repo-relative path of the manifest file
+ * @returns {object} the manifest
+ */
+export function addSpecimenSurface(manifest, relPath) {
+  if (!manifest || typeof manifest !== 'object' || !relPath) return manifest
+  // Respect whichever section the manifest already uses: protectionSection()
+  // prefers `protection` over `governance`, so writing to a fresh
+  // `protection` section would shadow an existing `governance.sourcePaths`.
+  let section = null
+  if (manifest.protection && typeof manifest.protection === 'object') {
+    section = manifest.protection
+  } else if (manifest.governance && typeof manifest.governance === 'object') {
+    section = manifest.governance
+  } else {
+    section = {}
+    manifest.protection = section
+  }
+  const current = section.sourcePaths
+  if (Array.isArray(current)) {
+    if (!current.includes(relPath)) current.push(relPath)
+  } else {
+    section.sourcePaths = [relPath]
+  }
+  return manifest
+}
+
+/**
  * Files exempt from CONTENT scanning (Identity, Data, Intent) because their text
  * is specimen rather than production behavior: the governance rulebook and test
  * fixtures. Structural layers — Architecture, Dependencies, Behavior, Interface —

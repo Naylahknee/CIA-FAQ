@@ -37,7 +37,7 @@
  * calls is identical to the one the Cloudflare-Workers API route uses.
  */
 import { mkdirSync, writeFileSync, readFileSync, existsSync, appendFileSync } from 'node:fs'
-import { join, dirname, isAbsolute } from 'node:path'
+import { join, dirname, isAbsolute, relative } from 'node:path'
 import { fileURLToPath, pathToFileURL } from 'node:url'
 
 import {
@@ -54,6 +54,7 @@ import {
   diffToChangeSet,
   detectDrift,
 } from '../src/core/node/scan.mjs'
+import { addSpecimenSurface } from '../src/core/engine/match.js'
 
 const ROOT = process.cwd()
 const SLD_DIR = join(ROOT, '.sld')
@@ -84,6 +85,10 @@ async function loadManifest() {
   }
   const mod = await import(pathToFileURL(mp).href)
   _manifest = mod.default || mod.manifest || mod
+  // The settings file is part of the rulebook: it quotes the very patterns
+  // it defines (destructivePatterns, forbiddenTerms), so content-scanning it
+  // would flag its own definitions. Always treat it as a specimen surface.
+  addSpecimenSurface(_manifest, relative(ROOT, mp))
   return _manifest
 }
 
