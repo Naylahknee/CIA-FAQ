@@ -84,7 +84,13 @@ export function AuthGate() {
     try {
       const response = await fetch(`/api/community/auth/${mode}`, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify(Object.fromEntries(new FormData(event.currentTarget))) });
       const data = await response.json(); if (!response.ok) throw new Error(data.error || "Account request could not be completed.");
-      if (mode === "signup") setStep("onboarding");
+      if (mode === "signup") {
+        // Signup answers identically for new and existing emails (anti-enumeration),
+        // so confirm we actually hold a session before entering onboarding.
+        const me = await fetch("/api/community/auth/me").then((r) => r.json());
+        if (me.user) setStep("onboarding");
+        else { chooseMode("signin"); setNotice("This email already has an account. Check your inbox for a sign-in link, or sign in below."); }
+      }
       else { const me = await fetch("/api/community/auth/me").then((r) => r.json()); setUser(me.user); if (me.user) await loadFeed(); }
     } catch (error) { setNotice(error instanceof Error ? error.message : "Account request could not be completed."); }
     finally { setBusy(false); }

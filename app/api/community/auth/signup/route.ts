@@ -34,9 +34,28 @@ export async function POST(request: Request) {
     const id = randomUUID();
     stage = "password";
     const passwordData = await hashPassword(password);
+    stage = "lookup";
+    // Anti-enumeration: an already-registered email gets the exact same
+    // success response as a fresh signup (no 409, no distinct message).
+    // No duplicate account and no session are created; the owner gets a
+    // sign-in email instead so a legitimate user is not stranded.
+    const existingId = neonAuthConfigured()
+      ? (await neonUserByEmail(email))?.id ?? null
+      : await (async () => {
+          await ensureD1AuthSchema();
+          const rows = await getDb().select({ id: communityUsers.id }).from(communityUsers).where(eq(communityUsers.email, email)).limit(1);
+          return rows[0]?.id ?? null;
+        })();
+    if (existingId) {
+      try {
+        const existing = await accountRow(existingId);
+        if (existing) await sendAccountEmail(existing, "reset");
+      } catch {
+        // Indistinguishable by design; the real reason is in the worker logs.
+      }
+      return noStoreJson({ ok: true, verificationEmailSent: true }, { status: 201 });
+    }
     if (neonAuthConfigured()) {
-      stage = "lookup";
-      if (await neonUserByEmail(email)) return noStoreJson({ error: "Account could not be created. Try signing in or use another email." }, { status: 409 });
       stage = "insert";
       await createNeonPasswordUser({ id, email, displayName, passwordHash: passwordData.hash, passwordSalt: passwordData.salt, passwordIterations: passwordData.iterations });
       const user = await neonUserById(id);
@@ -45,9 +64,6 @@ export async function POST(request: Request) {
     } else {
       stage = "schema";
       await ensureD1AuthSchema();
-      stage = "lookup";
-      const existing = await getDb().select({ id: communityUsers.id }).from(communityUsers).where(eq(communityUsers.email, email)).limit(1);
-      if (existing.length) return noStoreJson({ error: "Account could not be created. Try signing in or use another email." }, { status: 409 });
       stage = "insert";
       await getDb().insert(communityUsers).values({ id, email, displayName, passwordHash: passwordData.hash, passwordSalt: passwordData.salt, passwordIterations: passwordData.iterations, createdAt: new Date() });
     }
