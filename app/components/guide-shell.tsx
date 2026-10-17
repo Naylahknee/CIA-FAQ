@@ -1,6 +1,6 @@
 "use client";
 
-import { ArrowUp, CalendarDays, Camera, CakeSlice, HeartHandshake, Home, Info, Library, LogOut, MapPinned, Menu, MessageSquareWarning, PanelLeft, Search, ShieldCheck, ShoppingBag, UserRound, X } from "lucide-react";
+import { ArrowUp, CalendarDays, Camera, CakeSlice, HeartHandshake, Home, Info, Library, LogOut, MapPinned, Menu, MessageSquareWarning, PanelLeft, Phone, Search, ShieldCheck, ShoppingBag, UserRound, X } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { useEffect, useState, type ReactNode } from "react";
 import Link from "next/link";
@@ -17,6 +17,7 @@ const links = [
   { to: "/travel", label: "Travel & Visits", icon: MapPinned },
   { to: "/support", label: "Support", icon: ShoppingBag },
   { to: "/safety", label: "Safety & Support", icon: HeartHandshake },
+  { to: "/contacts", label: "Contacts", icon: Phone },
 ] as const;
 
 const SIDEBAR_KEY = "guide-sidebar-collapsed";
